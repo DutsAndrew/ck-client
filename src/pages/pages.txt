@@ -1,0 +1,9 @@
+The "pages" folder contains components that represent individual pages of the application. 
+Each file in this folder corresponds to a standalone page, such as "About," "Contact," "Pricing," etc. 
+These components are usually rendered through React Router when the user navigates to specific routes. 
+They can contain additional logic and structure to present a complete page view to the user.
+
+In contrast the "components" folder contains more of the business logic and modular logic of the application.
+These pages are meant to be kept simpler and have one use case only.
+Pages in this folder should not have any children components. 
+If a page at any point needs a child component it should be moved to the "components" folder with it's children.

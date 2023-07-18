@@ -1,0 +1,6 @@
+The "components" folder contains reusable UI components that are used throughout the application. 
+These components are meant to be generic and independent of specific pages or functionalities. 
+They can be easily imported and used in different parts of the app, promoting code reusability and maintainability.
+Each component in this folder is a "module" and or has access to children(s) components.
+
+The "pages" folder in contrast contains all single page components or components that are not modular, or that are simpler than those found here.
