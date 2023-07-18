@@ -2,9 +2,11 @@ import React from 'react';
 
 const ClassManager = () => {
   return (
-    <p>
-      ClassManager
-    </p>
+    <main>
+      <p>
+        ClassManager
+      </p>
+    </main>
   );
 };
 

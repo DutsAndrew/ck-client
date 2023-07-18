@@ -1,13 +1,13 @@
 import React from 'react';
 
-const TaskManager = () => {
+const About = () => {
   return (
     <main>
       <p>
-        TaskManager
+        About
       </p>
     </main>
   );
 };
 
-export default TaskManager;
+export default About;

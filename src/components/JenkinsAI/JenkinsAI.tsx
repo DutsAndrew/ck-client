@@ -2,9 +2,11 @@ import React from 'react';
 
 const JenkinsAI = () => {
   return (
-    <p>
-      JenkinsAI
-    </p>
+    <main>
+      <p>
+        JenkinsAI
+      </p>
+    </main>
   );
 };
 

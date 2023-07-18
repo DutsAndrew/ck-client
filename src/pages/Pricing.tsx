@@ -1,13 +1,13 @@
 import React from 'react';
 
-const TaskManager = () => {
+const Pricing = () => {
   return (
     <main>
       <p>
-        TaskManager
+        Pricing
       </p>
     </main>
   );
 };
 
-export default TaskManager;
+export default Pricing;

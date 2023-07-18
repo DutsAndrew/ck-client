@@ -1,13 +1,13 @@
 import React from 'react';
 
-const TaskManager = () => {
+const SignUp = () => {
   return (
     <main>
       <p>
-        TaskManager
+        SignUp
       </p>
     </main>
   );
 };
 
-export default TaskManager;
+export default SignUp;

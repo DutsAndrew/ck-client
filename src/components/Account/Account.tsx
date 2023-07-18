@@ -2,9 +2,11 @@ import React from 'react';
 
 const Account = () => {
   return (
-    <p>
-      Account
-    </p>
+    <main>
+      <p>
+        Account
+      </p>
+    </main>
   );
 };
 

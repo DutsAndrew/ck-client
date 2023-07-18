@@ -2,9 +2,11 @@ import React from 'react';
 
 const NoteTaker = () => {
   return (
-    <p>
-      NoteTaker
-    </p>
+    <main>
+      <p>
+        NoteTaker
+      </p>
+    </main>
   );
 };
 

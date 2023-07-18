@@ -2,9 +2,11 @@ import React from 'react';
 
 const TeamMessaging = () => {
   return (
-    <p>
-      TeamMessaging
-    </p>
+    <main>
+      <p>
+        TeamMessaging
+      </p>
+    </main>
   );
 };
 

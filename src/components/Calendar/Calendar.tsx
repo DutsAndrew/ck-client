@@ -2,9 +2,11 @@ import React from 'react';
 
 const Calendar = () => {
   return (
-    <p>
-      Calendar
-    </p>
+    <main>
+      <p>
+        Calendar
+      </p>
+    </main>
   );
 };
 
