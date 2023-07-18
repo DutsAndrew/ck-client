@@ -1,16 +1,17 @@
 import React from 'react';
 
-const ClassManager = () => {
+// welcome page on app load
+const Welcome = () => {
 
-
+  
 
   return (
     <main>
       <p>
-        ClassManager
+        Welcome
       </p>
     </main>
   );
 };
 
-export default ClassManager;
+export default Welcome;

@@ -1,16 +1,13 @@
 import React from 'react';
 
-const ClassManager = () => {
-
-
-
+const Feedback = () => {
   return (
     <main>
       <p>
-        ClassManager
+        Feedback
       </p>
     </main>
   );
 };
 
-export default ClassManager;
+export default Feedback;

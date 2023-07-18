@@ -2,6 +2,10 @@
 
 ## Task List
 
+### Home Page
+- [ ] Navbar changes based on whether user is signed in or not
+- [ ] If session hasn't expired then navbar should have condensed options and have a highlighted option to return to the application, home page and footer still show on first load
+
 ### Calendar
 - [ ] Figure out how to get all data for Days, Months, Years for calendar
 - [ ] Take calendar data and allow users to view calendar by year, month, or day
@@ -14,6 +18,13 @@
 - [ ] Calendar Collection will have calenders for each user and any teams(s) they may be a part of by default, calendars can be empty
 - [ ] Users can change the color of each month, weeks, or certain days (M-F), event colors can be changed as well, but will by default match the color of the user or team default color. If user changes the color scheme it will need to be saved in localstorage
 - [ ] can drag and drop events to new locations on the calendar
+
+### Lesson Manager
+- [ ] Show classes
+- [ ] Show times for each (Friday adjustment, etc)
+- [ ] Show lessons for each class on a weekly/monthly basis (GT, ESL, etc should show differently)
+- [ ] Can color code classes
+- [ ] Can view classes individually or all as a whole
 
 ### Task Manager
 - [ ] User can create tasks
@@ -45,3 +56,15 @@
 - [ ] Encrypt messages after 5 mins of inactivity. Users can change the lockout timer. Users must enter a 4 digit pin that is saved to their account to get back in.
 - [ ] Can search and add users to messaging groups
 - [ ] Display number of unread messages on "messaging" tab
+
+### Class Manager
+- [ ] Can write class descriptions and notes for each class for easy print out for subs
+- [ ] Can import excel/sheet class lists and auto import them into your class
+- [ ] Can give and take points from students
+- [ ] Audible noises for point modifiers
+- [ ] Teachers can write behavior reports or notes on classes/students
+- [ ] Problem solving board for each class (things tried, things willing to try, things to figure out)
+- [ ] Notes on students that are further ahead or behind
+
+### Footer
+- [ ] All single page components under "pages" have clickable routes to pull up each page and close out to the home page

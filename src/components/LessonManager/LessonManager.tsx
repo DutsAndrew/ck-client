@@ -1,16 +1,13 @@
 import React from 'react';
 
-const ClassManager = () => {
-
-
-
+const LessonManager = () => {
   return (
     <main>
       <p>
-        ClassManager
+        LessonManager
       </p>
     </main>
   );
 };
 
-export default ClassManager;
+export default LessonManager;
