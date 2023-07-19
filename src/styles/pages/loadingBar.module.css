@@ -1,0 +1,47 @@
+.loadingContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  height: 50vh;
+  margin: auto;
+}
+
+.loadingMessage {
+  font-size: 3em;
+  color: rgb(253, 255, 246);
+  width: 50vw;
+  height: 15vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  height: 5vh;
+  margin: 0;
+  background-color: rgb(253, 255, 246);
+  border-radius: 3%;
+  animation: fade 1.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fade {
+  0% {background-image: linear-gradient(to right, #80411e 0%, rgb(253, 255, 246) 0)}
+  10% {background-image: linear-gradient(to right, #80411e 10%, rgb(253, 255, 246) 0)}
+  20% {background-image: linear-gradient(to right, #80411e 20%, rgb(253, 255, 246) 0)}
+  30% {background-image: linear-gradient(to right, #80411e 30%, rgb(253, 255, 246) 0)}
+  40% {background-image: linear-gradient(to right, #80411e 40%, rgb(253, 255, 246) 0)}
+  50% {background-image: linear-gradient(to right, #80411e 50%, rgb(253, 255, 246) 0)}
+  60% {background-image: linear-gradient(to right, #80411e 60%, rgb(253, 255, 246) 0)}
+  70% {background-image: linear-gradient(to right, #80411e 70%, rgb(253, 255, 246) 0)}
+  80% {background-image: linear-gradient(to right, #80411e 80%, rgb(253, 255, 246) 0)}
+  90% {background-image: linear-gradient(to right, #80411e 90%, rgb(253, 255, 246) 0)}
+  100% {background-image: linear-gradient(to right, #80411e 100%, rgb(253, 255, 246) 0)}
+}

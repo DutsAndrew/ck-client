@@ -1,11 +1,14 @@
 import React from 'react';
+import styles from '../styles/pages/signup.module.css';
 
 const SignUp = () => {
   return (
     <main>
-      <p>
-        SignUp
-      </p>
+      <form className={styles.signUpForm}>
+        <p className={styles.heyText}>
+          Hey
+        </p>
+      </form>
     </main>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import Home from './components/Home/Home';
@@ -6,19 +6,22 @@ import Calendar from './components/Calendar/Calendar';
 import ClassManager from './components/ClassManager/ClassManager';
 import LessonManager from './components/LessonManager/LessonManager';
 import TaskManager from './components/TaskManager/TaskManager';
-import JenkinsAI from './components/JenkinsAI/JenkinsAI';
-import NoteTaker from './components/NoteTaker/NoteTaker';
-import Account from './components/Account/Account';
-import TeamMessaging from './components/TeamMessaging/TeamMessaging';
 import Footer from './components/Footer/Footer';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Pricing from './pages/Pricing';
-import SignUp from './pages/SignUp';
-import Login from './pages/Login';
 import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
-import Feedback from './pages/Feedback';
+import Login from './pages/Login';
 import Welcome from './pages/Welcome';
+import LoadingBar from './pages/LoadingBar';
+
+// lazy loaded items - ALL non essential functionality of the app
+const JenkinsAI = lazy(() => import('./components/JenkinsAI/JenkinsAI'));
+const NoteTaker = lazy(() => import('./components/NoteTaker/NoteTaker'));
+const TeamMessaging = lazy(() => import('./components/TeamMessaging/TeamMessaging'));
+const Account = lazy(() => import('./components/Account/Account'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Pricing = lazy(() => import('./pages/Pricing'));
+const SignUp = lazy(() => import('./pages/SignUp'));
+const Feedback = lazy(() => import('./pages/Feedback'));
 
 function App() {
   return (
@@ -26,22 +29,106 @@ function App() {
       <NavBar />
       <AnnouncementBar />
       <Routes>
-        <Route path='/' element={<Welcome />} />
-        <Route path='/home' element={<Home />} />
-        <Route path='/calendar' element={<Calendar />} />
-        <Route path='/class-manager' element={<ClassManager />} />
-        <Route path='/lesson-manager' element={<LessonManager />} />
-        <Route path='/task-manager' element={<TaskManager />} />
-        <Route path='/jenkins-ai' element={<JenkinsAI />} />
-        <Route path='/note-taker' element={<NoteTaker />} />
-        <Route path='/account' element={<Account />} />
-        <Route path='/team-messaging' element={<TeamMessaging />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/contact' element={<Contact />} />
-        <Route path='/pricing' element={<Pricing />} />
-        <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/feedback' element={<Feedback />} />
+        <Route 
+          path='/' 
+          element={<Welcome />}
+        />
+        <Route 
+          path='/home'
+          element={<Home />}
+        />
+        <Route
+          path='/calendar'
+          element={<Calendar />}
+        />
+        <Route 
+          path='/class-manager'
+          element={<ClassManager />}
+        />
+        <Route 
+          path='/lesson-manager'
+          element={<LessonManager />}
+        />
+        <Route
+          path='/task-manager'
+          element={<TaskManager />}
+        />
+        <Route
+          path='/login'
+          element={<Login />}
+        />
+        <Route
+          path="/jenkins-ai"
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <JenkinsAI />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/note-taker"
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <NoteTaker />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/team-messaging"
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <TeamMessaging />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <Account />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <About />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <Contact />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/pricing"
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <Pricing />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <SignUp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/feedback"
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <Feedback />
+            </Suspense>
+          }
+        />
       </Routes>
       <Footer />
     </Router>
