@@ -52,7 +52,15 @@
   align-items: center;
 }
 
+.navBarListItem:hover {
+  border: 1px solid #68a1d4;
+}
+
 .navBarLink {
   text-decoration: none;
   color: black;
+}
+
+.navBarLink:hover {
+  color: #68a1d4;
 }

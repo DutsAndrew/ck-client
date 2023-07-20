@@ -1,0 +1,27 @@
+.announcementBar {
+  position: relative;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: #007BFF;
+  color: #FFFFFF;
+  min-height: 5vh;
+}
+
+.announcementText {
+  font-size: 1em;
+}
+
+.closeIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2vh;
+  width: auto;
+  filter: invert(95%) sepia(0%) saturate(19%) hue-rotate(299deg) brightness(105%) contrast(104%);
+}
+
+.closeIcon:hover {
+  cursor: pointer;
+}

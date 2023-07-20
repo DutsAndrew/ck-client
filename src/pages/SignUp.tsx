@@ -74,12 +74,12 @@ export default function SignUp() {
 
   return (
     <section className={styles.signUpContainer}>
-      <h1 className={styles.headerTitle}>Sign Up</h1>
-      <Link to='/'>
+       <Link to='/'>
         <button className={styles.returnButton}>
           Return to Home
         </button>
       </Link>
+      <h1 className={styles.headerTitle}>Sign Up</h1>
       <form 
         className={styles.createAccountForm}
         onSubmit={(e) => handleFormSubmission(e)}
