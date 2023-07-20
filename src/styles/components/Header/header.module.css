@@ -1,0 +1,58 @@
+.headerContainer {
+  width: 100vw;
+  min-height: 5vh;
+  max-height: 10vh;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid  #DCDCDC;
+}
+
+.logoIcon {
+  width: auto;
+  height: 5vh;
+  border-radius: 50%;
+}
+
+.welcomeNavBar, .appNavBar {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.welcomeNavBar > ul, .appNavBar > ul {
+  list-style-type: none;
+}
+
+.welcomeNavBar {
+  width: auto;
+}
+
+.appNavBar {
+  width: 95vw;
+}
+
+.navBarList {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 2vw;
+}
+
+.navBarListItem {
+  font-size: 0.9em;
+  border: 1px solid black;
+  padding: 0.5vh;
+  text-decoration: none;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navBarLink {
+  text-decoration: none;
+  color: black;
+}

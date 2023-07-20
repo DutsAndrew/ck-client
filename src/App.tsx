@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NavBar from './components/NavBar/NavBar';
+import Header from './components/Header/Header';
 import Home from './components/Home/Home';
 import Calendar from './components/Calendar/Calendar';
 import ClassManager from './components/ClassManager/ClassManager';
@@ -26,7 +26,7 @@ const Feedback = lazy(() => import('./pages/Feedback'));
 function App() {
   return (
     <Router>
-      <NavBar />
+      <Header />
       <AnnouncementBar />
       <Routes>
         <Route 
