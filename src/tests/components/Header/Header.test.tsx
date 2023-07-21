@@ -4,7 +4,9 @@ import '@testing-library/jest-dom';
 import Header from "../../../components/Header/Header";
 import { MemoryRouter } from "react-router-dom";
 
-jest.mock("../../../components/Header/NavBar", () => () => <div data-testid="mocked-navbar" >Hello</div>)
+jest.mock("../../../components/Header/NavBar", () => () => 
+  <div data-testid="mocked-navbar" >Hello</div>
+);
 
 describe('unit test for Header', () => {
 
