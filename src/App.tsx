@@ -24,9 +24,12 @@ const SignUp = lazy(() => import('./pages/SignUp'));
 const Feedback = lazy(() => import('./pages/Feedback'));
 
 function App() {
+
+  const auth = false;
+
   return (
     <Router>
-      <Header />
+      <Header auth={auth} />
       <AnnouncementBar />
       <Routes>
         <Route 
