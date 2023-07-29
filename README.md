@@ -1,4 +1,10 @@
-# classkeeper-client
+# CK-Client
+
+CK-Client is a Front-End Application that runs in the browser. It's built on React using TypeScript to provide a fast and scalable build for users. The Client interfaces with the CK-API that can be found (here)[https://github.com/DutsAndrew/ck-api].
+
+If you would like to contribute, talk about pricing, or participating in the BETA please reach out to: dutsandrew@gmail.com
+
+CK is open source to keep things transparent for users and to allow the community around the application to grow.
 
 ## Task List
 
