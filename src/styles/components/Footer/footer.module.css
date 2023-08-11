@@ -1,0 +1,9 @@
+.ckFooter {
+  width: 100%;
+  position: fixed;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+}

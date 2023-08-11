@@ -75,7 +75,7 @@ export default function SignUp() {
   return (
     <section className={styles.signUpContainer}>
        <Link to='/'>
-        <button className={styles.returnButton}>
+        <button className='returnButton'>
           Return to Home
         </button>
       </Link>
@@ -85,49 +85,91 @@ export default function SignUp() {
         onSubmit={(e) => handleFormSubmission(e)}
       >
         <div className={styles.formGroup}>
-          <label htmlFor='email'>
+          <label
+            className={styles.signUpLabel} 
+            htmlFor='email'>
             *Email:
           </label>
-          <input name="email" id='email' type="email"></input>
+          <input
+            className={styles.signUpInput} 
+            name="email" 
+            id='email' 
+            type="email">
+          </input>
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor='firstName'>
+          <label
+            className={styles.signUpLabel} 
+            htmlFor='firstName'>
             *First Name:
           </label>
-          <input name="firstName" id='firstName' type="text"></input>
+          <input
+            className={styles.signUpInput} 
+            name="firstName" 
+            id='firstName' 
+            type="text">
+          </input>
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor='lastName'>
+          <label
+            className={styles.signUpLabel} 
+            htmlFor='lastName'>
             *Last Name:
           </label>
-          <input name="lastName" id='lastName' type="text"></input>
+          <input
+            className={styles.signUpInput} 
+            name="lastName" 
+            id='lastName' 
+            type="text">
+          </input>
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor='location'>
+          <label
+            className={styles.signUpLabel} 
+            htmlFor='location'>
             *Location:
           </label>
-          <input name="location" id='location' type="text"></input>
+          <input
+            className={styles.signUpInput} 
+            name="location" 
+            id='location' 
+            type="text">
+          </input>
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor='password'>
+          <label
+            className={styles.signUpLabel} 
+            htmlFor='password'>
             *Password:
           </label>
-          <input name="password" id='password' type="password"></input>
+          <input
+            className={styles.signUpInput} 
+            name="password" 
+            id='password' 
+            type="password">
+          </input>
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor='confirmPassword'>
+          <label
+            className={styles.signUpLabel} 
+            htmlFor='confirmPassword'>
             *Confirm Password:
           </label>
-          <input name="confirmPassword" id='confirmPassword' type="password"></input>
+          <input
+            className={styles.signUpInput} 
+            name="confirmPassword" 
+            id='confirmPassword' 
+            type="password">
+          </input>
         </div>
 
         <button 
-          className={styles.submitButton}
+          className={styles.signUpSubmitButton}
           type='submit'>
           Create Account
         </button>
