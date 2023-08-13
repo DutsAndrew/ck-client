@@ -156,10 +156,10 @@ export default function SignUp() {
           password = document.querySelector('#password-input'),
           confirmPassword = document.querySelector('#confirmPassword-input'),
           // optional fields
-          jobTitle = document.querySelector('#jobTitle'),
-          company = document.querySelector('#company');
+          jobTitle = document.querySelector('#jobTitle-input'),
+          company = document.querySelector('#company-input');
 
-    if (email && firstName && lastName && password && confirmPassword) {
+    if (email && firstName && lastName && password && confirmPassword && jobTitle && company) {
       const userData: signUpData = {
         email: (email as HTMLInputElement).value,
         firstName: (firstName as HTMLInputElement).value,
@@ -173,7 +173,6 @@ export default function SignUp() {
       if ((company as HTMLInputElement).value.length !== 0) {
         userData.company = (company as HTMLInputElement).value;
       };
-
       return userData;
     };
     return undefined;
@@ -187,55 +186,7 @@ export default function SignUp() {
           lastName = (document.querySelector('#lastName-input') as HTMLInputElement),
           password = (document.querySelector('#password-input') as HTMLInputElement),
           confirmPassword = (document.querySelector('#confirmPassword-input') as HTMLInputElement),
-          // optional fields
-          jobTitle = (document.querySelector('#jobTitle') as HTMLInputElement),
-          company = (document.querySelector('#company') as HTMLInputElement),
           activeErrors = document.querySelectorAll('.error-active').length;
-    
-    if (email) {
-      if (!email.validity.valid || !email.value.match(mailFormat)) {
-        showError(email, email.nextSibling);
-      };
-    };
-
-    if (firstName) {
-      if (!firstName.validity.valid) {
-        showError(firstName, firstName.nextSibling);
-      };
-    };
-
-    if (lastName) {
-      if (!lastName.validity.valid) {
-        showError(lastName, lastName.nextSibling);
-      };
-    };
-
-    if (password) {
-      if (!password.validity.valid || !password.value.match(passwordFormat)) {
-        showError(password, password.nextSibling);
-      };
-    };
-
-    if (confirmPassword) {
-      if (!confirmPassword.validity.valid
-        || !password.value.match(passwordFormat)
-        || confirmPassword.value !== password.value
-      ) {
-        showError(confirmPassword, confirmPassword.nextSibling);
-      };
-    };
-
-    if (jobTitle.value.length !== 0) {
-      if (!jobTitle.validity.valid) {
-        showError(jobTitle, jobTitle.nextSibling);
-      };
-    };
-
-    if (company) {
-      if (!company.validity.valid) {
-        showError(company, company.nextSibling);
-      };
-    };
 
     if (email.validity.valid
       && firstName.validity.valid
@@ -247,7 +198,7 @@ export default function SignUp() {
       return true;
     } else {
       return false;
-    }
+    };
   };
 
   const handleFormSubmission = async (e: FormEvent<HTMLFormElement>) => {
@@ -259,7 +210,7 @@ export default function SignUp() {
     // validate data
     const scrubbedData = scrubData(userData);
 
-    // check validation check
+    // if userObject has data and the data passes send it to API
     if (scrubbedData === true) {
       sendApiRequestToSignUp(userData);
     } else {
@@ -270,7 +221,7 @@ export default function SignUp() {
 
   const sendApiRequestToSignUp = (userObject: signUpData | undefined) => {
     if (typeof userObject === 'undefined') return;
-    // add api logic
+    console.log('sending data')
   };
 
   return (
@@ -298,7 +249,6 @@ export default function SignUp() {
             name="email" 
             id='email-input' 
             type="email"
-            pattern={mailFormat.source}
             minLength={5}
             maxLength={253}
             required>
@@ -407,7 +357,6 @@ export default function SignUp() {
             name="password" 
             id='password-input' 
             type="password"
-            pattern={passwordFormat.source}
             minLength={5}
             maxLength={127}
             required>
@@ -430,7 +379,6 @@ export default function SignUp() {
             name="confirmPassword" 
             id='confirmPassword-input' 
             type="password"
-            pattern={passwordFormat.source}
             minLength={5}
             maxLength={127}
             required>

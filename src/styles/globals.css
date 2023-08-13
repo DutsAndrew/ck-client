@@ -9,6 +9,11 @@ body, html {
   font-size: 1.25em;
 }
 
+.returnButton:hover {
+  cursor: pointer;
+  transform: scale(0.95);
+}
+
 /* FORM VALIDATION */
 
 input:invalid {
