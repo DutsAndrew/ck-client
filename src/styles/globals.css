@@ -8,3 +8,39 @@ body, html {
   border-radius: 15px;
   font-size: 1.25em;
 }
+
+/* FORM VALIDATION */
+
+input:invalid {
+  border: 2px dashed red;
+  box-shadow: 0 0 5px 1px red;
+}
+
+input:valid {
+  border: 2px solid #37251b;
+}
+
+input:invalid:required {
+  background-image: linear-gradient(to right, #e4bc84, #d2c1b0);
+  box-shadow: 0 0 5px 1px #8f755f;
+}
+
+input:focus:invalid {
+  outline: none;
+}
+
+.error {
+  width  : 100%;
+  padding: 0;
+
+  font-size: 80%;
+  color: rgb(253, 255, 246);
+  background-color: #900;
+  border-radius: 0 0 5px 5px;
+
+  box-sizing: border-box;
+}
+
+.error-active {
+  padding: 0.3em;
+}

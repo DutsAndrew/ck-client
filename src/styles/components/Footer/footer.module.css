@@ -1,6 +1,6 @@
 .ckFooter {
   width: 100%;
-  position: fixed;
+  position: relative;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;

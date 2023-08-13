@@ -14,14 +14,39 @@ export default function SignUp() {
           errorText = e.target.nextSibling;
 
     if (entryThatChanged && errorText) {
-      if ((entryThatChanged.validity.valid && entryThatChanged.value.match(mailFormat))
-        || (entryThatChanged.validity.valid && entryThatChanged.value.match(passwordFormat))
-      ) {
-        errorText.textContent = "";
-        errorText.className = "error";
-      } else {
+      if (!entryThatChanged.validity.valid) {
         showError(entryThatChanged, errorText);
+      } else if (entryThatChanged.id === 'email-input' && !validateEmail(entryThatChanged.value)) {
+        showError(entryThatChanged, errorText);
+      } else if (entryThatChanged.id === 'password-input' && !validatePassword(entryThatChanged.value)) {
+        showError(entryThatChanged, errorText);
+      } else if (entryThatChanged.id === 'confirmPassword-input' && !validateConfirmedPassword(entryThatChanged.value)) {
+        showError(entryThatChanged, errorText);
+      } else {
+        errorText.textContent = '';
+        errorText.className = 'error';
       };
+    };
+  };
+
+  const validateEmail = (email: string): boolean => {
+    return mailFormat.test(email)
+  };
+
+  const validatePassword = (password: string): boolean => {
+    return /[A-Z]/.test(password)
+    && /[a-z]/.test(password)
+    && /[0-9]/.test(password)
+    && /[#?!@$%^&*-]/.test(password)
+    && password.length >= 5;
+  };
+
+  const validateConfirmedPassword = (confirmPassword: string): boolean => {
+    const passwordInput = document.querySelector('#password-input');
+    if (passwordInput) {
+      return confirmPassword === (passwordInput as HTMLInputElement).value 
+    } else {
+      return false;
     };
   };
 
@@ -245,7 +270,7 @@ export default function SignUp() {
 
   const sendApiRequestToSignUp = (userObject: signUpData | undefined) => {
     if (typeof userObject === 'undefined') return;
-    
+    // add api logic
   };
 
   return (
@@ -273,6 +298,7 @@ export default function SignUp() {
             name="email" 
             id='email-input' 
             type="email"
+            pattern={mailFormat.source}
             minLength={5}
             maxLength={253}
             required>
@@ -381,6 +407,7 @@ export default function SignUp() {
             name="password" 
             id='password-input' 
             type="password"
+            pattern={passwordFormat.source}
             minLength={5}
             maxLength={127}
             required>
@@ -403,6 +430,7 @@ export default function SignUp() {
             name="confirmPassword" 
             id='confirmPassword-input' 
             type="password"
+            pattern={passwordFormat.source}
             minLength={5}
             maxLength={127}
             required>
