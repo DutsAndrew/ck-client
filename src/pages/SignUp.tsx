@@ -1,7 +1,7 @@
 import React, { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../styles/pages/signup.module.css';
-import { signUpData } from '../types/interfaces';
+import { signUpData, signUpApiResponseObject } from '../types/interfaces';
 
 export default function SignUp() {
 
@@ -160,25 +160,44 @@ export default function SignUp() {
           company = document.querySelector('#company-input');
 
     if (email && firstName && lastName && password && confirmPassword && jobTitle && company) {
-      const userData: signUpData = {
-        email: (email as HTMLInputElement).value,
-        firstName: (firstName as HTMLInputElement).value,
-        lastName: (lastName as HTMLInputElement).value,
-        password: (password as HTMLInputElement).value,
-      }
-      // add optional fields if entered
-      if ((jobTitle as HTMLInputElement).value.length !== 0) {
-        userData.jobTitle = (jobTitle as HTMLInputElement).value;
-      };
-      if ((company as HTMLInputElement).value.length !== 0) {
-        userData.company = (company as HTMLInputElement).value;
-      };
+      const userData = new User(
+        (email as HTMLInputElement).value,
+        (firstName as HTMLInputElement).value,
+        (lastName as HTMLInputElement).value,
+        (password as HTMLInputElement).value,
+        (jobTitle as HTMLInputElement).value,
+        (company as HTMLInputElement).value
+      );
       return userData;
     };
     return undefined;
   };
 
-  const scrubData = (userObject: signUpData | undefined) => {
+  class User {
+    email: string;
+    first_name: string;
+    last_name: string;
+    password: string;
+    job_title: string;
+    company: string;
+
+    constructor(email: string,
+      first_name: string,
+      last_name: string,
+      password:string,
+      job_title: string,
+      company: string
+    ) {
+      this.email = email;
+      this.first_name = first_name;
+      this.last_name = last_name;
+      this.password = password;
+      this.job_title = job_title;
+      this.company = company;
+    };
+  };
+
+  const validateSignUpData = (userObject: signUpData | undefined) => {
     if (typeof userObject === 'undefined') return;
 
     const email = (document.querySelector('#email-input') as HTMLInputElement),
@@ -208,10 +227,10 @@ export default function SignUp() {
     const userData = buildUserObject();
     
     // validate data
-    const scrubbedData = scrubData(userData);
+    const validateData = validateSignUpData(userData);
 
     // if userObject has data and the data passes send it to API
-    if (scrubbedData === true) {
+    if (validateData === true) {
       sendApiRequestToSignUp(userData);
     } else {
       alert('Fix your errors before attempting to submit your account');
@@ -219,9 +238,48 @@ export default function SignUp() {
     };
   };
 
-  const sendApiRequestToSignUp = (userObject: signUpData | undefined) => {
+  const sendApiRequestToSignUp = async (userObject: signUpData | undefined) => {
     if (typeof userObject === 'undefined') return;
-    console.log('sending data')
+    const apiUrl = 'http://127.0.0.1:8000/auth/signup';
+    const request = await fetch(apiUrl, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify(userObject, null, 2),
+    });
+
+    const response: signUpApiResponseObject = await request.json();
+    alert(response)
+
+    // handle failed request
+    if (!request.ok) {
+      handleBadApiRequest(request, response);
+      return;
+    };
+
+    // handle good request
+    handleGoodApiRequest(response);
+  };
+
+  const handleBadApiRequest = (request: Response, response: signUpApiResponseObject) => {
+    if (response.detail) {
+      if (request.status === 400) {
+        alert(`Email already registered, please try again or login, ${response.detail}`);
+      } else if (request.status === 500) {
+        alert(`Server-side error, ${response.detail}`);
+      } else {
+        alert(`Error: ${response.detail}`);
+      };
+    };
+  };
+
+  const handleGoodApiRequest = (response: signUpApiResponseObject) => {
+    if (typeof response.user !== 'undefined') {
+      alert(`Account created for: ${response.user.first_name}, ${response.user.last_name}`);
+      return;
+    };
   };
 
   return (

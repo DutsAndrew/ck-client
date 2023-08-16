@@ -12,16 +12,29 @@ interface HeaderProps {
 
 interface signUpData {
   email: string,
-  firstName: string,
-  lastName: string,
+  first_name: string,
+  last_name: string,
   password: string,
-  jobTitle?: string,
-  company?: string,
+  job_title: string,
+  company: string,
 }
+
+interface signUpApiResponseObject {
+  detail?: string;
+  success?: boolean,
+  user?: {
+    email: string,
+    first_name: string,
+    last_name: string,
+    job_title: string,
+    company: string,
+  },
+};
 
 export type {
   AuthStatus,
   NavBarProps,
   HeaderProps,
   signUpData,
+  signUpApiResponseObject,
 };
