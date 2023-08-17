@@ -17,10 +17,15 @@ interface signUpData {
   password: string,
   job_title: string,
   company: string,
-}
+};
+
+interface loginData {
+  email: string,
+  password: string,
+};
 
 interface signUpApiResponseObject {
-  detail?: string;
+  detail?: string,
   success?: boolean,
   user?: {
     email: string,
@@ -31,10 +36,18 @@ interface signUpApiResponseObject {
   },
 };
 
+interface loginApiResponseObject {
+  detail?: string,
+  errors?: any,
+  status?: boolean,
+}
+
 export type {
   AuthStatus,
   NavBarProps,
   HeaderProps,
   signUpData,
+  loginData,
   signUpApiResponseObject,
+  loginApiResponseObject,
 };

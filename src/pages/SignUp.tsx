@@ -222,13 +222,10 @@ export default function SignUp() {
 
   const handleFormSubmission = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     // pull out user data
     const userData = buildUserObject();
-    
     // validate data
     const validateData = validateSignUpData(userData);
-
     // if userObject has data and the data passes send it to API
     if (validateData === true) {
       sendApiRequestToSignUp(userData);
@@ -251,14 +248,11 @@ export default function SignUp() {
     });
 
     const response: signUpApiResponseObject = await request.json();
-    alert(response)
-
     // handle failed request
     if (!request.ok) {
       handleBadApiRequest(request, response);
       return;
     };
-
     // handle good request
     handleGoodApiRequest(response);
   };
