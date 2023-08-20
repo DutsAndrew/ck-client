@@ -6,12 +6,12 @@ import { HeaderProps } from "../../types/interfaces";
 
 const Header:FC<HeaderProps> = (props): JSX.Element => {
 
-  const { auth } = props;
+  const { auth, user } = props;
 
   return (
     <section className={styles.headerContainer}>
       <img className={styles.logoIcon} src={logo} alt="ClassKeeper Logo"></img>
-      <NavBar auth={auth} />
+      <NavBar auth={auth} user={user} />
     </section>
   );
 };

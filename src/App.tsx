@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { lazy, Suspense, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home';
 import Calendar from './components/Calendar/Calendar';
@@ -11,6 +11,7 @@ import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
 import Login from './pages/Login';
 import Welcome from './pages/Welcome';
 import LoadingBar from './pages/LoadingBar';
+import { userInstance } from './types/interfaces';
 
 // lazy loaded items - ALL non essential functionality of the app
 const JenkinsAI = lazy(() => import('./components/JenkinsAI/JenkinsAI'));
@@ -25,11 +26,18 @@ const Feedback = lazy(() => import('./pages/Feedback'));
 
 function App() {
 
-  const auth = false;
+
+  const [auth, setAuth] = useState(false),
+        [user, setUser] = useState({});
+
+  const saveLoggedInUser = (user: userInstance) => {
+    setUser(user);
+    setAuth(true);
+  };
 
   return (
     <Router>
-      <Header auth={auth} />
+      <Header auth={auth} user={user} />
       <AnnouncementBar />
       <Routes>
         <Route 
@@ -58,7 +66,7 @@ function App() {
         />
         <Route
           path='/login'
-          element={<Login />}
+          element={<Login saveLoggedInUser={saveLoggedInUser} />}
         />
         <Route
           path="/jenkins-ai"

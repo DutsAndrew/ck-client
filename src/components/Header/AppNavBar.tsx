@@ -1,8 +1,11 @@
-import React from "react";
+import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import styles from '../../styles/components/Header/header.module.css';
+import { appNavBarProps } from "../../types/interfaces";
 
-const AppNavBar = () => {
+const AppNavBar: FC<appNavBarProps> = (props): JSX.Element => {
+
+  const { user } = props;
 
   // conditional logic for if user has visited the site before and has an account and whether the user is visiting for the first time
   // once user is logged in the AppNavBar should be moved to the left side of the page

@@ -2,10 +2,15 @@ import React, { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../styles/pages/signup.module.css';
 import { loginData, loginApiResponseObject } from '../types/interfaces';
+import { loginProps } from '../types/interfaces';
+import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function Login(props: loginProps): JSX.Element {
 
-  const mailFormat: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g,
+  const { saveLoggedInUser } = props;
+
+  const navigate = useNavigate(),
+        mailFormat: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g,
         passwordFormat: RegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/g;
 
 
@@ -146,23 +151,32 @@ export default function Login() {
       body: JSON.stringify(userObject, null, 2),
     });
 
-    const response: loginApiResponseObject = await request.json();
-    alert(response);
     // handle failed request
     if (!request.ok) {
-      handleBadApiRequest(request, response);
+      handleBadApiResponse(request);
+      return;
+    } else {
+      // handle good response
+      const jsonResponse = await request.json();
+      handleGoodApiResponse(request, jsonResponse);
+    };
+  };
+
+  const handleBadApiResponse = (response: Response) => {
+    return
+  };
+
+  const handleGoodApiResponse = async (response: any, jsonResponse: loginApiResponseObject) => {
+    const authHeaders = response.headers.get('authorization');
+    if (authHeaders) {
+      const token = authHeaders.split(' ')[1];
+      localStorage.setItem("token", token);
+      saveLoggedInUser(jsonResponse.user);
+      return navigate('/home');
+    } else {
+      handleBadApiResponse(response);
       return;
     };
-    // handle good request
-    handleGoodApiRequest(response);
-  };
-
-  const handleBadApiRequest = (request: Response, response: loginApiResponseObject) => {
-    return
-  };
-
-  const handleGoodApiRequest = (response: loginApiResponseObject) => {
-    return
   };
 
   return (

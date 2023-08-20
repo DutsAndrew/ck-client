@@ -11,11 +11,12 @@ jest.mock("../../../components/Header/NavBar", () => () =>
 describe('unit test for Header', () => {
 
   const authMock = false;
+  const userMock = {};
 
   test('Header renders correctly', () => {
     render(
       <MemoryRouter>
-        <Header auth={authMock} />
+        <Header auth={authMock} user={userMock} />
       </MemoryRouter>
     );
 

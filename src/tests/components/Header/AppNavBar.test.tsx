@@ -6,11 +6,13 @@ import AppNavBar from "../../../components/Header/AppNavBar";
 
 describe('unit test for App Nav Bar', () => {
 
-
   test('AppNavBar renders correctly', () => {
+
+    const userMock = {};
+
     render(
       <MemoryRouter>
-        <AppNavBar />
+        <AppNavBar user={userMock} />
       </MemoryRouter>
     );
 
