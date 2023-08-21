@@ -37,7 +37,7 @@ function App() {
 
   return (
     <Router>
-      <Header auth={auth} user={user} />
+      <Header auth={auth} />
       <AnnouncementBar />
       <Routes>
         <Route 

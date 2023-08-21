@@ -4,16 +4,14 @@ interface AuthStatus {
 
 interface NavBarProps {
   auth: boolean,
-  user: userInstance | {},
 };
 
 interface appNavBarProps {
-  user: userInstance | {},
+  //
 };
 
 interface HeaderProps {
   auth: boolean,
-  user: userInstance | {},
 };
 
 interface loginProps {

@@ -17,12 +17,11 @@ describe('unit test for NavBar', () => {
 
   const falseAuthMock = false;
   const trueAuthMock = true;
-  const userMock = {};
 
   test('Header renders correctly with false auth', () => {
     render(
       <MemoryRouter>
-        <NavBar auth={falseAuthMock} user={userMock} />
+        <NavBar auth={falseAuthMock} />
       </MemoryRouter>
     );
 
@@ -34,7 +33,7 @@ describe('unit test for NavBar', () => {
   test('Header renders correctly with true auth', () => {
     render(
       <MemoryRouter>
-        <NavBar auth={trueAuthMock} user={userMock} />
+        <NavBar auth={trueAuthMock} />
       </MemoryRouter>
     );
 

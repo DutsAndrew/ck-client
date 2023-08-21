@@ -8,11 +8,9 @@ describe('unit test for App Nav Bar', () => {
 
   test('AppNavBar renders correctly', () => {
 
-    const userMock = {};
-
     render(
       <MemoryRouter>
-        <AppNavBar user={userMock} />
+        <AppNavBar />
       </MemoryRouter>
     );
 

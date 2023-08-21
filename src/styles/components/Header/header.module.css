@@ -64,3 +64,11 @@
 .navBarLink:hover {
   color: #68a1d4;
 }
+
+/* AppNavBar styling */
+
+.menuSvg {
+  width: auto;
+  height: 5vh;
+  margin: 0;
+}
