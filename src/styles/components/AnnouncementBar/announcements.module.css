@@ -24,4 +24,5 @@
 
 .closeIcon:hover {
   cursor: pointer;
+  filter: invert(11%) sepia(71%) saturate(6473%) hue-rotate(359deg) brightness(85%) contrast(112%);
 }

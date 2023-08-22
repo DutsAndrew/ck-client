@@ -172,7 +172,7 @@ export default function Login(props: loginProps): JSX.Element {
       const token = authHeaders.split(' ')[1];
       localStorage.setItem("token", token);
       saveLoggedInUser(jsonResponse.user);
-      return navigate('/home');
+      return navigate('/dashboard');
     } else {
       handleBadApiResponse(response);
       return;
