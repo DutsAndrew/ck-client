@@ -4,14 +4,16 @@ interface AuthStatus {
 
 interface NavBarProps {
   auth: boolean,
+  handleSignOut: Function,
 };
 
 interface appNavBarProps {
-  //
+  handleSignOut: Function,
 };
 
 interface HeaderProps {
   auth: boolean,
+  handleSignOut: Function,
 };
 
 interface loginProps {

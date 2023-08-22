@@ -8,9 +8,11 @@ describe('unit test for App Nav Bar', () => {
 
   test('AppNavBar renders correctly', () => {
 
+    const handleSignOutMock = jest.fn();
+
     render(
       <MemoryRouter>
-        <AppNavBar />
+        <AppNavBar handleSignOut={handleSignOutMock} />
       </MemoryRouter>
     );
 

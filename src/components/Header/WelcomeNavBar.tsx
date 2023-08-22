@@ -11,9 +11,6 @@ const WelcomeNavBar = () => {
     <nav className={styles.welcomeNavBar}>
       <ul className={styles.navBarList}>
         <li className={styles.navBarListItem}>
-          <Link className={styles.navBarLink} to='/about'>About</Link>
-        </li>
-        <li className={styles.navBarListItem}>
           <Link className={styles.navBarLink} to='/contact'>Contact</Link>
         </li>
         <li className={styles.navBarListItem}>

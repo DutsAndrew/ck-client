@@ -6,6 +6,8 @@ import menuSvg from '../../assets/menu.svg';
 
 const AppNavBar: FC<appNavBarProps> = (props): JSX.Element => {
 
+  const { handleSignOut } = props;
+
   const [modal, setModal] = useState({
     open: false,
   });
@@ -27,6 +29,7 @@ const AppNavBar: FC<appNavBarProps> = (props): JSX.Element => {
       <img 
         alt="menu"
         src={menuSvg}
+        id="menu-svg"
         className={styles.menuSvg}
         onClick={() => modalSwitch()}>
       </img>
@@ -34,33 +37,47 @@ const AppNavBar: FC<appNavBarProps> = (props): JSX.Element => {
   } else {
       return (
         <nav className={styles.appNavBar}>
-          <ul className={styles.navBarList}>
-            <li className={styles.navBarListItem}>
-              <Link className={styles.navBarLink} to='/'>Main Page</Link>
+          <img 
+            alt="menu"
+            src={menuSvg}
+            id="menu-svg"
+            className={styles.menuSvgToggled}
+            onClick={() => modalSwitch()}>
+          </img>
+          <ul className={styles.appBarList}>
+            <li className={styles.appBarListItem}>
+              <Link className={styles.appBarLink} to='/'>Main Page</Link>
             </li>
-            <li className={styles.navBarListItem}>
-              <Link className={styles.navBarLink} to='/home'>Home</Link>
+            <li className={styles.appBarListItem}>
+              <Link className={styles.appBarLink} to='/home'>Home</Link>
             </li>
-            <li className={styles.navBarListItem}>
-              <Link className={styles.navBarLink} to='/calendar'>Calendar</Link>
+            <li className={styles.appBarListItem}>
+              <Link className={styles.appBarLink} to='/calendar'>Calendar</Link>
             </li>
-            <li className={styles.navBarListItem}>
-              <Link className={styles.navBarLink} to='/lesson-manager'>Lesson Manager</Link>
+            <li className={styles.appBarListItem}>
+              <Link className={styles.appBarLink} to='/lesson-manager'>Lesson Manager</Link>
             </li>
-            <li className={styles.navBarListItem}>
-              <Link className={styles.navBarLink} to='/task-manager'>Task Manager</Link>
+            <li className={styles.appBarListItem}>
+              <Link className={styles.appBarLink} to='/task-manager'>Task Manager</Link>
             </li>
-            <li className={styles.navBarListItem}>
-              <Link className={styles.navBarLink} to='/note-taker'>Note Taker</Link>
+            <li className={styles.appBarListItem}>
+              <Link className={styles.appBarLink} to='/note-taker'>Note Taker</Link>
             </li>
-            <li className={styles.navBarListItem}>
-              <Link className={styles.navBarLink} to='/jenkins-ai'>Jenkins AI</Link>
+            <li className={styles.appBarListItem}>
+              <Link className={styles.appBarLink} to='/jenkins-ai'>Jenkins AI</Link>
             </li>
-            <li className={styles.navBarListItem}>
-              <Link className={styles.navBarLink} to='/team-messaging'>Team Messaging</Link>
+            <li className={styles.appBarListItem}>
+              <Link className={styles.appBarLink} to='/team-messaging'>Team Messaging</Link>
             </li>
-            <li className={styles.navBarListItem}>
-              <Link className={styles.navBarLink} to='/account'>Account</Link>
+            <li className={styles.appBarListItem}>
+              <Link className={styles.appBarLink} to='/account'>Account</Link>
+            </li>
+            <li className={styles.appBarSignOutListItem}>
+              <Link 
+                className={styles.appBarLink}
+                onClick={() => handleSignOut()}
+                to='/'>Sign Out
+              </Link>
             </li>
           </ul>
         </nav>

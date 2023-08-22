@@ -5,14 +5,14 @@ import { NavBarProps } from '../../types/interfaces';
 
 const NavBar: FC<NavBarProps> = (props): JSX.Element => {
 
-  const { auth } = props;
+  const { auth, handleSignOut } = props;
 
   // conditional logic for if user has visited the site before and has an account and whether the user is visiting for the first time
   // once user is logged in the navbar should be moved to the left side of the page
 
   if (auth) {
     return (
-      <AppNavBar />
+      <AppNavBar handleSignOut={handleSignOut} />
     );
   } else {
     return (

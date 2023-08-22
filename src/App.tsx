@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home';
 import Calendar from './components/Calendar/Calendar';
@@ -35,9 +35,14 @@ function App() {
     setAuth(true);
   };
 
+  const handleSignOut = () => {
+    setUser({});
+    setAuth(false);
+  };
+
   return (
     <Router>
-      <Header auth={auth} />
+      <Header auth={auth} handleSignOut={handleSignOut} />
       <AnnouncementBar />
       <Routes>
         <Route 

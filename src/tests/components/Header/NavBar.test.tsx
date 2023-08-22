@@ -17,11 +17,12 @@ describe('unit test for NavBar', () => {
 
   const falseAuthMock = false;
   const trueAuthMock = true;
+  const handleSignOutMock = jest.fn();
 
   test('Header renders correctly with false auth', () => {
     render(
       <MemoryRouter>
-        <NavBar auth={falseAuthMock} />
+        <NavBar auth={falseAuthMock} handleSignOut={handleSignOutMock} />
       </MemoryRouter>
     );
 
@@ -33,7 +34,7 @@ describe('unit test for NavBar', () => {
   test('Header renders correctly with true auth', () => {
     render(
       <MemoryRouter>
-        <NavBar auth={trueAuthMock} />
+        <NavBar auth={trueAuthMock} handleSignOut={handleSignOutMock} />
       </MemoryRouter>
     );
 
