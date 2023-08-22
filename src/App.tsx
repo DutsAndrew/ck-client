@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
-import Home from './components/Home/Home';
+import Dashboard from './components/Dashboard/Dashboard';
 import Calendar from './components/Calendar/Calendar';
 import ClassManager from './components/ClassManager/ClassManager';
 import LessonManager from './components/LessonManager/LessonManager';
@@ -50,8 +50,8 @@ function App() {
           element={<Welcome />}
         />
         <Route 
-          path='/home'
-          element={<Home />}
+          path='/dashboard'
+          element={<Dashboard />}
         />
         <Route
           path='/calendar'
