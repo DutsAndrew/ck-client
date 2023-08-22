@@ -8,16 +8,29 @@
   overflow-x: hidden;
   padding: 0;
   margin: 0;
-  margin-left: 5vw;
-  margin-right: 5vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
   border-bottom: 1px solid  #DCDCDC;
   overflow-y: hidden;
+}
+
+.appHeaderContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2vw;
+  width: auto;
 }
 
 .logoIcon {
   width: auto;
   height: 5vh;
   border-radius: 50%;
+}
+
+.classKeeperHeaderText {
+  width: 25vw;
 }
 
 .welcomeNavBar, .appNavBar {
@@ -133,6 +146,10 @@
 }
 
 @media (max-width: 600px) {
+  .classKeeperHeaderText {
+    font-size: 1em;
+  }
+
   .appBarList {
     width: 40vw;
   }
@@ -143,6 +160,10 @@
 }
 
 @media (min-width: 601px) {
+  .classKeeperHeaderText {
+    font-size: 2em;
+  }
+
   .appBarList {
     width: 20vw;
   }

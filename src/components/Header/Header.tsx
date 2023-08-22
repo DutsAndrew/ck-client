@@ -10,7 +10,10 @@ const Header:FC<HeaderProps> = (props): JSX.Element => {
 
   return (
     <section className={styles.headerContainer}>
-      <img className={styles.logoIcon} src={logo} alt="ClassKeeper Logo"></img>
+      <div className={styles.appHeaderContainer}>
+        <img className={styles.logoIcon} src={logo} alt="ClassKeeper Logo"></img>
+        <p className={styles.classKeeperHeaderText}>Class Keeper</p>
+      </div>
       <NavBar auth={auth} handleSignOut={handleSignOut} />
     </section>
   );
