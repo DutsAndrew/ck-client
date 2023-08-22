@@ -72,10 +72,12 @@ const AppNavBar: FC<appNavBarProps> = (props): JSX.Element => {
             <li className={styles.appBarListItem}>
               <Link className={styles.appBarLink} to='/account'>Account</Link>
             </li>
-            <li className={styles.appBarSignOutListItem}>
+            <li 
+              className={styles.appBarSignOutListItem}
+              onClick={() => handleSignOut()}
+            >
               <Link 
                 className={styles.appBarLink}
-                onClick={() => handleSignOut()}
                 to='/'>Sign Out
               </Link>
             </li>

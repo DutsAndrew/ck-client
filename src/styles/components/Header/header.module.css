@@ -119,8 +119,13 @@
 }
 
 .appBarLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-decoration: none;
   color: #001f3f;
+  width: 100%;
+  height: 100%;
 }
 
 .appBarSignOutListItem {
