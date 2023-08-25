@@ -1,0 +1,9 @@
+Dashboard component will have the follow properties:
+
+1. All calendars in a quick access box
+2. All classes in a quick access box
+3. All upcoming lessons by most recent in quick access box
+4. All upcoming and approaching deadlines for projects and tasks in quick access box
+5. Quick view box of the top 5 most recently active users for each team you are on
+6. Quick view box of all Teams
+7. Reports on user stats
