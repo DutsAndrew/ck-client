@@ -16,7 +16,6 @@ const Dashboard: FC<dashboardProps> = (props): JSX.Element => {
 
   if (Object.keys(user).length !== 0) {
     const user_ref = user as userInstance;
-    console.log(user_ref);
     return (
       <main className={styles.dashboardContainer}>
         <div className={styles.dashboardWelcomeContainer}>

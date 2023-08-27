@@ -72,7 +72,6 @@ interface userInstance {
   last_name: string,
   last_online: string,
   notes: [],
-  password: string, // password isn't sent to client, but will be empty string
   pending_chats: [],
   pending_tasks: [],
   pending_teams: [],
