@@ -51,7 +51,7 @@ function App() {
         />
         <Route 
           path='/dashboard'
-          element={<Dashboard />}
+          element={<Dashboard user={user} />}
         />
         <Route
           path='/calendar'

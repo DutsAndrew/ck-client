@@ -20,6 +20,10 @@ interface loginProps {
   saveLoggedInUser: Function,
 };
 
+interface dashboardProps {
+  user: userInstance | {},
+};
+
 interface signUpData {
   email: string,
   first_name: string,
@@ -58,13 +62,25 @@ interface userInstance {
   account_type: string,
   calendars: [],
   chats: [],
+  classes: [],
   company: string,
   email: string,
   first_name: string,
+  job_title: string,
+  joined: string,
+  last_contributed: string,
   last_name: string,
+  last_online: string,
   notes: [],
+  password: string, // password isn't sent to client, but will be empty string
+  pending_chats: [],
+  pending_tasks: [],
+  pending_teams: [],
   tasks: [],
   teams: [],
+  total_completed_projects: number,
+  total_completed_tasks: number,
+  total_completed_subtasks: number,
   user_color_preferences: {
     calendars: [],
     chats: [],
@@ -73,8 +89,12 @@ interface userInstance {
     user: {
       font_color: string,
       background_color: string,
-    },
+    },    
   },
+  verified_email: boolean,
+  yearly_completed_projects: number,
+  yearly_completed_tasks: number,
+  yearly_completed_subtasks: number,
   _id: string,
 };
 
@@ -84,6 +104,7 @@ export type {
   appNavBarProps,
   HeaderProps,
   loginProps,
+  dashboardProps,
   signUpData,
   loginData,
   signUpApiResponseObject,

@@ -1,10 +1,15 @@
 import React from 'react';
+import styles from '../../styles/components/Dashboard/dashboard.module.css';
 
 const ClassOverviews = () => {
   return (
-    <main>
-      
-    </main>
+    <div
+      className={styles.dashboardSnapShotContainer}
+      id={styles.dashboardClassOverviewsView}>
+      <p>
+        Classes
+      </p>
+    </div>
   );
 };
 

@@ -1,0 +1,73 @@
+.dashboardContainer {
+  background-color: #F0F2F5;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+
+.dashboardWelcomeContainer {
+  padding-left: 2vw;
+}
+
+.dashboardReportingContainer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: visible;
+  gap: 2.5vw;
+  padding-top: 2.5vh;
+  padding-bottom: 2.5vh;
+}
+
+.dashboardSnapShotContainer {
+  border-radius: 15px;
+}
+
+#dashboardCalendarView {
+  background-color: #AED9E0;
+}
+
+#dashboardClassOverviewsView {
+  background-color: #C8B6D0;
+}
+
+#dashboardLessonsView {
+  background-color: #B4DFC5;
+}
+
+#dashboardProjectsAndTasksView {
+  background-color: #D3D3D3;
+}
+
+#dashboardTeamsLastActiveView {
+  background-color: #EADCB3;
+}
+
+#dashboardTeamsView {
+  background-color: #98B6B1;
+}
+
+#dashboardUpcomingEventsView {
+  background-color: #F5B895;
+}
+
+#dashboardUserStatsView {
+  background-color: #FDFD96;
+}
+
+@media (max-width: 600px) {
+  .dashboardSnapShotContainer {
+    min-width: 45vw;
+    min-height: 40vh;
+  }
+}
+
+@media (min-width: 601px) {
+  .dashboardSnapShotContainer {
+    min-width: 30vw;
+    min-height: 30vh;
+  }
+}
