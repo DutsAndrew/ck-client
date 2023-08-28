@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { notesProps } from '../../types/interfaces';
 
-const Notes = () => {
+const Notes:FC<notesProps> = (props): JSX.Element => {
+
+  const { user } = props;
+
   return (
     <main>
       <p>

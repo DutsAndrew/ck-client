@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { calendarProps } from '../../types/interfaces';
 
-const Calendar = () => {
+
+const Calendar:FC<calendarProps> = (props): JSX.Element => {
+
+  const { user } = props;
+
+  console.log(user);
+
   return (
     <main>
       <p>

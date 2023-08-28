@@ -55,19 +55,19 @@ function App() {
         />
         <Route
           path='/calendar'
-          element={<Calendar />}
+          element={<Calendar user={user} />}
         />
         <Route 
           path='/classes'
-          element={<Classes />}
+          element={<Classes user={user} />}
         />
         <Route 
           path='/lessons'
-          element={<Lessons />}
+          element={<Lessons user={user} />}
         />
         <Route
           path='/projects&tasks-dashboard'
-          element={<ProjectsAndTasksDashboard />}
+          element={<ProjectsAndTasksDashboard user={user} />}
         />
         <Route
           path='/login'
@@ -85,7 +85,7 @@ function App() {
           path="/notes"
           element={
             <Suspense fallback={<LoadingBar />}>
-              <Notes />
+              <Notes user={user} />
             </Suspense>
           }
         />
@@ -101,7 +101,7 @@ function App() {
           path="/account"
           element={
             <Suspense fallback={<LoadingBar />}>
-              <Account />
+              <Account user={user} />
             </Suspense>
           }
         />

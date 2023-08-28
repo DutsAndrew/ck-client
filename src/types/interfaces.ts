@@ -24,6 +24,31 @@ interface dashboardProps {
   user: userInstance | {},
 };
 
+interface calendarProps {
+  user: userInstance | {},
+};
+
+interface classesProps {
+  user: userInstance | {},
+};
+
+
+interface lessonsProps {
+  user: userInstance | {},
+};
+
+interface projectsAndTasksDashboardProps {
+  user: userInstance | {},
+};
+
+interface notesProps {
+  user: userInstance | {},
+};
+
+interface accountProps {
+  user: userInstance | {},
+};
+
 interface signUpData {
   email: string,
   first_name: string,
@@ -104,6 +129,12 @@ export type {
   HeaderProps,
   loginProps,
   dashboardProps,
+  calendarProps,
+  classesProps,
+  lessonsProps,
+  projectsAndTasksDashboardProps,
+  notesProps,
+  accountProps,
   signUpData,
   loginData,
   signUpApiResponseObject,

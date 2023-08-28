@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { classesProps } from '../../types/interfaces';
 
-const Classes = () => {
+const Classes:FC<classesProps> = (props): JSX.Element => {
+
+  const { user } = props;
+
   return (
     <main>
       <p>

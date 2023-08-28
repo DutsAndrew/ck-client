@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { accountProps } from '../../types/interfaces';
 
-const Account = () => {
+const Account:FC<accountProps> = (props): JSX.Element => {
+
+  const { user } = props;
+
   return (
     <main>
       <p>
