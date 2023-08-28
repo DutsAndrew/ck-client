@@ -44,7 +44,10 @@ const AppNavBar: FC<appNavBarProps> = (props): JSX.Element => {
             className={styles.menuSvgToggled}
             onClick={() => modalSwitch()}>
           </img>
-          <ul className={styles.appBarList}>
+          <ul 
+            className={styles.appBarList}
+            onClick={() => modalSwitch()}
+          >
             <li className={styles.appBarListItem}>
               <Link className={styles.appBarLink} to='/dashboard'>Dashboard</Link>
             </li>
