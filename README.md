@@ -10,11 +10,11 @@ CK is open source to keep things transparent for users and to allow the communit
 ## Task List
 
 ### Home Page
-- [ ] Navbar changes based on whether user is signed in or not
+- [X] Navbar changes based on whether user is signed in or not
 - [ ] If session hasn't expired then navbar should have condensed options and have a highlighted option to return to the application, home page and footer still show on first load
 
 ### Calendar
-- [ ] Figure out how to get all data for Days, Months, Years for calendar
+- [X] Figure out how to get all data for Days, Months, Years for calendar (handled on backend)
 - [ ] Take calendar data and allow users to view calendar by year, month, or day
 - [ ] Render the appropriate amount of squares to represent day for each month
 - [ ] Allow users to submit events to add to their calendar
