@@ -1,12 +1,13 @@
 import React, { FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/pages/signup.module.css';
 import { signUpData, signUpApiResponseObject } from '../types/interfaces';
 
 export default function SignUp() {
 
   const mailFormat: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g,
-        passwordFormat: RegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/g;
+        passwordFormat: RegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/g,
+        navigate = useNavigate();
 
 
   const handleFormChange = (e: any) => {
@@ -272,6 +273,7 @@ export default function SignUp() {
   const handleGoodApiRequest = (response: signUpApiResponseObject) => {
     if (typeof response.user !== 'undefined') {
       alert(`Account created for: ${response.user.first_name}, ${response.user.last_name}`);
+      navigate('/login');
       return;
     };
   };
