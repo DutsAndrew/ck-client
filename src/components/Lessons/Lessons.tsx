@@ -1,13 +1,13 @@
 import React from 'react';
 
-const TeamMessaging = () => {
+const Lessons = () => {
   return (
     <main>
       <p>
-        TeamMessaging
+        Lessons
       </p>
     </main>
   );
 };
 
-export default TeamMessaging;
+export default Lessons;

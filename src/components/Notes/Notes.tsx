@@ -1,13 +1,13 @@
 import React from 'react';
 
-const NoteTaker = () => {
+const Notes = () => {
   return (
     <main>
       <p>
-        NoteTaker
+        Notes
       </p>
     </main>
   );
 };
 
-export default NoteTaker;
+export default Notes;

@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Dashboard from './components/Dashboard/Dashboard';
 import Calendar from './components/Calendar/Calendar';
-import ClassManager from './components/ClassManager/ClassManager';
-import LessonManager from './components/LessonManager/LessonManager';
-import TaskManager from './components/TaskManager/TaskManager';
+import Classes from './components/Classes/Classes';
+import Lessons from './components/Lessons/Lessons';
+import ProjectsAndTasksDashboard from './components/ProjectsAndTasks/Dashboard';
 import Footer from './components/Footer/Footer';
 import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
 import Login from './pages/Login';
@@ -15,8 +15,8 @@ import { userInstance } from './types/interfaces';
 
 // lazy loaded items - ALL non essential functionality of the app
 const JenkinsAI = lazy(() => import('./components/JenkinsAI/JenkinsAI'));
-const NoteTaker = lazy(() => import('./components/NoteTaker/NoteTaker'));
-const TeamMessaging = lazy(() => import('./components/TeamMessaging/TeamMessaging'));
+const Notes = lazy(() => import('./components/Notes/Notes'));
+const Messaging = lazy(() => import('./components/Messaging/Messaging'));
 const Account = lazy(() => import('./components/Account/Account'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
@@ -58,16 +58,16 @@ function App() {
           element={<Calendar />}
         />
         <Route 
-          path='/class-manager'
-          element={<ClassManager />}
+          path='/classes'
+          element={<Classes />}
         />
         <Route 
-          path='/lesson-manager'
-          element={<LessonManager />}
+          path='/lessons'
+          element={<Lessons />}
         />
         <Route
-          path='/task-manager'
-          element={<TaskManager />}
+          path='/projects&tasks-dashboard'
+          element={<ProjectsAndTasksDashboard />}
         />
         <Route
           path='/login'
@@ -82,18 +82,18 @@ function App() {
           }
         />
         <Route
-          path="/note-taker"
+          path="/notes"
           element={
             <Suspense fallback={<LoadingBar />}>
-              <NoteTaker />
+              <Notes />
             </Suspense>
           }
         />
         <Route
-          path="/team-messaging"
+          path="/messaging"
           element={
             <Suspense fallback={<LoadingBar />}>
-              <TeamMessaging />
+              <Messaging />
             </Suspense>
           }
         />

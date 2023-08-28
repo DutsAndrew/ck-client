@@ -1,13 +1,13 @@
 import React from 'react';
 
-const LessonManager = () => {
+const Messaging = () => {
   return (
     <main>
       <p>
-        LessonManager
+        Messaging
       </p>
     </main>
   );
 };
 
-export default LessonManager;
+export default Messaging;

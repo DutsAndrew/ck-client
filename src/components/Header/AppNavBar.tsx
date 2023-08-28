@@ -46,28 +46,28 @@ const AppNavBar: FC<appNavBarProps> = (props): JSX.Element => {
           </img>
           <ul className={styles.appBarList}>
             <li className={styles.appBarListItem}>
-              <Link className={styles.appBarLink} to='/'>Main Page</Link>
-            </li>
-            <li className={styles.appBarListItem}>
               <Link className={styles.appBarLink} to='/dashboard'>Dashboard</Link>
             </li>
             <li className={styles.appBarListItem}>
               <Link className={styles.appBarLink} to='/calendar'>Calendar</Link>
             </li>
             <li className={styles.appBarListItem}>
-              <Link className={styles.appBarLink} to='/lesson-manager'>Lesson Manager</Link>
+              <Link className={styles.appBarLink} to='/classes'>Classes</Link>
             </li>
             <li className={styles.appBarListItem}>
-              <Link className={styles.appBarLink} to='/task-manager'>Task Manager</Link>
+              <Link className={styles.appBarLink} to='/lessons'>Lessons</Link>
             </li>
             <li className={styles.appBarListItem}>
-              <Link className={styles.appBarLink} to='/note-taker'>Note Taker</Link>
+              <Link className={styles.appBarLink} to='/projects&tasks-dashboard'>Projects and Tasks</Link>
+            </li>
+            <li className={styles.appBarListItem}>
+              <Link className={styles.appBarLink} to='/notes'>Notes</Link>
             </li>
             <li className={styles.appBarListItem}>
               <Link className={styles.appBarLink} to='/jenkins-ai'>Jenkins AI</Link>
             </li>
             <li className={styles.appBarListItem}>
-              <Link className={styles.appBarLink} to='/team-messaging'>Team Messaging</Link>
+              <Link className={styles.appBarLink} to='/messaging'>Messages</Link>
             </li>
             <li className={styles.appBarListItem}>
               <Link className={styles.appBarLink} to='/account'>Account</Link>
