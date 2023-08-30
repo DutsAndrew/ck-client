@@ -29,6 +29,10 @@
   gap: 2vw;
 }
 
+.calendarNavContainerRight {
+  padding-right: 1vw;
+}
+
 .plusSvg {
   width: auto;
   height: 7vh;
