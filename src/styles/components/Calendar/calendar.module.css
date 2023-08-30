@@ -1,6 +1,102 @@
 .calendarContainer {
+  width: 100vw;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: visible;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+}
+
+.calendarNavContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); /* Adjust blur and color as needed */
+  border-bottom: 1px solid #f5f5f5; /* To ensure there's a visible border */
+}
+
+.calendarNavContainerLeft, .calendarNavContainerRight {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2vw;
+}
+
+.plusSvg {
+  width: auto;
+  height: 7vh;
+}
+
+.navigationArrowsContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.navigationArrowSvg {
+  height: 5vh;
+  width: auto;
+}
+
+.navigationArrowSvg:hover {
+  filter: invert(95%) sepia(8%) saturate(2823%) hue-rotate(306deg) brightness(97%) contrast(126%);
+}
+
+.yearDropDownContainer, .calendarDropDownContainer, .viewDropDownContainer {
+  max-height: 5vh;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.yearDropDownContainer:hover, .calendarDropDownContainer:hover, .viewDropDownContainer:hover {
+  border: 1px solid #FFB6C1;
+  color: #FFB6C1;
+}
+
+.yearDropDownText, .calendarDropDownText, .viewDropDownText {
+  padding-left: 1vw;
+  font-size: 1em;
+}
+
+.yearDropDownSvg, .calendarDropDownSvg, .viewDropDownSvg {
+  height: 4vh;
+  width: auto;
+}
+
+.yearDropDownContainer:hover .yearDropDownSvg, .calendarDropDownContainer:hover .calendarDropDownSvg, .viewDropDownContainer:hover .viewDropDownSvg {
+  filter: invert(76%) sepia(20%) saturate(747%) hue-rotate(305deg) brightness(102%) contrast(103%);
+}
+
+.plusSvg:hover, .navigationArrowSvg:hover, .yearDropDownContainer:hover, .calendarDropDownContainer:hover, .viewDropDownContainer:hover, .viewDropDownSvg:hover {
+  cursor: pointer;
+  transform: scale(0.99);
+}
+
+.plusSvg:hover {
+  animation: rotateAnimation 1s forwards;
+  filter: invert(90%) sepia(7%) saturate(1613%) hue-rotate(76deg) brightness(87%) contrast(88%);
+}
+
+@keyframes rotateAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+.plusSvg, .navigationArrowSvg, .yearDropDownSvg, .calendarDropDownSvg, .viewDropDownSvg {
+  filter: invert(53%) sepia(12%) saturate(0%) hue-rotate(160deg) brightness(93%) contrast(90%);
 }
