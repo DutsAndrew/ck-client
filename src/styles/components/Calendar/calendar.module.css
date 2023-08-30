@@ -21,6 +21,8 @@
   border-bottom: 1px solid #f5f5f5; /* To ensure there's a visible border */
 }
 
+/* NAV CONTAINER STYLING --- NAV CONTAINER STYLING */
+
 .calendarNavContainerLeft, .calendarNavContainerRight {
   display: flex;
   flex-flow: row nowrap;
@@ -103,4 +105,49 @@
 
 .plusSvg, .navigationArrowSvg, .yearDropDownSvg, .calendarDropDownSvg, .viewDropDownSvg {
   filter: invert(53%) sepia(12%) saturate(0%) hue-rotate(160deg) brightness(93%) contrast(90%);
+}
+
+/* DAY VIEW CONTAINER STYLING --- DAY VIEW CONTAINER STYLING */
+
+.dayViewContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.AMDayScheduleContainer, .PMDayScheduleContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.AMDayScheduleHeaderText, .PMDayScheduleHeaderText {
+  font-weight: bold;
+  border-bottom: 1px solid #DCDCDC;
+}
+
+.AMBlockContainer, .PMBlockContainer {
+  display: flex;
+  width: 50vw;
+  height: auto;
+  flex-flow: row nowrap;
+  gap: 5vw;
+}
+
+.AMDayScheduleItem, .PMDayScheduleItem {
+  
+}
+
+.AMDayScheduleText, .PMDayScheduleText {
+
+}
+
+.AMDayScheduleBlock, .PMDayScheduleBlock {
+
 }
