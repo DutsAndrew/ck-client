@@ -3,6 +3,20 @@ import styles from '../../styles/components/Calendar/calendar.module.css';
 
 const DayView = () => {
 
+  const getTodaysDate = () => {
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    };
+
+    const date = new Date();
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+    console.log(formattedDate);
+    return formattedDate;
+  }
+
   const generateBlockSchedule = () => {
     const scheduleBlock = [
       "5 AM",
@@ -36,11 +50,15 @@ const DayView = () => {
     };
   };
 
+  const todaysDate = getTodaysDate();
+  console.log(todaysDate)
   const blockSchedule = generateBlockSchedule();
-  
 
   return (
     <main className={styles.dayViewContainer}>
+      <p className={styles.currentDateText}>
+        <strong>{todaysDate}</strong>
+      </p>
       <h2 className={styles.dayViewHeaderText}>
         Day View
       </h2>
