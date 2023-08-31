@@ -11,11 +11,14 @@ const WeekView = () => {
 
   return (
     <section className={styles.weekViewContainer}>
+      <h2 className={styles.weekViewHeaderText}>
+        Week View
+      </h2>
       <div className={styles.weekDayContainer}>
         {generateWeek().map((day) => {
           return <div className={styles.weekDayItem}>
             <p className={styles.weekDayItemText}>
-              {day}
+              <strong><em>{day}</em></strong>
             </p>
             <div className={styles.weekDayItemBlock}>
               {/* Render API events here */} This is some boiler plate text to see how it looks
