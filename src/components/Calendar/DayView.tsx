@@ -20,8 +20,6 @@ const DayView = () => {
       "5 PM",
       "6 PM",
       "7 PM",
-      "8 PM",
-      "9 PM",
     ];
 
     const amBlock = scheduleBlock
@@ -43,38 +41,43 @@ const DayView = () => {
 
   return (
     <main className={styles.dayViewContainer}>
-      <div className={styles.AMDayScheduleContainer}>
-        <p className={styles.AMDayScheduleHeaderText}>
-          AM
-        </p>
-        <div className={styles.AMBlockContainer}>
-          {blockSchedule.am.map((block) => {
-            return <div className={styles.AMDayScheduleItem}>
-            <p className={styles.AMDayScheduleText}>
-              {block}
-            </p>
-            <div className={styles.AMDayScheduleBlock}>
-              {/* Fill this with any data from API that fits the time slot */}
+      <h2 className={styles.dayViewHeaderText}>
+        Day View
+      </h2>
+      <div className={styles.dayViewItemsContainer}>
+        <div className={styles.AMDayScheduleContainer}>
+          <p className={styles.AMDayScheduleHeaderText}>
+            AM
+          </p>
+          <div className={styles.AMBlockContainer}>
+            {blockSchedule.am.map((block) => {
+              return <div className={styles.AMDayScheduleItem}>
+              <p className={styles.AMDayScheduleText}>
+                {block}
+              </p>
+              <div className={styles.AMDayScheduleBlock}>
+                This is some boiler text to test this thing.
+              </div>
             </div>
+            })}
           </div>
-          })}
         </div>
-      </div>
-      <div className={styles.PMDayScheduleContainer}>
-        <p className={styles.PMDayScheduleHeaderText}>
-          PM
-        </p>
-        <div className={styles.PMBlockContainer}>
-          {blockSchedule.pm.map((block) => {
-            return <div className={styles.PMDayScheduleItem}>
-            <p className={styles.PMDayScheduleText}>
-              {block}
-            </p>
-            <div className={styles.PMDayScheduleBlock}>
-              {/* Fill this with any data from API that fits the time slot */}
+        <div className={styles.PMDayScheduleContainer}>
+          <p className={styles.PMDayScheduleHeaderText}>
+            PM
+          </p>
+          <div className={styles.PMBlockContainer}>
+            {blockSchedule.pm.map((block) => {
+              return <div className={styles.PMDayScheduleItem}>
+              <p className={styles.PMDayScheduleText}>
+                {block}
+              </p>
+              <div className={styles.PMDayScheduleBlock}>
+                This is some boiler text to test this thing.
+              </div>
             </div>
+            })}
           </div>
-          })}
         </div>
       </div>
     </main>
