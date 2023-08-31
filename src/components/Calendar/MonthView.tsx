@@ -2,11 +2,11 @@ import React from "react";
 
 const MonthView = () => {
   return (
-    <main>
+    <section>
       <p>
         MonthView
       </p>
-    </main>
+    </section>
   );
 };
 

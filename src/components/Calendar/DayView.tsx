@@ -40,7 +40,7 @@ const DayView = () => {
   const blockSchedule = generateBlockSchedule();
 
   return (
-    <main className={styles.dayViewContainer}>
+    <section className={styles.dayViewContainer}>
       <p className={styles.currentDateText}>
         <strong>{todaysDate}</strong>
       </p>
@@ -83,7 +83,7 @@ const DayView = () => {
           </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 };
 

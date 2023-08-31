@@ -23,6 +23,9 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   // user should be able to easily adjust and save their calendar color preferences to their user profile
   // existing color preferences should render at load
 
+  // setup calendar nav to deactivate forward and backward arrows unless client is only viewing day, week, or month. If they're viewing
+  // two or more they shouldn't be able to rotate the calendar in any capacity
+
   return (
     <main className={styles.calendarContainer}>
       <CalendarNav />
