@@ -1,20 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
+import { dayViewProps } from "../../types/interfaces";
 
-const DayView = () => {
+const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
-  const getTodaysDate = () => {
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    };
-
-    const date = new Date();
-    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
-    return formattedDate;
-  }
+  const { currentDay } = props;
 
   const generateBlockSchedule = () => {
     const scheduleBlock = [
@@ -36,13 +26,12 @@ const DayView = () => {
     };
   };
 
-  const todaysDate = getTodaysDate();
   const blockSchedule = generateBlockSchedule();
 
   return (
     <section className={styles.dayViewContainer}>
       <p className={styles.currentDateText}>
-        <strong>{todaysDate}</strong>
+        <strong>{currentDay}</strong>
       </p>
       <h2 className={styles.dayViewHeaderText}>
         Day View
