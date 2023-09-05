@@ -259,6 +259,7 @@
   justify-content: flex-start;
   align-items: center;
   min-height: 30vh;
+  height: auto;
   padding-left: 0.5vw;
   padding-right: 0.5vw;
 }
@@ -269,6 +270,7 @@
 
 .weekDayItemText {
   font-size: 1em;
+  padding-bottom: 0.5vh;
 }
 
 .weekDayItemBlock {
@@ -299,5 +301,9 @@
   .weekDayItem {
     width: 15vw;
     border-right: 1px solid #EAEAEA;
+  }
+
+  .weekDayItemText {
+    border-bottom: 1px solid #EAEAEA;
   }
 }

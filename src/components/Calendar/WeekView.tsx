@@ -16,7 +16,10 @@ const WeekView = () => {
       </h2>
       <div className={styles.weekDayContainer}>
         {generateWeek().map((day) => {
-          return <div className={styles.weekDayItem}>
+          return <div
+            className={styles.weekDayItem}
+            key={day}
+          >
             <p className={styles.weekDayItemText}>
               <strong><em>{day}</em></strong>
             </p>

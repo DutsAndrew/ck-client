@@ -54,7 +54,10 @@ const DayView = () => {
           </p>
           <div className={styles.AMBlockContainer}>
             {blockSchedule.am.map((block) => {
-              return <div className={styles.AMDayScheduleItem}>
+              return <div
+                className={styles.AMDayScheduleItem}
+                key={block}
+              >
               <p className={styles.AMDayScheduleText}>
                 {block}
               </p>
@@ -71,7 +74,10 @@ const DayView = () => {
           </p>
           <div className={styles.PMBlockContainer}>
             {blockSchedule.pm.map((block) => {
-              return <div className={styles.PMDayScheduleItem}>
+              return <div
+                className={styles.PMDayScheduleItem}
+                key={block}
+              >
               <p className={styles.PMDayScheduleText}>
                 {block}
               </p>
