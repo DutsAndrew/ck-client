@@ -28,6 +28,10 @@ interface calendarProps {
   user: userInstance | {},
 };
 
+interface calendarNavProps {
+  changeCurrentView: Function,
+};
+
 interface dayViewProps {
   currentDay: string,
 };
@@ -149,6 +153,7 @@ export type {
   loginProps,
   dashboardProps,
   calendarProps,
+  calendarNavProps,
   dayViewProps,
   monthViewProps,
   classesProps,
