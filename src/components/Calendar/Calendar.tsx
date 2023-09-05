@@ -2,6 +2,7 @@ import React, { FC, useState, useEffect } from 'react';
 import { calendarProps, userInstance } from '../../types/interfaces';
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import CalendarNav from './CalendarNav';
+import YearView from './YearView';
 import MonthView from './MonthView';
 import WeekView from './WeekView';
 import DayView from './DayView';
@@ -37,6 +38,10 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   const changeCurrentView = (viewRequest: string): void => {
     setCurrentView(viewRequest);
   };
+  
+  const handleCalendarTimeChangeRequest = () => {
+    return;
+  };
 
   // on default have the following views render: 1) Day, 2) Week, 3) Month
   // users can switch to only viewing one of them or two of their choice
@@ -54,17 +59,81 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   if (Object.keys(user).length !== 0) {
     const userRef = user as userInstance;
-    return (
-      <main className={styles.calendarContainer}>
-        <CalendarNav changeCurrentView={changeCurrentView} />
-        <DayView currentDay={getTodaysDate()} />
-        <WeekView />
-        <MonthView
-          personalCalendar={userRef.personal_calendar}
-          currentDay={getTodaysDate()}
-        />
-      </main>
-    );
+    if (currentView === 'all') {
+      return (
+        <main className={styles.calendarContainer}>
+          <CalendarNav
+            currentView={currentView}
+            changeCurrentView={changeCurrentView}
+            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
+          />
+          <DayView
+            currentDay={getTodaysDate()}
+          />
+          <WeekView />
+          <MonthView
+            personalCalendar={userRef.personal_calendar}
+            currentDay={getTodaysDate()}
+          />
+          <YearView />
+        </main>
+      );
+    } else if (currentView === 'day') {
+      return (
+        <main className={styles.calendarContainer}>
+          <CalendarNav
+            currentView={currentView}
+            changeCurrentView={changeCurrentView}
+            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
+          />
+          <DayView
+            currentDay={getTodaysDate()}
+          />
+        </main>
+      );
+    } else if (currentView === 'week') {
+      return (
+        <main className={styles.calendarContainer}>
+          <CalendarNav
+            currentView={currentView}
+            changeCurrentView={changeCurrentView}
+            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
+          />
+          <WeekView />
+        </main>
+      );
+    } else if (currentView === 'month') {
+      return (
+        <main className={styles.calendarContainer}>
+          <CalendarNav
+            currentView={currentView}
+            changeCurrentView={changeCurrentView}
+            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
+          />
+          <MonthView
+            personalCalendar={userRef.personal_calendar}
+            currentDay={getTodaysDate()}
+          />
+        </main>
+      );
+    } else if (currentView === 'year') {
+      return (
+        <main className={styles.calendarContainer}>
+          <CalendarNav
+            currentView={currentView}
+            changeCurrentView={changeCurrentView}
+            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
+          />
+          <YearView />
+        </main>
+      );
+    } else {
+      return (
+        <h1>
+          Something went terribly wrong, please try again or refresh your page.
+        </h1>
+      );
+    };
   } else {
     return (
       <h1>

@@ -29,6 +29,18 @@ interface calendarProps {
 };
 
 interface calendarNavProps {
+  currentView: string,
+  changeCurrentView: Function,
+  handleCalendarTimeChangeRequest: Function,
+};
+
+interface calendarNavContainerLeftProps {
+  currentView: string,
+  handleCalendarTimeChangeRequest: Function,
+};
+
+interface calendarNavContainerRightProps {
+  currentView: string,
   changeCurrentView: Function,
 };
 
@@ -154,6 +166,8 @@ export type {
   dashboardProps,
   calendarProps,
   calendarNavProps,
+  calendarNavContainerLeftProps,
+  calendarNavContainerRightProps,
   dayViewProps,
   monthViewProps,
   classesProps,
