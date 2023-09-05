@@ -1,11 +1,15 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import plusSVG from '../../assets/plus.svg';
 import leftArrowSvg from '../../assets/chevron-left.svg';
 import rightArrowSvg from '../../assets/chevron-right.svg';
 import menuDownSvg from '../../assets/menu-down.svg';
+import { calendarNavProps } from "../../types/interfaces";
 
-const CalendarNav = () => {
+const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
+
+  const { changeCurrentView } = props;
+
   return (
     <nav className={styles.calendarNavContainer}>
       <div className={styles.calendarNavContainerLeft}>

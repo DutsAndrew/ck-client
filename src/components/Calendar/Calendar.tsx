@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { calendarProps } from '../../types/interfaces';
+import React, { FC, useState, useEffect } from 'react';
+import { calendarProps, userInstance } from '../../types/interfaces';
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import CalendarNav from './CalendarNav';
 import MonthView from './MonthView';
@@ -10,7 +10,33 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   const { user } = props;
 
-  console.log(user);
+  const [calendarData, setCalendarData] = useState({}),
+        [currentView, setCurrentView] = useState('all');
+
+  useEffect(() => {
+    // on mount get all of the following to save in state for easy accessability for user switching views
+    // 1. today's date
+    // 2. holidays for today, week, and next 3 months
+    // 3. events for today, week, and next 3 months
+    const today = getTodaysDate();
+  }, []);
+
+  const getTodaysDate = () => {
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    };
+
+    const date = new Date();
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+    return formattedDate;
+  }
+
+  const changeCurrentView = (viewRequest: string): void => {
+    setCurrentView(viewRequest);
+  };
 
   // on default have the following views render: 1) Day, 2) Week, 3) Month
   // users can switch to only viewing one of them or two of their choice
@@ -26,14 +52,26 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   // setup calendar nav to deactivate forward and backward arrows unless client is only viewing day, week, or month. If they're viewing
   // two or more they shouldn't be able to rotate the calendar in any capacity
 
-  return (
-    <main className={styles.calendarContainer}>
-      <CalendarNav />
-      <DayView />
-      <WeekView />
-      <MonthView />
-    </main>
-  );
+  if (Object.keys(user).length !== 0) {
+    const userRef = user as userInstance;
+    return (
+      <main className={styles.calendarContainer}>
+        <CalendarNav changeCurrentView={changeCurrentView} />
+        <DayView currentDay={getTodaysDate()} />
+        <WeekView />
+        <MonthView
+          personalCalendar={userRef.personal_calendar}
+          currentDay={getTodaysDate()}
+        />
+      </main>
+    );
+  } else {
+    return (
+      <h1>
+        You must be signed in to view your calendar(s)
+      </h1>
+    );
+  };
 };
 
 export default Calendar;

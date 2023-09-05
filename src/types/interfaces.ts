@@ -28,6 +28,19 @@ interface calendarProps {
   user: userInstance | {},
 };
 
+interface calendarNavProps {
+  changeCurrentView: Function,
+};
+
+interface dayViewProps {
+  currentDay: string,
+};
+
+interface monthViewProps {
+  personalCalendar: personalCalendar,
+  currentDay: string,
+};
+
 interface classesProps {
   user: userInstance | {},
 };
@@ -100,6 +113,7 @@ interface userInstance {
   pending_chats: [],
   pending_tasks: [],
   pending_teams: [],
+  personal_calendar: personalCalendar,
   tasks: [],
   teams: [],
   total_completed_projects: number,
@@ -122,6 +136,15 @@ interface userInstance {
   _id: string,
 };
 
+interface personalCalendar {
+  calendar_holidays: [],
+  calendar_type: string,
+  calendar_years_and_dates: [],
+  events: [],
+  name: string,
+  _id: string,
+};
+
 export type {
   AuthStatus,
   NavBarProps,
@@ -130,6 +153,9 @@ export type {
   loginProps,
   dashboardProps,
   calendarProps,
+  calendarNavProps,
+  dayViewProps,
+  monthViewProps,
   classesProps,
   lessonsProps,
   projectsAndTasksDashboardProps,
