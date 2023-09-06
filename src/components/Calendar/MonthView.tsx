@@ -56,10 +56,12 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     const weekStartIndex = week.indexOf(monthStartsOn);
     const numberOfPrecedingDays = week.slice(0, weekStartIndex).length;
     
+    // add any week days that are not in current month but are on the first week
     for (let i = 0; i < numberOfPrecedingDays; i++) {
       calendar.push(`${week[i]}`);
     };
 
+    // add all of month's weekdays
     let weekLoopIndex = weekStartIndex;
     for (let i = 1; i < numberOfDays + 1; i++) {
       calendar.push(`${i}-${week[weekLoopIndex]}`)
@@ -70,11 +72,19 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
       };
     };
 
+    // add any remaining days of the week that are left at end of month
+    for (let i = weekLoopIndex; i < week.length; i++) {
+      calendar.push(`${week[i]}`);
+    };
+
     return calendar;
   };
 
   return (
     <section className={styles.monthViewContainer}>
+      <h2 className={styles.monthViewHeaderText}>
+        Month View
+      </h2>
       <div className={styles.monthItemsContainer}>
         {generateMonthCalendar().map((item) => {
           const isAccurateMonthDate = item.includes('-');
