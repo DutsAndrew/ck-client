@@ -307,3 +307,17 @@
     border-bottom: 1px solid #EAEAEA;
   }
 }
+
+/* MONTH VIEW STYLING -- MONTH VIEW STYLING */
+
+.monthItemContainer {
+  /* */
+}
+
+.monthItemValidDateContainer {
+  background-color: blue;
+}
+
+.monthItemInvalidDateContainer {
+  background-color: green;
+}
