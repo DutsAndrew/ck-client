@@ -39,6 +39,10 @@ interface calendarNavContainerLeftProps {
   handleCalendarTimeChangeRequest: Function,
 };
 
+interface addEventModalProps {
+  handleCloseModalRequest: Function,
+};
+
 interface calendarNavContainerRightProps {
   currentView: string,
   changeCurrentView: Function,
@@ -167,6 +171,7 @@ export type {
   calendarProps,
   calendarNavProps,
   calendarNavContainerLeftProps,
+  addEventModalProps,
   calendarNavContainerRightProps,
   dayViewProps,
   monthViewProps,

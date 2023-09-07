@@ -6,7 +6,11 @@ import CalendarNavContainerRight from "./CalendarNavItems/CalendarNavContainerRi
 
 const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
 
-  const { currentView, changeCurrentView, handleCalendarTimeChangeRequest } = props;
+  const { 
+    currentView,
+    changeCurrentView,
+    handleCalendarTimeChangeRequest,
+  } = props;
 
   return (
     <nav className={styles.calendarNavContainer}>

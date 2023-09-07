@@ -43,6 +43,10 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     return;
   };
 
+  const handleAddEventRequest = () => {
+    return;
+  };
+
   // on default have the following views render: 1) Day, 2) Week, 3) Month
   // users can switch to only viewing one of them or two of their choice
   // if user chooses to render only on version the styling should be different to make use

@@ -370,3 +370,16 @@
   margin: 0;
   font-weight: bold;
 }
+
+/* ADD EVENT MODAL STLYING -- ADD EVENT MODAL STYLING */
+
+.addEventModalContainer {
+  position: relative;
+  width: auto;
+  height: auto;
+}
+
+.addEventModalCloseIcon {
+  width: 5vw;
+  height: auto;
+}

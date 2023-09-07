@@ -7,9 +7,27 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
 
   const { currentView, changeCurrentView } = props;
 
+  const handleChangeYearRequest = () => {
+    console.log('dropping down year request');
+    return;
+  };
+
+  const handleChangeActiveCalendars = () => {
+    console.log('dropping down calendar request');
+    return;
+  };
+
+  const handleChangeViewRequest = () => {
+    console.log('dropping down view request');
+    return;
+  };
+
   return (
     <div className={styles.calendarNavContainerRight}>
-        <div className={styles.yearDropDownContainer}>
+        <div
+          className={styles.yearDropDownContainer}
+          onClick={() => handleChangeYearRequest()}
+        >
           <p className={styles.yearDropDownText}>
             Year
           </p>
@@ -19,7 +37,10 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
             src={menuDownSvg}>
           </img>
         </div>
-        <div className={styles.calendarDropDownContainer}>
+        <div
+          className={styles.calendarDropDownContainer}
+          onClick={() => handleChangeActiveCalendars()}
+        >
           <p className={styles.calendarDropDownText}>
             (0) Calendars
           </p>
@@ -29,7 +50,10 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
             src={menuDownSvg}>
           </img>
         </div>
-        <div className={styles.viewDropDownContainer}>
+        <div
+          className={styles.viewDropDownContainer}
+          onClick={() => handleChangeViewRequest()}
+        >
           <p className={styles.viewDropDownText}>
             All
           </p>
