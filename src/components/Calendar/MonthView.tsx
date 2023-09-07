@@ -85,6 +85,9 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
       <h2 className={styles.monthViewHeaderText}>
         Month View
       </h2>
+      <h2 className={styles.currentMonthText}>
+        {calendarMonths[new Date().getMonth()]}
+      </h2>
       <div className={styles.monthItemsContainer}>
         {generateMonthCalendar().map((item) => {
           const isAccurateMonthDate = item.includes('-');

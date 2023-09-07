@@ -5,6 +5,10 @@ body, html {
   color: #333333;
 }
 
+#root {
+  box-sizing: border-box;
+}
+
 .returnButton {
   border-radius: 15px;
   font-size: 1.25em;
