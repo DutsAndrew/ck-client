@@ -161,6 +161,10 @@ interface personalCalendar {
   _id: string,
 };
 
+interface scrollToTopProps {
+  handleScrollToTop: Function,
+};
+
 export type {
   AuthStatus,
   NavBarProps,
@@ -185,4 +189,5 @@ export type {
   signUpApiResponseObject,
   loginApiResponseObject,
   userInstance,
+  scrollToTopProps,
 };

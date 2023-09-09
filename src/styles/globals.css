@@ -54,3 +54,19 @@ input:focus:invalid {
 .error-active {
   padding: 0.3em;
 }
+
+/* SCROLL TO TOP SVG */
+.scroll-to-top-svg {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: 5vh;
+  width: auto;
+  z-index: 1;
+  filter: invert(53%) sepia(12%) saturate(0%) hue-rotate(160deg) brightness(93%) contrast(90%);
+}
+
+.scroll-to-top-svg:hover {
+  cursor: pointer;
+  transform: scale(0.99);
+}

@@ -63,6 +63,28 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   if (Object.keys(user).length !== 0) {
     const userRef = user as userInstance;
+    return (
+      <main className={styles.calendarContainer}>
+          <CalendarNav
+            currentView={currentView}
+            changeCurrentView={changeCurrentView}
+            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
+          />
+         {currentView === 'all' ? (
+          <>
+            <DayView currentDay={getTodaysDate()} />
+            <WeekView />
+            <MonthView
+              personalCalendar={userRef.personal_calendar}
+              currentDay={getTodaysDate()}
+            />
+            <YearView />
+          </>
+        ) : (
+          null // or any other placeholder, like an empty div or a message
+        )}
+      </main>
+    );
     if (currentView === 'all') {
       return (
         <main className={styles.calendarContainer}>

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -11,6 +11,7 @@ import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
 import Login from './pages/Login';
 import Welcome from './pages/Welcome';
 import LoadingBar from './pages/LoadingBar';
+import ScrollToTopButton from './components/ScrollToTopButton';
 import { userInstance } from './types/interfaces';
 
 // lazy loaded items - ALL non essential functionality of the app
@@ -26,9 +27,14 @@ const Feedback = lazy(() => import('./pages/Feedback'));
 
 function App() {
 
-
   const [auth, setAuth] = useState(false),
-        [user, setUser] = useState({});
+        [user, setUser] = useState({}),
+        [scrollStatus, setScrollStatus] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScrollStatus);
+    return () => window.removeEventListener('scroll', handleScrollStatus);
+  }, []);
 
   const saveLoggedInUser = (user: userInstance) => {
     setUser(user);
@@ -38,6 +44,19 @@ function App() {
   const handleSignOut = () => {
     setUser({});
     setAuth(false);
+  };
+
+  const handleScrollStatus = () => {
+    const topOfPage = window.scrollY;
+    if (topOfPage > 50) {
+      setScrollStatus(true);
+    } else {
+      setScrollStatus(false);
+    };
+  };
+
+  const handleScrollToTop = () => {
+    window.scrollTo(0, document.body.scrollHeight - document.body.scrollHeight);
   };
 
   return (
@@ -146,6 +165,7 @@ function App() {
           }
         />
       </Routes>
+      {scrollStatus === true ? <ScrollToTopButton handleScrollToTop={handleScrollToTop} /> : ''}
       <Footer />
     </Router>
   );
