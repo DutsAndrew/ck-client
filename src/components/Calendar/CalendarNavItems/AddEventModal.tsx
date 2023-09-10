@@ -11,7 +11,6 @@ const AddEventModal:FC<addEventModalProps> = (props): JSX.Element => {
   return (
     <section
       className={styles.addEventModalBackground}
-      onClick={() => handleCloseModalRequest()}
     >
       <div className={styles.addEventModalContainer}>
         <img

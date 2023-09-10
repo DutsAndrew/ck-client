@@ -57,6 +57,10 @@ interface monthViewProps {
   currentDay: string,
 };
 
+interface yearViewProps {
+  personalCalendar: personalCalendar,
+};
+
 interface classesProps {
   user: userInstance | {},
 };
@@ -179,6 +183,7 @@ export type {
   calendarNavContainerRightProps,
   dayViewProps,
   monthViewProps,
+  yearViewProps,
   classesProps,
   lessonsProps,
   projectsAndTasksDashboardProps,

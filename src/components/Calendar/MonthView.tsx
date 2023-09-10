@@ -27,13 +27,11 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
   ];
 
   const getTodaysYear = () => {
-    const year = new Date().getFullYear();
-    return year;
+    return new Date().getFullYear();;
   };
 
   const getTodaysMonth = () => {
-    const month = new Date().getMonth();
-    return month;
+    return new Date().getMonth();
   };
 
   const getMonthPreview = () => {

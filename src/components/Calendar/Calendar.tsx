@@ -62,15 +62,17 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   // two or more they shouldn't be able to rotate the calendar in any capacity
 
   if (Object.keys(user).length !== 0) {
+
     const userRef = user as userInstance;
-    return (
-      <main className={styles.calendarContainer}>
-          <CalendarNav
-            currentView={currentView}
-            changeCurrentView={changeCurrentView}
-            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
-          />
-         {currentView === 'all' ? (
+    const commonProps = {
+      currentView,
+      changeCurrentView,
+      handleCalendarTimeChangeRequest
+    }
+
+    const renderCalendarView = () => {
+      if (currentView === 'all') {
+        return (
           <>
             <DayView currentDay={getTodaysDate()} />
             <WeekView />
@@ -78,93 +80,45 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
               personalCalendar={userRef.personal_calendar}
               currentDay={getTodaysDate()}
             />
-            <YearView />
+            <YearView 
+              personalCalendar={userRef.personal_calendar}
+            />
           </>
-        ) : (
-          null // or any other placeholder, like an empty div or a message
-        )}
+        );
+      } else if (currentView === 'day') {
+        return <DayView currentDay={getTodaysDate()} />;
+      } else if (currentView === 'week') {
+        return <WeekView />;
+      } else if (currentView === 'month') {
+        return (
+          <MonthView
+            personalCalendar={userRef.personal_calendar}
+            currentDay={getTodaysDate()}
+          />
+        );
+      } else if (currentView === 'year') {
+        return (
+          <YearView 
+            personalCalendar={userRef.personal_calendar}
+          />
+        );
+      } else {
+        return (
+          <h1>Something went terribly wrong, please try again or refresh your page.</h1>
+        );
+      };
+    };
+
+    return (
+      <main className={styles.calendarContainer}>
+        <CalendarNav {...commonProps} />
+        {renderCalendarView()}
       </main>
     );
-    if (currentView === 'all') {
-      return (
-        <main className={styles.calendarContainer}>
-          <CalendarNav
-            currentView={currentView}
-            changeCurrentView={changeCurrentView}
-            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
-          />
-          <DayView
-            currentDay={getTodaysDate()}
-          />
-          <WeekView />
-          <MonthView
-            personalCalendar={userRef.personal_calendar}
-            currentDay={getTodaysDate()}
-          />
-          <YearView />
-        </main>
-      );
-    } else if (currentView === 'day') {
-      return (
-        <main className={styles.calendarContainer}>
-          <CalendarNav
-            currentView={currentView}
-            changeCurrentView={changeCurrentView}
-            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
-          />
-          <DayView
-            currentDay={getTodaysDate()}
-          />
-        </main>
-      );
-    } else if (currentView === 'week') {
-      return (
-        <main className={styles.calendarContainer}>
-          <CalendarNav
-            currentView={currentView}
-            changeCurrentView={changeCurrentView}
-            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
-          />
-          <WeekView />
-        </main>
-      );
-    } else if (currentView === 'month') {
-      return (
-        <main className={styles.calendarContainer}>
-          <CalendarNav
-            currentView={currentView}
-            changeCurrentView={changeCurrentView}
-            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
-          />
-          <MonthView
-            personalCalendar={userRef.personal_calendar}
-            currentDay={getTodaysDate()}
-          />
-        </main>
-      );
-    } else if (currentView === 'year') {
-      return (
-        <main className={styles.calendarContainer}>
-          <CalendarNav
-            currentView={currentView}
-            changeCurrentView={changeCurrentView}
-            handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
-          />
-          <YearView />
-        </main>
-      );
-    } else {
-      return (
-        <h1>
-          Something went terribly wrong, please try again or refresh your page.
-        </h1>
-      );
-    };
+
   } else {
     return (
-      <h1>
-        You must be signed in to view your calendar(s)
-      </h1>
+      <h1>You must be signed in to view your calendars</h1>
     );
   };
 };
