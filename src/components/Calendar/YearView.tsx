@@ -1,14 +1,11 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import { yearViewProps } from "../../types/interfaces";
+import uniqid from 'uniqid';
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
   const { personalCalendar } = props;
-
-  useEffect(() => {
-    renderMonthHeaders();
-  }, []);
 
   const week = [
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
@@ -46,13 +43,13 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
       // add preceding week days
       for (let i = 0; i < numberOfPrecedingDays; i++) {
-        monthLayout.push(`${week[i]}`);
+        monthLayout.push('');
       };
 
       // add all month's week days
       let weekLoopIndex = weekStartIndex;
-      for (let i = 0; i < monthNumberOfDays + 1; i++) {
-        monthLayout.push(`${i}-${week[weekLoopIndex]}`);
+      for (let i = 1; i < monthNumberOfDays + 1; i++) {
+        monthLayout.push(`${i}`);
         if (weekLoopIndex === week.length - 1) {
           weekLoopIndex = 0;
         } else {
@@ -62,17 +59,14 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
       // add remaining days of week
       for (let i = weekLoopIndex; i < week.length; i++) {
-        monthLayout.push(`${week[i]}`);
+        if (week[i] === 'Monday') break;
+        monthLayout.push('');
       };
 
       yearView.push(monthLayout);
     });
 
     return yearView;
-  };
-
-  const renderMonthHeaders = () => {
-
   };
 
   const yearView = generateCurrentYearView();
@@ -87,27 +81,39 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
       </h2>
       <div className={styles.yearItemsContainer}>
         {yearView.map((month) => (
-          <div key={month} className={styles.monthContainer}>
+          <div
+            key={uniqid()}
+            className={styles.yearMonthContainer}
+          >
             <h3 className={styles.yearViewMonthHeaderText}>
               {calendarMonths[yearView.indexOf(month)]}
             </h3>
             <div className={styles.yearViewMonthItemsContainer}>
+              <div className={styles.dayOfWeekListContainer}>
+                {week.map((day) => {
+                  return (
+                    <p 
+                      className={styles.dayOfWeekListItemText}
+                      key={uniqid()}
+                    >
+                      {day.slice(0,1)}
+                    </p>
+                  )
+                })}
+              </div>
               {month.map((day: any) => {
-                const isAccurateMonthDate = day.includes('-');
+                const isAccurateMonthDate = day.length > 0;
                 const containerClass = isAccurateMonthDate
                   ? styles.monthItemValidDateContainer
                   : styles.monthItemInvalidDateContainer;
 
                 return (
                   <div
-                    key={day}
+                    key={uniqid()}
                     className={`${styles.YearViewMonthItemContainer} ${containerClass}`}
                   >
                     <p className={styles.yearViewMonthItemDateNumberText}>
-                      {day.includes('-') ? day.split('-')[0] : ''}
-                    </p>
-                    <p className={styles.yearViewMonthItemWeekDayText}>
-                      {day.includes('-') ? day.split('-')[1] : day}
+                      {day.length > 0 ? day : ''}
                     </p>
                   </div>
                 );

@@ -120,12 +120,12 @@
   box-sizing: border-box;
 }
 
-.dayViewHeaderText, .weekViewHeaderText, .monthViewHeaderText {
+.dayViewHeaderText, .weekViewHeaderText, .monthViewHeaderText, .yearViewHeaderText {
   font-size: 2em;
   margin: 1vh;
 }
 
-.currentDateText, .currentMonthText {
+.currentDateText, .currentMonthText, .currentYearText {
   position: relative;
   padding-left: 2.5vw;
   margin-right: auto;
@@ -237,7 +237,7 @@
 
 /* WEEK VIEW STYLING -- WEEK VIEW STYLING */
 
-.weekViewContainer, .monthViewContainer {
+.weekViewContainer, .monthViewContainer, .yearViewContainer {
   display: flex;
   flex-flow: column wrap;
   width: 100%;
@@ -488,4 +488,61 @@
 
 .addEventFormButton:hover {
   background-color: #0056b3;
+}
+
+/* YEAR VIEW STYLING -- YEAR VIEW STYLING */
+
+.yearItemsContainer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+.yearMonthContainer {
+  width: 30%;
+  max-height: 60vh;
+}
+
+.yearViewMonthHeaderText {
+
+}
+
+.yearViewMonthItemsContainer {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.dayOfWeekListContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.dayOfWeekListItemText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 14%;
+  height: 5vh;
+  margin: 0;
+}
+
+.YearViewMonthItemContainer {
+  width: 14%;
+  height: 7vh;
+}
+
+.yearViewMonthItemDateNumberText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  margin: 0;
 }
