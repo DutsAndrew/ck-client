@@ -29,7 +29,9 @@ const AnnouncementBar = () => {
       </section>
     );
   } else {
-    return;
+    return (
+      <p></p>
+    );
   };
 };
 
