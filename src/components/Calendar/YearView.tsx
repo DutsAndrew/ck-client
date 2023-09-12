@@ -92,12 +92,14 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
               <div className={styles.dayOfWeekListContainer}>
                 {week.map((day) => {
                   return (
-                    <p 
-                      className={styles.dayOfWeekListItemText}
-                      key={uniqid()}
-                    >
-                      {day.slice(0,1)}
-                    </p>
+                    <div className={styles.dayOfWeekListItemContainer}>
+                      <p 
+                        className={styles.dayOfWeekListItemText}
+                        key={uniqid()}
+                      >
+                        {day.slice(0,1)}
+                      </p>
+                    </div>
                   )
                 })}
               </div>

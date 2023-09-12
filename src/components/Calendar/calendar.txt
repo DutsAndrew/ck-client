@@ -1,0 +1,8 @@
+The calendar module uses <Calendar /> as it's entry.
+
+All other components in this folder will root in through <Calendar />
+
+The <CalendarNav /> has a folder linked to it as the components there deal with a wide variety of UX roles that needed to be separated.
+
+The Calendar component is meant to allow users to view all of their calendars (personal and teams) in one place.
+Users can switch which calendar they are viewing and get a snapshot of each calendar in the Day, Week, Month, and Year view or view all of them at once. Users can perform CRUD operations on all events if authorized.

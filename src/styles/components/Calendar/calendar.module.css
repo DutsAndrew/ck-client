@@ -349,11 +349,24 @@
 }
 
 .monthItemValidDateContainer {
-  background-color:#F3EFEF;
+  background-color: #FAF8EE;
 }
 
 .monthItemInvalidDateContainer {
-  background-color: #FFD3E0;
+  background-color: #E7E3DB;
+}
+
+.monthItemValidDateContainer:hover,
+.monthItemInvalidDateContainer:hover {
+  background-color: #E5E5E5;
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.monthItemValidDateContainer:hover > p,
+.monthItemInvalidDateContainer:hover > p {
+  transform: scale(1.25);
+  font-weight: bold;
 }
 
 .monthItemDateNumberText {
@@ -500,15 +513,19 @@
   width: 100%;
   height: auto;
   margin: 0;
+  gap: 0.5vh;
 }
 
 .yearMonthContainer {
   width: 30%;
-  max-height: 60vh;
+  height: 40vh;
 }
 
 .yearViewMonthHeaderText {
-
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .yearViewMonthItemsContainer {
@@ -525,18 +542,25 @@
   width: 100%;
 }
 
-.dayOfWeekListItemText {
+.dayOfWeekListItemContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 14%;
   height: 5vh;
+}
+
+.dayOfWeekListItemText {
   margin: 0;
+  border-bottom: 1px solid#D8D8D8;
 }
 
 .YearViewMonthItemContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 14%;
-  height: 7vh;
+  height: 5vh;
 }
 
 .yearViewMonthItemDateNumberText {
@@ -545,4 +569,5 @@
   align-items: center;
   width: auto;
   margin: 0;
+  font-size: 0.9em;
 }

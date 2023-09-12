@@ -45,7 +45,7 @@ const AddEventForm = (): JSX.Element => {
   const generateTimeSlots = () => {
     const timeSlots = [];
 
-    for (let hour = 5; hour <= 21; hour++) {
+    for (let hour = 5; hour <= 19; hour++) {
       for (let minute = 0; minute < 60; minute += 5) {
         const amPm = hour < 12 ? 'AM' : 'PM';
         const formattedHour = hour <= 12 ? hour : hour - 12;
