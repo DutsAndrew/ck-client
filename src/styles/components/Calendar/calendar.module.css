@@ -179,12 +179,8 @@
   box-sizing: border-box;
 }
 
-.AMDayScheduleItem:hover .AMDayScheduleText {
-  background-color: #FFB6C1;
-}
-
-.PMDayScheduleItem:hover .PMDayScheduleText {
-  background-color: #B0E0E6;
+.AMDayScheduleItem:hover .AMDayScheduleText, .PMDayScheduleItem:hover .PMDayScheduleText {
+  background-color: #E7E3DB;
 }
 
 .AMDayScheduleItem:hover, .PMDayScheduleItem:hover {
@@ -211,7 +207,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-color: #f5f5f5;
+  background-color: #FAF8EE;
   box-sizing: border-box;
 }
 
@@ -251,7 +247,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #A1D6B9;
+  background-color: #FAF8EE;
   border-radius: 10px;
 }
 
@@ -269,7 +265,7 @@
 .weekDayItem:hover {
   transform: scale(0.99);
   cursor: pointer;
-  background-color: #B8E6D9;
+  background-color: #E7E3DB;
 }
 
 .weekDayContainer .weekDayItem:last-of-type {
@@ -338,7 +334,7 @@
   flex-flow: column-reverse wrap;
   justify-content: flex-end;
   align-items: center;
-  border: 1px solid #D8D8D8;
+  border: 0.1px solid #D8D8D8;
   color: #555555;
 }
 
@@ -363,12 +359,6 @@
   transform: scale(1.05);
 }
 
-.monthItemValidDateContainer:hover > p,
-.monthItemInvalidDateContainer:hover > p {
-  transform: scale(1.25);
-  font-weight: bold;
-}
-
 .monthItemDateNumberText {
   margin: 0;
   font-style: italic;
@@ -381,6 +371,7 @@
 
 .monthItemWeekDayText {
   margin: 0;
+  padding-top: 0.5vh;
   font-weight: bold;
 }
 
@@ -555,12 +546,23 @@
   border-bottom: 1px solid#D8D8D8;
 }
 
-.YearViewMonthItemContainer {
+.yearViewMonthItemContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 14%;
   height: 5vh;
+}
+
+.yearViewMonthItemContainer:hover {
+  background-color: #E5E5E5;
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.yearViewMonthItemContainer:hover > p {
+  transform: scale(1.25);
+  font-weight: bold;
 }
 
 .yearViewMonthItemDateNumberText {
@@ -571,3 +573,5 @@
   margin: 0;
   font-size: 0.9em;
 }
+
+/* #99A7B9 for coloring events added to calendar */

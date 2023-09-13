@@ -112,7 +112,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
                 return (
                   <div
                     key={uniqid()}
-                    className={`${styles.YearViewMonthItemContainer} ${containerClass}`}
+                    className={`${styles.yearViewMonthItemContainer} ${containerClass}`}
                   >
                     <p className={styles.yearViewMonthItemDateNumberText}>
                       {day.length > 0 ? day : ''}
