@@ -6,8 +6,6 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
   const { personalCalendar, currentDay } = props;
 
-  console.log(personalCalendar);
-
   // 1. Identify current date
   // 2. Find current year in personalCalendar
   // 3. Identify index of the first month we're on

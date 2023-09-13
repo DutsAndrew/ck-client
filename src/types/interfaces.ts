@@ -29,6 +29,7 @@ interface calendarProps {
 };
 
 interface calendarNavProps {
+  userCalendars: userCalendars,
   currentView: string,
   changeCurrentView: Function,
   handleCalendarTimeChangeRequest: Function,
@@ -44,6 +45,7 @@ interface addEventModalProps {
 };
 
 interface calendarNavContainerRightProps {
+  userCalendars: userCalendars,
   currentView: string,
   changeCurrentView: Function,
 };
@@ -165,6 +167,13 @@ interface personalCalendar {
   _id: string,
 };
 
+type allUserCalendars = personalCalendar[];
+
+interface userCalendars {
+  personalCalendar: personalCalendar,
+  allUserCalendars: allUserCalendars,
+}
+
 interface scrollToTopProps {
   handleScrollToTop: Function,
 };
@@ -194,5 +203,6 @@ export type {
   signUpApiResponseObject,
   loginApiResponseObject,
   userInstance,
+  userCalendars,
   scrollToTopProps,
 };

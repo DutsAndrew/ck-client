@@ -1,11 +1,29 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import menuDownSvg from '../../../assets/menu-down.svg';
 import { calendarNavContainerRightProps } from "../../../types/interfaces";
 
 const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JSX.Element => {
 
-  const { currentView, changeCurrentView } = props;
+  const {
+    userCalendars,
+    currentView,
+    changeCurrentView
+  } = props;
+
+  const getAllPossibleYearsFromUsersPersonalCalendar = (): number[] => {
+    const allPossibleYears = [];
+
+    const userPersonalCalendarYears: any[] = userCalendars.personalCalendar.calendar_years_and_dates;
+    return userPersonalCalendarYears;
+  };
+
+  const [userYearData, setUserYearData] = useState({
+    currentYear: new Date().getFullYear(),
+    possiblePersonalCalendarYears: getAllPossibleYearsFromUsersPersonalCalendar(),
+  });
+
+  console.log(userYearData);
 
   const handleChangeYearRequest = () => {
     console.log('dropping down year request');

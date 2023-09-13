@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
-import { calendarProps, userInstance } from '../../types/interfaces';
+import { calendarProps, userCalendars, userInstance } from '../../types/interfaces';
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import CalendarNav from './CalendarNav';
 import YearView from './YearView';
@@ -64,11 +64,16 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   if (Object.keys(user).length !== 0) {
 
     const userRef = user as userInstance;
+    const userCalendars: userCalendars = {
+      personalCalendar: userRef.personal_calendar,
+      allUserCalendars: [...userRef.calendars],
+    };
     const commonProps = {
+      userCalendars,
       currentView,
       changeCurrentView,
       handleCalendarTimeChangeRequest
-    }
+    };
 
     const renderCalendarView = () => {
       if (currentView === 'all') {

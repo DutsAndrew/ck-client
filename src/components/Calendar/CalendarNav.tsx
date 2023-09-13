@@ -7,6 +7,7 @@ import CalendarNavContainerRight from "./CalendarNavItems/CalendarNavContainerRi
 const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
 
   const { 
+    userCalendars,
     currentView,
     changeCurrentView,
     handleCalendarTimeChangeRequest,
@@ -19,6 +20,7 @@ const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
         handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
       />
       <CalendarNavContainerRight
+        userCalendars={userCalendars}
         currentView={currentView}
         changeCurrentView={changeCurrentView}
       />

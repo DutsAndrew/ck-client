@@ -32,8 +32,6 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     return hour;
   };
 
-  console.log(getCurrentHour());
-
   const blockSchedule = generateBlockSchedule();
 
   return (
