@@ -63,6 +63,23 @@ interface yearViewProps {
   personalCalendar: personalCalendar,
 };
 
+interface calendarModalProps {
+  userCalendars: userCalendars,
+  handleChangeActiveCalendars: Function,
+};
+
+interface calendarViewModalProps {
+  handleChangeViewRequest: Function,
+};
+
+interface yearModalProps {
+  userCalendarYears: {
+    possiblePersonalCalendarYears: string[],
+    possibleTeamCalendarYears: string[] | undefined,
+  },
+  handleChangeYearRequest: Function,
+};
+
 interface classesProps {
   user: userInstance | {},
 };
@@ -193,6 +210,9 @@ export type {
   dayViewProps,
   monthViewProps,
   yearViewProps,
+  calendarModalProps,
+  calendarViewModalProps,
+  yearModalProps,
   classesProps,
   lessonsProps,
   projectsAndTasksDashboardProps,

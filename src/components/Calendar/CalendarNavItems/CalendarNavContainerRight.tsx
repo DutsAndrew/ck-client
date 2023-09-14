@@ -2,6 +2,9 @@ import React, { FC, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import menuDownSvg from '../../../assets/menu-down.svg';
 import { calendarNavContainerRightProps } from "../../../types/interfaces";
+import CalendarModal from "./CalendarModal";
+import CalendarViewModal from "./CalendarViewModal";
+import YearModal from "./YearModal";
 
 const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JSX.Element => {
 
@@ -11,19 +14,65 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
     changeCurrentView
   } = props;
 
-  const getAllPossibleYearsFromUsersPersonalCalendar = (): number[] => {
-    const allPossibleYears = [];
+  const getAllPossibleTeamCalendarYears = () => {
+    if (userCalendars.allUserCalendars.length === 0) return;
 
-    const userPersonalCalendarYears: any[] = userCalendars.personalCalendar.calendar_years_and_dates;
-    return userPersonalCalendarYears;
+    const allYears: string[] = [];
+
+    userCalendars.allUserCalendars.forEach((calendar) => {
+      const currentTeamsCalendarYears = Object.keys(calendar);
+      currentTeamsCalendarYears.forEach((calendarYear) => {
+        if (allYears.indexOf(calendarYear) === -1) {
+          allYears.push(calendarYear);
+        };
+      });
+    });
+    
+    return allYears;
   };
 
-  const [userYearData, setUserYearData] = useState({
+  const [selectedYear, setSelectedYear] = useState({
     currentYear: new Date().getFullYear(),
-    possiblePersonalCalendarYears: getAllPossibleYearsFromUsersPersonalCalendar(),
+    selectedYear: '',
   });
 
-  console.log(userYearData);
+  const [userCalendarYears, setUserCalendarYears] = useState({
+    possiblePersonalCalendarYears: Object.keys(userCalendars.personalCalendar.calendar_years_and_dates),
+    possibleTeamCalendarYears: getAllPossibleTeamCalendarYears(),
+  });
+
+  const [selectedCalendars, setSelectedCalendars] = useState({
+    list: [],
+  });
+
+  const [modal, setModal] = useState({
+    calendar: false,
+    view: false,
+    year: false,
+  });
+
+  const upperCaseFirstLetterOfCurrentView = () => {
+    const view = currentView;
+    const firstLetter = view.charAt(0).toUpperCase();
+    const remainingLetters = view.slice(1);
+    return firstLetter + remainingLetters;
+  };
+
+  const handleModalToggle = (modalToggleRequest: string): void => {
+    setModal({
+      calendar: modalToggleRequest === 'calendar',
+      view: modalToggleRequest === 'view',
+      year: modalToggleRequest === 'year',
+    });
+  };
+
+  const handleModalDeactivation = () => {
+    setModal({
+      calendar: false,
+      view: false,
+      year: false,
+    });
+  };
 
   const handleChangeYearRequest = () => {
     console.log('dropping down year request');
@@ -35,8 +84,9 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
     return;
   };
 
-  const handleChangeViewRequest = () => {
+  const handleChangeViewRequest = (viewRequest: string): void => {
     console.log('dropping down view request');
+    changeCurrentView(viewRequest);
     return;
   };
 
@@ -44,10 +94,10 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
     <div className={styles.calendarNavContainerRight}>
         <div
           className={styles.yearDropDownContainer}
-          onClick={() => handleChangeYearRequest()}
+          onClick={() => handleModalToggle('year')}
         >
           <p className={styles.yearDropDownText}>
-            Year
+            {selectedYear.selectedYear.length === 0 ? selectedYear.currentYear : selectedYear.selectedYear}
           </p>
           <img
             className={styles.yearDropDownSvg}
@@ -57,10 +107,10 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
         </div>
         <div
           className={styles.calendarDropDownContainer}
-          onClick={() => handleChangeActiveCalendars()}
+          onClick={() => handleModalToggle('calendars')}
         >
           <p className={styles.calendarDropDownText}>
-            (0) Calendars
+            Calendars ({selectedCalendars.list.length}/{userCalendars.allUserCalendars.length + 1})
           </p>
           <img
             className={styles.calendarDropDownSvg}
@@ -70,10 +120,10 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
         </div>
         <div
           className={styles.viewDropDownContainer}
-          onClick={() => handleChangeViewRequest()}
+          onClick={() => handleModalToggle('view')}
         >
           <p className={styles.viewDropDownText}>
-            All
+            {upperCaseFirstLetterOfCurrentView()}
           </p>
           <img
             className={styles.viewDropDownSvg}
@@ -81,6 +131,23 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
             src={menuDownSvg}>
           </img>
         </div>
+        {modal.calendar === true && 
+          <CalendarModal
+            userCalendars={userCalendars} 
+            handleChangeActiveCalendars={handleChangeActiveCalendars}
+          />
+        }
+        {modal.view === true && 
+          <CalendarViewModal
+            handleChangeViewRequest={handleChangeViewRequest}
+          />
+        }
+        {modal.year === true &&
+          <YearModal
+            userCalendarYears={userCalendarYears}
+            handleChangeYearRequest={handleChangeYearRequest}
+          />
+        }
       </div>
   ); 
 };
