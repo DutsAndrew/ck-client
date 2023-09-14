@@ -107,7 +107,7 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
         </div>
         <div
           className={styles.calendarDropDownContainer}
-          onClick={() => handleModalToggle('calendars')}
+          onClick={() => handleModalToggle('calendar')}
         >
           <p className={styles.calendarDropDownText}>
             Calendars ({selectedCalendars.list.length}/{userCalendars.allUserCalendars.length + 1})
