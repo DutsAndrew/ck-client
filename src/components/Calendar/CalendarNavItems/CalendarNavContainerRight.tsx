@@ -59,11 +59,19 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
   };
 
   const handleModalToggle = (modalToggleRequest: string): void => {
-    setModal({
-      calendar: modalToggleRequest === 'calendar',
-      view: modalToggleRequest === 'view',
-      year: modalToggleRequest === 'year',
-    });
+    if (
+      (modalToggleRequest === 'calendar' && modal.calendar === true) ||
+      (modalToggleRequest === 'view' && modal.view === true) ||
+      (modalToggleRequest === 'year' && modal.year === true)
+    ) {
+      handleModalDeactivation();
+    } else {
+      setModal({
+        calendar: modalToggleRequest === 'calendar',
+        view: modalToggleRequest === 'view',
+        year: modalToggleRequest === 'year',
+      });
+    };
   };
 
   const handleModalDeactivation = () => {

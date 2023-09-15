@@ -30,7 +30,7 @@ const AnnouncementBar = () => {
     );
   } else {
     return (
-      <p></p>
+      <></>
     );
   };
 };

@@ -501,8 +501,10 @@
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 99%;
   height: auto;
+  overflow-y: visible;
+  overflow-x: hidden;
   margin: 0;
   gap: 0.5vh;
 }
@@ -521,6 +523,7 @@
 
 .yearViewMonthItemsContainer {
   width: 100%;
+  height: auto;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
