@@ -70,15 +70,3 @@ input:focus:invalid {
   cursor: pointer;
   transform: scale(0.99);
 }
-
-/* DROP DOWN ACTIVE JS APPLIED STYLING IN CALENDAR NAV BAR */
-
-.dropdown-active {
-  border: 1px solid #FFB6C1;
-  color: #FFB6C1;
-}
-
-.dropdown-active > img {
-  filter: invert(76%) sepia(20%) saturate(747%) hue-rotate(305deg) brightness(102%) contrast(103%);
-  transform: rotateX(180deg);
-}

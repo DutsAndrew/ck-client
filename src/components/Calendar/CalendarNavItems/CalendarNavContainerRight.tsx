@@ -3,7 +3,7 @@ import styles from '../../../styles/components/Calendar/calendar.module.css';
 import menuDownSvg from '../../../assets/menu-down.svg';
 import { calendarNavContainerRightProps } from "../../../types/interfaces";
 import CalendarModal from "./CalendarModal";
-import CalendarViewModal from "./CalendarViewModal";
+import ViewModal from "./ViewModal";
 import YearModal from "./YearModal";
 
 const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JSX.Element => {
@@ -103,66 +103,66 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
 
   return (
     <div className={styles.calendarNavContainerRight}>
-        <div
-          id="year-dropdown"
-          className={styles.yearDropDownContainer}
-          onClick={() => handleModalToggle('year')}
-        >
-          <p className={styles.yearDropDownText}>
-            {selectedYear.selectedYear.length === 0 ? selectedYear.currentYear : selectedYear.selectedYear}
-          </p>
-          <img
-            className={styles.yearDropDownSvg}
-            alt="down arrow"
-            src={menuDownSvg}>
-          </img>
-        </div>
-        <div
-          id="calendar-dropdown"
-          className={styles.calendarDropDownContainer}
-          onClick={() => handleModalToggle('calendar')}
-        >
-          <p className={styles.calendarDropDownText}>
-            Calendars ({selectedCalendars.list.length}/{userCalendars.allUserCalendars.length + 1})
-          </p>
-          <img
-            className={styles.calendarDropDownSvg}
-            alt="down arrow"
-            src={menuDownSvg}>
-          </img>
-        </div>
-        <div
-          id="view-dropdown"
-          className={styles.viewDropDownContainer}
-          onClick={() => handleModalToggle('view')}
-        >
-          <p className={styles.viewDropDownText}>
-            {upperCaseFirstLetterOfCurrentView()}
-          </p>
-          <img
-            className={styles.viewDropDownSvg}
-            alt="down arrow"
-            src={menuDownSvg}>
-          </img>
-        </div>
-        {modal.calendar === true && 
-          <CalendarModal
-            userCalendars={userCalendars} 
-            handleChangeActiveCalendars={handleChangeActiveCalendars}
-          />
-        }
-        {modal.view === true && 
-          <CalendarViewModal
-            handleChangeViewRequest={handleChangeViewRequest}
-          />
-        }
-        {modal.year === true &&
-          <YearModal
-            userCalendarYears={userCalendarYears}
-            handleChangeYearRequest={handleChangeYearRequest}
-          />
-        }
+      <div
+        id="year-dropdown"
+        className={modal.year === true ? styles.yearDropDownContainerActive : styles.yearDropDownContainer}
+        onClick={() => handleModalToggle('year')}
+      >
+        <p className={styles.yearDropDownText}>
+          {selectedYear.selectedYear.length === 0 ? selectedYear.currentYear : selectedYear.selectedYear}
+        </p>
+        <img
+          className={styles.yearDropDownSvg}
+          alt="down arrow"
+          src={menuDownSvg}>
+        </img>
       </div>
+      <div
+        id="calendar-dropdown"
+        className={styles.calendarDropDownContainer}
+        onClick={() => handleModalToggle('calendar')}
+      >
+        <p className={styles.calendarDropDownText}>
+          Calendars ({selectedCalendars.list.length}/{userCalendars.allUserCalendars.length + 1})
+        </p>
+        <img
+          className={styles.calendarDropDownSvg}
+          alt="down arrow"
+          src={menuDownSvg}>
+        </img>
+      </div>
+      <div
+        id="view-dropdown"
+        className={styles.viewDropDownContainer}
+        onClick={() => handleModalToggle('view')}
+      >
+        <p className={styles.viewDropDownText}>
+          {upperCaseFirstLetterOfCurrentView()}
+        </p>
+        <img
+          className={styles.viewDropDownSvg}
+          alt="down arrow"
+          src={menuDownSvg}>
+        </img>
+      </div>
+      {modal.calendar === true && 
+        <CalendarModal
+          userCalendars={userCalendars} 
+          handleChangeActiveCalendars={handleChangeActiveCalendars}
+        />
+      }
+      {modal.view === true && 
+        <ViewModal
+          handleChangeViewRequest={handleChangeViewRequest}
+        />
+      }
+      {modal.year === true &&
+        <YearModal
+          userCalendarYears={userCalendarYears}
+          handleChangeYearRequest={handleChangeYearRequest}
+        />
+      }
+    </div>
   ); 
 };
 

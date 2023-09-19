@@ -6,11 +6,6 @@ const YearModal:FC<yearModalProps> = (props): JSX.Element => {
 
   const { userCalendarYears, handleChangeYearRequest } = props;
 
-  (function applyStylesToParentContainer() {
-    const yearDropDownElement = document.querySelector('#year-dropdown');
-    yearDropDownElement?.classList.add('dropdown-active');
-  })();
-
   const getAllUniqueYears = () => {
     const uniqueYears: string[] = [];
 

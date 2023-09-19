@@ -57,7 +57,7 @@
   filter: invert(95%) sepia(8%) saturate(2823%) hue-rotate(306deg) brightness(97%) contrast(126%);
 }
 
-.yearDropDownContainer, .calendarDropDownContainer, .viewDropDownContainer {
+.yearDropDownContainer, .calendarDropDownContainer, .viewDropDownContainer, .yearDropDownContainerActive {
   max-height: 4vh;
   display: flex;
   flex-flow: row nowrap;
@@ -69,6 +69,16 @@
 .yearDropDownContainer:hover, .calendarDropDownContainer:hover, .viewDropDownContainer:hover {
   border: 1px solid #FFB6C1;
   color: #FFB6C1;
+}
+
+.yearDropDownContainerActive {
+  border: 1px solid #FFB6C1;
+  color: #FFB6C1;
+}
+
+.yearDropDownContainerActive > img {
+  filter: invert(76%) sepia(20%) saturate(747%) hue-rotate(305deg) brightness(102%) contrast(103%);
+  transform: rotateX(180deg);
 }
 
 .yearDropDownText, .calendarDropDownText, .viewDropDownText {
@@ -85,7 +95,7 @@
   filter: invert(76%) sepia(20%) saturate(747%) hue-rotate(305deg) brightness(102%) contrast(103%);
 }
 
-.plusSvg:hover, .navigationArrowSvg:hover, .yearDropDownContainer:hover, .calendarDropDownContainer:hover, .viewDropDownContainer:hover, .viewDropDownSvg:hover {
+.plusSvg:hover, .navigationArrowSvg:hover, .yearDropDownContainer:hover, .calendarDropDownContainer:hover, .viewDropDownContainer:hover, .viewDropDownSvg:hover, .yearDropDownContainerActive:hover {
   cursor: pointer;
   transform: scale(0.99);
 }
