@@ -75,6 +75,9 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
   };
 
   const handleModalDeactivation = () => {
+    const yearDropDownElement = document.querySelector('#year-dropdown');
+    yearDropDownElement?.classList.remove('dropdown-active');
+    
     setModal({
       calendar: false,
       view: false,
@@ -101,6 +104,7 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
   return (
     <div className={styles.calendarNavContainerRight}>
         <div
+          id="year-dropdown"
           className={styles.yearDropDownContainer}
           onClick={() => handleModalToggle('year')}
         >
@@ -114,6 +118,7 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
           </img>
         </div>
         <div
+          id="calendar-dropdown"
           className={styles.calendarDropDownContainer}
           onClick={() => handleModalToggle('calendar')}
         >
@@ -127,6 +132,7 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
           </img>
         </div>
         <div
+          id="view-dropdown"
           className={styles.viewDropDownContainer}
           onClick={() => handleModalToggle('view')}
         >

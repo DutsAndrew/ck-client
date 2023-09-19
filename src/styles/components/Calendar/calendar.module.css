@@ -578,3 +578,46 @@
 }
 
 /* #99A7B9 for coloring events added to calendar */
+
+/* YEAR MODAL STYLING -- YEAR MODAL STYLING */
+
+.yearModalContainer {
+  position: fixed;
+  top: 15vh;
+  width: 10vw;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.yearModalYearListContainer {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 16px;
+}
+
+/* Year List Item Container */
+.yearModalYearListItemContainer {
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.yearModalYearListItemContainer:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+/* Year List Item Text */
+.yearModalYearListItemText {
+  color: #333333;
+  font-size: 1.25em;
+}
