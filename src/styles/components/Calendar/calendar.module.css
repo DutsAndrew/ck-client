@@ -589,9 +589,9 @@
 
 /* #99A7B9 for coloring events added to calendar */
 
-/* YEAR MODAL STYLING -- YEAR MODAL STYLING */
+/* NAV BAR MODAL STYLING -- NAV BAR MODAL STYLING */
 
-.yearModalContainer {
+.yearModalContainer, .calendarModalContainer {
   position: fixed;
   top: 15vh;
   width: 10vw;
@@ -602,7 +602,7 @@
   z-index: 2;
 }
 
-.yearModalYearListContainer {
+.yearModalYearListContainer, .calendarModalListContainer {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
@@ -613,21 +613,33 @@
   padding: 16px;
 }
 
-/* Year List Item Container */
-.yearModalYearListItemContainer {
+.yearModalYearListItemContainer, .calendarModalCalendarsContainer {
   margin-bottom: 8px;
   padding: 8px;
   border-radius: 4px;
   transition: background-color 0.3s;
 }
 
-.yearModalYearListItemContainer:hover {
+.yearModalYearListItemContainer:hover, .personalCalendarText:hover, .calendarModalCalendarsContainer:hover {
   background-color: #f0f0f0;
   cursor: pointer;
 }
 
-/* Year List Item Text */
-.yearModalYearListItemText {
+.yearModalYearListItemText, .personalCalendarText, .calendarModalCalendarsItemText {
   color: #333333;
   font-size: 1.25em;
+}
+
+.calendarModalCalendarsContainer {
+  list-style-type: none;
+}
+
+.calendarModalCalendarsContainer {
+  width: 100%;
+}
+
+.calendarModalFormGroup {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1vw;
 }

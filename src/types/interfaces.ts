@@ -80,6 +80,10 @@ interface yearModalProps {
   handleChangeYearRequest: Function,
 };
 
+interface calendarModalState {
+  list: calendarObject[],
+};
+
 interface classesProps {
   user: userInstance | {},
 };
@@ -181,10 +185,21 @@ interface personalCalendar {
   calendar_years_and_dates: [],
   events: [],
   name: string,
+  type: string,
   _id: string,
 };
 
-type allUserCalendars = personalCalendar[];
+interface calendarObject {
+  calendar_holidays: [],
+  calendar_type: string,
+  calendar_years_and_dates: [],
+  events: [],
+  name: string,
+  type: string,
+  _id: string,
+}
+
+type allUserCalendars = calendarObject[];
 
 interface userCalendars {
   personalCalendar: personalCalendar,
@@ -213,6 +228,7 @@ export type {
   calendarModalProps,
   calendarViewModalProps,
   yearModalProps,
+  calendarModalState,
   classesProps,
   lessonsProps,
   projectsAndTasksDashboardProps,
@@ -224,5 +240,6 @@ export type {
   loginApiResponseObject,
   userInstance,
   userCalendars,
+  calendarObject,
   scrollToTopProps,
 };

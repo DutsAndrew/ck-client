@@ -85,9 +85,12 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
     });
   };
 
-  const handleChangeYearRequest = () => {
-    console.log('dropping down year request');
-    return;
+  const handleChangeYearRequest = (year: string): void => {
+    setSelectedYear({
+      currentYear: selectedYear.currentYear,
+      selectedYear: year,
+    });
+    handleModalDeactivation();
   };
 
   const handleChangeActiveCalendars = () => {
