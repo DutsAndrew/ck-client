@@ -12,7 +12,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   const { user } = props;
 
   const [calendarData, setCalendarData] = useState({}),
-        [currentView, setCurrentView] = useState('all');
+        [currentView, setCurrentView] = useState('All');
 
   useEffect(() => {
     // on mount get all of the following to save in state for easy accessability for user switching views
@@ -36,7 +36,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   }
 
   const changeCurrentView = (viewRequest: string): void => {
-    setCurrentView(viewRequest);
+    console.log(viewRequest)
+    return setCurrentView(viewRequest);
   };
   
   const handleCalendarTimeChangeRequest = () => {
@@ -76,7 +77,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
 
     const renderCalendarView = () => {
-      if (currentView === 'all') {
+      if (currentView === 'All') {
         return (
           <>
             <DayView currentDay={getTodaysDate()} />
@@ -90,18 +91,18 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
             />
           </>
         );
-      } else if (currentView === 'day') {
+      } else if (currentView === 'Day') {
         return <DayView currentDay={getTodaysDate()} />;
-      } else if (currentView === 'week') {
+      } else if (currentView === 'Week') {
         return <WeekView />;
-      } else if (currentView === 'month') {
+      } else if (currentView === 'Month') {
         return (
           <MonthView
             personalCalendar={userRef.personal_calendar}
             currentDay={getTodaysDate()}
           />
         );
-      } else if (currentView === 'year') {
+      } else if (currentView === 'Year') {
         return (
           <YearView 
             personalCalendar={userRef.personal_calendar}

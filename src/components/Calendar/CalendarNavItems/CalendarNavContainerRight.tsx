@@ -51,13 +51,6 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
     year: false,
   });
 
-  const upperCaseFirstLetterOfCurrentView = () => {
-    const view = currentView;
-    const firstLetter = view.charAt(0).toUpperCase();
-    const remainingLetters = view.slice(1);
-    return firstLetter + remainingLetters;
-  };
-
   const handleModalToggle = (modalToggleRequest: string): void => {
     if (
       (modalToggleRequest === 'calendar' && modal.calendar === true) ||
@@ -99,9 +92,8 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
   };
 
   const handleChangeViewRequest = (viewRequest: string): void => {
-    console.log('dropping down view request');
-    changeCurrentView(viewRequest);
-    return;
+    handleModalDeactivation();
+    return changeCurrentView(viewRequest);
   };
 
   return (
@@ -122,7 +114,7 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
       </div>
       <div
         id="calendar-dropdown"
-        className={styles.calendarDropDownContainer}
+        className={modal.calendar === true ? styles.calendarDropDownContainerActive : styles.calendarDropDownContainer}
         onClick={() => handleModalToggle('calendar')}
       >
         <p className={styles.calendarDropDownText}>
@@ -136,11 +128,11 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
       </div>
       <div
         id="view-dropdown"
-        className={styles.viewDropDownContainer}
+        className={modal.view === true ? styles.viewDropDownContainerActive : styles.viewDropDownContainer}
         onClick={() => handleModalToggle('view')}
       >
         <p className={styles.viewDropDownText}>
-          {upperCaseFirstLetterOfCurrentView()}
+          {currentView}
         </p>
         <img
           className={styles.viewDropDownSvg}

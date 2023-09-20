@@ -57,7 +57,7 @@
   filter: invert(95%) sepia(8%) saturate(2823%) hue-rotate(306deg) brightness(97%) contrast(126%);
 }
 
-.yearDropDownContainer, .calendarDropDownContainer, .viewDropDownContainer, .yearDropDownContainerActive {
+.yearDropDownContainer, .calendarDropDownContainer, .viewDropDownContainer, .yearDropDownContainerActive, .calendarDropDownContainerActive, .viewDropDownContainerActive {
   max-height: 4vh;
   display: flex;
   flex-flow: row nowrap;
@@ -71,12 +71,12 @@
   color: #FFB6C1;
 }
 
-.yearDropDownContainerActive {
+.yearDropDownContainerActive, .calendarDropDownContainerActive, .viewDropDownContainerActive {
   border: 1px solid #FFB6C1;
   color: #FFB6C1;
 }
 
-.yearDropDownContainerActive > img {
+.yearDropDownContainerActive > img, .calendarDropDownContainerActive > img, .viewDropDownContainerActive > img {
   filter: invert(76%) sepia(20%) saturate(747%) hue-rotate(305deg) brightness(102%) contrast(103%);
   transform: rotateX(180deg);
 }
@@ -95,7 +95,7 @@
   filter: invert(76%) sepia(20%) saturate(747%) hue-rotate(305deg) brightness(102%) contrast(103%);
 }
 
-.plusSvg:hover, .navigationArrowSvg:hover, .yearDropDownContainer:hover, .calendarDropDownContainer:hover, .viewDropDownContainer:hover, .viewDropDownSvg:hover, .yearDropDownContainerActive:hover {
+.plusSvg:hover, .navigationArrowSvg:hover, .yearDropDownContainer:hover, .calendarDropDownContainer:hover, .viewDropDownContainer:hover, .viewDropDownSvg:hover, .yearDropDownContainerActive:hover, .calendarDropDownContainerActive:hover, .viewDropDownContainerActive:hover {
   cursor: pointer;
   transform: scale(0.99);
 }
@@ -591,7 +591,7 @@
 
 /* NAV BAR MODAL STYLING -- NAV BAR MODAL STYLING */
 
-.yearModalContainer, .calendarModalContainer {
+.yearModalContainer, .calendarModalContainer, .viewModalContainer {
   position: fixed;
   top: 15vh;
   width: 10vw;
@@ -602,7 +602,7 @@
   z-index: 2;
 }
 
-.yearModalYearListContainer, .calendarModalListContainer {
+.yearModalYearListContainer, .calendarModalListContainer, .viewModalListContainer {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
@@ -613,19 +613,19 @@
   padding: 16px;
 }
 
-.yearModalYearListItemContainer, .calendarModalCalendarsContainer {
+.yearModalYearListItemContainer, .calendarModalCalendarsContainer, .viewModalListItemContainer {
   margin-bottom: 8px;
   padding: 8px;
   border-radius: 4px;
   transition: background-color 0.3s;
 }
 
-.yearModalYearListItemContainer:hover, .personalCalendarText:hover, .calendarModalCalendarsContainer:hover {
+.yearModalYearListItemContainer:hover, .personalCalendarText:hover, .calendarModalCalendarsContainer:hover, .viewModalListItemContainer:hover {
   background-color: #f0f0f0;
   cursor: pointer;
 }
 
-.yearModalYearListItemText, .personalCalendarText, .calendarModalCalendarsItemText {
+.yearModalYearListItemText, .personalCalendarText, .calendarModalCalendarsItemText, .viewModalListItemText {
   color: #333333;
   font-size: 1.25em;
 }

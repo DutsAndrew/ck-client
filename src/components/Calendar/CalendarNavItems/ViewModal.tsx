@@ -6,10 +6,33 @@ const ViewModal:FC<calendarViewModalProps> = (props): JSX.Element => {
 
   const { handleChangeViewRequest } = props;
 
+  const viewOptions = [
+    "All",
+    "Week",
+    "Month",
+    "Year",
+  ];
+
+  const sendViewChangeRequest = (view: string) => {
+    return handleChangeViewRequest(view);
+  };
+
   return (
-    <p>
-      View
-    </p>
+    <nav className={styles.viewModalContainer}>
+      <div className={styles.viewModalListContainer}>
+        {viewOptions.map((view) => {
+          return <div 
+            key={view}
+            className={styles.viewModalListItemContainer}
+            onClick={() => sendViewChangeRequest(view as unknown as string)}
+          >
+            <p className={styles.viewModalListItemText}>
+              {view}
+            </p>
+          </div>
+        })}
+      </div>
+    </nav>
   );
 };
 
