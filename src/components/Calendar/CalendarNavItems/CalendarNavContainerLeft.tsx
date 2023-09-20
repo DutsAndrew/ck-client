@@ -33,7 +33,7 @@ const CalendarNavContainerLeft:FC<calendarNavContainerLeftProps> = (props): JSX.
     });
   };
 
-  if (modal.open === true && currentView === 'all') {
+  if (modal.open === true && currentView === 'All') {
     return (
       <div className={styles.calendarNavContainerLeft}>
         <img
@@ -47,7 +47,7 @@ const CalendarNavContainerLeft:FC<calendarNavContainerLeftProps> = (props): JSX.
         />
       </div>
     );
-  } else if (modal.open === false && currentView === 'all') {
+  } else if (modal.open === false && currentView === 'All') {
     return (
       <div className={styles.calendarNavContainerLeft}>
         <img
@@ -58,7 +58,7 @@ const CalendarNavContainerLeft:FC<calendarNavContainerLeftProps> = (props): JSX.
         </img>
       </div>
     );
-  } else if (modal.open === true && currentView !== 'all') {
+  } else if (modal.open === true && currentView !== 'All') {
     return (
       <div className={styles.calendarNavContainerLeft}>
         <img

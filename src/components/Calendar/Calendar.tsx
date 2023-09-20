@@ -36,7 +36,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   }
 
   const changeCurrentView = (viewRequest: string): void => {
-    console.log(viewRequest)
     return setCurrentView(viewRequest);
   };
   
