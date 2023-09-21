@@ -62,7 +62,7 @@ function App() {
   return (
     <Router>
       <Header auth={auth} handleSignOut={handleSignOut} />
-      <AnnouncementBar />
+      <AnnouncementBar auth={auth} />
       <Routes>
         <Route 
           path='/' 

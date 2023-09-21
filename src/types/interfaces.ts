@@ -2,6 +2,10 @@ interface AuthStatus {
   status: boolean;
 };
 
+interface announcementBarProps {
+  auth: boolean,
+};
+
 interface NavBarProps {
   auth: boolean,
   handleSignOut: Function,
@@ -212,6 +216,7 @@ interface scrollToTopProps {
 
 export type {
   AuthStatus,
+  announcementBarProps,
   NavBarProps,
   appNavBarProps,
   HeaderProps,
