@@ -8,6 +8,7 @@ const ViewModal:FC<calendarViewModalProps> = (props): JSX.Element => {
 
   const viewOptions = [
     "All",
+    "Day",
     "Week",
     "Month",
     "Year",

@@ -29,7 +29,9 @@ interface dashboardProps {
 };
 
 interface calendarProps {
-  user: userInstance | {},
+  usersFirstName: string,
+  usersPersonalCalendar: personalCalendar,
+  usersTeamCalendars: allUserCalendars,
 };
 
 interface calendarNavProps {
@@ -55,6 +57,10 @@ interface calendarNavContainerRightProps {
 };
 
 interface dayViewProps {
+  currentDay: string,
+};
+
+interface weekViewProps {
   currentDay: string,
 };
 
@@ -228,6 +234,7 @@ export type {
   addEventModalProps,
   calendarNavContainerRightProps,
   dayViewProps,
+  weekViewProps,
   monthViewProps,
   yearViewProps,
   calendarModalProps,

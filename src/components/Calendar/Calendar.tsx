@@ -9,7 +9,7 @@ import DayView from './DayView';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
-  const { user } = props;
+  const { usersFirstName, usersPersonalCalendar, usersTeamCalendars } = props;
 
   const [calendarData, setCalendarData] = useState({}),
         [currentView, setCurrentView] = useState('All');
@@ -61,13 +61,16 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   // setup calendar nav to deactivate forward and backward arrows unless client is only viewing day, week, or month. If they're viewing
   // two or more they shouldn't be able to rotate the calendar in any capacity
 
-  if (Object.keys(user).length !== 0) {
+  if (typeof usersFirstName !== 'undefined' &&
+    typeof usersPersonalCalendar !== 'undefined' &&
+    typeof usersTeamCalendars !== 'undefined'
+  ) {
 
-    const userRef = user as userInstance;
     const userCalendars: userCalendars = {
-      personalCalendar: userRef.personal_calendar,
-      allUserCalendars: [...userRef.calendars],
+      personalCalendar: usersPersonalCalendar,
+      allUserCalendars: usersTeamCalendars,
     };
+    
     const commonProps = {
       userCalendars,
       currentView,
@@ -79,32 +82,40 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       if (currentView === 'All') {
         return (
           <>
-            <DayView currentDay={getTodaysDate()} />
-            <WeekView />
+            <DayView 
+              currentDay={getTodaysDate()}
+            />
+            <WeekView
+              currentDay={getTodaysDate()}
+            />
             <MonthView
-              personalCalendar={userRef.personal_calendar}
+              personalCalendar={usersPersonalCalendar}
               currentDay={getTodaysDate()}
             />
             <YearView 
-              personalCalendar={userRef.personal_calendar}
+              personalCalendar={usersPersonalCalendar}
             />
           </>
         );
       } else if (currentView === 'Day') {
-        return <DayView currentDay={getTodaysDate()} />;
+        return <DayView
+          currentDay={getTodaysDate()}
+        />;
       } else if (currentView === 'Week') {
-        return <WeekView />;
+        return <WeekView
+          currentDay={getTodaysDate()}
+        />;
       } else if (currentView === 'Month') {
         return (
           <MonthView
-            personalCalendar={userRef.personal_calendar}
+            personalCalendar={usersPersonalCalendar}
             currentDay={getTodaysDate()}
           />
         );
       } else if (currentView === 'Year') {
         return (
           <YearView 
-            personalCalendar={userRef.personal_calendar}
+            personalCalendar={usersPersonalCalendar}
           />
         );
       } else {

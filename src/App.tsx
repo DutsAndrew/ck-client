@@ -74,7 +74,11 @@ function App() {
         />
         <Route
           path='/calendar'
-          element={<Calendar user={user} />}
+          element={<Calendar
+            usersFirstName={(user as userInstance).first_name}
+            usersPersonalCalendar={(user as userInstance).personal_calendar}
+            usersTeamCalendars={(user as userInstance).calendars}
+          />}
         />
         <Route 
           path='/classes'
