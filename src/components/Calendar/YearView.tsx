@@ -5,7 +5,7 @@ import uniqid from 'uniqid';
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
-  const { personalCalendar } = props;
+  const { calendars } = props;
 
   const week = [
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
@@ -22,7 +22,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
   const getCurrentYearFromUserCalendar = () => {
     const year = getTodaysYear();
-    return personalCalendar.calendar_years_and_dates[year];
+    return calendars.personalCalendar.calendar_years_and_dates[year];
   };
 
   const generateCurrentYearView = () => {

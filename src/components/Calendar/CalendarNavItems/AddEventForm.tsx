@@ -62,9 +62,15 @@ const AddEventForm = (): JSX.Element => {
       <h2>Create Calendar Event</h2>
       <form onSubmit={handleSubmit} className={styles.addEventForm}>
         <div className={styles.formGroup}>
-          <label className={styles.addEventFormLabel}>*Date:</label>
+          <label 
+            className={styles.addEventFormLabel}
+            htmlFor='date-input'
+            >
+              *Date:
+          </label>
           <input
             type="date"
+            id='date-input'
             name="date"
             value={formData.date}
             onChange={handleInputChange}
@@ -73,8 +79,14 @@ const AddEventForm = (): JSX.Element => {
           />
         </div>
         <div className={styles.formGroup}>
-          <label className={styles.addEventFormLabel}>Select Time:</label>
+          <label
+            htmlFor='time-input'
+            className={styles.addEventFormLabel}
+          >
+            Select Time:
+          </label>
           <select
+            id='time-input'
             name="selectedTime"
             value={formData.selectedTime}
             onChange={handleInputChange}
@@ -89,8 +101,14 @@ const AddEventForm = (): JSX.Element => {
           </select>
         </div>
         <div className={styles.formGroup}>
-          <label className={styles.addEventFormLabel}>Repeats:</label>
+          <label
+            htmlFor='repeats-input'
+            className={styles.addEventFormLabel}
+          >
+            Repeats:
+          </label>
           <input
+            id='repeats-input'
             type="checkbox"
             name="repeat"
             checked={formData.repeat}
@@ -100,8 +118,14 @@ const AddEventForm = (): JSX.Element => {
         </div>
         {formData.repeat && ( // Render the repeat options if 'repeat' is true
           <div className={styles.formGroup}>
-            <label className={styles.addEventFormLabel}>Repeat Option:</label>
+            <label 
+              htmlFor='repeat-option-input'
+              className={styles.addEventFormLabel}
+            >
+              Repeat Option:
+            </label>
             <select
+              id='repeat-option-input'
               name="repeatOption"
               value={formData.repeatOption}
               onChange={handleInputChange}
@@ -116,8 +140,14 @@ const AddEventForm = (): JSX.Element => {
           </div>
         )}
         <div className={styles.formGroup}>
-          <label className={styles.addEventFormLabel}>*Event Name:</label>
+          <label 
+            htmlFor='event-input'
+            className={styles.addEventFormLabel}
+          >
+            *Event Name:
+          </label>
           <input
+            id='event-input'
             type="text"
             name="eventName"
             value={formData.eventName}
@@ -127,8 +157,14 @@ const AddEventForm = (): JSX.Element => {
           />
         </div>
         <div className={styles.formGroup}>
-          <label className={styles.addEventFormLabel}>Event Description (Optional):</label>
+          <label 
+            htmlFor='event-description-input'
+            className={styles.addEventFormLabel}
+          >
+            Event Description (Optional):
+          </label>
           <textarea
+            id='event-description-input'
             name="eventDescription"
             value={formData.eventDescription}
             onChange={handleInputChange}
@@ -137,8 +173,14 @@ const AddEventForm = (): JSX.Element => {
         </div>
         {calendars && calendars.length > 0 && (
           <div className={styles.formGroup}>
-            <label className={styles.addEventFormLabel}>*Select Calendar:</label>
+            <label
+              htmlFor='calendar-selection-input'
+              className={styles.addEventFormLabel}
+            >
+              *Select Calendar:
+            </label>
             <select
+              id='calendar-selection-input'
               name="selectedCalendar"
               value={(formData as any).selectedCalendar}
               onChange={handleInputChange}

@@ -15,11 +15,11 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
   } = props;
 
   const getAllPossibleTeamCalendarYears = () => {
-    if (userCalendars.allUserCalendars.length === 0) return;
+    if (userCalendars.teamCalendars.length === 0) return;
 
     const allYears: string[] = [];
 
-    userCalendars.allUserCalendars.forEach((calendar) => {
+    userCalendars.teamCalendars.forEach((calendar) => {
       const currentTeamsCalendarYears = Object.keys(calendar);
       currentTeamsCalendarYears.forEach((calendarYear) => {
         if (allYears.indexOf(calendarYear) === -1) {
@@ -118,7 +118,7 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
         onClick={() => handleModalToggle('calendar')}
       >
         <p className={styles.calendarDropDownText}>
-          Calendars ({selectedCalendars.list.length}/{userCalendars.allUserCalendars.length + 1})
+          Calendars ({selectedCalendars.list.length}/{userCalendars.teamCalendars.length + 1})
         </p>
         <img
           className={styles.calendarDropDownSvg}

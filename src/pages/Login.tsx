@@ -194,7 +194,7 @@ export default function Login(props: loginProps): JSX.Element {
         <div className={styles.formGroup}>
           <label
             className={styles.signUpLabel} 
-            htmlFor='email'>
+            htmlFor='email-input'>
             *Email:
           </label>
           <input
@@ -216,7 +216,7 @@ export default function Login(props: loginProps): JSX.Element {
         <div className={styles.formGroup}>
           <label
             className={styles.signUpLabel} 
-            htmlFor='password'>
+            htmlFor='password-input'>
             *Password:
           </label>
           <input

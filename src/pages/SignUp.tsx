@@ -293,7 +293,7 @@ export default function SignUp() {
         <div className={styles.formGroup}>
           <label
             className={styles.signUpLabel} 
-            htmlFor='email'>
+            htmlFor='email-input'>
             *Email:
           </label>
           <input
@@ -315,7 +315,7 @@ export default function SignUp() {
         <div className={styles.formGroup}>
           <label
             className={styles.signUpLabel} 
-            htmlFor='firstName'>
+            htmlFor='firstName-input'>
             *First Name:
           </label>
           <input
@@ -337,7 +337,7 @@ export default function SignUp() {
         <div className={styles.formGroup}>
           <label
             className={styles.signUpLabel} 
-            htmlFor='lastName'>
+            htmlFor='lastName-input'>
             *Last Name:
           </label>
           <input
@@ -359,7 +359,7 @@ export default function SignUp() {
         <div className={styles.formGroup}>
           <label
             className={styles.signUpLabel} 
-            htmlFor='jobTitle'>
+            htmlFor='jobTitle-input'>
             Job Title (Optional):
           </label>
           <input
@@ -380,7 +380,7 @@ export default function SignUp() {
         <div className={styles.formGroup}>
           <label
             className={styles.signUpLabel} 
-            htmlFor='company'>
+            htmlFor='company-input'>
             Company (Optional):
           </label>
           <input
@@ -401,7 +401,7 @@ export default function SignUp() {
         <div className={styles.formGroup}>
           <label
             className={styles.signUpLabel} 
-            htmlFor='password'>
+            htmlFor='password-input'>
             *Password:
           </label>
           <input
@@ -423,7 +423,7 @@ export default function SignUp() {
         <div className={styles.formGroup}>
           <label
             className={styles.signUpLabel} 
-            htmlFor='confirmPassword'>
+            htmlFor='confirmPassword-input'>
             *Confirm Password:
           </label>
           <input

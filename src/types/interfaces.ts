@@ -58,19 +58,21 @@ interface calendarNavContainerRightProps {
 
 interface dayViewProps {
   currentDay: string,
+  calendars: userCalendars,
 };
 
 interface weekViewProps {
   currentDay: string,
+  calendars: userCalendars,
 };
 
 interface monthViewProps {
-  personalCalendar: personalCalendar,
   currentDay: string,
+  calendars: userCalendars,
 };
 
 interface yearViewProps {
-  personalCalendar: personalCalendar,
+  calendars: userCalendars,
 };
 
 interface calendarModalProps {
@@ -213,7 +215,7 @@ type allUserCalendars = calendarObject[];
 
 interface userCalendars {
   personalCalendar: personalCalendar,
-  allUserCalendars: allUserCalendars,
+  teamCalendars: allUserCalendars,
 }
 
 interface scrollToTopProps {

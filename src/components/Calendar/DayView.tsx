@@ -4,7 +4,7 @@ import { dayViewProps } from "../../types/interfaces";
 
 const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
-  const { currentDay } = props;
+  const { currentDay, calendars } = props;
 
   const generateBlockSchedule = () => {
     const scheduleBlock = [

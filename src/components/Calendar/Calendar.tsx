@@ -68,9 +68,9 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
     const userCalendars: userCalendars = {
       personalCalendar: usersPersonalCalendar,
-      allUserCalendars: usersTeamCalendars,
+      teamCalendars: usersTeamCalendars,
     };
-    
+
     const commonProps = {
       userCalendars,
       currentView,
@@ -84,38 +84,42 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           <>
             <DayView 
               currentDay={getTodaysDate()}
+              calendars={userCalendars}
             />
             <WeekView
               currentDay={getTodaysDate()}
+              calendars={userCalendars}
             />
             <MonthView
-              personalCalendar={usersPersonalCalendar}
               currentDay={getTodaysDate()}
+              calendars={userCalendars}
             />
             <YearView 
-              personalCalendar={usersPersonalCalendar}
+              calendars={userCalendars}
             />
           </>
         );
       } else if (currentView === 'Day') {
         return <DayView
           currentDay={getTodaysDate()}
+          calendars={userCalendars}
         />;
       } else if (currentView === 'Week') {
         return <WeekView
           currentDay={getTodaysDate()}
+          calendars={userCalendars}
         />;
       } else if (currentView === 'Month') {
         return (
           <MonthView
-            personalCalendar={usersPersonalCalendar}
             currentDay={getTodaysDate()}
+            calendars={userCalendars}
           />
         );
       } else if (currentView === 'Year') {
         return (
           <YearView 
-            personalCalendar={usersPersonalCalendar}
+            calendars={userCalendars}
           />
         );
       } else {

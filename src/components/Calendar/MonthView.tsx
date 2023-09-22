@@ -4,7 +4,7 @@ import styles from '../../styles/components/Calendar/calendar.module.css';
 
 const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
-  const { personalCalendar, currentDay } = props;
+  const { currentDay, calendars } = props;
 
   // 1. Identify current date
   // 2. Find current year in personalCalendar
@@ -34,7 +34,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
   const getMonthPreview = () => {
     const todaysYear = getTodaysYear();
-    const currentYearAndDates = personalCalendar.calendar_years_and_dates[todaysYear];
+    const currentYearAndDates = calendars.personalCalendar.calendar_years_and_dates[todaysYear];
 
     const month = getTodaysMonth();
     const currentMonth = calendarMonths[month];

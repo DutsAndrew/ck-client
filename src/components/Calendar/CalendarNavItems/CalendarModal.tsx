@@ -50,35 +50,43 @@ const CalendarModal:FC<calendarModalProps> = (props): JSX.Element => {
           className={styles.calendarModalCalendarsContainer}
         >
           <div className={styles.calendarModalFormGroup}>
-              <input 
-                type="checkbox"
-                checked={selectedCalendars.list.some(
-                  (calendar) => calendar.calendar_type === 'personal'
-                )}
-                onChange={(calendar) => handleUserSelection((calendar as any).name)}
-              />
-              <p className={styles.calendarModalCalendarsItemText}>
-                Personal Calendar
-              </p>
-            </div>
+            <label 
+              htmlFor="personal-calendar-option"
+              className={styles.calendarModalCalendarsItemText}
+            >
+              Personal Calendar
+            </label>
+            <input
+              id="personal-calendar-option"
+              type="checkbox"
+              checked={selectedCalendars.list.some(
+                (calendar) => calendar.calendar_type === 'personal'
+              )}
+              onChange={(calendar) => handleUserSelection((calendar as any).name)}
+            />
+          </div>
         </li>
-        {userCalendars.allUserCalendars.map((calendar) => {
+        {userCalendars.teamCalendars.map((calendar) => {
           return <li
             key={uniqid()}
             onClick={() => handleUserSelection(calendar as any)}
             className={styles.calendarModalCalendarsContainer}
           >
             <div className={styles.calendarModalFormGroup}>
+              <label 
+                htmlFor="calendar-checkbox"
+                className={styles.calendarModalCalendarsItemText}
+              >
+                {calendar.name}
+              </label>
               <input 
+                id="calendar-checkbox"
                 type="checkbox"
                 checked={selectedCalendars.list.some(
                   (selectedCalendar) => selectedCalendar.name === calendar.name && selectedCalendar.calendar_type !== 'personal'
                 )}
                 onChange={(calendar) => handleUserSelection(calendar as any)}
               />
-              <p className={styles.calendarModalCalendarsItemText}>
-                {calendar.name}
-              </p>
             </div>
           </li>
         })}
