@@ -1,5 +1,5 @@
-import React, { FC, useState, useEffect } from 'react';
-import { calendarProps, userCalendars, userInstance } from '../../types/interfaces';
+import React, { FC, useState } from 'react';
+import { calendarProps, userCalendars } from '../../types/interfaces';
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import CalendarNav from './CalendarNav';
 import YearView from './YearView';
@@ -13,14 +13,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   const [calendarData, setCalendarData] = useState({}),
         [currentView, setCurrentView] = useState('All');
-
-  useEffect(() => {
-    // on mount get all of the following to save in state for easy accessability for user switching views
-    // 1. today's date
-    // 2. holidays for today, week, and next 3 months
-    // 3. events for today, week, and next 3 months
-    const today = getTodaysDate();
-  }, []);
 
   const getTodaysDate = () => {
     const options: Intl.DateTimeFormatOptions = {

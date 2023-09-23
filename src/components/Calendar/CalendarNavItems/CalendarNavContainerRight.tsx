@@ -103,7 +103,10 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
         className={modal.year === true ? styles.yearDropDownContainerActive : styles.yearDropDownContainer}
         onClick={() => handleModalToggle('year')}
       >
-        <p className={styles.yearDropDownText}>
+        <p 
+          id="userSelectedYear"
+          className={styles.yearDropDownText}
+        >
           {selectedYear.selectedYear.length === 0 ? selectedYear.currentYear : selectedYear.selectedYear}
         </p>
         <img
