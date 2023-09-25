@@ -2,10 +2,15 @@ import React, { FC, useState, useEffect } from "react";
 import { calendarModalProps, calendarModalState, calendarObject } from "../../../types/interfaces";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import uniqid from "uniqid";
+import calendarEditSvg from '../../../assets/calendar-edit.svg';
 
 const CalendarModal:FC<calendarModalProps> = (props): JSX.Element => {
 
-  const { userCalendars, handleChangeActiveCalendars } = props;
+  const { 
+    userCalendars,
+    handleChangeActiveCalendars,
+    handleCalendarEditRequest
+  } = props;
 
   const [selectedCalendars, setSelectedCalendars] = useState<calendarModalState>({
     list: [],
@@ -42,28 +47,37 @@ const CalendarModal:FC<calendarModalProps> = (props): JSX.Element => {
     });
   };
 
+  const handleEditRequestForSelectedCalendar = (selectedCalendar: calendarObject) => {
+    return handleCalendarEditRequest(selectedCalendar);
+  };
+
   return (
     <nav className={styles.calendarModalContainer}>
       <ul className={styles.calendarModalListContainer}>
         <li 
-          onClick={() => handleUserSelection(userCalendars.personalCalendar)}
           className={styles.calendarModalCalendarsContainer}
         >
           <div className={styles.calendarModalFormGroup}>
-            <label 
-              htmlFor="personal-calendar-option"
-              className={styles.calendarModalCalendarsItemText}
-            >
-              Personal Calendar
-            </label>
             <input
               id="personal-calendar-option"
               type="checkbox"
               checked={selectedCalendars.list.some(
                 (calendar) => calendar.calendar_type === 'personal'
               )}
-              onChange={(calendar) => handleUserSelection((calendar as any).name)}
+              onChange={() => handleUserSelection(userCalendars.personalCalendar)}
             />
+            <label 
+              htmlFor="personal-calendar-option"
+              className={styles.calendarModalCalendarsItemText}
+            >
+              Personal Calendar
+            </label>
+            <img
+              className={styles.calendarEditSvg}
+              alt="calendar edit icon"
+              src={calendarEditSvg}
+              onClick={() => handleEditRequestForSelectedCalendar(userCalendars.personalCalendar)}>
+            </img>
           </div>
         </li>
         {userCalendars.teamCalendars.map((calendar) => {
@@ -73,12 +87,6 @@ const CalendarModal:FC<calendarModalProps> = (props): JSX.Element => {
             className={styles.calendarModalCalendarsContainer}
           >
             <div className={styles.calendarModalFormGroup}>
-              <label 
-                htmlFor="calendar-checkbox"
-                className={styles.calendarModalCalendarsItemText}
-              >
-                {calendar.name}
-              </label>
               <input 
                 id="calendar-checkbox"
                 type="checkbox"
@@ -87,6 +95,18 @@ const CalendarModal:FC<calendarModalProps> = (props): JSX.Element => {
                 )}
                 onChange={(calendar) => handleUserSelection(calendar as any)}
               />
+              <label 
+                htmlFor="calendar-checkbox"
+                className={styles.calendarModalCalendarsItemText}
+              >
+                {calendar.name}
+              </label>
+              <img
+                className={styles.calendarEditSvg}
+                alt="calendar edit icon"
+                src={calendarEditSvg}
+                onClick={() => handleEditRequestForSelectedCalendar(calendar)}>
+              </img>
             </div>
           </li>
         })}

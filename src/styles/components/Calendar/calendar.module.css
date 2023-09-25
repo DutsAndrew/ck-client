@@ -620,7 +620,7 @@
   transition: background-color 0.3s;
 }
 
-.yearModalYearListItemContainer:hover, .personalCalendarText:hover, .calendarModalCalendarsContainer:hover, .viewModalListItemContainer:hover {
+.yearModalYearListItemContainer:hover, .personalCalendarText:hover, .calendarModalCalendarsContainer:hover, .viewModalListItemContainer:hover, .calendarModalFormGroup:hover {
   background-color: #f0f0f0;
   cursor: pointer;
 }
@@ -641,5 +641,13 @@
 .calendarModalFormGroup {
   display: flex;
   flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
   gap: 1vw;
+}
+
+.calendarEditSvg {
+  filter: invert(69%) sepia(70%) saturate(2735%) hue-rotate(360deg) brightness(102%) contrast(105%);
+  width: auto;
+  height: 4vh;
 }

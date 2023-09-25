@@ -34,11 +34,22 @@ interface calendarProps {
   usersTeamCalendars: allUserCalendars,
 };
 
+interface calendarEditorState {
+  active: boolean,
+  calendar: {} | calendarObject,
+};
+
+interface EditCalendarProps {
+  selectedCalendar: {} | calendarObject,
+  handleDeactivateCalendarEditor: Function,
+};
+
 interface calendarNavProps {
   userCalendars: userCalendars,
   currentView: string,
   changeCurrentView: Function,
   handleCalendarTimeChangeRequest: Function,
+  handleActivateCalendarEditor: Function,
 };
 
 interface calendarNavContainerLeftProps {
@@ -54,6 +65,7 @@ interface calendarNavContainerRightProps {
   userCalendars: userCalendars,
   currentView: string,
   changeCurrentView: Function,
+  handleActivateCalendarEditor: Function,
 };
 
 interface dayViewProps {
@@ -78,6 +90,7 @@ interface yearViewProps {
 interface calendarModalProps {
   userCalendars: userCalendars,
   handleChangeActiveCalendars: Function,
+  handleCalendarEditRequest: Function,
 };
 
 interface calendarViewModalProps {
@@ -231,6 +244,8 @@ export type {
   loginProps,
   dashboardProps,
   calendarProps,
+  calendarEditorState,
+  EditCalendarProps,
   calendarNavProps,
   calendarNavContainerLeftProps,
   addEventModalProps,

@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import menuDownSvg from '../../../assets/menu-down.svg';
-import { calendarNavContainerRightProps } from "../../../types/interfaces";
+import { calendarNavContainerRightProps, calendarObject } from "../../../types/interfaces";
 import CalendarModal from "./CalendarModal";
 import ViewModal from "./ViewModal";
 import YearModal from "./YearModal";
@@ -11,7 +11,8 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
   const {
     userCalendars,
     currentView,
-    changeCurrentView
+    changeCurrentView,
+    handleActivateCalendarEditor,
   } = props;
 
   const getAllPossibleTeamCalendarYears = () => {
@@ -87,8 +88,12 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
   };
 
   const handleChangeActiveCalendars = () => {
-    console.log('dropping down calendar request');
     return;
+  };
+
+  const handleCalendarEditRequest = (selectedCalendar: calendarObject): void => {
+    handleModalDeactivation();
+    return handleActivateCalendarEditor(selectedCalendar);
   };
 
   const handleChangeViewRequest = (viewRequest: string): void => {
@@ -143,21 +148,22 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
           src={menuDownSvg}>
         </img>
       </div>
+      {modal.year === true &&
+        <YearModal
+          userCalendarYears={userCalendarYears}
+          handleChangeYearRequest={handleChangeYearRequest}
+        />
+      }
       {modal.calendar === true && 
         <CalendarModal
           userCalendars={userCalendars} 
           handleChangeActiveCalendars={handleChangeActiveCalendars}
+          handleCalendarEditRequest={handleCalendarEditRequest}
         />
       }
       {modal.view === true && 
         <ViewModal
           handleChangeViewRequest={handleChangeViewRequest}
-        />
-      }
-      {modal.year === true &&
-        <YearModal
-          userCalendarYears={userCalendarYears}
-          handleChangeYearRequest={handleChangeYearRequest}
         />
       }
     </div>
