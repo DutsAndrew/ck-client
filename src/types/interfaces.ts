@@ -32,6 +32,7 @@ interface calendarProps {
   usersFirstName: string,
   usersPersonalCalendar: personalCalendar,
   usersTeamCalendars: allUserCalendars,
+  sendUserId: Function,
 };
 
 interface calendarEditorState {
@@ -204,25 +205,20 @@ interface userInstance {
   _id: string,
 };
 
-interface personalCalendar {
-  calendar_holidays: [],
-  calendar_type: string,
-  calendar_years_and_dates: [],
-  events: [],
-  name: string,
-  type: string,
-  _id: string,
-};
-
 interface calendarObject {
+  authorized_users: string[],
   calendar_holidays: [],
   calendar_type: string,
   calendar_years_and_dates: [],
+  created_by: string,
+  created_on: string,
   events: [],
   name: string,
-  type: string,
+  pending_authorized_users: string[],
   _id: string,
 }
+
+type personalCalendar = calendarObject;
 
 type allUserCalendars = calendarObject[];
 

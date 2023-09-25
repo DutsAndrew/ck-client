@@ -41,6 +41,10 @@ function App() {
     setAuth(true);
   };
 
+  const sendUserId = () => {
+    return (user as userInstance)._id;
+  };
+
   const handleSignOut = () => {
     setUser({});
     setAuth(false);
@@ -78,6 +82,7 @@ function App() {
             usersFirstName={(user as userInstance).first_name}
             usersPersonalCalendar={(user as userInstance).personal_calendar}
             usersTeamCalendars={(user as userInstance).calendars}
+            sendUserId={sendUserId}
           />}
         />
         <Route 

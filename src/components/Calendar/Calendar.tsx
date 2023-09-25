@@ -10,7 +10,12 @@ import EditCalendar from './EditCalendar';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
-  const { usersFirstName, usersPersonalCalendar, usersTeamCalendars } = props;
+  const { 
+    usersFirstName,
+    usersPersonalCalendar,
+    usersTeamCalendars,
+    sendUserId,
+  } = props;
 
   const [calendarData, setCalendarData] = useState({}),
         [currentView, setCurrentView] = useState('All'),
@@ -45,10 +50,15 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   };
 
   const handleActivateCalendarEditor = (selectedCalendar: calendarObject): void => {
-    setCalendarEditor({
-      active: true,
-      calendar: selectedCalendar,
-    });
+    const userId = sendUserId();
+    if (selectedCalendar.authorized_users.includes(userId)) {
+      setCalendarEditor({
+        active: true,
+        calendar: selectedCalendar,
+      });
+    } else {
+      alert('You are not authorized to edit that calendar, if you believe you should have access please reach out to the owners of the calendar');
+    };
   };
 
   const handleDeactivateCalendarEditor = () => {
