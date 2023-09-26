@@ -136,7 +136,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
       const prependData = dayNumber;
       // append data is month
       if (latterDays[0].length === 3) {
-        snapshot = `${month} ${prependData} - ${latterDays[0]}`;
+        snapshot = `hey${month} ${prependData} - ${latterDays[0]}`;
       } else {
         snapshot = `${month} ${prependData} - ${dayNumber + latterDays.length}`;
       };
@@ -151,8 +151,8 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     };
 
     // check either snapshot list has a first item that is less than 3 in length, if so a month is being appended and needs to not be calculated
-    const prependIsMonth = priorDays.length === 1
-    const appendIsMonth = latterDays.length === 1; 
+    const prependIsMonth = priorDays[0].length === 3
+    const appendIsMonth = latterDays[0].length === 3; 
     
     if (prependIsMonth === true && appendIsMonth === true) {
       snapshot = `${priorDays[0]} - ${latterDays[0]}`;
