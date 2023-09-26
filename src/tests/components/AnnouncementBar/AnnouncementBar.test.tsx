@@ -6,10 +6,12 @@ import AnnouncementBar from "../../../components/AnnouncementBar/AnnouncementBar
 
 describe('unit test for AnnouncementBar', () => {
 
+  const authMock = false;
+
   test('Header renders correctly', () => {
     render(
       <MemoryRouter>
-        <AnnouncementBar />
+        <AnnouncementBar auth={authMock} />
       </MemoryRouter>
     );
 

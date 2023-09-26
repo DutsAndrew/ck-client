@@ -10,6 +10,8 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     return handleDeactivateCalendarEditor();
   };
 
+  console.log(selectedCalendar);
+
   return (
     <section className={styles.editCalendarContainer}>
       <button onClick={() => handleCloseCalendarEditor()}>close</button>
