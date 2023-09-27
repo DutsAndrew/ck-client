@@ -205,16 +205,55 @@ interface userInstance {
   _id: string,
 };
 
+interface userReferenceInstance {
+  company: string,
+  email: string,
+  first_name: string,
+  job_title: string,
+  joined: string,
+  last_contributed: string,
+  last_name: string,
+  last_online: string,
+  total_completed_projects: number,
+  total_completed_tasks: number,
+  total_completed_subtasks: number,
+  yearly_completed_projects: number,
+  yearly_completed_tasks: number,
+  yearly_completed_subtasks: number,
+  _id: string,
+};
+
+interface userCalendarInstance {
+  company: string,
+  email: string,
+  first_name: string,
+  job_title: string,
+  last_name: string,
+  _id: string,
+};
+
 interface calendarObject {
-  authorized_users: string[],
+  authorized_users: userCalendarInstance[],
   calendar_holidays: [],
   calendar_type: string,
   calendar_years_and_dates: [],
   created_by: string,
   created_on: string,
-  events: [],
+  events: eventObject[],
   name: string,
-  pending_authorized_users: string[],
+  pending_authorized_users: userCalendarInstance[],
+  view_only_users: userCalendarInstance[],
+  _id: string,
+}
+
+interface eventObject {
+  calendar: string,
+  created_by: string,
+  event_date_and_time: string,
+  event_description: string,
+  event_name: string,
+  patterns: string,
+  repeats: boolean,
   _id: string,
 }
 
@@ -264,6 +303,7 @@ export type {
   signUpApiResponseObject,
   loginApiResponseObject,
   userInstance,
+  userReferenceInstance,
   userCalendars,
   calendarObject,
   scrollToTopProps,
