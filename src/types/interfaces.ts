@@ -45,6 +45,11 @@ interface EditCalendarProps {
   handleDeactivateCalendarEditor: Function,
 };
 
+interface userListProps {
+  calendar: userCalendarInstance[],
+  type: string,
+};
+
 interface calendarNavProps {
   userCalendars: userCalendars,
   currentView: string,
@@ -281,6 +286,7 @@ export type {
   calendarProps,
   calendarEditorState,
   EditCalendarProps,
+  userListProps,
   calendarNavProps,
   calendarNavContainerLeftProps,
   addEventModalProps,

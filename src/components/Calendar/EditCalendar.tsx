@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { EditCalendarProps, calendarObject, userReferenceInstance } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import deleteSvg from '../../assets/delete.svg';
+import UserList from "./UserList";
 
 const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
 
@@ -31,39 +31,18 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                 <button className={styles.calendarEditorAddUserButton}>
                   Add User
                 </button>
-                <ul className={styles.calendarEditorAuthorizedUsersList}>
-                  {selectedCalendarRef.authorized_users && 
-                  selectedCalendarRef.authorized_users.map((user) => {
-                    return <li
-                      key={user._id}
-                      className={styles.authorizedUserItemContainer}
-                    >
-                      
-                    </li>
-                  })}
-                </ul>
-                <ul className={styles.calendarEditorViewOnlyUsersList}>
-                  {selectedCalendarRef.view_only_users &&
-                  selectedCalendarRef.view_only_users.map((user) => {
-                    return <li 
-                      key={user._id}
-                      className={styles.calendarEditorViewOnlyUserItemContainer}
-                    >
-                      
-                    </li>
-                  })}
-                </ul>
-                <ul className={styles.calendarEditorPendingUsersList}>
-                  {selectedCalendarRef.pending_authorized_users && 
-                  selectedCalendarRef.pending_authorized_users.map((user) => {
-                    return <li 
-                      key={user._id}
-                      className={styles.calendarEditorPendingUserItemContainer}
-                    >
-                      
-                    </li>
-                  })}
-                </ul>
+                <UserList
+                  calendar={selectedCalendarRef.authorized_users}
+                  type='Authorized'
+                />
+                <UserList 
+                  calendar={selectedCalendarRef.view_only_users}
+                  type='View-Only'
+                />
+                <UserList 
+                  calendar={selectedCalendarRef.pending_authorized_users}
+                  type='Pending'
+                />
               </div>
             </div>
             <div className={styles.calendarEditorEventsContainer}>
