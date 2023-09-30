@@ -16,47 +16,56 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     return (
       <section className={styles.editCalendarContainer}>
         <div className={styles.calendarEditorContainer}>
-          <div className={styles.calendarEditorMainContainer}>
-            <div className={styles.calendarEditorHeaderContainer}>
-              <button onClick={() => handleCloseCalendarEditor()}>Close Editor</button>
-              <h2 className={styles.calendarEditorHeaderText}>
-                Calendar Editor
-              </h2>
-            </div>
-            <div className={styles.calendarEditorUserListsContainer}>
-              <h3 className={styles.calendarEditorUserListHeaderText}>
-                Users
-              </h3>
-              <div className={styles.calendarEditorUserList}>
-                <button className={styles.calendarEditorAddUserButton}>
-                  Add User
-                </button>
-                <UserList
-                  calendar={selectedCalendarRef.authorized_users}
-                  type='Authorized'
-                />
-                <UserList 
-                  calendar={selectedCalendarRef.view_only_users}
-                  type='View-Only'
-                />
-                <UserList 
-                  calendar={selectedCalendarRef.pending_authorized_users}
-                  type='Pending'
-                />
+          <div className={styles.calendarEditorHeaderContainer}>
+            <button 
+              className={styles.calendarEditorCloseEditorButton}
+              onClick={() => handleCloseCalendarEditor()}
+            >
+              Close Editor
+            </button>
+            <p
+              className={styles.calendarEditorCurrentlyEditingText}
+            >
+              Modifying: &nbsp;<strong><em>{selectedCalendarRef.name}</em></strong> 
+            </p>
+            <h2 className={styles.calendarEditorHeaderText}>
+              Calendar Editor
+            </h2>
+          </div>
+          <div className={styles.editCalendarDisplayContainers}>
+            <div className={styles.calendarEditorMainContainer}>
+              <div className={styles.calendarEditorUserListsContainer}>
+                <h3 className={styles.calendarEditorUserListsHeaderText}>
+                  Users
+                </h3>
+                <div className={styles.calendarEditorUserList}>
+                  <UserList
+                    calendar={selectedCalendarRef.authorized_users}
+                    type='Authorized'
+                  />
+                  <UserList 
+                    calendar={selectedCalendarRef.view_only_users}
+                    type='View-Only'
+                  />
+                  <UserList 
+                    calendar={selectedCalendarRef.pending_authorized_users}
+                    type='Pending'
+                  />
+                </div>
               </div>
-            </div>
-            <div className={styles.calendarEditorEventsContainer}>
-              <ul className={styles.calendarEditorEventsList}>
-                {selectedCalendarRef.events && 
-                selectedCalendarRef.events.map((event) => {
-                  return <li 
-                    key={event._id}
-                    className={styles.calendarEditorEventItemContainer}
-                  >
-                    
-                  </li>
-                })}
-              </ul>
+              <div className={styles.calendarEditorEventsContainer}>
+                <ul className={styles.calendarEditorEventsList}>
+                  {selectedCalendarRef.events && 
+                  selectedCalendarRef.events.map((event) => {
+                    return <li 
+                      key={event._id}
+                      className={styles.calendarEditorEventItemContainer}
+                    >
+                      
+                    </li>
+                  })}
+                </ul>
+              </div>
             </div>
           </div>
           <div className={styles.calendarEditorAuxillaryItemsContainer}>

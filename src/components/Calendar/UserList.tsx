@@ -13,6 +13,9 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         <h4 className={styles.calendarEditorUserListHeaderText}>
           {type} Users
         </h4>
+        <button className={styles.calendarEditorAddUserButton}>
+          Add User
+        </button>
         {Array.isArray(calendar) && calendar.map((user) => {
           return <li
             key={user._id}
@@ -37,6 +40,9 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         <h4 className={styles.calendarEditorUserListHeaderText}>
           {type} Users
         </h4>
+        <button className={styles.calendarEditorAddUserButton}>
+          Add User
+        </button>
         <p className={styles.calendarEditorUserItemContainerEmpty}>
           It's looking pretty empty right now
         </p>

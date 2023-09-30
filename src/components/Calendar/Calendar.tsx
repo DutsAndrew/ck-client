@@ -101,7 +101,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   if (calendarEditor.active === true) {
     return (
       <main className={styles.calendarContainer}>
-        <CalendarNav {...calendarNavProps} />
         <EditCalendar 
           selectedCalendar={calendarEditor.calendar}
           handleDeactivateCalendarEditor={handleDeactivateCalendarEditor}
