@@ -4,7 +4,11 @@ import { userCalendars, weekViewProps } from "../../types/interfaces";
 
 const WeekView: FC<weekViewProps> = (props): JSX.Element => {
 
-  const { currentDay, calendars } = props;
+  const { 
+    currentDay,
+    calendars,
+    activeCalendars,
+  } = props;
 
   const week = [
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"

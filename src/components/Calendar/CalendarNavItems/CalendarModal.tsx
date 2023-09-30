@@ -8,13 +8,21 @@ const CalendarModal:FC<calendarModalProps> = (props): JSX.Element => {
 
   const { 
     userCalendars,
+    activeCalendars,
     handleChangeActiveCalendars,
     handleCalendarEditRequest
   } = props;
 
+  // calendarModal only stores what the user currently modifies, actual state is stored in Calendar root component
   const [selectedCalendars, setSelectedCalendars] = useState<calendarModalState>({
     list: [],
   });
+
+  useEffect(() => {
+    setSelectedCalendars({
+      list: activeCalendars,
+    });
+  }, []);
 
   useEffect(() => {
     handleChangeActiveCalendars(selectedCalendars.list);

@@ -53,8 +53,10 @@ interface userListProps {
 interface calendarNavProps {
   userCalendars: userCalendars,
   currentView: string,
+  activeCalendars: calendarObject[],
   changeCurrentView: Function,
   handleCalendarTimeChangeRequest: Function,
+  handleActiveCalendarChange: Function,
   handleActivateCalendarEditor: Function,
 };
 
@@ -70,31 +72,39 @@ interface addEventModalProps {
 interface calendarNavContainerRightProps {
   userCalendars: userCalendars,
   currentView: string,
+  activeCalendars: calendarObject[],
   changeCurrentView: Function,
+  handleActiveCalendarChange: Function,
   handleActivateCalendarEditor: Function,
 };
 
 interface dayViewProps {
   currentDay: string,
   calendars: userCalendars,
+  activeCalendars: calendarObject[],
 };
 
 interface weekViewProps {
   currentDay: string,
   calendars: userCalendars,
+  activeCalendars: calendarObject[],
 };
 
 interface monthViewProps {
   currentDay: string,
   calendars: userCalendars,
+  activeCalendars: calendarObject[],
 };
 
 interface yearViewProps {
+  currentDay: string,
   calendars: userCalendars,
+  activeCalendars: calendarObject[],
 };
 
 interface calendarModalProps {
   userCalendars: userCalendars,
+  activeCalendars: calendarObject[],
   handleChangeActiveCalendars: Function,
   handleCalendarEditRequest: Function,
 };
@@ -110,6 +120,8 @@ interface yearModalProps {
   },
   handleChangeYearRequest: Function,
 };
+
+type activeCalendarState = calendarObject[];
 
 interface calendarModalState {
   list: calendarObject[],
@@ -298,6 +310,7 @@ export type {
   calendarModalProps,
   calendarViewModalProps,
   yearModalProps,
+  activeCalendarState,
   calendarModalState,
   classesProps,
   lessonsProps,

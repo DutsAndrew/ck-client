@@ -5,7 +5,11 @@ import uniqid from 'uniqid';
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
-  const { calendars } = props;
+  const { 
+    currentDay,
+    calendars,
+    activeCalendars,
+  } = props;
 
   const week = [
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"

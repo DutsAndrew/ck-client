@@ -11,7 +11,9 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
   const {
     userCalendars,
     currentView,
+    activeCalendars,
     changeCurrentView,
+    handleActiveCalendarChange,
     handleActivateCalendarEditor,
   } = props;
 
@@ -40,10 +42,6 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
   const [userCalendarYears, setUserCalendarYears] = useState({
     possiblePersonalCalendarYears: Object.keys(userCalendars.personalCalendar.calendar_years_and_dates),
     possibleTeamCalendarYears: getAllPossibleTeamCalendarYears(),
-  });
-
-  const [selectedCalendars, setSelectedCalendars] = useState({
-    list: [],
   });
 
   const [modal, setModal] = useState({
@@ -87,10 +85,6 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
     handleModalDeactivation();
   };
 
-  const handleChangeActiveCalendars = () => {
-    return;
-  };
-
   const handleCalendarEditRequest = (selectedCalendar: calendarObject): void => {
     handleModalDeactivation();
     return handleActivateCalendarEditor(selectedCalendar);
@@ -126,7 +120,7 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
         onClick={() => handleModalToggle('calendar')}
       >
         <p className={styles.calendarDropDownText}>
-          Calendars ({selectedCalendars.list.length}/{userCalendars.teamCalendars.length + 1})
+          Calendars ({activeCalendars.length}/{userCalendars.teamCalendars.length + 1})
         </p>
         <img
           className={styles.calendarDropDownSvg}
@@ -156,8 +150,9 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
       }
       {modal.calendar === true && 
         <CalendarModal
-          userCalendars={userCalendars} 
-          handleChangeActiveCalendars={handleChangeActiveCalendars}
+          userCalendars={userCalendars}
+          activeCalendars={activeCalendars}
+          handleChangeActiveCalendars={handleActiveCalendarChange}
           handleCalendarEditRequest={handleCalendarEditRequest}
         />
       }

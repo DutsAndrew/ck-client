@@ -4,7 +4,11 @@ import styles from '../../styles/components/Calendar/calendar.module.css';
 
 const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
-  const { currentDay, calendars } = props;
+  const { 
+    currentDay,
+    calendars,
+    activeCalendars,
+  } = props;
 
   // 1. Identify current date
   // 2. Find current year in personalCalendar

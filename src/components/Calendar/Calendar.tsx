@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { calendarEditorState, calendarObject, calendarProps, userCalendars } from '../../types/interfaces';
+import { calendarEditorState, calendarModalState, calendarObject, calendarProps, userCalendars, activeCalendarState } from '../../types/interfaces';
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import CalendarNav from './CalendarNav';
 import YearView from './YearView';
@@ -22,7 +22,10 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         [calendarEditor, setCalendarEditor] = useState<calendarEditorState>({
           active: false,
           calendar: {},
-        });
+        }),
+        [activeCalendars, setActiveCalendars]= useState<activeCalendarState>(
+          [usersPersonalCalendar]
+        );
 
   const getTodaysDate = () => {
     const options: Intl.DateTimeFormatOptions = {
@@ -49,6 +52,12 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     return;
   };
 
+  const handleActiveCalendarChange = (calendarList: calendarObject[]): void => {
+    setActiveCalendars(
+      calendarList,
+    );
+  };
+
   const handleActivateCalendarEditor = (selectedCalendar: calendarObject): void => {
     const userId = sendUserId();
     if (selectedCalendar.authorized_users.includes(userId)) {
@@ -68,37 +77,31 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     });
   };
 
-  // on default have the following views render: 1) Day, 2) Week, 3) Month
-  // users can switch to only viewing one of them or two of their choice
-  // if user chooses to render only on version the styling should be different to make use
-  // of screen real estate
-
-  // users should be able to select up to 10 calendars to view at once
-  // all events should be accessible to render
-  // conflicting or duplicate events should still render
-  // user should be able to easily adjust and save their calendar color preferences to their user profile
-  // existing color preferences should render at load
-
-  // setup calendar nav to deactivate forward and backward arrows unless client is only viewing day, week, or month. If they're viewing
-  // two or more they shouldn't be able to rotate the calendar in any capacity
-
   const userCalendars: userCalendars = {
     personalCalendar: usersPersonalCalendar,
     teamCalendars: usersTeamCalendars,
   };
 
-  const commonProps = {
+  const calendarNavProps = {
     userCalendars,
     currentView,
+    activeCalendars,
     changeCurrentView,
     handleCalendarTimeChangeRequest,
+    handleActiveCalendarChange,
     handleActivateCalendarEditor,
   };
+
+  const calendarViewProps = {
+    currentDay: getTodaysDate(),
+    calendars: userCalendars,
+    activeCalendars: activeCalendars,
+  }
 
   if (calendarEditor.active === true) {
     return (
       <main className={styles.calendarContainer}>
-        <CalendarNav {...commonProps} />
+        <CalendarNav {...calendarNavProps} />
         <EditCalendar 
           selectedCalendar={calendarEditor.calendar}
           handleDeactivateCalendarEditor={handleDeactivateCalendarEditor}
@@ -118,44 +121,34 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       if (currentView === 'All') {
         return (
           <>
-            <DayView 
-              currentDay={getTodaysDate()}
-              calendars={userCalendars}
-            />
-            <WeekView
-              currentDay={getTodaysDate()}
-              calendars={userCalendars}
-            />
-            <MonthView
-              currentDay={getTodaysDate()}
-              calendars={userCalendars}
-            />
-            <YearView 
-              calendars={userCalendars}
-            />
+            <DayView {...calendarViewProps} />
+            <WeekView {...calendarViewProps} />
+            <MonthView {...calendarViewProps} />
+            <YearView {...calendarViewProps} />
           </>
         );
       } else if (currentView === 'Day') {
-        return <DayView
-          currentDay={getTodaysDate()}
-          calendars={userCalendars}
-        />;
+        return (
+          <DayView 
+            {...calendarViewProps}
+          />
+        );
       } else if (currentView === 'Week') {
-        return <WeekView
-          currentDay={getTodaysDate()}
-          calendars={userCalendars}
-        />;
+        return (
+          <WeekView 
+            {...calendarViewProps}
+          />
+        );
       } else if (currentView === 'Month') {
         return (
-          <MonthView
-            currentDay={getTodaysDate()}
-            calendars={userCalendars}
+          <MonthView 
+            {...calendarViewProps}
           />
         );
       } else if (currentView === 'Year') {
         return (
           <YearView 
-            calendars={userCalendars}
+            {...calendarViewProps} 
           />
         );
       } else {
@@ -167,7 +160,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
     return (
       <main className={styles.calendarContainer}>
-        <CalendarNav {...commonProps} />
+        <CalendarNav {...calendarNavProps} />
         {renderCalendarView()}
       </main>
     );
