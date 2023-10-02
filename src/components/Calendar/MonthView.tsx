@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { monthViewProps } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
+import uniqid from "uniqid";
 
 const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
@@ -96,7 +97,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
           : styles.monthItemInvalidDateContainer;
 
           return <div 
-            key={item}
+            key={uniqid()}
             className={`${styles.monthItemContainer} ${containerClass}`}
           >
             <p className={styles.monthItemDateNumberText}>
