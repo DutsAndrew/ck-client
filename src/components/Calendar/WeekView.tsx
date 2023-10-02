@@ -31,7 +31,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     const startFormatted = mondayDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     const endFormatted = endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-    setWeekSnapShot(`${startFormatted} - ${currentDayOfWeek === 0 ? '' : 'Oct '}${endFormatted}`);
+    setWeekSnapShot(`${startFormatted} - ${endFormatted}`);
   };
 
   return (

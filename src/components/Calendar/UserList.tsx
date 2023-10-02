@@ -7,9 +7,14 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
 
   const { calendar, type } = props;
 
+  const idString = `${type.toLowerCase()}-user-list-container`;
+  const idRef = styles[idString];
+
   if (Array.isArray(calendar) && calendar.length > 0) {
     return (
-      <ul className={styles.calendarEditorUsersList}>
+      <ul
+        id={idRef} 
+        className={styles.calendarEditorUsersList}>
         <h4 className={styles.calendarEditorUserListHeaderText}>
           {type} Users
         </h4>
@@ -36,7 +41,9 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
     );
   } else {
     return (
-      <div className={styles.calendarEditorUsersListEmpty}>
+      <div 
+        id={idRef} 
+        className={styles.calendarEditorUsersListEmpty}>
         <h4 className={styles.calendarEditorUserListHeaderText}>
           {type} Users
         </h4>

@@ -52,6 +52,11 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                     type='Pending'
                   />
                 </div>
+                <div className={styles.calendarEditorAuxillaryItemsContainer}>
+                  <button className={styles.deleteCalendarButton}>
+                    Delete Calendar
+                  </button>
+                </div>
               </div>
               <div className={styles.calendarEditorEventsContainer}>
                 <h3 className={styles.calendarEditorEventListHeaderText}>
@@ -75,11 +80,6 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                 </ul>
               </div>
             </div>
-          </div>
-          <div className={styles.calendarEditorAuxillaryItemsContainer}>
-            <button className={styles.deleteCalendarButton}>
-              Delete Calendar
-            </button>
           </div>
         </div>
       </section>
