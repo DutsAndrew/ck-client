@@ -54,16 +54,24 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                 </div>
               </div>
               <div className={styles.calendarEditorEventsContainer}>
+                <h3 className={styles.calendarEditorEventListHeaderText}>
+                  Events
+                </h3>
                 <ul className={styles.calendarEditorEventsList}>
-                  {selectedCalendarRef.events && 
-                  selectedCalendarRef.events.map((event) => {
-                    return <li 
-                      key={event._id}
-                      className={styles.calendarEditorEventItemContainer}
-                    >
-                      
-                    </li>
-                  })}
+                  {Array.isArray(selectedCalendarRef.events) && selectedCalendarRef.events.length > 0 ? (
+                    selectedCalendarRef.events.map((event) => (
+                      <li key={event._id} className={styles.calendarEditorEventItemContainer}>
+                        <p className={styles.calendarEditorEventName}>
+                          {event.event_name}
+                        </p>
+                        <p className={styles.calendarEditorEvenDateAndTime}>
+                          {event.event_date_and_time}
+                        </p>
+                      </li>
+                    ))
+                  ) : (
+                    <p className={styles.emptyEventText}>No events to display.</p>
+                  )}
                 </ul>
               </div>
             </div>

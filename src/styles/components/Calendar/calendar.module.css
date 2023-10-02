@@ -715,7 +715,7 @@
   font-size: 2em;
 }
 
-.editCalendarDisplayContainers, .calendarEditorMainContainer {
+.editCalendarDisplayContainers {
   display: flex;
   flex-flow: column wrap;
   width: 100%;
@@ -723,19 +723,23 @@
 }
 
 .calendarEditorMainContainer {
-  min-height: 80vh;
+  width: 100%;
   height: auto;
+  min-height: 80vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
 }
 
 @media (max-width: 600px) {
   .calendarEditorMainContainer {
-    width: 100%;
+    flex-flow: column wrap;
   }
 }
 
 @media (min-width: 601px) {
   .calendarEditorMainContainer {
-    width: 60%;
+    flex-flow: row nowrap;
   }
 }
 
@@ -746,7 +750,19 @@
   height: auto;
 }
 
-.calendarEditorUserListsHeaderText {
+@media (max-width: 600px) {
+  .calendarEditorUserListsContainer {
+    width: 100%;
+  }
+}
+
+@media (min-width: 601px) {
+  .calendarEditorUserListsContainer {
+    width: 60%;
+  }
+}
+
+.calendarEditorUserListsHeaderText, .calendarEditorEventListHeaderText {
   font-size: 2em;
   margin: 0;
   padding: 2vh;
@@ -806,7 +822,6 @@
   }
 }
 
-
 .calendarEditorUsersList > p, .calendarEditorUsersListEmpty > p {
   padding-left: 0.5vw;
 }
@@ -824,4 +839,73 @@
 .calendarEditorAddUserButton {
   width: 50%;
   font-size: 1em;
+}
+
+.calendarEditorEventsContainer {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+}
+
+@media (max-width: 600px) {
+  .calendarEditorEventsContainer {
+    width: 100%;
+    margin-bottom: 5vh;
+  }
+}
+
+@media (min-width: 601px) {
+  .calendarEditorEventsContainer {
+    width: 30%;
+  }
+}
+
+.calendarEditorEventsList {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border:#E5E5E5 1px solid;
+}
+
+.calendarEditorEventItemContainer {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.calendarEditorEventName {
+  font-weight: bold;
+}
+
+.calendarEditorEvenDateAndTime {
+  font-style: italic;
+}
+
+.calendarEditorAuxillaryItemsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
+.deleteCalendarButton {
+  background-color: #ff0000;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteCalendarButton:hover {
+  background-color: #cc0000;
 }
