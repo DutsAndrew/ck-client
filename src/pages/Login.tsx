@@ -170,7 +170,7 @@ export default function Login(props: loginProps): JSX.Element {
     const authHeaders = response.headers.get('authorization');
     if (authHeaders) {
       const token = authHeaders.split(' ')[1];
-      localStorage.setItem("token", token);
+      localStorage.setItem("auth-token", token);
       saveLoggedInUser(jsonResponse.user);
       return navigate('/dashboard');
     } else {

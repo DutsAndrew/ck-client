@@ -1,24 +1,24 @@
 import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
-import Dashboard from './components/Dashboard/Dashboard';
-import Calendar from './components/Calendar/Calendar';
-import Classes from './components/Classes/Classes';
-import Lessons from './components/Lessons/Lessons';
-import ProjectsAndTasksDashboard from './components/ProjectsAndTasks/Dashboard';
 import Footer from './components/Footer/Footer';
 import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
-import Login from './pages/Login';
 import Welcome from './pages/Welcome';
 import LoadingBar from './pages/LoadingBar';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import { userInstance } from './types/interfaces';
 
 // lazy loaded items - ALL non essential functionality of the app
+const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));
+const Calendar = lazy(() => import('./components/Calendar/Calendar'));
+const Classes = lazy(() => import('./components/Classes/Classes'));
+const Lessons = lazy(() => import('./components/Lessons/Lessons'));
+const ProjectsAndTasksDashboard = lazy(() => import ('./components/ProjectsAndTasks/Dashboard'));
 const JenkinsAI = lazy(() => import('./components/JenkinsAI/JenkinsAI'));
 const Notes = lazy(() => import('./components/Notes/Notes'));
 const Messaging = lazy(() => import('./components/Messaging/Messaging'));
 const Account = lazy(() => import('./components/Account/Account'));
+const Login = lazy(() => import('./pages/Login'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Pricing = lazy(() => import('./pages/Pricing'));
@@ -74,32 +74,56 @@ function App() {
         />
         <Route 
           path='/dashboard'
-          element={<Dashboard user={user} />}
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <Dashboard user={user} />
+            </Suspense>
+          }
         />
         <Route
           path='/calendar'
-          element={<Calendar
-            usersFirstName={(user as userInstance).first_name}
-            usersPersonalCalendar={(user as userInstance).personal_calendar}
-            usersTeamCalendars={(user as userInstance).calendars}
-            sendUserId={sendUserId}
-          />}
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <Calendar
+                usersFirstName={(user as userInstance).first_name}
+                usersPersonalCalendar={(user as userInstance).personal_calendar}
+                usersTeamCalendars={(user as userInstance).calendars}
+                sendUserId={sendUserId}
+              />
+            </Suspense>
+          }
         />
         <Route 
           path='/classes'
-          element={<Classes user={user} />}
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <Classes user={user} />
+            </Suspense>
+          }
         />
         <Route 
           path='/lessons'
-          element={<Lessons user={user} />}
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <Lessons user={user} />
+            </Suspense>
+          }
         />
         <Route
           path='/projects&tasks-dashboard'
-          element={<ProjectsAndTasksDashboard user={user} />}
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <ProjectsAndTasksDashboard user={user} />
+            </Suspense>
+          }
         />
         <Route
           path='/login'
-          element={<Login saveLoggedInUser={saveLoggedInUser} />}
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <Login saveLoggedInUser={saveLoggedInUser} />
+            </Suspense>
+          }
         />
         <Route
           path="/jenkins-ai"
