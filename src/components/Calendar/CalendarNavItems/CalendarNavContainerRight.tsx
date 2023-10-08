@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import menuDownSvg from '../../../assets/menu-down.svg';
-import { calendarNavContainerRightProps, calendarObject } from "../../../types/interfaces";
+import { CalendarDatesData, calendarNavContainerRightProps, calendarObject } from "../../../types/interfaces";
 import CalendarModal from "./CalendarModal";
 import ViewModal from "./ViewModal";
 import YearModal from "./YearModal";
@@ -12,6 +12,7 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
     userCalendars,
     currentView,
     activeCalendars,
+    calendarDatesData,
     changeCurrentView,
     handleActiveCalendarChange,
     handleActivateCalendarEditor,
@@ -40,7 +41,9 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
   });
 
   const [userCalendarYears, setUserCalendarYears] = useState({
-    possiblePersonalCalendarYears: Object.keys(userCalendars.personalCalendar.calendar_years_and_dates),
+    possiblePersonalCalendarYears: 
+      Object.keys(calendarDatesData).length > 0 ? 
+      Object.keys((calendarDatesData as CalendarDatesData).calendar_dates) : '',
     possibleTeamCalendarYears: getAllPossibleTeamCalendarYears(),
   });
 

@@ -2,6 +2,41 @@ interface AuthStatus {
   status: boolean;
 };
 
+interface appDataState {
+  calendarData: CalendarDatesData | {}
+}
+
+interface CalendarData {
+  [year: string]: {
+    [month: string]: {
+      days: number;
+      month_starts_on: string;
+    };
+  };
+}
+
+interface Holiday {
+  date: string;
+  name: string;
+  type: string;
+}
+
+interface HolidayDates {
+  [year: string]: Holiday[];
+}
+
+interface CalendarDatesData {
+  _id: string;
+  app_data_type: string;
+  calendar_dates: CalendarData;
+  holiday_dates: HolidayDates;
+}
+
+interface calendarApiResponse {
+  detail: string;
+  data: CalendarDatesData;
+}
+
 interface announcementBarProps {
   auth: boolean,
 };
@@ -33,6 +68,8 @@ interface calendarProps {
   usersPersonalCalendar: personalCalendar,
   usersTeamCalendars: allUserCalendars,
   sendUserId: Function,
+  saveCalendarDatesAndHolidaysData: Function,
+  calendarDatesData: object,
 };
 
 interface calendarEditorState {
@@ -54,6 +91,7 @@ interface calendarNavProps {
   userCalendars: userCalendars,
   currentView: string,
   activeCalendars: calendarObject[],
+  calendarDatesData: CalendarDatesData | {},
   changeCurrentView: Function,
   handleCalendarTimeChangeRequest: Function,
   handleActiveCalendarChange: Function,
@@ -73,6 +111,7 @@ interface calendarNavContainerRightProps {
   userCalendars: userCalendars,
   currentView: string,
   activeCalendars: calendarObject[],
+  calendarDatesData: CalendarDatesData | {},
   changeCurrentView: Function,
   handleActiveCalendarChange: Function,
   handleActivateCalendarEditor: Function,
@@ -94,12 +133,14 @@ interface monthViewProps {
   currentDay: string,
   calendars: userCalendars,
   activeCalendars: calendarObject[],
+  calendarDatesData: {} | CalendarDatesData,
 };
 
 interface yearViewProps {
   currentDay: string,
   calendars: userCalendars,
   activeCalendars: calendarObject[],
+  calendarDatesData: {} | CalendarDatesData,
 };
 
 interface calendarModalProps {
@@ -296,6 +337,9 @@ export type {
   loginProps,
   dashboardProps,
   calendarProps,
+  appDataState,
+  calendarApiResponse,
+  CalendarDatesData,
   calendarEditorState,
   EditCalendarProps,
   userListProps,

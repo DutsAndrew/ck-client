@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { yearViewProps } from "../../types/interfaces";
+import { CalendarDatesData, yearViewProps } from "../../types/interfaces";
 import uniqid from 'uniqid';
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
@@ -9,6 +9,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     currentDay,
     calendars,
     activeCalendars,
+    calendarDatesData,
   } = props;
 
   const week = [
@@ -26,7 +27,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
   const getCurrentYearFromUserCalendar = () => {
     const year = getTodaysYear();
-    return calendars.personalCalendar.calendar_years_and_dates[year];
+    return (calendarDatesData as CalendarDatesData).calendar_dates[Number(year)];
   };
 
   const generateCurrentYearView = () => {
@@ -73,7 +74,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     return yearView;
   };
 
-  const yearView = generateCurrentYearView();
+  let yearView = generateCurrentYearView();
 
   return (
     <section className={styles.yearViewContainer}>
@@ -84,7 +85,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
         {getTodaysYear()}
       </h2>
       <div className={styles.yearItemsContainer}>
-        {yearView.map((month) => (
+        {Object.keys(calendarDatesData).length > 0 ? yearView.map((month) => (
           <div
             key={uniqid()}
             className={styles.yearMonthContainer}
@@ -129,7 +130,9 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
               })}
             </div>
           </div>
-        ))}
+        )) :
+          <p>Loading Data</p>
+        }
       </div>
     </section>
   );

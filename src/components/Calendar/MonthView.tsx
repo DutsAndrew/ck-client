@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { monthViewProps } from "../../types/interfaces";
+import { CalendarDatesData, monthViewProps } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import uniqid from "uniqid";
 
@@ -9,6 +9,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     currentDay,
     calendars,
     activeCalendars,
+    calendarDatesData,
   } = props;
 
   // 1. Identify current date
@@ -39,7 +40,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
   const getMonthPreview = () => {
     const todaysYear = getTodaysYear();
-    const currentYearAndDates = calendars.personalCalendar.calendar_years_and_dates[todaysYear];
+    const currentYearAndDates = (calendarDatesData as CalendarDatesData).calendar_dates[todaysYear];
 
     const month = getTodaysMonth();
     const currentMonth = calendarMonths[month];
@@ -90,7 +91,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
         {calendarMonths[new Date().getMonth()]}
       </h2>
       <div className={styles.monthItemsContainer}>
-        {generateMonthCalendar().map((item) => {
+        {Object.keys(calendarDatesData).length > 0 ? generateMonthCalendar().map((item) => {
           const isAccurateMonthDate = item.includes('-');
           const containerClass = isAccurateMonthDate
           ? styles.monthItemValidDateContainer
@@ -107,7 +108,9 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
               {item.includes('-') ? item.split('-')[1] : item}
             </p>
           </div>
-        })}
+        }) : 
+          <p>Loading Data</p>
+        }
       </div>
     </section>
   );

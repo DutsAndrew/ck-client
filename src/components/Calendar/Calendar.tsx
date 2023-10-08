@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { calendarEditorState, calendarModalState, calendarObject, calendarProps, userCalendars, activeCalendarState } from '../../types/interfaces';
+import React, { FC, useEffect, useState } from 'react';
+import { calendarEditorState, calendarObject, calendarProps, userCalendars, activeCalendarState, calendarApiResponse } from '../../types/interfaces';
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import CalendarNav from './CalendarNav';
 import YearView from './YearView';
@@ -15,6 +15,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     usersPersonalCalendar,
     usersTeamCalendars,
     sendUserId,
+    saveCalendarDatesAndHolidaysData,
+    calendarDatesData,
   } = props;
 
   const [calendarData, setCalendarData] = useState({}),
@@ -26,6 +28,41 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         [activeCalendars, setActiveCalendars]= useState<activeCalendarState>(
           [usersPersonalCalendar]
         );
+
+  useEffect(() => {
+    if (Object.keys(calendarDatesData).length > 0) {
+      return;
+    } else {
+      fetchCalendarAppData(); // get calendar app data for mounting
+    }
+  }, []);
+
+  const fetchCalendarAppData = async () => {
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      return alert('You must be signed in and not in incognito to remain authorized');
+    } else {
+      const apiUrl = 'http://127.0.0.1:8000/calendar/';
+      const request = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        method: 'GET',
+      });
+      if (!request.ok) {
+        return alert('There was an issue processing your request');
+      } else {
+        const jsonResponse: calendarApiResponse = await request.json();
+        if (jsonResponse.data) {
+          saveCalendarDatesAndHolidaysData(jsonResponse.data);
+        } else {
+          return alert('We were not able to retrieve the necessary calendar data');
+        };
+      };
+    };
+  };
 
   const getTodaysDate = () => {
     const options: Intl.DateTimeFormatOptions = {
@@ -86,6 +123,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     userCalendars,
     currentView,
     activeCalendars,
+    calendarDatesData,
     changeCurrentView,
     handleCalendarTimeChangeRequest,
     handleActiveCalendarChange,
@@ -122,8 +160,14 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           <>
             <DayView {...calendarViewProps} />
             <WeekView {...calendarViewProps} />
-            <MonthView {...calendarViewProps} />
-            <YearView {...calendarViewProps} />
+            <MonthView 
+              calendarDatesData={calendarDatesData}
+              {...calendarViewProps}
+            />
+            <YearView 
+              calendarDatesData={calendarDatesData}
+              {...calendarViewProps}
+            />
           </>
         );
       } else if (currentView === 'Day') {
@@ -141,12 +185,14 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       } else if (currentView === 'Month') {
         return (
           <MonthView 
+            calendarDatesData={calendarDatesData}
             {...calendarViewProps}
           />
         );
       } else if (currentView === 'Year') {
         return (
           <YearView 
+            calendarDatesData={calendarDatesData}
             {...calendarViewProps} 
           />
         );

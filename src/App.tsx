@@ -6,7 +6,7 @@ import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
 import Welcome from './pages/Welcome';
 import LoadingBar from './pages/LoadingBar';
 import ScrollToTopButton from './components/ScrollToTopButton';
-import { userInstance } from './types/interfaces';
+import { CalendarDatesData, appDataState, userInstance } from './types/interfaces';
 
 // lazy loaded items - ALL non essential functionality of the app
 const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));
@@ -29,6 +29,9 @@ function App() {
 
   const [auth, setAuth] = useState(false),
         [user, setUser] = useState({}),
+        [appData, setAppData] = useState<appDataState>({
+          calendarData: {},
+        }),
         [scrollStatus, setScrollStatus] = useState(false);
 
   useEffect(() => {
@@ -39,6 +42,12 @@ function App() {
   const saveLoggedInUser = (user: userInstance) => {
     setUser(user);
     setAuth(true);
+  };
+
+  const saveCalendarDatesAndHolidaysData = (data: CalendarDatesData): void => {
+    setAppData({
+      calendarData: data,
+    });
   };
 
   const sendUserId = () => {
@@ -89,6 +98,8 @@ function App() {
                 usersPersonalCalendar={(user as userInstance).personal_calendar}
                 usersTeamCalendars={(user as userInstance).calendars}
                 sendUserId={sendUserId}
+                saveCalendarDatesAndHolidaysData={saveCalendarDatesAndHolidaysData}
+                calendarDatesData={appData.calendarData}
               />
             </Suspense>
           }
