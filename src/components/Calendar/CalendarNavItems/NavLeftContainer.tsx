@@ -3,10 +3,10 @@ import styles from '../../../styles/components/Calendar/calendar.module.css';
 import plusSVG from '../../../assets/plus.svg';
 import leftArrowSvg from '../../../assets/chevron-left.svg';
 import rightArrowSvg from '../../../assets/chevron-right.svg';
-import { calendarNavContainerLeftProps } from "../../../types/interfaces";
-import AddEventModal from "./AddEventModal";
+import { navLeftContainerProps } from "../../../types/interfaces";
+import AddFormModal from "./AddFormModal";
 
-const CalendarNavContainerLeft:FC<calendarNavContainerLeftProps> = (props): JSX.Element => {
+const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
 
   const { currentView, handleCalendarTimeChangeRequest } = props;
 
@@ -42,7 +42,7 @@ const CalendarNavContainerLeft:FC<calendarNavContainerLeftProps> = (props): JSX.
           src={plusSVG}
           onClick={() => handleAddEventRequest()}>
         </img>
-        <AddEventModal
+        <AddFormModal
           handleCloseModalRequest={handleCloseModalRequest}
         />
       </div>
@@ -81,7 +81,7 @@ const CalendarNavContainerLeft:FC<calendarNavContainerLeftProps> = (props): JSX.
             onClick={() => handleCalendarTimeChangeRequest('forward')}>
           </img>
         </div>
-        <AddEventModal
+        <AddFormModal
           handleCloseModalRequest={handleCloseModalRequest}
         />
       </div>
@@ -115,4 +115,4 @@ const CalendarNavContainerLeft:FC<calendarNavContainerLeftProps> = (props): JSX.
   };
 };
 
-export default CalendarNavContainerLeft;
+export default NavLeftContainer;

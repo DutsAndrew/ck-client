@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import closeSvg from '../../../assets/close.svg';
-import { addEventModalProps } from "../../../types/interfaces";
-import AddEventForm from "./AddEventForm";
+import { addFormModalProps } from "../../../types/interfaces";
+import CalendarForm from "./CalendarForm";
 
-const AddEventModal:FC<addEventModalProps> = (props): JSX.Element => {
+const AddFormModal:FC<addFormModalProps> = (props): JSX.Element => {
 
   const { handleCloseModalRequest } = props;
 
@@ -19,10 +19,10 @@ const AddEventModal:FC<addEventModalProps> = (props): JSX.Element => {
           src={closeSvg}
           onClick={() => handleCloseModalRequest()}>
         </img>
-        <AddEventForm />
+        <CalendarForm />
       </div>
     </section>
   );
 };
 
-export default AddEventModal;
+export default AddFormModal;

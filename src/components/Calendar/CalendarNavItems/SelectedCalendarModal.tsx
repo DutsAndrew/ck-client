@@ -1,10 +1,10 @@
 import React, { FC, useState, useEffect } from "react";
-import { calendarModalProps, calendarModalState, calendarObject } from "../../../types/interfaces";
+import { selectedCalendarModalProps, calendarModalState, calendarObject } from "../../../types/interfaces";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import uniqid from "uniqid";
 import calendarEditSvg from '../../../assets/calendar-edit.svg';
 
-const CalendarModal:FC<calendarModalProps> = (props): JSX.Element => {
+const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Element => {
 
   const { 
     userCalendars,
@@ -123,4 +123,4 @@ const CalendarModal:FC<calendarModalProps> = (props): JSX.Element => {
   );
 };
 
-export default CalendarModal;
+export default SelectedCalendarModal;

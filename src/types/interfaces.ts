@@ -98,16 +98,16 @@ interface calendarNavProps {
   handleActivateCalendarEditor: Function,
 };
 
-interface calendarNavContainerLeftProps {
+interface navLeftContainerProps {
   currentView: string,
   handleCalendarTimeChangeRequest: Function,
 };
 
-interface addEventModalProps {
+interface addFormModalProps {
   handleCloseModalRequest: Function,
 };
 
-interface calendarNavContainerRightProps {
+interface navRightContainerProps {
   userCalendars: userCalendars,
   currentView: string,
   activeCalendars: calendarObject[],
@@ -143,7 +143,7 @@ interface yearViewProps {
   calendarDatesData: {} | CalendarDatesData,
 };
 
-interface calendarModalProps {
+interface selectedCalendarModalProps {
   userCalendars: userCalendars,
   activeCalendars: calendarObject[],
   handleChangeActiveCalendars: Function,
@@ -155,10 +155,7 @@ interface calendarViewModalProps {
 };
 
 interface yearModalProps {
-  userCalendarYears: {
-    possiblePersonalCalendarYears: string[],
-    possibleTeamCalendarYears: string[] | undefined,
-  },
+  calendarYears: any[],
   handleChangeYearRequest: Function,
 };
 
@@ -344,14 +341,14 @@ export type {
   EditCalendarProps,
   userListProps,
   calendarNavProps,
-  calendarNavContainerLeftProps,
-  addEventModalProps,
-  calendarNavContainerRightProps,
+  navLeftContainerProps,
+  addFormModalProps,
+  navRightContainerProps,
   dayViewProps,
   weekViewProps,
   monthViewProps,
   yearViewProps,
-  calendarModalProps,
+  selectedCalendarModalProps,
   calendarViewModalProps,
   yearModalProps,
   activeCalendarState,

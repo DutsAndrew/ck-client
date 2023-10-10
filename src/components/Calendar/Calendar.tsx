@@ -52,11 +52,11 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         method: 'GET',
       });
       if (!request.ok) {
-        return alert('There was an issue processing your request');
+        return alert('We were unable to load calendar data, please try again later');
       } else {
         const jsonResponse: calendarApiResponse = await request.json();
         if (jsonResponse.data) {
-          saveCalendarDatesAndHolidaysData(jsonResponse.data);
+          return saveCalendarDatesAndHolidaysData(jsonResponse.data);
         } else {
           return alert('We were not able to retrieve the necessary calendar data');
         };

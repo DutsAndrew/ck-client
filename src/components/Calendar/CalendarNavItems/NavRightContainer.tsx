@@ -1,12 +1,12 @@
 import React, { FC, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import menuDownSvg from '../../../assets/menu-down.svg';
-import { CalendarDatesData, calendarNavContainerRightProps, calendarObject } from "../../../types/interfaces";
-import CalendarModal from "./CalendarModal";
+import { CalendarDatesData, navRightContainerProps, calendarObject } from "../../../types/interfaces";
+import SelectedCalendarModal from "./SelectedCalendarModal";
 import ViewModal from "./ViewModal";
 import YearModal from "./YearModal";
 
-const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JSX.Element => {
+const NavContainerRight:FC<navRightContainerProps> = (props): JSX.Element => {
 
   const {
     userCalendars,
@@ -18,33 +18,22 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
     handleActivateCalendarEditor,
   } = props;
 
-  const getAllPossibleTeamCalendarYears = () => {
-    if (userCalendars.teamCalendars.length === 0) return;
-
-    const allYears: string[] = [];
-
-    userCalendars.teamCalendars.forEach((calendar) => {
-      const currentTeamsCalendarYears = Object.keys(calendar);
-      currentTeamsCalendarYears.forEach((calendarYear) => {
-        if (allYears.indexOf(calendarYear) === -1) {
-          allYears.push(calendarYear);
-        };
-      });
-    });
-    
-    return allYears;
+  const getCalendarYears = (): any[] => {
+    if (Object.keys(calendarDatesData).length > 0) {
+      const calendarYearsObj = (calendarDatesData as CalendarDatesData).calendar_dates;
+      const calendarYearsList: any[] = [];
+      for (const year in calendarYearsObj) {
+        calendarYearsList.push(year);
+      }
+      return calendarYearsList;
+    } else {
+      return [];
+    };
   };
 
   const [selectedYear, setSelectedYear] = useState({
     currentYear: new Date().getFullYear(),
     selectedYear: '',
-  });
-
-  const [userCalendarYears, setUserCalendarYears] = useState({
-    possiblePersonalCalendarYears: 
-      Object.keys(calendarDatesData).length > 0 ? 
-      Object.keys((calendarDatesData as CalendarDatesData).calendar_dates) : '',
-    possibleTeamCalendarYears: getAllPossibleTeamCalendarYears(),
   });
 
   const [modal, setModal] = useState({
@@ -147,12 +136,12 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
       </div>
       {modal.year === true &&
         <YearModal
-          userCalendarYears={userCalendarYears}
+          calendarYears={getCalendarYears()}
           handleChangeYearRequest={handleChangeYearRequest}
         />
       }
       {modal.calendar === true && 
-        <CalendarModal
+        <SelectedCalendarModal
           userCalendars={userCalendars}
           activeCalendars={activeCalendars}
           handleChangeActiveCalendars={handleActiveCalendarChange}
@@ -168,4 +157,4 @@ const CalendarNavContainerRight:FC<calendarNavContainerRightProps> = (props): JS
   ); 
 };
 
-export default CalendarNavContainerRight;
+export default NavContainerRight;

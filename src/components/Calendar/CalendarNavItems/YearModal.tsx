@@ -1,30 +1,14 @@
 import React, { FC } from "react";
 import { yearModalProps } from "../../../types/interfaces";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
+import uniqid from 'uniqid';
 
 const YearModal:FC<yearModalProps> = (props): JSX.Element => {
 
-  const { userCalendarYears, handleChangeYearRequest } = props;
-
-  const getAllUniqueYears = () => {
-    const uniqueYears: string[] = [];
-
-    userCalendarYears.possiblePersonalCalendarYears.forEach((year) => {
-      if (uniqueYears.indexOf(year) === -1) {
-        uniqueYears.push(year);
-      };
-    });
-
-    if (typeof userCalendarYears.possibleTeamCalendarYears !== 'undefined') {
-      userCalendarYears.possibleTeamCalendarYears.forEach((year) => {
-        if (uniqueYears.indexOf(year) === -1) {
-          uniqueYears.push(year);
-        };
-      });
-    };
-
-    return uniqueYears;
-  };
+  const {
+    calendarYears,
+    handleChangeYearRequest
+  } = props;
 
   const getParentContainersRightEdgeForStyling = () => {
     const yearDropDownElement = document.querySelector('#year-dropdown');
@@ -42,23 +26,39 @@ const YearModal:FC<yearModalProps> = (props): JSX.Element => {
     };
   };
 
-  return (
-    <nav className={styles.yearModalContainer} style={getParentContainersRightEdgeForStyling()}>
-      <div className={styles.yearModalYearListContainer}>
-        {getAllUniqueYears().map((year) => {
-          return <div 
-            key={year}
-            onClick={() => handleChangeYearRequest(year)}
+  if (Array.isArray(calendarYears) && calendarYears.length > 0) {
+    return (
+      <nav className={styles.yearModalContainer} style={getParentContainersRightEdgeForStyling()}>
+        <div className={styles.yearModalYearListContainer}>
+          {calendarYears .map((year: any) => {
+            return <div 
+              key={uniqid()}
+              onClick={() => handleChangeYearRequest(year)}
+              className={styles.yearModalYearListItemContainer}
+            >
+              <p className={styles.yearModalYearListItemText}>
+                {year}
+              </p>
+            </div>
+          })}
+        </div>
+      </nav>
+    );
+  } else {
+    return (
+      <nav className={styles.yearModalContainer} style={getParentContainersRightEdgeForStyling()}>
+        <div className={styles.yearModalYearListContainer}>
+          <div 
             className={styles.yearModalYearListItemContainer}
           >
             <p className={styles.yearModalYearListItemText}>
-              {year}
+              Loading Data...
             </p>
           </div>
-        })}
-      </div>
-    </nav>
-  );
+        </div>
+      </nav>
+    );
+  };
 };
 
 export default YearModal;

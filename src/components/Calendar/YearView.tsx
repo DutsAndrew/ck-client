@@ -25,7 +25,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     return new Date().getFullYear();
   };
 
-  const getCurrentYearFromUserCalendar = () => {
+  const getCurrentYearFromAppData = () => {
     const year = getTodaysYear();
     return (calendarDatesData as CalendarDatesData).calendar_dates[Number(year)];
   };
@@ -33,7 +33,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
   const generateCurrentYearView = () => {
     const yearView: any[] = [];
 
-    const userCalendar = getCurrentYearFromUserCalendar();
+    const userCalendar = getCurrentYearFromAppData();
     
     // loop through all months
     calendarMonths.forEach((month) => {
@@ -74,68 +74,81 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     return yearView;
   };
 
-  let yearView = generateCurrentYearView();
-
-  return (
-    <section className={styles.yearViewContainer}>
-      <h2 className={styles.yearViewHeaderText}>
-        Year View
-      </h2>
-      <h2 className={styles.currentYearText}>
-        {getTodaysYear()}
-      </h2>
-      <div className={styles.yearItemsContainer}>
-        {Object.keys(calendarDatesData).length > 0 ? yearView.map((month) => (
-          <div
-            key={uniqid()}
-            className={styles.yearMonthContainer}
-          >
-            <h3 className={styles.yearViewMonthHeaderText}>
-              {calendarMonths[yearView.indexOf(month)]}
-            </h3>
-            <div className={styles.yearViewMonthItemsContainer}>
-              <div className={styles.dayOfWeekListContainer}>
-                {week.map((day) => {
-                  return (
-                    <div 
-                      key={day}
-                      className={styles.dayOfWeekListItemContainer}
-                    >
-                      <p 
-                        className={styles.dayOfWeekListItemText}
-                        key={uniqid()}
+  if (Object.keys(calendarDatesData).length > 0) { // if calendarData has been mounted in "App" from "Calendar parent component"
+    const yearView = generateCurrentYearView();
+    return (
+      <section className={styles.yearViewContainer}>
+        <h2 className={styles.yearViewHeaderText}>
+          Year View
+        </h2>
+        <h2 className={styles.currentYearText}>
+          {getTodaysYear()}
+        </h2>
+        <div className={styles.yearItemsContainer}>
+          {yearView.map((month) => (
+            <div
+              key={uniqid()}
+              className={styles.yearMonthContainer}
+            >
+              <h3 className={styles.yearViewMonthHeaderText}>
+                {calendarMonths[yearView.indexOf(month)]}
+              </h3>
+              <div className={styles.yearViewMonthItemsContainer}>
+                <div className={styles.dayOfWeekListContainer}>
+                  {week.map((day) => {
+                    return (
+                      <div 
+                        key={day}
+                        className={styles.dayOfWeekListItemContainer}
                       >
-                        {day.slice(0,1)}
+                        <p 
+                          className={styles.dayOfWeekListItemText}
+                          key={uniqid()}
+                        >
+                          {day.slice(0,1)}
+                        </p>
+                      </div>
+                    )
+                  })}
+                </div>
+                {month.map((day: any) => {
+                  const isAccurateMonthDate = day.length > 0;
+                  const containerClass = isAccurateMonthDate
+                    ? styles.monthItemValidDateContainer
+                    : styles.monthItemInvalidDateContainer;
+
+                  return (
+                    <div
+                      key={uniqid()}
+                      className={`${styles.yearViewMonthItemContainer} ${containerClass}`}
+                    >
+                      <p className={styles.yearViewMonthItemDateNumberText}>
+                        {day.length > 0 ? day : ''}
                       </p>
                     </div>
-                  )
+                  );
                 })}
               </div>
-              {month.map((day: any) => {
-                const isAccurateMonthDate = day.length > 0;
-                const containerClass = isAccurateMonthDate
-                  ? styles.monthItemValidDateContainer
-                  : styles.monthItemInvalidDateContainer;
-
-                return (
-                  <div
-                    key={uniqid()}
-                    className={`${styles.yearViewMonthItemContainer} ${containerClass}`}
-                  >
-                    <p className={styles.yearViewMonthItemDateNumberText}>
-                      {day.length > 0 ? day : ''}
-                    </p>
-                  </div>
-                );
-              })}
             </div>
-          </div>
-        )) :
-          <p>Loading Data</p>
-        }
-      </div>
-    </section>
-  );
+          ))}
+        </div>
+      </section>
+    );
+  } else { // for when calendarData hasn't been mounted from "Calendar" to "App"
+    return (
+      <section className={styles.yearViewContainer}>
+        <h2 className={styles.yearViewHeaderText}>
+          Year View
+        </h2>
+        <h2 className={styles.currentYearText}>
+          {getTodaysYear()}
+        </h2>
+        <div className={styles.yearItemsContainer}>
+          <p>Loading Data...</p>
+        </div>
+      </section>
+    );
+  };
 };
 
 export default YearView;

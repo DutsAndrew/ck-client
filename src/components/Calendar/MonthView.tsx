@@ -109,7 +109,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
             </p>
           </div>
         }) : 
-          <p>Loading Data</p>
+          <p>Loading Data...</p>
         }
       </div>
     </section>
