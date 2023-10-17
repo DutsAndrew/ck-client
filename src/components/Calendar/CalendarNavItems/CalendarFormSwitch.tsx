@@ -33,13 +33,13 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
     <div className={styles.calendarFormMenuContainer}>
       <div className={styles.calendarFormMenuSwitchContainer}>
         <button
-          className={styles.calendarFormAddEventSwitch}
+          className={`${styles.calendarFormSwitch} ${activeForm === 'event' ? styles.active : ''}`}
           onClick={() => handleActiveFormChange('event')}
         >
           Add Event
         </button>
         <button
-          className={styles.calendarFormAddCalendarSwitch}
+          className={`${styles.calendarFormSwitch} ${activeForm === 'calendar' ? styles.active : ''}`}
           onClick={() => handleActiveFormChange('calendar')}
         >
           Add Calendar

@@ -60,7 +60,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
 
   return (
     <div className={styles.addEventFormContainer}>
-      <h2>Create Calendar Event</h2>
+      <h2>Event</h2>
       <form onSubmit={handleSubmit} className={styles.addEventForm}>
         <div className={styles.formGroup}>
           <label 
@@ -80,11 +80,28 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
           />
         </div>
         <div className={styles.formGroup}>
+          <label 
+            htmlFor='event-input'
+            className={styles.addEventFormLabel}
+          >
+            *Event Name:
+          </label>
+          <input
+            id='event-input'
+            type="text"
+            name="eventName"
+            value={formData.eventName}
+            onChange={handleInputChange}
+            required
+            className={styles.addEventFormInput}
+          />
+        </div>
+        <div className={styles.formGroup}>
           <label
             htmlFor='time-input'
             className={styles.addEventFormLabel}
           >
-            Select Time:
+            Select Time (optional):
           </label>
           <select
             id='time-input'
@@ -100,6 +117,21 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
               </option>
             ))}
           </select>
+        </div>
+        <div className={styles.formGroup}>
+          <label 
+            htmlFor='event-description-input'
+            className={styles.addEventFormLabel}
+          >
+            Event Description (optional):
+          </label>
+          <textarea
+            id='event-description-input'
+            name="eventDescription"
+            value={formData.eventDescription}
+            onChange={handleInputChange}
+            className={styles.addEventFormTextArea}
+          />
         </div>
         <div className={styles.formGroup}>
           <label
@@ -140,38 +172,6 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
             </select>
           </div>
         )}
-        <div className={styles.formGroup}>
-          <label 
-            htmlFor='event-input'
-            className={styles.addEventFormLabel}
-          >
-            *Event Name:
-          </label>
-          <input
-            id='event-input'
-            type="text"
-            name="eventName"
-            value={formData.eventName}
-            onChange={handleInputChange}
-            required
-            className={styles.addEventFormInput}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label 
-            htmlFor='event-description-input'
-            className={styles.addEventFormLabel}
-          >
-            Event Description (Optional):
-          </label>
-          <textarea
-            id='event-description-input'
-            name="eventDescription"
-            value={formData.eventDescription}
-            onChange={handleInputChange}
-            className={styles.addEventFormTextArea}
-          />
-        </div>
         {/* {calendars && calendars.length > 0 && (
           <div className={styles.formGroup}>
             <label

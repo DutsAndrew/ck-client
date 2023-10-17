@@ -401,8 +401,8 @@
 .calendarFormModalContainer {
   position: absolute;
   display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
   align-items: center;
   top: 50%;
   left: 50%;
@@ -414,9 +414,23 @@
   z-index: 2;
 }
 
+@media (max-width: 600px) {
+  .calendarFormModalContainer {
+    width: 80vw;
+    height: 90vh;
+  }
+}
+
+@media (min-width: 601px) {
+  .calendarFormModalContainer {
+    width: 50vw;
+    height: 80vh;
+  }
+}
+
 .calendarFormModalCloseIcon {
   width: auto;
-  height: 4vh;
+  height: 5vh;
 }
 
 .calendarFormModalCloseIcon:hover {
@@ -425,14 +439,51 @@
   filter: invert(11%) sepia(71%) saturate(6473%) hue-rotate(359deg) brightness(85%) contrast(112%);
 }
 
+/* CALENDAR FORM SWITCH STYLING */
+
+.calendarFormMenuContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.calendarFormMenuSwitchContainer {
+  display: flex;
+  border: 2px solid #007bff;
+  border-radius: 50px;
+  margin: 2vh;
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+
+.calendarFormSwitch {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  background: none;
+  color: #555;
+  font-size: 16px;
+}
+
+.calendarFormSwitch.active {
+  background-color: #007bff;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
 /* ADD EVENT FORM STYLING -- ADD EVENT FORM STYLING */
 
-.addEventFormContainer {
+.addEventFormContainer, .addCalendarFormContainer {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  max-width: 100%;
+  width: auto;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -440,7 +491,8 @@
   background-color: #f9f9f9;
 }
 
-.addEventForm {
+.addEventForm, .addCalendarForm {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -448,13 +500,14 @@
 
 .formGroup {
   margin-bottom: 15px;
+  width: 100%;
 }
 
-.addEventFormLabel {
+.addEventFormLabel, .addCalendarFormLabel {
   font-weight: bold;
 }
 
-.addEventFormInput {
+.addEventFormInput, .addCalendarFormInput {
   width: 95%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -502,6 +555,64 @@
 
 .addEventFormButton:hover {
   background-color: #0056b3;
+}
+
+/* ADD CALENDAR FORM -- User Search Form */
+
+.addCalendarUserInviteContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  width: 100%;
+  max-width: 500px;
+}
+
+.addCalendarUserQueryResultsContainer {
+  margin-top: 20px;
+}
+
+.addCalendarSelectedUsersContainer {
+  margin-top: 20px;
+}
+
+.addCalendarSelectedUsersContainer h3,
+.addCalendarUserQueryResultsContainer h3 {
+  font-weight: bold;
+}
+
+.addCalendarSelectedUsersContainer ul,
+.addCalendarUserQueryResultsContainer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.addCalendarSelectedUsersContainer li,
+.addCalendarUserQueryResultsContainer li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  background-color: #f0f0f0;
+}
+
+.addCalendarSelectedUsersContainer button,
+.addCalendarUserQueryResultsContainer button {
+  background-color: #ff3333;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.addCalendarSelectedUsersContainer button:hover,
+.addCalendarUserQueryResultsContainer button:hover {
+  background-color: #ff0000;
 }
 
 /* YEAR VIEW STYLING -- YEAR VIEW STYLING */
