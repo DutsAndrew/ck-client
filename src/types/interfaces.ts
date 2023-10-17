@@ -100,10 +100,12 @@ interface calendarNavProps {
 
 interface navLeftContainerProps {
   currentView: string,
+  userCalendars: userCalendars,
   handleCalendarTimeChangeRequest: Function,
 };
 
 interface addFormModalProps {
+  userCalendars: userCalendars,
   handleCloseModalRequest: Function,
 };
 
@@ -163,6 +165,14 @@ type activeCalendarState = calendarObject[];
 
 interface calendarModalState {
   list: calendarObject[],
+};
+
+interface addEventFormProps {
+  userCalendars: userCalendars, 
+};
+
+interface calendarFormSwitchProps {
+  userCalendars: userCalendars,
 };
 
 interface classesProps {
@@ -353,6 +363,8 @@ export type {
   yearModalProps,
   activeCalendarState,
   calendarModalState,
+  addEventFormProps,
+  calendarFormSwitchProps,
   classesProps,
   lessonsProps,
   projectsAndTasksDashboardProps,

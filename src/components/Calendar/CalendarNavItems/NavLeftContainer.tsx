@@ -4,17 +4,21 @@ import plusSVG from '../../../assets/plus.svg';
 import leftArrowSvg from '../../../assets/chevron-left.svg';
 import rightArrowSvg from '../../../assets/chevron-right.svg';
 import { navLeftContainerProps } from "../../../types/interfaces";
-import AddFormModal from "./AddFormModal";
+import CalendarFormModal from "./CalendarFormModal";
 
 const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
 
-  const { currentView, handleCalendarTimeChangeRequest } = props;
+  const {
+    currentView,
+    userCalendars,
+    handleCalendarTimeChangeRequest
+  } = props;
 
   const [modal, setModal] = useState({
     open: false,
   });
 
-  const handleAddEventRequest = () => {
+  const handleFormModalRequest = () => {
     if (modal.open === false) {
       setModal({
         open: true,
@@ -40,9 +44,10 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           className={styles.plusSvg}
           alt="plus icon"
           src={plusSVG}
-          onClick={() => handleAddEventRequest()}>
+          onClick={() => handleFormModalRequest()}>
         </img>
-        <AddFormModal
+        <CalendarFormModal
+          userCalendars={userCalendars}
           handleCloseModalRequest={handleCloseModalRequest}
         />
       </div>
@@ -54,7 +59,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           className={styles.plusSvg}
           alt="plus icon"
           src={plusSVG}
-          onClick={() => handleAddEventRequest()}>
+          onClick={() => handleFormModalRequest()}>
         </img>
       </div>
     );
@@ -65,7 +70,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           className={styles.plusSvg}
           alt="plus icon"
           src={plusSVG}
-          onClick={() => handleAddEventRequest()}>
+          onClick={() => handleFormModalRequest()}>
         </img>
         <div className={styles.navigationArrowsContainer}>
           <img
@@ -81,7 +86,8 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
             onClick={() => handleCalendarTimeChangeRequest('forward')}>
           </img>
         </div>
-        <AddFormModal
+        <CalendarFormModal
+          userCalendars={userCalendars}
           handleCloseModalRequest={handleCloseModalRequest}
         />
       </div>
@@ -94,7 +100,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           className={styles.plusSvg}
           alt="plus icon"
           src={plusSVG}
-          onClick={() => handleAddEventRequest()}>
+          onClick={() => handleFormModalRequest()}>
         </img>
         <div className={styles.navigationArrowsContainer}>
           <img

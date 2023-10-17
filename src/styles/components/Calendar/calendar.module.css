@@ -385,9 +385,9 @@
   font-weight: bold;
 }
 
-/* ADD EVENT MODAL STLYING -- ADD EVENT MODAL STYLING */
+/* CALENDAR FORM MODAL STYLING -- ADD EVENT MODAL STYLING */
 
-.addEventModalBackground {
+.calendarFormModalBackground {
   position: fixed;
   top: 0;
   left: 0;
@@ -398,7 +398,7 @@
   z-index: 1;
 }
 
-.addEventModalContainer {
+.calendarFormModalContainer {
   position: absolute;
   display: flex;
   flex-flow: column wrap;
@@ -414,12 +414,12 @@
   z-index: 2;
 }
 
-.addEventModalCloseIcon {
+.calendarFormModalCloseIcon {
   width: auto;
   height: 4vh;
 }
 
-.addEventModalCloseIcon:hover {
+.calendarFormModalCloseIcon:hover {
   cursor: pointer;
   transform: scale(0.99);
   filter: invert(11%) sepia(71%) saturate(6473%) hue-rotate(359deg) brightness(85%) contrast(112%);

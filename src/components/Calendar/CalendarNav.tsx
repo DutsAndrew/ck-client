@@ -21,6 +21,7 @@ const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
     <nav className={styles.calendarNavContainer}>
       <NavLeftContainer
         currentView={currentView}
+        userCalendars={userCalendars}
         handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
       />
       <NavRightContainer
