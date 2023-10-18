@@ -42,7 +42,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
           className={`${styles.calendarFormSwitch} ${activeForm === 'calendar' ? styles.active : ''}`}
           onClick={() => handleActiveFormChange('calendar')}
         >
-          Add Calendar
+          Create Calendar
         </button>
       </div>
       {renderFormView()}

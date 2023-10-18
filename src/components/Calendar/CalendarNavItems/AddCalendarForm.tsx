@@ -21,8 +21,8 @@ const AddCalendarForm = (): JSX.Element => {
     });
   };
 
-  const handleUserSearchBarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserLookup(event.target.value);
+  const handleUserSearchBarEntry = (event: React.ChangeEvent<HTMLInputElement>) => {
+    return setUserLookup(event.currentTarget.value);
   };
 
   const handleUserSearchRequest = async () => {
@@ -40,15 +40,17 @@ const AddCalendarForm = (): JSX.Element => {
         method: 'GET',
       });
       const jsonResponse = await request.json();
+      setApiRequestSent(true);
       if (!request.ok) {
         return alert('We were unable to lookup that user, please try again later');
       } else {
         if (jsonResponse.user_results) {
           // handle good fetch
           setUserLookupResults(jsonResponse.user_results);
-          setApiRequestSent(true);
         } else {
           alert('We could not find the user you were looking for');
+          setUserLookupResults([]);
+          setUserLookup('');
         };
       };
     };
@@ -69,7 +71,8 @@ const AddCalendarForm = (): JSX.Element => {
     })
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     // run error handling
     // sanitize
     // upload to db
@@ -90,7 +93,7 @@ const AddCalendarForm = (): JSX.Element => {
   return (
     <div className={styles.addCalendarFormContainer}>
       <h2>Calendar</h2>
-      <form onSubmit={handleSubmit} className={styles.addCalendarForm}>
+      <form onSubmit={(e) => handleSubmit(e)} className={styles.addCalendarForm}>
         <div className={styles.formGroup}>
           <label 
             htmlFor='calendar-name-input'
@@ -110,13 +113,13 @@ const AddCalendarForm = (): JSX.Element => {
         
         <div className={styles.formGroup}>
           <label htmlFor='user-search-input' className={styles.addCalendarFormLabel}>
-            Search Users (first-name, last-name, or email):
+            Add Users (first-name, last-name, or email):
           </label>
           <input
             type="text"
             id='user-search-input'
             value={userLookup}
-            onChange={handleUserSearchBarChange}
+            onChange={(e) => handleUserSearchBarEntry(e)}
             className={styles.addCalendarFormInput}
           />
           <button 
@@ -140,7 +143,10 @@ const AddCalendarForm = (): JSX.Element => {
                   <p className={styles.userLookUpResultsEmailText}>
                     {user.user.email}
                   </p>
-                  <button onClick={() => handleAddUserToCalendarChange(user)}>Add</button>
+                  <div className={styles.addCalendarUserButtonContainer}>
+                    <button onClick={() => handleAddUserToCalendarChange(user)}>Add as View-Only</button>
+                    <button onClick={() => handleAddUserToCalendarChange(user)}>Add as Authorized User</button>
+                  </div>
                 </li>
             ))}
           </ul>
@@ -148,7 +154,22 @@ const AddCalendarForm = (): JSX.Element => {
         </div>
 
         <div className={styles.addCalendarSelectedUsersContainer}>
-          <h3>Selected Users:</h3>
+          <h3>Authorized Users:</h3>
+          <ul>
+            {formData.invitedUsers.map((user) => (
+              <li
+                className={styles.userLookUpResultsListItem} 
+                key={uniqid()}
+              >
+                {user.user}
+                <button onClick={() => handleRemoveUserFromCalendarChange(user)}>X</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className={styles.addCalendarSelectedUsersContainer}>
+          <h3>View-Only Users:</h3>
           <ul>
             {formData.invitedUsers.map((user) => (
               <li

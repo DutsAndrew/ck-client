@@ -1,7 +1,6 @@
 body, html {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
   color: #333333;
 }
 
@@ -69,4 +68,8 @@ input:focus:invalid {
 .scroll-to-top-svg:hover {
   cursor: pointer;
   transform: scale(0.99);
+}
+
+.disableScrollbar {
+  overflow: hidden;
 }

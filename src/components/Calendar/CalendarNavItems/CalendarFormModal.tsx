@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import closeSvg from '../../../assets/close.svg';
 import { addFormModalProps } from "../../../types/interfaces";
@@ -10,6 +10,24 @@ const CalendarFormModal:FC<addFormModalProps> = (props): JSX.Element => {
     userCalendars,
     handleCloseModalRequest
   } = props;
+
+  useEffect(() => {
+    temporarilyDisableScrollBar();
+
+    return () => {
+      reEnableScrollBar();
+    };
+  }, []);
+
+  const temporarilyDisableScrollBar = () => {
+    const body = document.body;
+    body.classList.add('disableScrollbar');
+  };
+
+  const reEnableScrollBar = () => {
+    const body = document.body;
+    body.classList.remove('disableScrollbar');
+  };
 
   return (
     <section
