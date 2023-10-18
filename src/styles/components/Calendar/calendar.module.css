@@ -479,6 +479,11 @@
 
 /* ADD EVENT FORM STYLING -- ADD EVENT FORM STYLING */
 
+.addEventHeader, .addCalendarHeader {
+  font-size: 2.75em;
+  margin: 0;
+}
+
 .addEventFormContainer, .addCalendarFormContainer {
   display: flex;
   flex-flow: column wrap;
@@ -506,6 +511,7 @@
 
 .addEventFormLabel, .addCalendarFormLabel {
   font-weight: bold;
+  font-size: 1.5em;
 }
 
 .addEventFormInput, .addCalendarFormInput {
@@ -513,7 +519,7 @@
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 3px;
-  font-size: 16px;
+  font-size: 1.5em;
   outline: none;
 }
 
@@ -544,17 +550,17 @@
   padding: 5px;
 }
 
-.addEventFormButton {
+.addEventFormButton, .addCalendarFormButton {
   background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 3px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 1.25em;
   cursor: pointer;
 }
 
-.addEventFormButton:hover {
+.addEventFormButton:hover, .addCalendarFormButton:hover {
   background-color: #0056b3;
 }
 
@@ -573,37 +579,86 @@
   font-weight: bold;
 }
 
-.addCalendarSelectedUsersContainer ul,
-.addCalendarUserQueryResultsContainer ul {
+.addCalendarUserQueryList {
   list-style: none;
   padding: 0;
 }
 
-.addCalendarSelectedUsersContainer li,
-.addCalendarUserQueryResultsContainer li {
+.userLookUpResultsListItem {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 3px;
   margin-bottom: 10px;
+  gap: 2vh;
   background-color: #f0f0f0;
 }
 
-.addCalendarSelectedUsersContainer button,
-.addCalendarUserQueryResultsContainer button {
-  background-color: #ff3333;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  padding: 5px;
-  cursor: pointer;
+@media (max-width: 600px) {
+  .userLookUpResultsListItem {
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+  }
 }
 
-.addCalendarSelectedUsersContainer button:hover,
-.addCalendarUserQueryResultsContainer button:hover {
-  background-color: #ff0000;
+@media (min-width: 601px) {
+  .userLookUpResultsListItem {
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+}
+
+.addCalendarUserButtonContainer {
+  display: flex;
+  flex-flow: column wrap;
+  width: auto;
+  height: 100%;
+}
+
+.addCalendarUserAddButton {
+  background-color:#FFD700;
+  color: #333333;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.addCalendarUserSearchButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 15px;
+  margin: 0;
+  margin-top: 0.25vh;
+  font-size: 1.05em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.addCalendarUserSearchButton:hover {
+  background-color: #0056b3;
+}
+
+.addCalendarUserAddButton:hover, .addCalendarRemoveUserFromListButton:hover {
+  transform: scale(0.95);
+}
+
+.addCalendarRemoveUserFromListButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #cc0000;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  height: 100%;
+  width: auto;
+  margin: 0;
+  font-size: 1.25em;
+  cursor: pointer;
 }
 
 /* YEAR VIEW STYLING -- YEAR VIEW STYLING */

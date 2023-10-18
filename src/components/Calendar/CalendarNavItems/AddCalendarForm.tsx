@@ -10,7 +10,8 @@ const AddCalendarForm = (): JSX.Element => {
   const [userLookupResults, setUserLookupResults] = useState<calendarUserQueryResults>([]);
   const [formData, setFormData] = useState<addCalendarFormProps>({
     calendarName: '',
-    invitedUsers: [],
+    authorizedUsers: [],
+    viewOnlyUsers: [],
   });
 
   const handleCalendarNameChange = (e: any) => {
@@ -22,6 +23,7 @@ const AddCalendarForm = (): JSX.Element => {
   };
 
   const handleUserSearchBarEntry = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (userLookup.length === 1) setUserLookupResults([]); // when user deletes entry, search results are removed
     return setUserLookup(event.currentTarget.value);
   };
 
@@ -56,19 +58,56 @@ const AddCalendarForm = (): JSX.Element => {
     };
   };
 
-  const handleAddUserToCalendarChange = (user: any) => {
+  const handleAddUserToAuthorizedUsersList = (user: any) => {
+    // exit if user is already in list
+    if (formData.authorizedUsers.includes(user)) {
+      return;
+    };
+    // if the other invited user list has user, remove it and add it to this one instead
+    if (formData.viewOnlyUsers.includes(user)) {
+      return setFormData({
+        ...formData,
+        viewOnlyUsers: formData.viewOnlyUsers.filter((invitedUser) => invitedUser !== user),
+        authorizedUsers: [...formData.authorizedUsers, user],
+      });
+    };
     setFormData({
       ...formData,
-      invitedUsers: [...formData.invitedUsers, user],
-    })
+      authorizedUsers: [...formData.authorizedUsers, user],
+    });
   };
 
-  const handleRemoveUserFromCalendarChange = (user: any) => {
-    // clean up filter logic to match API return results
+  const handleAddUserToViewOnlyUsersList = (user: any) => {
+    // exit if user is already in list
+    if (formData.viewOnlyUsers.includes(user)) {
+      return;
+    };
+    // if the other invited user list has user, remove it and add it to this one instead
+    if (formData.authorizedUsers.includes(user)) {
+      return setFormData({
+        ...formData,
+        authorizedUsers: formData.authorizedUsers.filter((invitedUser) => invitedUser !== user),
+        viewOnlyUsers: [...formData.viewOnlyUsers, user],
+      });
+    };
     setFormData({
       ...formData,
-      invitedUsers: formData.invitedUsers.filter((invitedUser) => invitedUser !== user)
-    })
+      viewOnlyUsers: [...formData.viewOnlyUsers, user],
+    });
+  };
+
+  const handleRemoveUserFromAuthorizedUsersList = (user: any) => {
+    setFormData({
+      ...formData,
+      authorizedUsers: formData.authorizedUsers.filter((invitedUser) => invitedUser !== user)
+    });
+  };
+
+  const handleRemoveUserFromViewOnlyUsersList = (user: any) => {
+    setFormData({
+      ...formData,
+      viewOnlyUsers: formData.viewOnlyUsers.filter((invitedUser) => invitedUser !== user)
+    });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -92,7 +131,9 @@ const AddCalendarForm = (): JSX.Element => {
 
   return (
     <div className={styles.addCalendarFormContainer}>
-      <h2>Calendar</h2>
+      <h2 className={styles.addCalendarHeader}>
+        Calendar
+      </h2>
       <form onSubmit={(e) => handleSubmit(e)} className={styles.addCalendarForm}>
         <div className={styles.formGroup}>
           <label 
@@ -123,6 +164,7 @@ const AddCalendarForm = (): JSX.Element => {
             className={styles.addCalendarFormInput}
           />
           <button 
+            className={styles.addCalendarUserSearchButton}
             type="button"
             onClick={() => handleUserSearchRequest()}>
             Search
@@ -131,7 +173,7 @@ const AddCalendarForm = (): JSX.Element => {
 
         <div className={styles.addCalendarUserQueryResultsContainer}>
           <h3>Search Results:</h3>
-          <ul>
+          <ul className={styles.addCalendarUserQueryList}>
             {userLookupResults.length > 0 && Array.isArray(userLookupResults) && userLookupResults.map((user) => (
                 <li 
                   className={styles.userLookUpResultsListItem}
@@ -144,25 +186,42 @@ const AddCalendarForm = (): JSX.Element => {
                     {user.user.email}
                   </p>
                   <div className={styles.addCalendarUserButtonContainer}>
-                    <button onClick={() => handleAddUserToCalendarChange(user)}>Add as View-Only</button>
-                    <button onClick={() => handleAddUserToCalendarChange(user)}>Add as Authorized User</button>
+                    <button 
+                      className={styles.addCalendarUserAddButton}
+                      onClick={() => handleAddUserToViewOnlyUsersList(user)}>
+                      Add as View-Only
+                    </button>
+                    <button 
+                      className={styles.addCalendarUserAddButton}
+                      onClick={() => handleAddUserToAuthorizedUsersList(user)}>
+                      Add as Authorized
+                    </button>
                   </div>
                 </li>
             ))}
           </ul>
-            {apiRequestSent === true && userLookupResults.length === 0 && <p>No results</p>}
+          {apiRequestSent === true && userLookupResults.length === 0 && <p>No results</p>}
         </div>
 
         <div className={styles.addCalendarSelectedUsersContainer}>
           <h3>Authorized Users:</h3>
-          <ul>
-            {formData.invitedUsers.map((user) => (
+          <ul className={styles.addCalendarUserQueryList}>
+            {formData.authorizedUsers.map((user) => (
               <li
                 className={styles.userLookUpResultsListItem} 
                 key={uniqid()}
               >
-                {user.user}
-                <button onClick={() => handleRemoveUserFromCalendarChange(user)}>X</button>
+                <p className={styles.userLookUpResultsMainText}>
+                  {user.user.first_name} {user.user.last_name}, {user.user.job_title} - {user.user.company}
+                </p>
+                <p className={styles.userLookUpResultsEmailText}>
+                  {user.user.email}
+                </p>
+                <button 
+                  className={styles.addCalendarRemoveUserFromListButton}
+                  onClick={() => handleRemoveUserFromAuthorizedUsersList(user)}>
+                    X
+                </button>
               </li>
             ))}
           </ul>
@@ -170,18 +229,28 @@ const AddCalendarForm = (): JSX.Element => {
 
         <div className={styles.addCalendarSelectedUsersContainer}>
           <h3>View-Only Users:</h3>
-          <ul>
-            {formData.invitedUsers.map((user) => (
+          <ul className={styles.addCalendarUserQueryList}>
+            {formData.viewOnlyUsers.map((user) => (
               <li
                 className={styles.userLookUpResultsListItem} 
                 key={uniqid()}
               >
-                {user.user}
-                <button onClick={() => handleRemoveUserFromCalendarChange(user)}>X</button>
+                <p className={styles.userLookUpResultsMainText}>
+                  {user.user.first_name} {user.user.last_name}, {user.user.job_title} - {user.user.company}
+                </p>
+                <p className={styles.userLookUpResultsEmailText}>
+                  {user.user.email}
+                </p>
+                <button 
+                  className={styles.addCalendarRemoveUserFromListButton}
+                  onClick={() => handleRemoveUserFromViewOnlyUsersList(user)}>
+                    X
+                </button>
               </li>
             ))}
           </ul>
         </div>
+        <button type="submit" className={styles.addCalendarFormButton}>Create Calendar</button>
       </form>
     </div>
   );

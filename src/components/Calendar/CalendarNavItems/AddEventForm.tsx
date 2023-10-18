@@ -60,7 +60,9 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
 
   return (
     <div className={styles.addEventFormContainer}>
-      <h2>Event</h2>
+      <h2 className={styles.addEventHeader}>
+        Event
+      </h2>
       <form onSubmit={handleSubmit} className={styles.addEventForm}>
         <div className={styles.formGroup}>
           <label 
@@ -196,7 +198,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
             </select>
           </div>
         )} */}
-        <button type="submit" className={styles.addEventFormButton}>Create Event</button>
+        <button type="submit" className={styles.addEventFormButton}>Add Event</button>
       </form>
     </div>
   );

@@ -111,7 +111,8 @@ interface addFormModalProps {
 
 interface addCalendarFormProps {
   calendarName: string,
-  invitedUsers: any[],
+  authorizedUsers: any[],
+  viewOnlyUsers: any[],
 }
 
 type calendarUserQueryResults = userQuery[]
