@@ -109,6 +109,24 @@ interface addFormModalProps {
   handleCloseModalRequest: Function,
 };
 
+interface addCalendarFormProps {
+  calendarName: string,
+  invitedUsers: any[],
+}
+
+type calendarUserQueryResults = userQuery[]
+
+interface userQuery {
+  user: {
+    company: string,
+    email: string,
+    first_name: string,
+    job_title: string,
+    last_name: string,
+    _id: string,
+  }
+}
+
 interface navRightContainerProps {
   userCalendars: userCalendars,
   currentView: string,
@@ -353,6 +371,8 @@ export type {
   calendarNavProps,
   navLeftContainerProps,
   addFormModalProps,
+  addCalendarFormProps,
+  calendarUserQueryResults,
   navRightContainerProps,
   dayViewProps,
   weekViewProps,

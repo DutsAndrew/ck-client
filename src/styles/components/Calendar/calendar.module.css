@@ -559,16 +559,6 @@
 
 /* ADD CALENDAR FORM -- User Search Form */
 
-.addCalendarUserInviteContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #f9f9f9;
-  width: 100%;
-  max-width: 500px;
-}
-
 .addCalendarUserQueryResultsContainer {
   margin-top: 20px;
 }
