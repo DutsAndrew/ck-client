@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import { addCalendarFormProps, calendarUserQueryResults } from "../../../types/interfaces";
 import uniqid from "uniqid";
 
 const AddCalendarForm = (): JSX.Element => {
 
+  const [apiRequestSent, setApiRequestSent] = useState(false)
   const [userLookup, setUserLookup] = useState("");
   const [userLookupResults, setUserLookupResults] = useState<calendarUserQueryResults>([]);
   const [formData, setFormData] = useState<addCalendarFormProps>({
     calendarName: '',
     invitedUsers: [],
   });
-
-  useEffect(() => {
-    userLookupResults.map((user) => {
-      console.log(user)
-    })
-  }, [userLookupResults]);
 
   const handleCalendarNameChange = (e: any) => {
     const { name, value } = e.target;
@@ -31,7 +26,6 @@ const AddCalendarForm = (): JSX.Element => {
   };
 
   const handleUserSearchRequest = async () => {
-    // hit API
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
       return alert('You must be signed in and not in incognito to remain authorized');
@@ -52,6 +46,7 @@ const AddCalendarForm = (): JSX.Element => {
         if (jsonResponse.user_results) {
           // handle good fetch
           setUserLookupResults(jsonResponse.user_results);
+          setApiRequestSent(true);
         } else {
           alert('We could not find the user you were looking for');
         };
@@ -115,7 +110,7 @@ const AddCalendarForm = (): JSX.Element => {
         
         <div className={styles.formGroup}>
           <label htmlFor='user-search-input' className={styles.addCalendarFormLabel}>
-            Search Users (by first-name, last-name, or email):
+            Search Users (first-name, last-name, or email):
           </label>
           <input
             type="text"
@@ -135,24 +130,31 @@ const AddCalendarForm = (): JSX.Element => {
           <h3>Search Results:</h3>
           <ul>
             {userLookupResults.length > 0 && Array.isArray(userLookupResults) && userLookupResults.map((user) => (
-              <li key={uniqid()}>
-                <p className={styles.userLookUpResultsMainText}>
-                  {user.user.first_name} {user.user.last_name}, {user.user.job_title} - {user.user.company}
-                </p>
-                <p className={styles.userLookUpResultsEmailText}>
-                  {user.user.email}
-                </p>
-                <button onClick={() => handleAddUserToCalendarChange(user)}>Add</button>
-              </li>
+                <li 
+                  className={styles.userLookUpResultsListItem}
+                  key={uniqid()}
+                >
+                  <p className={styles.userLookUpResultsMainText}>
+                    {user.user.first_name} {user.user.last_name}, {user.user.job_title} - {user.user.company}
+                  </p>
+                  <p className={styles.userLookUpResultsEmailText}>
+                    {user.user.email}
+                  </p>
+                  <button onClick={() => handleAddUserToCalendarChange(user)}>Add</button>
+                </li>
             ))}
           </ul>
+            {apiRequestSent === true && userLookupResults.length === 0 && <p>No results</p>}
         </div>
 
         <div className={styles.addCalendarSelectedUsersContainer}>
           <h3>Selected Users:</h3>
           <ul>
             {formData.invitedUsers.map((user) => (
-              <li key={uniqid()}>
+              <li
+                className={styles.userLookUpResultsListItem} 
+                key={uniqid()}
+              >
                 {user.user}
                 <button onClick={() => handleRemoveUserFromCalendarChange(user)}>X</button>
               </li>
