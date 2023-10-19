@@ -110,8 +110,9 @@ const AddCalendarForm = (): JSX.Element => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('submitting');
     // run error handling
     // sanitize
     // upload to db
@@ -134,7 +135,10 @@ const AddCalendarForm = (): JSX.Element => {
       <h2 className={styles.addCalendarHeader}>
         Calendar
       </h2>
-      <form onSubmit={(e) => handleSubmit(e)} className={styles.addCalendarForm}>
+      <form 
+        onSubmit={(e) => handleFormSubmit(e)} 
+        className={styles.addCalendarForm}
+      >
         <div className={styles.formGroup}>
           <label 
             htmlFor='calendar-name-input'
@@ -212,10 +216,13 @@ const AddCalendarForm = (): JSX.Element => {
                 key={uniqid()}
               >
                 <p className={styles.userLookUpResultsMainText}>
-                  {user.user.first_name} {user.user.last_name}, {user.user.job_title} - {user.user.company}
+                  {user.user.first_name ? user.user.first_name : 'no first name'}
+                  {user.user.last_name ? user.user.last_name: 'no last name'},
+                  {user.user.job_title ? user.user.job_title : 'no job title listed'} - 
+                  {user.user.company ? user.user.company : 'no company listed'}
                 </p>
                 <p className={styles.userLookUpResultsEmailText}>
-                  {user.user.email}
+                  {user.user.email ? user.user.email : 'no email listed'}
                 </p>
                 <button 
                   className={styles.addCalendarRemoveUserFromListButton}
@@ -236,10 +243,13 @@ const AddCalendarForm = (): JSX.Element => {
                 key={uniqid()}
               >
                 <p className={styles.userLookUpResultsMainText}>
-                  {user.user.first_name} {user.user.last_name}, {user.user.job_title} - {user.user.company}
+                  {user.user.first_name ? user.user.first_name : 'no first name'}
+                  {user.user.last_name ? user.user.last_name: 'no last name'},
+                  {user.user.job_title ? user.user.job_title : 'no job title listed'} - 
+                  {user.user.company ? user.user.company : 'no company listed'}
                 </p>
                 <p className={styles.userLookUpResultsEmailText}>
-                  {user.user.email}
+                  {user.user.email ? user.user.email : 'no email listed'}
                 </p>
                 <button 
                   className={styles.addCalendarRemoveUserFromListButton}
@@ -250,7 +260,11 @@ const AddCalendarForm = (): JSX.Element => {
             ))}
           </ul>
         </div>
-        <button type="submit" className={styles.addCalendarFormButton}>Create Calendar</button>
+        <button 
+          type="submit" 
+          className={styles.addCalendarFormButton}>
+            Create Calendar
+        </button>
       </form>
     </div>
   );
