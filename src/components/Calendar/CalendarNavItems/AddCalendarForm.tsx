@@ -30,7 +30,7 @@ const AddCalendarForm = (): JSX.Element => {
   const handleUserSearchRequest = async () => {
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
-      return alert('You must be signed in and not in incognito to remain authorized');
+      return alert('You must be signed in and not in incognito to search for users in the database');
     } else {
       const apiUrl = `http://127.0.0.1:8000/calendar/userQuery?user=${userLookup}`;
       const request = await fetch(apiUrl, {
@@ -112,21 +112,32 @@ const AddCalendarForm = (): JSX.Element => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // run error handling
-    // sanitize
-    // upload to db
+    uploadNewCalendarToDb();
   };
 
-  const checkForFormErrors = () => {
-
-  };
-
-  const sanitizeData = () => {
-
-  };
-
-  const uploadNewCalendarToDb = () => {
-
+  const uploadNewCalendarToDb = async () => {
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      alert('You must be signed in and or not in incognito mode to send requests');
+    } else {
+      const apiUrl = 'http://127.0.0.1:8000/calendar/uploadCalendar';
+      const request = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(formData),
+      });
+      const response = await request.json();
+      console.log(response);
+      if (!response.ok) {
+        // handle bad request
+      } else {
+        // handle good request
+      };
+    };
   };
 
   return (
@@ -148,6 +159,8 @@ const AddCalendarForm = (): JSX.Element => {
             value={formData.calendarName}
             onChange={handleCalendarNameChange}
             className={styles.addCalendarFormInput}
+            minLength={1}
+            maxLength={50}
             required>
           </input>
         </div>
