@@ -1,18 +1,30 @@
-import React, { useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addCalendarFormProps, calendarUserQueryResults } from "../../../types/interfaces";
+import { addCalendarFormProps, addCalendarFormState, calendarUserQueryResults } from "../../../types/interfaces";
 import uniqid from "uniqid";
 
-const AddCalendarForm = (): JSX.Element => {
+const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
+
+  const { 
+    userId 
+  } = props;
 
   const [apiRequestSent, setApiRequestSent] = useState(false)
   const [userLookup, setUserLookup] = useState("");
   const [userLookupResults, setUserLookupResults] = useState<calendarUserQueryResults>([]);
-  const [formData, setFormData] = useState<addCalendarFormProps>({
+  const [formData, setFormData] = useState<addCalendarFormState>({
     calendarName: '',
+    createdBy: userId,
     authorizedUsers: [],
     viewOnlyUsers: [],
   });
+
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      ['createdBy']: userId,
+    })
+  }, [userId]);
 
   const handleCalendarNameChange = (e: any) => {
     const { name, value } = e.target;

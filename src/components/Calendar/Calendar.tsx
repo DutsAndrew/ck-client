@@ -14,7 +14,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     usersFirstName,
     usersPersonalCalendar,
     usersTeamCalendars,
-    sendUserId,
+    userId,
     saveCalendarDatesAndHolidaysData,
     calendarDatesData,
   } = props;
@@ -96,8 +96,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   };
 
   const handleActivateCalendarEditor = (selectedCalendar: calendarObject): void => {
-    const userId = sendUserId();
-    if (selectedCalendar.authorized_users.includes(userId)) {
+    if (selectedCalendar.authorized_users.includes((userId as any))) {
       setCalendarEditor({
         active: true,
         calendar: selectedCalendar,
@@ -124,6 +123,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     currentView,
     activeCalendars,
     calendarDatesData,
+    userId,
     changeCurrentView,
     handleCalendarTimeChangeRequest,
     handleActiveCalendarChange,

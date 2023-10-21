@@ -4,7 +4,10 @@ import { addEventFormProps } from "../../../types/interfaces";
 
 const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
 
-  const { userCalendars } = props;
+  const { 
+    userCalendars,
+    userId 
+  } = props;
 
   const [formData, setFormData] = useState({
     date: '',

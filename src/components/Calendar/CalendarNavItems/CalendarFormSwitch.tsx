@@ -6,7 +6,10 @@ import { calendarFormSwitchProps } from '../../../types/interfaces';
 
 const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
 
-  const { userCalendars } = props;
+  const { 
+    userCalendars,
+    userId 
+  } = props;
 
   const [activeForm, setActiveForm] = useState('event');
 
@@ -20,11 +23,14 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
       return (
         <AddEventForm 
           userCalendars={userCalendars}
+          userId={userId}
         />
       );
     } else {
       return (
-        <AddCalendarForm />
+        <AddCalendarForm 
+          userId={userId}
+        />
       );
     };
   };

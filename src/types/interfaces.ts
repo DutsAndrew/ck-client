@@ -67,7 +67,7 @@ interface calendarProps {
   usersFirstName: string,
   usersPersonalCalendar: personalCalendar,
   usersTeamCalendars: allUserCalendars,
-  sendUserId: Function,
+  userId: string,
   saveCalendarDatesAndHolidaysData: Function,
   calendarDatesData: object,
 };
@@ -92,6 +92,7 @@ interface calendarNavProps {
   currentView: string,
   activeCalendars: calendarObject[],
   calendarDatesData: CalendarDatesData | {},
+  userId: string,
   changeCurrentView: Function,
   handleCalendarTimeChangeRequest: Function,
   handleActiveCalendarChange: Function,
@@ -101,16 +102,19 @@ interface calendarNavProps {
 interface navLeftContainerProps {
   currentView: string,
   userCalendars: userCalendars,
+  userId: string,
   handleCalendarTimeChangeRequest: Function,
 };
 
 interface addFormModalProps {
   userCalendars: userCalendars,
+  userId: string,
   handleCloseModalRequest: Function,
 };
 
-interface addCalendarFormProps {
+interface addCalendarFormState {
   calendarName: string,
+  createdBy: string,
   authorizedUsers: userQuery[],
   viewOnlyUsers: userQuery[],
 }
@@ -187,11 +191,17 @@ interface calendarModalState {
 };
 
 interface addEventFormProps {
-  userCalendars: userCalendars, 
+  userCalendars: userCalendars,
+  userId: string,
+};
+
+interface addCalendarFormProps {
+  userId: string,
 };
 
 interface calendarFormSwitchProps {
   userCalendars: userCalendars,
+  userId: string,
 };
 
 interface classesProps {
@@ -372,7 +382,7 @@ export type {
   calendarNavProps,
   navLeftContainerProps,
   addFormModalProps,
-  addCalendarFormProps,
+  addCalendarFormState,
   calendarUserQueryResults,
   navRightContainerProps,
   dayViewProps,
@@ -385,6 +395,7 @@ export type {
   activeCalendarState,
   calendarModalState,
   addEventFormProps,
+  addCalendarFormProps,
   calendarFormSwitchProps,
   classesProps,
   lessonsProps,
