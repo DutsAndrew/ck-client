@@ -751,7 +751,7 @@
 .yearModalContainer, .calendarModalContainer, .viewModalContainer {
   position: fixed;
   top: 15vh;
-  width: 10vw;
+  width: auto;
   height: auto;
   display: flex;
   justify-content: center;
@@ -1040,6 +1040,13 @@
 #pending-user-list-container {
   background-color: #FFFAA0;
 }
+
+.calendarEditorUserItemContainer, .calendarEditorUserEmailText, .calendarEditorUserCompanyText {
+  width: 100%;
+  height: auto;
+}
+
+/* CALENDAR EDITOR EVENTS STYLING */
 
 .calendarEditorEventsContainer {
   display: flex;

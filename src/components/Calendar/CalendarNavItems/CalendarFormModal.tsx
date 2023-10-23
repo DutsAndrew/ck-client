@@ -9,7 +9,8 @@ const CalendarFormModal:FC<addFormModalProps> = (props): JSX.Element => {
   const {
     userCalendars,
     userId,
-    handleCloseModalRequest
+    handleCloseModalRequest,
+    appendNewCalendarToUser,
   } = props;
 
   useEffect(() => {
@@ -44,6 +45,8 @@ const CalendarFormModal:FC<addFormModalProps> = (props): JSX.Element => {
         <CalendarFormSwitch
           userCalendars={userCalendars}
           userId={userId}
+          appendNewCalendarToUser={appendNewCalendarToUser}
+          handleCloseModalRequest={handleCloseModalRequest}
         />
       </div>
     </section>

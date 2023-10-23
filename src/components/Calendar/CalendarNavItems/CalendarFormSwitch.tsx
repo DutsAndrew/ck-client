@@ -8,7 +8,9 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
 
   const { 
     userCalendars,
-    userId 
+    userId,
+    appendNewCalendarToUser,
+    handleCloseModalRequest,
   } = props;
 
   const [activeForm, setActiveForm] = useState('event');
@@ -24,12 +26,15 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
         <AddEventForm 
           userCalendars={userCalendars}
           userId={userId}
+          handleCloseModalRequest={handleCloseModalRequest}
         />
       );
     } else {
       return (
         <AddCalendarForm 
           userId={userId}
+          appendNewCalendarToUser={appendNewCalendarToUser}
+          handleCloseModalRequest={handleCloseModalRequest}
         />
       );
     };

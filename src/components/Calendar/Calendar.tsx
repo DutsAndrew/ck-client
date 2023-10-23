@@ -10,11 +10,14 @@ import EditCalendar from './EditCalendar';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
+  // CALENDAR NEEDS TO BE RE-FITTED TO POPULATE ALL CALENDAR DATA TO SEND TO IT'S CHILDREN
+
   const { 
     usersFirstName,
     usersPersonalCalendar,
     usersTeamCalendars,
     userId,
+    appendNewCalendarToUser,
     saveCalendarDatesAndHolidaysData,
     calendarDatesData,
   } = props;
@@ -34,6 +37,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       return;
     } else {
       fetchCalendarAppData(); // get calendar app data for mounting
+      fetchAllUserCalendarData();
     }
   }, []);
 
@@ -60,6 +64,29 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         } else {
           return alert('We were not able to retrieve the necessary calendar data');
         };
+      };
+    };
+  };
+
+  const fetchAllUserCalendarData = async () => {
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      return alert('You must be signed in and not in incognito to remain authorized');
+    } else {
+      const apiUrl = 'http://127.0.0.1:8000/calendar/getUserCalendarData';
+      const request = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        method: 'GET',
+      });
+      if (!request.ok) {
+        return alert('We were unable to load calendar data, please try again later');
+      } else {
+        const jsonResponse = await request.json();
+        console.log(jsonResponse);
       };
     };
   };
@@ -128,6 +155,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     handleCalendarTimeChangeRequest,
     handleActiveCalendarChange,
     handleActivateCalendarEditor,
+    appendNewCalendarToUser,
   };
 
   const calendarViewProps = {

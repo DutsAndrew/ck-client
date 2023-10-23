@@ -12,7 +12,8 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
     currentView,
     userCalendars,
     userId,
-    handleCalendarTimeChangeRequest
+    handleCalendarTimeChangeRequest,
+    appendNewCalendarToUser,
   } = props;
 
   const [modal, setModal] = useState({
@@ -51,6 +52,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           userCalendars={userCalendars}
           userId={userId}
           handleCloseModalRequest={handleCloseModalRequest}
+          appendNewCalendarToUser={appendNewCalendarToUser}
         />
       </div>
     );
@@ -92,6 +94,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           userCalendars={userCalendars}
           userId={userId}
           handleCloseModalRequest={handleCloseModalRequest}
+          appendNewCalendarToUser={appendNewCalendarToUser}
         />
       </div>
     );

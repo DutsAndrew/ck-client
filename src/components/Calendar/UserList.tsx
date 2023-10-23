@@ -10,6 +10,8 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
   const idString = `${type.toLowerCase()}-user-list-container`;
   const idRef = styles[idString];
 
+  // CALENDAR EDITOR NEEDS TO BE ABLE TO TAKE POPULATED CALENDAR DATA AND RENDER IT HERE
+
   if (Array.isArray(calendar) && calendar.length > 0) {
     return (
       <ul

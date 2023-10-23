@@ -16,6 +16,7 @@ const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
     handleCalendarTimeChangeRequest,
     handleActiveCalendarChange,
     handleActivateCalendarEditor,
+    appendNewCalendarToUser,
   } = props;
 
   return (
@@ -25,6 +26,7 @@ const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
         userCalendars={userCalendars}
         userId={userId}
         handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
+        appendNewCalendarToUser={appendNewCalendarToUser}
       />
       <NavRightContainer
         userCalendars={userCalendars}

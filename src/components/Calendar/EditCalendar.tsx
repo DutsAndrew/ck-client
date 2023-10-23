@@ -48,7 +48,7 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                     type='View-Only'
                   />
                   <UserList 
-                    calendar={selectedCalendarRef.pending_authorized_users}
+                    calendar={selectedCalendarRef.pending_users}
                     type='Pending'
                   />
                 </div>

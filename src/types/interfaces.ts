@@ -68,7 +68,8 @@ interface calendarProps {
   usersPersonalCalendar: personalCalendar,
   usersTeamCalendars: allUserCalendars,
   userId: string,
-  saveCalendarDatesAndHolidaysData: Function,
+  appendNewCalendarToUser: (calendar: calendarObject) => void,
+  saveCalendarDatesAndHolidaysData: (data: CalendarDatesData) => void,
   calendarDatesData: object,
 };
 
@@ -97,6 +98,7 @@ interface calendarNavProps {
   handleCalendarTimeChangeRequest: Function,
   handleActiveCalendarChange: Function,
   handleActivateCalendarEditor: Function,
+  appendNewCalendarToUser: (calendar: calendarObject) => void,
 };
 
 interface navLeftContainerProps {
@@ -104,12 +106,14 @@ interface navLeftContainerProps {
   userCalendars: userCalendars,
   userId: string,
   handleCalendarTimeChangeRequest: Function,
+  appendNewCalendarToUser: (calendar: calendarObject) => void,
 };
 
 interface addFormModalProps {
   userCalendars: userCalendars,
   userId: string,
   handleCloseModalRequest: Function,
+  appendNewCalendarToUser: (calendar: calendarObject) => void,
 };
 
 interface addCalendarFormState {
@@ -193,15 +197,20 @@ interface calendarModalState {
 interface addEventFormProps {
   userCalendars: userCalendars,
   userId: string,
+  handleCloseModalRequest: Function,
 };
 
 interface addCalendarFormProps {
   userId: string,
+  appendNewCalendarToUser: (calendar: calendarObject) => void,
+  handleCloseModalRequest: Function,
 };
 
 interface calendarFormSwitchProps {
   userCalendars: userCalendars,
   userId: string,
+  appendNewCalendarToUser: (calendar: calendarObject) => void,
+  handleCloseModalRequest: Function,
 };
 
 interface classesProps {
@@ -261,7 +270,7 @@ interface loginApiResponseObject {
 
 interface userInstance {
   account_type: string,
-  calendars: [],
+  calendars: calendarObject[],
   chats: [],
   classes: [],
   company: string,
@@ -328,14 +337,12 @@ interface userCalendarInstance {
 
 interface calendarObject {
   authorized_users: userCalendarInstance[],
-  calendar_holidays: [],
   calendar_type: string,
-  calendar_years_and_dates: [],
   created_by: string,
   created_on: string,
   events: eventObject[],
   name: string,
-  pending_authorized_users: userCalendarInstance[],
+  pending_users: userCalendarInstance[],
   view_only_users: userCalendarInstance[],
   _id: string,
 }

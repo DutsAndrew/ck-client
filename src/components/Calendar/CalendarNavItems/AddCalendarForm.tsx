@@ -1,12 +1,14 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addCalendarFormProps, addCalendarFormState, calendarUserQueryResults } from "../../../types/interfaces";
+import { addCalendarFormProps, addCalendarFormState, calendarObject, calendarUserQueryResults } from "../../../types/interfaces";
 import uniqid from "uniqid";
 
 const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
 
   const { 
-    userId 
+    userId,
+    appendNewCalendarToUser,
+    handleCloseModalRequest,
   } = props;
 
   const [apiRequestSent, setApiRequestSent] = useState(false)
@@ -143,11 +145,18 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
         body: JSON.stringify(formData),
       });
       const response = await request.json();
-      console.log(response);
-      if (!response.ok) {
+      if (!request.ok) {
         // handle bad request
       } else {
         // handle good request
+        if (response.calendar) {
+          appendNewCalendarToUser(response.calendar);
+          alert('Calendar added');
+          return handleCloseModalRequest();
+        } else {
+          // no calendar created
+          return alert('Something went wrong in calendar creation, please try again');
+        };
       };
     };
   };
