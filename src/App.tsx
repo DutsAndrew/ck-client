@@ -100,6 +100,7 @@ function App() {
                 usersFirstName={(user as userInstance).first_name}
                 usersPersonalCalendar={(user as userInstance).personal_calendar}
                 usersTeamCalendars={(user as userInstance).calendars}
+                usersPendingCalendars={(user as userInstance).pending_calendars}
                 userId={(user as userInstance)._id}
                 appendNewCalendarToUser={appendNewCalendarToUser}
                 saveCalendarDatesAndHolidaysData={saveCalendarDatesAndHolidaysData}

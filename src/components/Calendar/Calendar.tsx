@@ -16,6 +16,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     usersFirstName,
     usersPersonalCalendar,
     usersTeamCalendars,
+    usersPendingCalendars,
     userId,
     appendNewCalendarToUser,
     saveCalendarDatesAndHolidaysData,
@@ -33,11 +34,16 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         );
 
   useEffect(() => {
-    if (Object.keys(calendarDatesData).length > 0) {
+    if (Object.keys(calendarDatesData).length > 0
+      && (usersTeamCalendars.length > 0 && Object.values(usersTeamCalendars).length > 0)
+      && (usersPendingCalendars.length > 0 && Object.values(usersPendingCalendars).length > 0)
+    ) {
       return;
     } else {
-      fetchCalendarAppData(); // get calendar app data for mounting
-      fetchAllUserCalendarData();
+      (async function() {
+        await fetchCalendarAppData(); // get calendar date/holiday data from db
+        await fetchAllUserCalendarData(); // get ALL user calendar data
+      })();
     }
   }, []);
 
