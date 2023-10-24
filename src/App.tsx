@@ -39,6 +39,7 @@ function App() {
     return () => window.removeEventListener('scroll', handleScrollStatus);
   }, []);
 
+
   const saveLoggedInUser = (user: userInstance) => {
     setUser(user);
     setAuth(true);
@@ -48,6 +49,14 @@ function App() {
     setAppData({
       calendarData: data,
     });
+  };
+
+  const saveAllUserCalendarsToUser = (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[]): void => {
+    setUser((prevUser: userInstance) => ({
+      ...prevUser,
+      calendars: populatedCalendars,
+      pending_calendars: populatedPendingCalendars,
+    }));
   };
 
   const appendNewCalendarToUser = (calendar: calendarObject): void => {
@@ -104,6 +113,7 @@ function App() {
                 userId={(user as userInstance)._id}
                 appendNewCalendarToUser={appendNewCalendarToUser}
                 saveCalendarDatesAndHolidaysData={saveCalendarDatesAndHolidaysData}
+                saveAllUserCalendarsToUser={saveAllUserCalendarsToUser}
                 calendarDatesData={appData.calendarData}
               />
             </Suspense>

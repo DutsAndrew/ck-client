@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { calendarEditorState, calendarObject, calendarProps, userCalendars, activeCalendarState, calendarApiResponse } from '../../types/interfaces';
+import { calendarEditorState, calendarObject, calendarProps, userCalendars, activeCalendarState, calendarApiResponse, allUserCalendarsPopulatedApiResponse } from '../../types/interfaces';
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import CalendarNav from './CalendarNav';
 import YearView from './YearView';
@@ -10,8 +10,6 @@ import EditCalendar from './EditCalendar';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
-  // CALENDAR NEEDS TO BE RE-FITTED TO POPULATE ALL CALENDAR DATA TO SEND TO IT'S CHILDREN
-
   const { 
     usersFirstName,
     usersPersonalCalendar,
@@ -20,6 +18,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     userId,
     appendNewCalendarToUser,
     saveCalendarDatesAndHolidaysData,
+    saveAllUserCalendarsToUser,
     calendarDatesData,
   } = props;
 
@@ -88,11 +87,15 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         },
         method: 'GET',
       });
+      const response: allUserCalendarsPopulatedApiResponse = await request.json();
       if (!request.ok) {
         return alert('We were unable to load calendar data, please try again later');
       } else {
-        const jsonResponse = await request.json();
-        console.log(jsonResponse);
+        if (response.updated_user) {
+          const populatedCalendars = response.updated_user.calendars;
+          const populatedPendingCalendars = response.updated_user.pending_calendars;
+          return saveAllUserCalendarsToUser(populatedCalendars, populatedPendingCalendars);
+        };
       };
     };
   };

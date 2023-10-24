@@ -4,7 +4,7 @@ interface AuthStatus {
 
 interface appDataState {
   calendarData: CalendarDatesData | {}
-}
+};
 
 interface CalendarData {
   [year: string]: {
@@ -13,7 +13,12 @@ interface CalendarData {
       month_starts_on: string;
     };
   };
-}
+};
+
+interface populatedUserCalendars {
+  calendars: calendarObject[],
+  pending_calendars: calendarObject[],
+};
 
 interface Holiday {
   date: string;
@@ -23,19 +28,28 @@ interface Holiday {
 
 interface HolidayDates {
   [year: string]: Holiday[];
-}
+};
 
 interface CalendarDatesData {
   _id: string;
   app_data_type: string;
   calendar_dates: CalendarData;
   holiday_dates: HolidayDates;
-}
+};
 
 interface calendarApiResponse {
   detail: string;
   data: CalendarDatesData;
-}
+};
+
+interface allUserCalendarsPopulatedApiResponse {
+  detail: string,
+  updated_user: {
+    calendars: calendarObject[],
+    pending_calendars: calendarObject[],
+    _id: string,
+  },
+};
 
 interface announcementBarProps {
   auth: boolean,
@@ -71,6 +85,7 @@ interface calendarProps {
   userId: string,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   saveCalendarDatesAndHolidaysData: (data: CalendarDatesData) => void,
+  saveAllUserCalendarsToUser: (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[]) => void,
   calendarDatesData: object,
 };
 
@@ -383,7 +398,9 @@ export type {
   dashboardProps,
   calendarProps,
   appDataState,
+  populatedUserCalendars,
   calendarApiResponse,
+  allUserCalendarsPopulatedApiResponse,
   CalendarDatesData,
   calendarEditorState,
   EditCalendarProps,
