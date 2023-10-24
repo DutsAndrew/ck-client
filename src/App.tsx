@@ -68,6 +68,10 @@ function App() {
 
   const handleSignOut = () => {
     setUser({});
+    setAppData({
+      ...appData,
+      calendarData: {},
+    });
     setAuth(false);
   };
 
