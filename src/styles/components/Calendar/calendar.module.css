@@ -762,7 +762,7 @@
 .yearModalYearListContainer, .calendarModalListContainer, .viewModalListContainer {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);

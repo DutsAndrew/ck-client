@@ -148,6 +148,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   const userCalendars: userCalendars = {
     personalCalendar: usersPersonalCalendar,
+    pendingCalendars: usersPendingCalendars,
     teamCalendars: usersTeamCalendars,
   };
 

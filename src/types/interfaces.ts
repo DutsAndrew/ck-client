@@ -381,7 +381,8 @@ type allUserCalendars = calendarObject[];
 
 interface userCalendars {
   personalCalendar: personalCalendar,
-  teamCalendars: allUserCalendars,
+  pendingCalendars: calendarObject[],
+  teamCalendars: calendarObject[],
 }
 
 interface scrollToTopProps {

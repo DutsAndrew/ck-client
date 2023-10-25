@@ -18,6 +18,8 @@ const NavContainerRight:FC<navRightContainerProps> = (props): JSX.Element => {
     handleActivateCalendarEditor,
   } = props;
 
+  console.log(userCalendars)
+
   const getCalendarYears = (): any[] => {
     if (Object.keys(calendarDatesData).length > 0) {
       const calendarYearsObj = (calendarDatesData as CalendarDatesData).calendar_dates;
@@ -112,7 +114,7 @@ const NavContainerRight:FC<navRightContainerProps> = (props): JSX.Element => {
         onClick={() => handleModalToggle('calendar')}
       >
         <p className={styles.calendarDropDownText}>
-          Calendars ({activeCalendars.length}/{userCalendars.teamCalendars.length + 1})
+          Calendars ({activeCalendars.length}/{userCalendars.teamCalendars.length + userCalendars.pendingCalendars.length + 1}
         </p>
         <img
           className={styles.calendarDropDownSvg}
