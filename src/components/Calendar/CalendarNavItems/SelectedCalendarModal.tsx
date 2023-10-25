@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from "react";
 import { selectedCalendarModalProps, calendarModalState, calendarObject } from "../../../types/interfaces";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import calendarEditSvg from '../../../assets/calendar-edit.svg';
+import DropDownCalendarItems from "./DropDownCalendarItems";
 
 const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Element => {
 
@@ -46,7 +46,6 @@ const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Elemen
           list: updatedList,
         };
       } else {
-        // Add the calendar to the list by creating a new array
         return {
           list: [...prevSelectedCalendars.list, calendar],
         };
@@ -58,95 +57,27 @@ const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Elemen
     return handleCalendarEditRequest(selectedCalendar);
   };
 
+  const dropDownCalendarItemsProps = {
+    selectedCalendars,
+    handleUserSelection,
+    handleEditRequestForSelectedCalendar,
+  }
+
   return (
     <nav className={styles.calendarModalContainer}>
       <ul className={styles.calendarModalListContainer}>
-        <li 
-          className={styles.calendarModalCalendarsContainer}
-        >
-          <div className={styles.calendarModalFormGroup}>
-            <input
-              id="personal-calendar-option"
-              type="checkbox"
-              checked={selectedCalendars.list.some(
-                (calendar) => calendar.calendar_type === 'personal'
-              )}
-              onChange={() => handleUserSelection(userCalendars.personalCalendar)}
-            />
-            <label 
-              htmlFor="personal-calendar-option"
-              className={styles.calendarModalCalendarsItemText}
-            >
-              Personal Calendar
-            </label>
-            <img
-              className={styles.calendarEditSvg}
-              alt="calendar edit icon"
-              src={calendarEditSvg}
-              onClick={() => handleEditRequestForSelectedCalendar(userCalendars.personalCalendar)}>
-            </img>
-          </div>
-        </li>
-        {userCalendars.teamCalendars.map((calendar) => {
-          return <li
-            key={calendar._id}
-            onClick={() => handleUserSelection(calendar as any)}
-            className={styles.calendarModalCalendarsContainer}
-          >
-            <div className={styles.calendarModalFormGroup}>
-              <input 
-                id="calendar-checkbox"
-                type="checkbox"
-                checked={selectedCalendars.list.some(
-                  (selectedCalendar) => selectedCalendar.name === calendar.name && selectedCalendar.calendar_type !== 'personal'
-                )}
-                onChange={(calendar) => handleUserSelection(calendar as any)}
-              />
-              <label 
-                htmlFor="calendar-checkbox"
-                className={styles.calendarModalCalendarsItemText}
-              >
-                {calendar.name}
-              </label>
-              <img
-                className={styles.calendarEditSvg}
-                alt="calendar edit icon"
-                src={calendarEditSvg}
-                onClick={() => handleEditRequestForSelectedCalendar(calendar)}>
-              </img>
-            </div>
-          </li>
-        })}
-        {userCalendars.pendingCalendars.map((calendar) => {
-          return <li
-            key={calendar._id}
-            onClick={() => handleUserSelection(calendar as any)}
-            className={styles.calendarModalCalendarsContainer}
-          >
-            <div className={styles.calendarModalFormGroup}>
-              <input 
-                id="calendar-checkbox"
-                type="checkbox"
-                checked={selectedCalendars.list.some(
-                  (selectedCalendar) => selectedCalendar.name === calendar.name && selectedCalendar.calendar_type !== 'personal'
-                )}
-                onChange={(calendar) => handleUserSelection(calendar as any)}
-              />
-              <label 
-                htmlFor="calendar-checkbox"
-                className={styles.calendarModalCalendarsItemText}
-              >
-                {calendar.name}
-              </label>
-              <img
-                className={styles.calendarEditSvg}
-                alt="calendar edit icon"
-                src={calendarEditSvg}
-                onClick={() => handleEditRequestForSelectedCalendar(calendar)}>
-              </img>
-            </div>
-          </li>
-        })}
+        <DropDownCalendarItems 
+          {...dropDownCalendarItemsProps}
+          calendars={[userCalendars.personalCalendar]} // converted to array beforehand to not mess up map render
+        />
+        <DropDownCalendarItems 
+          {...dropDownCalendarItemsProps}
+          calendars={userCalendars.teamCalendars}
+        />
+        <DropDownCalendarItems 
+          {...dropDownCalendarItemsProps}
+          calendars={userCalendars.pendingCalendars}
+        />
       </ul>
     </nav>
   );

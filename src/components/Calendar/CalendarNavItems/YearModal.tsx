@@ -30,7 +30,7 @@ const YearModal:FC<yearModalProps> = (props): JSX.Element => {
     return (
       <nav className={styles.yearModalContainer} style={getParentContainersRightEdgeForStyling()}>
         <div className={styles.yearModalYearListContainer}>
-          {calendarYears .map((year: any) => {
+          {calendarYears.map((year: any) => {
             return <div 
               key={uniqid()}
               onClick={() => handleChangeYearRequest(year)}

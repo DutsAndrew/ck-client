@@ -195,6 +195,15 @@ interface selectedCalendarModalProps {
   handleCalendarEditRequest: Function,
 };
 
+interface dropDownCalendarItemsProps {
+  selectedCalendars: {
+    list: calendarObject[],
+  },
+  handleUserSelection: (calendar: calendarObject) => void,
+  handleEditRequestForSelectedCalendar: (selectedCalendar: calendarObject) => any,
+  calendars: calendarObject[],
+};
+
 interface calendarViewModalProps {
   handleChangeViewRequest: Function,
 };
@@ -417,6 +426,7 @@ export type {
   monthViewProps,
   yearViewProps,
   selectedCalendarModalProps,
+  dropDownCalendarItemsProps,
   calendarViewModalProps,
   yearModalProps,
   activeCalendarState,
