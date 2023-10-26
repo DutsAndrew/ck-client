@@ -33,7 +33,11 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         );
 
   useEffect(() => {
-    if (Object.keys(calendarDatesData).length > 0) { // user might not have any calendars, so just verify that calendarData was fetched, if so user data was fetched as well
+    if (
+      Object.keys(calendarDatesData).length > 0
+      && (usersPendingCalendars.length > 0 && Object.values(usersPendingCalendars).length !== 0)
+      && (usersTeamCalendars.length > 0 && Object.values(usersTeamCalendars).length !== 0)
+    ) {
       return;
     } else {
       (async function() {

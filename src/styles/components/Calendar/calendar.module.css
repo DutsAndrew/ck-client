@@ -749,6 +749,8 @@
 /* NAV BAR MODAL STYLING -- NAV BAR MODAL STYLING */
 
 .yearModalContainer, .calendarModalContainer, .viewModalContainer {
+  display: flex;
+  flex-flow: column wrap;
   position: fixed;
   top: 15vh;
   width: auto;
@@ -811,6 +813,39 @@
   filter: invert(69%) sepia(70%) saturate(2735%) hue-rotate(360deg) brightness(102%) contrast(105%);
   width: auto;
   height: 4vh;
+}
+
+.calendarModalButtonContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  gap: 2vh;
+  padding: 1vh;
+  justify-content: space-between;
+  background-color: #f7f7f7;
+}
+
+.calendarModalDeselectAllButton, .calendarModalSelectAllButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  width: 95%;
+  height: auto;
+  background-color: #ccc;
+  color: #555;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.calendarModalDeselectAllButton:hover, .calendarModalSelectAllButton:hover {
+  background-color: #87ceeb;
+  color: #fff;
 }
 
 /* EDIT CALENDAR STYLING -- EDIT CALENDAR STYLING */

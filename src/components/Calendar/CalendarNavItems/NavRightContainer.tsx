@@ -114,7 +114,7 @@ const NavContainerRight:FC<navRightContainerProps> = (props): JSX.Element => {
         onClick={() => handleModalToggle('calendar')}
       >
         <p className={styles.calendarDropDownText}>
-          Calendars ({activeCalendars.length}/{userCalendars.teamCalendars.length + userCalendars.pendingCalendars.length + 1}
+          Calendars ({activeCalendars.length}/{userCalendars.teamCalendars.length + userCalendars.pendingCalendars.length + 1})
         </p>
         <img
           className={styles.calendarDropDownSvg}

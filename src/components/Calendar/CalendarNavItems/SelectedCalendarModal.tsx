@@ -53,6 +53,18 @@ const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Elemen
     });
   };
 
+  const handleClearAllSelectedCalendars = () => {
+    setSelectedCalendars({
+      list: [],
+    });
+  };
+
+  const handleSelectAllCalendars = () => {
+    setSelectedCalendars({
+      list: [userCalendars.personalCalendar, ...userCalendars.pendingCalendars, ...userCalendars.teamCalendars]
+    });
+  };
+
   const handleEditRequestForSelectedCalendar = (selectedCalendar: calendarObject) => {
     return handleCalendarEditRequest(selectedCalendar);
   };
@@ -66,6 +78,18 @@ const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Elemen
   return (
     <nav className={styles.calendarModalContainer}>
       <ul className={styles.calendarModalListContainer}>
+        <div className={styles.calendarModalButtonContainer}>
+          <button 
+            onClick={() => handleClearAllSelectedCalendars()}
+            className={styles.calendarModalDeselectAllButton}>
+            Clear All
+          </button>
+          <button 
+            onClick={() => handleSelectAllCalendars()}
+            className={styles.calendarModalSelectAllButton}>
+            Select All
+          </button>
+        </div>
         <DropDownCalendarItems 
           {...dropDownCalendarItemsProps}
           calendars={[userCalendars.personalCalendar]} // converted to array beforehand to not mess up map render
