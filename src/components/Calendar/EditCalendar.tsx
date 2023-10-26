@@ -5,7 +5,11 @@ import UserList from "./UserList";
 
 const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
 
-  const { selectedCalendar, handleDeactivateCalendarEditor } = props;
+  const { 
+    userId,
+    selectedCalendar,
+    handleDeactivateCalendarEditor
+  } = props;
 
   const handleCloseCalendarEditor = () => {
     return handleDeactivateCalendarEditor();

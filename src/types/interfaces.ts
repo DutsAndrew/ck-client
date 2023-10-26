@@ -95,6 +95,7 @@ interface calendarEditorState {
 };
 
 interface EditCalendarProps {
+  userId: string,
   selectedCalendar: {} | calendarObject,
   handleDeactivateCalendarEditor: Function,
 };

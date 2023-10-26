@@ -133,14 +133,10 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   };
 
   const handleActivateCalendarEditor = (selectedCalendar: calendarObject): void => {
-    if (selectedCalendar.authorized_users.includes((userId as any))) {
-      setCalendarEditor({
-        active: true,
-        calendar: selectedCalendar,
-      });
-    } else {
-      alert('You are not authorized to edit that calendar, if you believe you should have access please reach out to the owners of the calendar');
-    };
+    setCalendarEditor({
+      active: true,
+      calendar: selectedCalendar,
+    });
   };
 
   const handleDeactivateCalendarEditor = () => {
@@ -179,6 +175,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     return (
       <main className={styles.calendarContainer}>
         <EditCalendar 
+          userId={userId} // to validate calendar changes if user is authorized
           selectedCalendar={calendarEditor.calendar}
           handleDeactivateCalendarEditor={handleDeactivateCalendarEditor}
         />
