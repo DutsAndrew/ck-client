@@ -362,6 +362,11 @@ interface userCalendarInstance {
   _id: string,
 };
 
+interface userCalendarPendingUserInstance {
+  type: string,
+  user: userCalendarInstance,
+};
+
 interface calendarObject {
   authorized_users: userCalendarInstance[],
   calendar_type: string,
@@ -416,6 +421,7 @@ export type {
   calendarEditorState,
   EditCalendarProps,
   userListProps,
+  userCalendarPendingUserInstance,
   calendarNavProps,
   navLeftContainerProps,
   addFormModalProps,

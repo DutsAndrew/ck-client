@@ -902,7 +902,7 @@
   padding: 10px 20px;
   font-weight: bold;
   text-align: center;
-  background-color: #FF5733;
+  background-color: #ff0000;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -911,7 +911,7 @@
 }
 
 .calendarEditorCloseEditorButton:hover {
-  background-color: #D32F2F;
+  background-color: #cc0000;
   cursor: pointer;
   transform: scale(0.99);
 }
@@ -1076,9 +1076,27 @@
   background-color: #FFFAA0;
 }
 
-.calendarEditorUserItemContainer, .calendarEditorUserEmailText, .calendarEditorUserCompanyText {
-  width: 100%;
+.calendarEditorUserItemContainer {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: flex-start;
+  width: auto;
   height: auto;
+  padding: 1vh;
+}
+
+.calendarEditorUserText, .calendarEditorUserEmailText {
+  margin: 0;
+}
+
+.calendarEditorUserText {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.calendarEditorUserEmailText {
+  font-size: 1em;
 }
 
 /* CALENDAR EDITOR EVENTS STYLING */
