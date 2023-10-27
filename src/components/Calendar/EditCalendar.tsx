@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { EditCalendarProps, calendarObject, userReferenceInstance } from "../../types/interfaces";
+import { EditCalendarProps, calendarObject } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import UserList from "./UserList";
 
@@ -56,6 +56,9 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                     type='Pending'
                   />
                 </div>
+                <p className={styles.calendarEditorUserListsHelpText}>
+                  <em>Click on a user to modify</em>
+                </p>
                 <div className={styles.calendarEditorAuxillaryItemsContainer}>
                   <button className={styles.deleteCalendarButton}>
                     Delete Calendar

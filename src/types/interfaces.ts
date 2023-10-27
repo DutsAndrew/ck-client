@@ -105,6 +105,8 @@ interface userListProps {
   type: string,
 };
 
+type userListState = {} | userInstance;
+
 interface calendarNavProps {
   userCalendars: userCalendars,
   currentView: string,
@@ -421,7 +423,9 @@ export type {
   calendarEditorState,
   EditCalendarProps,
   userListProps,
+  userListState,
   userCalendarPendingUserInstance,
+  userCalendarInstance,
   calendarNavProps,
   navLeftContainerProps,
   addFormModalProps,
