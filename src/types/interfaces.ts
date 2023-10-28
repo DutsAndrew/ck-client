@@ -202,7 +202,7 @@ interface dropDownCalendarItemsProps {
   selectedCalendars: {
     list: calendarObject[],
   },
-  handleUserSelection: (calendar: calendarObject) => void,
+  handleUserSelection: (calendar: calendarObject, e: React.MouseEvent<HTMLLIElement, MouseEvent> | React.ChangeEvent<HTMLInputElement>) => void,
   handleEditRequestForSelectedCalendar: (selectedCalendar: calendarObject) => any,
   calendars: calendarObject[],
 };

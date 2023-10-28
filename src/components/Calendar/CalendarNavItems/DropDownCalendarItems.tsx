@@ -17,7 +17,7 @@ const DropDownCalendarItems:FC<dropDownCalendarItemsProps> = (props): JSX.Elemen
         {calendars.map((calendar) => {
           return <li
           key={calendar._id}
-          onClick={() => handleUserSelection(calendar)}
+          onClick={(e) => handleUserSelection(calendar, e)}
           className={styles.calendarModalCalendarsContainer}
         >
           <div className={styles.calendarModalFormGroup}>
@@ -27,7 +27,7 @@ const DropDownCalendarItems:FC<dropDownCalendarItemsProps> = (props): JSX.Elemen
               checked={selectedCalendars.list.some(
                 (selectedCalendar) => selectedCalendar._id === calendar._id
               )}
-              onChange={() => handleUserSelection(calendar)}
+              onChange={(e) => handleUserSelection(calendar, e)}
             />
             <label 
               htmlFor="calendar-checkbox"

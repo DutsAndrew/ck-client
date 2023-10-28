@@ -27,7 +27,11 @@ const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Elemen
     handleChangeActiveCalendars(selectedCalendars.list);
   }, [selectedCalendars.list]);
 
-  const handleUserSelection = (calendar: calendarObject): void => {
+  const handleUserSelection = (
+    calendar: calendarObject,
+    e: React.MouseEvent<HTMLLIElement, MouseEvent> | React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    e.preventDefault();
     return modifySelectedCalendars(calendar);
   };
 
