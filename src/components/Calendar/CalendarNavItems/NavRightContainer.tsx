@@ -18,8 +18,6 @@ const NavContainerRight:FC<navRightContainerProps> = (props): JSX.Element => {
     handleActivateCalendarEditor,
   } = props;
 
-  console.log(userCalendars)
-
   const getCalendarYears = (): any[] => {
     if (Object.keys(calendarDatesData).length > 0) {
       const calendarYearsObj = (calendarDatesData as CalendarDatesData).calendar_dates;

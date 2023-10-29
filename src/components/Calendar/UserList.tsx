@@ -3,6 +3,7 @@ import React, { FC, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import { userCalendarInstance, userCalendarPendingUserInstance, userInstance, userListProps, userListState } from "../../types/interfaces";
 import uniqid from "uniqid";
+import { json } from "stream/consumers";
 
 const UserList:FC<userListProps> = (props): JSX.Element => {
 
@@ -31,7 +32,23 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
     };
   };
 
-  const handleRemoveUser = (user: userCalendarInstance): void => {
+  const handleRemoveUser = async (user: userCalendarInstance): Promise<void> => {
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      return alert('You must be signed in and not in incognito to remain authorized')
+    } else {
+      const apiUrl = `http://127.0.0.1:8000/calendar/removeUserFromCalendar?user=${user._id}`;
+      const request = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+        method: 'DELETE',
+      });
+      const jsonResponse = await request.json();
+      console.log(jsonResponse);
+    };
     return;
   };
 
