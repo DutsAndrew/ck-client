@@ -45,30 +45,26 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
 
   const handleRemoveUser = async (user: userCalendarInstance): Promise<void> => {
     const userId = identifyUserIdFromDifferentTypes(user);
-    if (authUserIds.includes(userId)) {
-      const authToken = localStorage.getItem('auth-token');
-      if (typeof authToken === 'undefined') {
-        return alert('You must be signed in and not in incognito to remain authorized')
-      } else {
-        const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${type.toLowerCase()}/?user=${userId}`;
-        const request = await fetch(apiUrl, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${authToken}`,
-            'Content-Type': 'application/json',
-          },
-          method: 'DELETE',
-        });
-        const jsonResponse = await request.json();
-        if (jsonResponse.updated_calendar) {
-          handleSuccessfulUserRemovalFromCalendar(jsonResponse.updated_calendar)
-        } else {
-          alert(`Whoops, ${jsonResponse.detail}`);
-        };
-      };
-      return;
+    const authToken = localStorage.getItem('auth-token');
+
+    if (typeof authToken === 'undefined') {
+      return alert('You must be signed in and not in incognito to remain authorized')
     } else {
-      return alert('You do not have the permissions to perform this action');
+      const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${type.toLowerCase()}/?user=${userId}`;
+      const request = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+        method: 'DELETE',
+      });
+      const jsonResponse = await request.json();
+      if (jsonResponse.updated_calendar) {
+        return handleSuccessfulUserRemovalFromCalendar(jsonResponse.updated_calendar)
+      } else {
+        return alert(`Whoops, ${jsonResponse.detail}`);
+      };
     };
   };
 
