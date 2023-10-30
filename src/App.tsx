@@ -51,15 +51,22 @@ function App() {
   };
 
   const saveAllUserCalendarsToUser = (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[]): void => {
-    setUser((prevUser: userInstance) => ({
+    return setUser((prevUser: userInstance) => ({
       ...prevUser,
       calendars: populatedCalendars,
       pending_calendars: populatedPendingCalendars,
     }));
   };
 
+  const updateCalendarInUser = (newCalendar: calendarObject) => {
+    return setUser((prevUser: userInstance) => ({
+      ...prevUser,
+      calendars: [...prevUser.calendars, newCalendar],
+    }));
+  };
+
   const appendNewCalendarToUser = (calendar: calendarObject): void => {
-    setUser((prevUser: userInstance) => ({
+    return setUser((prevUser: userInstance) => ({
       ...prevUser,
       calendars: [...prevUser.calendars, calendar]
     }));
@@ -117,6 +124,7 @@ function App() {
                 appendNewCalendarToUser={appendNewCalendarToUser}
                 saveCalendarDatesAndHolidaysData={saveCalendarDatesAndHolidaysData}
                 saveAllUserCalendarsToUser={saveAllUserCalendarsToUser}
+                updateCalendarInUser={updateCalendarInUser}
                 calendarDatesData={appData.calendarData}
               />
             </Suspense>

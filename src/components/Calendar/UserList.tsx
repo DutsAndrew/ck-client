@@ -3,7 +3,6 @@ import React, { FC, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import { calendarObject, userCalendarInstance, userCalendarPendingUserInstance, userInstance, userListProps, userListState } from "../../types/interfaces";
 import uniqid from "uniqid";
-import { json } from "stream/consumers";
 
 const UserList:FC<userListProps> = (props): JSX.Element => {
 
@@ -13,6 +12,8 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
     userId,
     authUserIds,
     selectedCalendarId,
+    updateCalendarInUser,
+    handleCalendarEditorChange,
   } = props;
 
   const [userActivated, setUserActivated] = useState<userListState>({});
@@ -69,7 +70,9 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
   };
 
   const handleSuccessfulUserRemovalFromCalendar = (updatedCalendar: calendarObject) => {
-    return; // setup API to send populated object back and then save it to calendar root
+    alert('Calendar updated');
+    updateCalendarInUser(updatedCalendar);
+    handleCalendarEditorChange(updatedCalendar);
   };
 
   const handleChangeUserPermissions = (user: userCalendarInstance): void => {

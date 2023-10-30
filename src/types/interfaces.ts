@@ -86,6 +86,7 @@ interface calendarProps {
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   saveCalendarDatesAndHolidaysData: (data: CalendarDatesData) => void,
   saveAllUserCalendarsToUser: (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[]) => void,
+  updateCalendarInUser: (newCalendar: calendarObject) => void
   calendarDatesData: object,
 };
 
@@ -98,6 +99,8 @@ interface EditCalendarProps {
   userId: string,
   selectedCalendar: {} | calendarObject,
   handleDeactivateCalendarEditor: Function,
+  updateCalendarInUser: (newCalendar: calendarObject) => void
+  handleCalendarEditorChange: (updatedCalendar: calendarObject) => void,
 };
 
 interface userListProps {
@@ -106,6 +109,8 @@ interface userListProps {
   userId: string,
   authUserIds: string[],
   selectedCalendarId: string,
+  updateCalendarInUser: (newCalendar: calendarObject) => void,
+  handleCalendarEditorChange: (updatedCalendar: calendarObject) => void,
 };
 
 type userListState = {} | userInstance;

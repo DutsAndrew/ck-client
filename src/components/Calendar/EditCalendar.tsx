@@ -8,7 +8,9 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
   const { 
     userId,
     selectedCalendar,
-    handleDeactivateCalendarEditor
+    handleDeactivateCalendarEditor,
+    updateCalendarInUser,
+    handleCalendarEditorChange,
   } = props;
 
   const handleCloseCalendarEditor = () => {
@@ -23,6 +25,8 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
       userId: userId,
       authUserIds: authUserIds,
       selectedCalendarId: selectedCalendarRef._id,
+      updateCalendarInUser,
+      handleCalendarEditorChange,
     }
 
     return (

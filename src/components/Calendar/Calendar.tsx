@@ -19,6 +19,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     appendNewCalendarToUser,
     saveCalendarDatesAndHolidaysData,
     saveAllUserCalendarsToUser,
+    updateCalendarInUser,
     calendarDatesData,
   } = props;
 
@@ -133,9 +134,16 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   };
 
   const handleActivateCalendarEditor = (selectedCalendar: calendarObject): void => {
-    setCalendarEditor({
+    return setCalendarEditor({
       active: true,
       calendar: selectedCalendar,
+    });
+  };
+
+  const handleCalendarEditorChange = (updatedCalendar: calendarObject): void => {
+    return setCalendarEditor({
+      active: true,
+      calendar: updatedCalendar,
     });
   };
 
@@ -178,6 +186,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           userId={userId} // to validate calendar changes if user is authorized
           selectedCalendar={calendarEditor.calendar}
           handleDeactivateCalendarEditor={handleDeactivateCalendarEditor}
+          updateCalendarInUser={updateCalendarInUser}
+          handleCalendarEditorChange={handleCalendarEditorChange}
         />
       </main>
     );
