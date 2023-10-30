@@ -11,12 +11,22 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     handleDeactivateCalendarEditor
   } = props;
 
+  console.log(selectedCalendar)
+
   const handleCloseCalendarEditor = () => {
     return handleDeactivateCalendarEditor();
   };
 
   if (Object.keys(selectedCalendar).length !== 0) {
+
     const selectedCalendarRef = selectedCalendar as calendarObject;
+    const authUserIds = (selectedCalendar as calendarObject).authorized_users.map((user) => user._id);
+    const userListProps = {
+      userId: userId,
+      authUserIds: authUserIds,
+      selectedCalendarId: selectedCalendarRef._id,
+    }
+
     return (
       <section className={styles.editCalendarContainer}>
         <div className={styles.calendarEditorContainer}>
@@ -44,16 +54,19 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                 </h3>
                 <div className={styles.calendarEditorUserList}>
                   <UserList
-                    calendar={selectedCalendarRef.authorized_users}
+                    users={selectedCalendarRef.authorized_users}
                     type='Authorized'
+                    {...userListProps}
                   />
                   <UserList 
-                    calendar={selectedCalendarRef.view_only_users}
+                    users={selectedCalendarRef.view_only_users}
                     type='View-Only'
+                    {...userListProps}
                   />
                   <UserList 
-                    calendar={selectedCalendarRef.pending_users}
+                    users={selectedCalendarRef.pending_users}
                     type='Pending'
+                    {...userListProps}
                   />
                 </div>
                 <p className={styles.calendarEditorUserListsHelpText}>

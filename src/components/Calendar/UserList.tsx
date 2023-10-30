@@ -1,62 +1,90 @@
 // component for rendering user lists in Edit Calendar
 import React, { FC, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { userCalendarInstance, userCalendarPendingUserInstance, userInstance, userListProps, userListState } from "../../types/interfaces";
+import { calendarObject, userCalendarInstance, userCalendarPendingUserInstance, userInstance, userListProps, userListState } from "../../types/interfaces";
 import uniqid from "uniqid";
 import { json } from "stream/consumers";
 
 const UserList:FC<userListProps> = (props): JSX.Element => {
 
-  const { calendar, type } = props;
+  const { 
+    users,
+    type,
+    userId,
+    authUserIds,
+    selectedCalendarId,
+  } = props;
 
   const [userActivated, setUserActivated] = useState<userListState>({});
 
   const idString = `${type.toLowerCase()}-user-list-container`;
   const idRef = styles[idString];
 
-  const handleUserItemClick = (user: userCalendarInstance): void => {
-    if (type === 'Pending') { // pending users have the user object nested
-      if (
-        (userActivated as userInstance)._id === 
-        (user as unknown as userCalendarPendingUserInstance)['user']._id
-      ) {
-        return setUserActivated({});
-      } else {
-        setUserActivated((user as unknown as userCalendarPendingUserInstance)['user']);
-      };
+  const identifyUserIdFromDifferentTypes = (user: userCalendarInstance) => {
+    let userId;
+    if (type === 'Pending') {
+      userId = (user as unknown as userCalendarPendingUserInstance)['user']._id;
     } else {
-      if ((userActivated as userInstance)._id === user._id) {
-        return setUserActivated({});
+      userId = user._id;
+    };
+    return userId;
+  };
+
+  const handleUserItemClick = (user: userCalendarInstance): void => {
+    const userId = identifyUserIdFromDifferentTypes(user);
+    if ((userActivated as userInstance)._id === userId) {
+      return setUserActivated({});
+    } else {
+      if (type === 'Pending') {
+        return setUserActivated((user as unknown as userCalendarPendingUserInstance)['user']);
+      } else {
+        return setUserActivated(user);
       };
-      return setUserActivated(user);
     };
   };
 
   const handleRemoveUser = async (user: userCalendarInstance): Promise<void> => {
-    const authToken = localStorage.getItem('auth-token');
-    if (typeof authToken === 'undefined') {
-      return alert('You must be signed in and not in incognito to remain authorized')
+    const userId = identifyUserIdFromDifferentTypes(user);
+    if (authUserIds.includes(userId)) {
+      const authToken = localStorage.getItem('auth-token');
+      if (typeof authToken === 'undefined') {
+        return alert('You must be signed in and not in incognito to remain authorized')
+      } else {
+        const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${type.toLowerCase()}/?user=${userId}`;
+        const request = await fetch(apiUrl, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+          method: 'DELETE',
+        });
+        const jsonResponse = await request.json();
+        if (jsonResponse.updated_calendar) {
+          handleSuccessfulUserRemovalFromCalendar(jsonResponse.updated_calendar)
+        } else {
+          alert(`Whoops, ${jsonResponse.detail}`);
+        };
+      };
+      return;
     } else {
-      const apiUrl = `http://127.0.0.1:8000/calendar/removeUserFromCalendar?user=${user._id}`;
-      const request = await fetch(apiUrl, {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
-        },
-        method: 'DELETE',
-      });
-      const jsonResponse = await request.json();
-      console.log(jsonResponse);
+      return alert('You do not have the permissions to perform this action');
     };
-    return;
+  };
+
+  const handleSuccessfulUserRemovalFromCalendar = (updatedCalendar: calendarObject) => {
+    return; // setup API to send populated object back and then save it to calendar root
   };
 
   const handleChangeUserPermissions = (user: userCalendarInstance): void => {
-    return;
+    if (authUserIds.includes(userId)) {
+      return;
+    } else {
+      return alert('You do not have the permissions to perform this action');
+    };
   };
 
-  if (Array.isArray(calendar) && calendar.length > 0) {
+  if (Array.isArray(users) && users.length > 0) {
     return (
       <ul
         id={idRef} 
@@ -67,7 +95,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         <button className={styles.calendarEditorAddUserButton}>
           Add User
         </button>
-        {Array.isArray(calendar) && calendar.map((user) => {
+        {Array.isArray(users) && users.map((user) => {
           return <li
             key={uniqid()}
             onClick={() => handleUserItemClick(user)}

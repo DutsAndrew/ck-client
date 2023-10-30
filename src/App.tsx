@@ -39,7 +39,6 @@ function App() {
     return () => window.removeEventListener('scroll', handleScrollStatus);
   }, []);
 
-
   const saveLoggedInUser = (user: userInstance) => {
     setUser(user);
     setAuth(true);

@@ -101,8 +101,11 @@ interface EditCalendarProps {
 };
 
 interface userListProps {
-  calendar: userCalendarInstance[],
+  users: userCalendarInstance[],
   type: string,
+  userId: string,
+  authUserIds: string[],
+  selectedCalendarId: string,
 };
 
 type userListState = {} | userInstance;
