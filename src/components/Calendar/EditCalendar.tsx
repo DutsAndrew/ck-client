@@ -11,8 +11,6 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     handleDeactivateCalendarEditor
   } = props;
 
-  console.log(selectedCalendar)
-
   const handleCloseCalendarEditor = () => {
     return handleDeactivateCalendarEditor();
   };
