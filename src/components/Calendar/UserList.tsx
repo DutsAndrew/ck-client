@@ -1,8 +1,17 @@
 // component for rendering user lists in Edit Calendar
 import React, { FC, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { calendarObject, userCalendarInstance, userCalendarPendingUserInstance, userInstance, userListProps, userListState } from "../../types/interfaces";
 import uniqid from "uniqid";
+import AddUserToCalendarList from "./AddUserToCalendarList";
+import { 
+  calendarObject, 
+  userCalendarInstance, 
+  userCalendarPendingUserInstance, 
+  userInstance, 
+  userListProps, 
+  userListState 
+} from "../../types/interfaces";
+
 
 const UserList:FC<userListProps> = (props): JSX.Element => {
 
@@ -17,6 +26,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
   } = props;
 
   const [userActivated, setUserActivated] = useState<userListState>({});
+  const [addUserActivated, setAddUserActivated] = useState(false);
 
   const idString = `${type.toLowerCase()}-user-list-container`;
   const idRef = styles[idString];
@@ -83,6 +93,11 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
     };
   };
 
+  const handleAddUserClick = () => {
+    const statusSwitch = addUserActivated === false ? true : false;
+    setAddUserActivated(statusSwitch);
+  };
+
   if (Array.isArray(users) && users.length > 0) {
     return (
       <ul
@@ -91,9 +106,10 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         <h4 className={styles.calendarEditorUserListHeaderText}>
           {type} Users
         </h4>
-        <button className={styles.calendarEditorAddUserButton}>
-          Add User
-        </button>
+        <AddUserToCalendarList 
+          handleAddUserClick={handleAddUserClick}
+          addUserActivated={addUserActivated}
+        />
         {Array.isArray(users) && users.map((user) => {
           return <li
             key={uniqid()}
@@ -143,9 +159,10 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         <h4 className={styles.calendarEditorUserListHeaderText}>
           {type} Users
         </h4>
-        <button className={styles.calendarEditorAddUserButton}>
-          Add User
-        </button>
+        <AddUserToCalendarList 
+          handleAddUserClick={handleAddUserClick}
+          addUserActivated={addUserActivated}
+        />
         <p className={styles.calendarEditorUserItemContainerEmpty}>
           No users to report
         </p>

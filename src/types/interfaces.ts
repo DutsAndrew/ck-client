@@ -115,6 +115,11 @@ interface userListProps {
 
 type userListState = {} | userInstance;
 
+interface AddUserToCalendarListProps {
+  handleAddUserClick: () => void,
+  addUserActivated: boolean,
+};
+
 interface calendarNavProps {
   userCalendars: userCalendars,
   currentView: string,
@@ -432,6 +437,7 @@ export type {
   EditCalendarProps,
   userListProps,
   userListState,
+  AddUserToCalendarListProps,
   userCalendarPendingUserInstance,
   userCalendarInstance,
   calendarNavProps,
