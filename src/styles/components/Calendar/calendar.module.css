@@ -993,7 +993,7 @@
   }
 }
 
-.calendarEditorUserList > ul {
+.calendarEditorUserList > ul, .addUserToCalendarSearchResultsList {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -1077,34 +1077,52 @@
   background-color: #FFFAA0;
 }
 
-.calendarEditorUserItemContainer {
+.calendarEditorUserItemContainer, .addUserToCalendarListItem {
   display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: flex-start;
   width: 90%;
   height: auto;
   padding: 1vh;
   gap: 1vh;
   border-radius: 15px;
-  background-color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
 }
 
-.calendarEditorUserItemContainer:hover {
+.calendarEditorUserItemContainer {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.addUserToCalendarListItem {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.calendarEditorUserItemContainer {
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.addUserToCalendarListItem {
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0;
+  margin-top: 1vh;
+}
+
+.calendarEditorUserItemContainer:hover, .addUserToCalendarListItem:hover {
   background-color: rgba(255, 255, 255, 0.9);
 }
 
-.calendarEditorUserText, .calendarEditorUserEmailText, .calendarEditorUserPendingUserText {
+.calendarEditorUserText, .addUserToCalendarListText, .calendarEditorUserEmailText, .addUserToCalendarEmailText, .calendarEditorUserPendingUserText {
   margin: 0;
 }
 
-.calendarEditorUserText {
+.calendarEditorUserText, .addUserToCalendarListText {
   font-weight: bold;
   font-size: 1em;
 }
 
-.calendarEditorUserEmailText {
+.calendarEditorUserEmailText, .addUserToCalendarEmailText {
   font-size: 1em;
 }
 
@@ -1208,12 +1226,23 @@
   background-color: #cc0000;
 }
 
+/* ADD USER TO CALENDAR COMPONENT STYLING */
+
+.addUserToCalendarMainContainer {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
 .addUserToCalendarSearchContainer {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  width: 80%;
+  width: 85%;
   max-height: 5vh;
   background-color: white;
   border: 2px solid #333333;
@@ -1224,7 +1253,8 @@
   height: 4vh;
   width: 75%;
   border: none !important;
-  font-size: 1.25em;
+  padding-left: 1vh;
+  font-size: 1.15em;
 }
 
 .addUserToCalendarListInput:focus {
@@ -1238,3 +1268,28 @@
   filter: invert(100%) sepia(0%) saturate(3500%) hue-rotate(12deg) brightness(108%) contrast(69%);
 }
 
+.addUserToCalendarSearchResultsList {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.addCalendarUserButton {
+  height: 4vh;
+  width: auto;
+  cursor: pointer;
+  filter: invert(35%) sepia(34%) saturate(2815%) hue-rotate(206deg) brightness(97%) contrast(88%);
+}
+
+.addCalendarUserButton:hover {
+  transform: scale(1.1);
+}
+
+.addUserToCalendarListItemTextContainer {
+  display: flex;
+  flex-flow: column wrap;
+  width: 100%;
+  gap: 1vh;
+}
