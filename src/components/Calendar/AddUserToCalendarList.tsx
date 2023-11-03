@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { AddUserToCalendarListProps, calendarUserQueryResults } from "../../types/interfaces";
+import { AddUserToCalendarListProps, calendarUserQueryResults, userQuery } from "../../types/interfaces";
 import searchSvg from '../../assets/magnify.svg';
 import plusSvg from '../../assets/plus.svg';
 import uniqid from "uniqid";
@@ -9,12 +9,15 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
 
   const { 
     handleAddUserClick, 
-    addUserActivated 
+    addUserActivated,
+    selectedCalendarId,
+    type,
   } = props;
 
   const [apiRequestSent, setApiRequestSent] = useState(false);
   const [userLookup, setUserLookup] = useState('');
   const [userQueryResults, setUserQueryResults] = useState<calendarUserQueryResults>([]);
+  const [typeOfPendingUser, setTypeOfPendingUser] = useState('');
 
   const handleSearchBarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (userLookup.length === 1) setUserQueryResults([]); // when user deletes entry, search results are removed
@@ -27,6 +30,10 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
     } else {
       handleSearchBarChange((e as any));
     };
+  };
+
+  const handlePendingUserButtonActivation = (typeOfAuth: string) => {
+    setTypeOfPendingUser(typeOfAuth);
   };
 
   const handleUserQueryToDb = async () => {
@@ -57,8 +64,28 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
     };
   };
 
-  const handleAddUserClickRequest = () => {
-    return;
+  const handleAddUserClickRequest = async (user: userQuery) => {
+    if (type.toLowerCase() === 'pending' && typeOfPendingUser.length === 0) {
+      alert('You cannot add a pending user, without marking the user as "Authorized" or "View Only"');
+    };
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      return alert('You must be signed in and not in incognito to search for users in the database');
+    } else {
+      const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
+      const apiUrl = `
+        http://127.0.0.1:8000/calendar/${selectedCalendarId}/addUser/${user.user._id}/${typeConversion}/${typeOfPendingUser}`;
+      const request = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+      });
+      const jsonResponse = await request.json();
+      console.log(jsonResponse);
+    };
   };
 
   return (
@@ -105,13 +132,35 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
                     <p className={styles.addUserToCalendarEmailText}>
                       {user.user.email ? user.user.email : ''}
                     </p>
+                    {type.toLowerCase() === 'pending' &&
+                      <div className={styles.addUserToCalendarListPendingUserOptionsContainer}>
+                        <button 
+                          type='button'
+                          onClick={() => handlePendingUserButtonActivation('authorized')}
+                          className={typeOfPendingUser === 'authorized' ? 
+                            styles.AddUserToCalendarListPendingUserOptionsButtonActive : 
+                            styles.AddUserToCalendarListPendingUserOptionsButton
+                          }>
+                            Authorized
+                        </button>
+                        <button 
+                          type='button'
+                          onClick={() => handlePendingUserButtonActivation('view-only')}
+                          className={typeOfPendingUser === 'view-only' ? 
+                            styles.AddUserToCalendarListPendingUserOptionsButtonActive : 
+                            styles.AddUserToCalendarListPendingUserOptionsButton
+                          }>
+                            View Only
+                        </button>
+                      </div>
+                    }
                   </div>
                   <div className={styles.addCalendarUserButtonContainer}>
                     <img 
                       src={plusSvg} 
                       alt="plus icon" 
                       className={styles.addCalendarUserButton}
-                      onClick={() => handleAddUserClickRequest()}
+                      onClick={() => handleAddUserClickRequest((user as unknown as userQuery))}
                     >
                     </img>
                   </div>

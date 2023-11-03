@@ -1060,7 +1060,6 @@
 }
 
 .calendarEditorAddUserButton:hover {
-  cursor: pointer;
   background-color: #ccc;
   color: #fff;
 }
@@ -1292,4 +1291,41 @@
   flex-flow: column wrap;
   width: 100%;
   gap: 1vh;
+  border-right: 2px solid rgba(224, 224, 224, 0.4)
+}
+
+.addUserToCalendarListPendingUserOptionsContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.AddUserToCalendarListPendingUserOptionsButton {
+  width: auto;
+  display: inline-block;
+  text-align: center;
+  background-color: #E0E0E0;
+  color: #333;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.AddUserToCalendarListPendingUserOptionsButton:hover {
+  background-color: #ccc;
+  color: #fff;
+}
+
+.AddUserToCalendarListPendingUserOptionsButtonActive {
+  width: auto;
+  display: inline-block;
+  text-align: center;
+  background-color: #0074E0; /* Change to blue background color */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }

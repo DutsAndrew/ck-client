@@ -118,6 +118,8 @@ type userListState = {} | userInstance;
 interface AddUserToCalendarListProps {
   handleAddUserClick: () => void,
   addUserActivated: boolean,
+  selectedCalendarId: string,
+  type: string,
 };
 
 interface calendarNavProps {
@@ -445,6 +447,7 @@ export type {
   addFormModalProps,
   addCalendarFormState,
   calendarUserQueryResults,
+  userQuery,
   navRightContainerProps,
   dayViewProps,
   weekViewProps,

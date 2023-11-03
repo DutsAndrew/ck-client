@@ -61,7 +61,9 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
     if (typeof authToken === 'undefined') {
       return alert('You must be signed in and not in incognito to remain authorized')
     } else {
-      const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${type.toLowerCase()}/?user=${userId}`;
+      const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
+      const apiUrl = `
+        http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${typeConversion}/?user=${userId}`;
       const request = await fetch(apiUrl, {
         headers: {
           'Accept': 'application/json',
@@ -109,6 +111,8 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         <AddUserToCalendarList 
           handleAddUserClick={handleAddUserClick}
           addUserActivated={addUserActivated}
+          selectedCalendarId={selectedCalendarId}
+          type={type}
         />
         {Array.isArray(users) && users.map((user) => {
           return <li
@@ -162,6 +166,8 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         <AddUserToCalendarList 
           handleAddUserClick={handleAddUserClick}
           addUserActivated={addUserActivated}
+          selectedCalendarId={selectedCalendarId}
+          type={type}
         />
         <p className={styles.calendarEditorUserItemContainerEmpty}>
           No users to report
