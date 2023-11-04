@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { AddUserToCalendarListProps, calendarUserQueryResults, userQuery } from "../../types/interfaces";
+import { AddUserToCalendarListProps, calendarUserQueryResults, userInstance, userQuery } from "../../types/interfaces";
 import searchSvg from '../../assets/magnify.svg';
 import plusSvg from '../../assets/plus.svg';
 import uniqid from "uniqid";
@@ -73,8 +73,9 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
       return alert('You must be signed in and not in incognito to search for users in the database');
     } else {
       const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
+      const pendingConversion = typeOfPendingUser.length > 0 ? typeOfPendingUser : false;
       const apiUrl = `
-        http://127.0.0.1:8000/calendar/${selectedCalendarId}/addUser/${user.user._id}/${typeConversion}/${typeOfPendingUser}`;
+        http://127.0.0.1:8000/calendar/${selectedCalendarId}/addUser/${user.user._id}/${typeConversion}/${pendingConversion}`;
       const request = await fetch(apiUrl, {
         headers: {
           'Accept': 'application/json',
