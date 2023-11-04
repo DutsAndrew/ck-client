@@ -57,27 +57,30 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
   const handleRemoveUser = async (user: userCalendarInstance): Promise<void> => {
     const userId = identifyUserIdFromDifferentTypes(user);
     const authToken = localStorage.getItem('auth-token');
-
-    if (typeof authToken === 'undefined') {
-      return alert('You must be signed in and not in incognito to remain authorized')
-    } else {
-      const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
-      const apiUrl = `
-        http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${typeConversion}/?user=${userId}`;
-      const request = await fetch(apiUrl, {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
-        },
-        method: 'DELETE',
-      });
-      const jsonResponse = await request.json();
-      if (jsonResponse.updated_calendar) {
-        return handleSuccessfulUserRemovalFromCalendar(jsonResponse.updated_calendar)
+    if (authUserIds.includes(userId)) {
+      if (typeof authToken === 'undefined') {
+        return alert('You must be signed in and not in incognito to remain authorized')
       } else {
-        return alert(`Whoops, ${jsonResponse.detail}`);
+        const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
+        const apiUrl = `
+          http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${typeConversion}/?user=${userId}`;
+        const request = await fetch(apiUrl, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+          method: 'DELETE',
+        });
+        const jsonResponse = await request.json();
+        if (jsonResponse.updated_calendar) {
+          return handleSuccessfulUserRemovalFromCalendar(jsonResponse.updated_calendar)
+        } else {
+          return alert(`Whoops, ${jsonResponse.detail}`);
+        };
       };
+    } else {
+      return alert('You do not have the permissions to perform this action');
     };
   };
 
