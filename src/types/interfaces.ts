@@ -120,6 +120,8 @@ interface AddUserToCalendarListProps {
   addUserActivated: boolean,
   selectedCalendarId: string,
   type: string,
+  updateCalendarInUser: (newCalendar: calendarObject) => void,
+  handleCalendarEditorChange: (updatedCalendar: calendarObject) => void,
 };
 
 interface calendarNavProps {

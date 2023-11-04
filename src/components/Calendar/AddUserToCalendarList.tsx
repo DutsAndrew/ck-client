@@ -12,6 +12,8 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
     addUserActivated,
     selectedCalendarId,
     type,
+    updateCalendarInUser,
+    handleCalendarEditorChange,
   } = props;
 
   const [apiRequestSent, setApiRequestSent] = useState(false);
@@ -85,7 +87,12 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
         method: 'POST',
       });
       const jsonResponse = await request.json();
-      console.log(jsonResponse);
+      if (jsonResponse.updated_calendar) {
+        updateCalendarInUser(jsonResponse.updated_calendar);
+        handleCalendarEditorChange(jsonResponse.updated_calendar);
+      } else {
+        alert(`We ran into some issues. ${jsonResponse.detail}`);
+      };
     };
   };
 

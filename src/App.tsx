@@ -61,7 +61,9 @@ function App() {
   const updateCalendarInUser = (newCalendar: calendarObject) => {
     return setUser((prevUser: userInstance) => ({
       ...prevUser,
-      calendars: [...prevUser.calendars, newCalendar],
+      calendars: prevUser.calendars.map((calendar) =>
+        calendar._id === newCalendar._id ? newCalendar : calendar
+      ),
     }));
   };
 

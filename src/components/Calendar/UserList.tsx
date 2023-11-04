@@ -85,7 +85,6 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
   };
 
   const handleSuccessfulUserRemovalFromCalendar = (updatedCalendar: calendarObject) => {
-    alert('Calendar updated');
     updateCalendarInUser(updatedCalendar);
     handleCalendarEditorChange(updatedCalendar);
   };
@@ -116,6 +115,8 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
           addUserActivated={addUserActivated}
           selectedCalendarId={selectedCalendarId}
           type={type}
+          updateCalendarInUser={updateCalendarInUser}
+          handleCalendarEditorChange={handleCalendarEditorChange}
         />
         {Array.isArray(users) && users.map((user) => {
           return <li
@@ -171,6 +172,8 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
           addUserActivated={addUserActivated}
           selectedCalendarId={selectedCalendarId}
           type={type}
+          updateCalendarInUser={updateCalendarInUser}
+          handleCalendarEditorChange={handleCalendarEditorChange}
         />
         <p className={styles.calendarEditorUserItemContainerEmpty}>
           No users to report
