@@ -1,15 +1,16 @@
 // component for rendering user lists in Edit Calendar
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import uniqid from "uniqid";
 import AddUserToCalendarList from "./AddUserToCalendarList";
+import toast, { Toaster } from 'react-hot-toast'
 import { 
   calendarObject, 
   userCalendarInstance, 
   userCalendarPendingUserInstance, 
   userInstance, 
   userListProps, 
-  userListState 
+  userListState ,
 } from "../../types/interfaces";
 
 
@@ -27,21 +28,37 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
 
   const [userActivated, setUserActivated] = useState<userListState>({});
   const [addUserActivated, setAddUserActivated] = useState(false);
+  const [changingUserPermissions, setChangingUserPermissions] = useState(false);
+  const [selectedUserPermissions, setSelectedUserPermissions] = useState('');
+
+  useEffect(() => {
+    if (changingUserPermissions === false) setSelectedUserPermissions('');
+  }, [changingUserPermissions]);
 
   const idString = `${type.toLowerCase()}-user-list-container`;
   const idRef = styles[idString];
 
   const identifyUserIdFromDifferentTypes = (user: userCalendarInstance) => {
-    let userId;
+    let selectedUserId;
     if (type === 'Pending') {
-      userId = (user as unknown as userCalendarPendingUserInstance)['user']._id;
+      selectedUserId = (user as unknown as userCalendarPendingUserInstance)['user']._id;
     } else {
-      userId = user._id;
+      selectedUserId = user._id;
     };
-    return userId;
+    return selectedUserId;
   };
 
-  const handleUserItemClick = (user: userCalendarInstance): void => {
+  const handleUserItemClick = (user: userCalendarInstance, e: React.MouseEvent<HTMLLIElement, MouseEvent>): void => {
+    if ( // check if user is changing permissions, if so, ignore removing or adding selected user
+      (e.target as any).id === 'calendar-editor-user-permissions-button' 
+      || (e.target as any).id === 'calendar-editor-permissions-button-authorized'
+      || (e.target as any).id === 'calendar-editor-permissions-button-view-only'
+    ) {
+      return;
+    };
+
+    // handle user either selecting or deselecting a user
+    setChangingUserPermissions(false);
     const userId = identifyUserIdFromDifferentTypes(user);
     if ((userActivated as userInstance)._id === userId) {
       return setUserActivated({});
@@ -55,15 +72,14 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
   };
 
   const handleRemoveUser = async (user: userCalendarInstance): Promise<void> => {
-    const userId = identifyUserIdFromDifferentTypes(user);
+    const convertedUserId = identifyUserIdFromDifferentTypes(user);
     const authToken = localStorage.getItem('auth-token');
     if (authUserIds.includes(userId)) {
       if (typeof authToken === 'undefined') {
         return alert('You must be signed in and not in incognito to remain authorized')
       } else {
         const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
-        const apiUrl = `
-          http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${typeConversion}/?user=${userId}`;
+        const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${typeConversion}/?user=${convertedUserId}`;
         const request = await fetch(apiUrl, {
           headers: {
             'Accept': 'application/json',
@@ -89,24 +105,30 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
     handleCalendarEditorChange(updatedCalendar);
   };
 
-  const handleChangeUserPermissions = (user: userCalendarInstance): void => {
-    if (authUserIds.includes(userId)) {
-      return;
-    } else {
-      return alert('You do not have the permissions to perform this action');
-    };
+  const handleOpenUserPermissionsList = (): void => {
+    const permissionsSwitch = changingUserPermissions === false ? true : false;
+    setChangingUserPermissions(permissionsSwitch);
+  };
+
+  const handleUserPermissionChange = (type: string): void => {
+    setSelectedUserPermissions(type);
+    toast.success('success');
   };
 
   const handleAddUserClick = () => {
-    const statusSwitch = addUserActivated === false ? true : false;
-    setAddUserActivated(statusSwitch);
+    const userSwitch = addUserActivated === false ? true : false;
+    setAddUserActivated(userSwitch);
   };
 
   if (Array.isArray(users) && users.length > 0) {
     return (
       <ul
         id={idRef} 
-        className={styles.calendarEditorUsersList}>
+        className={styles.calendarEditorUsersList}
+      >
+        <Toaster 
+          position="top-center"
+        />
         <h4 className={styles.calendarEditorUserListHeaderText}>
           {type} Users
         </h4>
@@ -121,20 +143,30 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         {Array.isArray(users) && users.map((user) => {
           return <li
             key={uniqid()}
-            onClick={() => handleUserItemClick(user)}
+            onClick={(e) => handleUserItemClick(user, e)}
+            id="calendar-editor-user-item-container"
             className={styles.calendarEditorUserItemContainer}
           >
-            <p className={styles.calendarEditorUserText}>
+            <p 
+              id="calendar-editor-user-text"
+              className={styles.calendarEditorUserText}
+            >
               {user.first_name ? user.first_name : (user as unknown as userCalendarPendingUserInstance)['user'].first_name},&nbsp;
               {user.last_name ? user.last_name : (user as unknown as userCalendarPendingUserInstance)['user'].last_name} -&nbsp;
               {user.job_title ? user.job_title : (user as unknown as userCalendarPendingUserInstance)['user'].job_title},&nbsp;
               {user.company ? user.company : (user as unknown as userCalendarPendingUserInstance)['user'].company}
             </p>
-            <p className={styles.calendarEditorUserEmailText}>
+            <p 
+              id="calendar-editor-user-email-text"
+              className={styles.calendarEditorUserEmailText}
+            >
               {user.email ? user.email : (user as unknown as userCalendarPendingUserInstance)['user'].email}
             </p>
             {(user as unknown as userCalendarPendingUserInstance).type ? 
-              <p className={styles.calendarEditorUserPendingUserText}>
+              <p 
+                id="calendar-editor-user-permissions-text"
+                className={styles.calendarEditorUserPendingUserText}
+              >
                 Set as: <strong>{(user as unknown as userCalendarPendingUserInstance).type}</strong>
               </p>
               : ''
@@ -147,13 +179,37 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
               </button> 
               : ''
             }
-            {Object.keys(userActivated).length > 0 && (user as unknown as userCalendarPendingUserInstance).type ? 
+            {Object.keys(userActivated).length > 0 &&
               <button 
-                onClick={() => handleChangeUserPermissions(user)}
+                onClick={() => handleOpenUserPermissionsList()}
+                id="calendar-editor-user-permissions-button"
                 className={styles.calendarEditorUserEditPermissionsButton}>
                 Change Permissions
-              </button> 
-              : ''
+              </button>
+            }
+            {Object.keys(userActivated).length > 0 && changingUserPermissions === true &&
+              <div className={styles.addUserToCalendarListPendingUserOptionsContainer}>
+                <button 
+                  type='button'
+                  onClick={() => handleUserPermissionChange('authorized')}
+                  id="calendar-editor-permissions-button-authorized"
+                  className={selectedUserPermissions === 'authorized' ? 
+                    styles.AddUserToCalendarListPendingUserOptionsButtonActive : 
+                    styles.AddUserToCalendarListPendingUserOptionsButton
+                  }>
+                    Authorized
+                </button>
+                <button 
+                  type='button'
+                  onClick={() => handleUserPermissionChange('view-only')}
+                  id="calendar-editor-permissions-button-view-only"
+                  className={selectedUserPermissions === 'view-only' ? 
+                    styles.AddUserToCalendarListPendingUserOptionsButtonActive : 
+                    styles.AddUserToCalendarListPendingUserOptionsButton
+                  }>
+                    View Only
+                </button>
+              </div>
             }
           </li>
         })}
