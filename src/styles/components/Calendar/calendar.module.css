@@ -1300,10 +1300,17 @@
   width: 100%;
 }
 
-.AddUserToCalendarListPendingUserOptionsButton {
+.AddUserToCalendarListPendingUserOptionsButton, .AddUserToCalendarListPendingUserOptionsButtonActive {
   width: auto;
+  height: 3vh;
   display: inline-block;
   text-align: center;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.AddUserToCalendarListPendingUserOptionsButton {
   background-color: #E0E0E0;
   color: #333;
   border: none;
@@ -1318,12 +1325,6 @@
 }
 
 .AddUserToCalendarListPendingUserOptionsButtonActive {
-  width: auto;
-  display: inline-block;
-  text-align: center;
   background-color: #0074E0; /* Change to blue background color */
   color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 }

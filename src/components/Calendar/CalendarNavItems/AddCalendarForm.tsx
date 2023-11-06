@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addCalendarFormProps, addCalendarFormState, calendarObject, calendarUserQueryResults } from "../../../types/interfaces";
+import { addCalendarFormProps, addCalendarFormState, calendarUserQueryResults } from "../../../types/interfaces";
+import toast, { Toaster } from 'react-hot-toast'
 import uniqid from "uniqid";
 
 const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
@@ -42,9 +43,10 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
   };
 
   const handleUserSearchRequest = async () => {
+    toast.loading('Finding Users', {id: 'fetchingUsers'})
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
-      return alert('You must be signed in and not in incognito to search for users in the database');
+      return toast.error('You need to be signed in or not in incognito to perform this action', {id: 'fetchingUsers'});
     } else {
       const apiUrl = `http://127.0.0.1:8000/calendar/userQuery?user=${userLookup}`;
       const request = await fetch(apiUrl, {
@@ -57,17 +59,13 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
       });
       const jsonResponse = await request.json();
       setApiRequestSent(true);
-      if (!request.ok) {
-        return alert('We were unable to lookup that user, please try again later');
+      if (!request.ok && request.status !== 200 && !jsonResponse.user_results) {
+        setUserLookupResults([]);
+        setUserLookup('');
+        return toast.error(`${jsonResponse.detail}`, {id: 'fetchingUsers'});
       } else {
-        if (jsonResponse.user_results) {
-          // handle good fetch
-          setUserLookupResults(jsonResponse.user_results);
-        } else {
-          alert('We could not find the user you were looking for');
-          setUserLookupResults([]);
-          setUserLookup('');
-        };
+        setUserLookupResults(jsonResponse.user_results);
+        return toast.success('Users found', {id: 'fetchingUsers'});
       };
     };
   };
@@ -130,9 +128,10 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
   };
 
   const uploadNewCalendarToDb = async () => {
+    toast.loading('Uploading calendar', {id: 'uploadingCalendar'});
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
-      alert('You must be signed in and or not in incognito mode to send requests');
+      return toast.error('You must be signed in or not in incognito to perform this action', {id: 'uploadingCalendar'});
     } else {
       const apiUrl = 'http://127.0.0.1:8000/calendar/uploadCalendar';
       const request = await fetch(apiUrl, {
@@ -144,25 +143,22 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
         method: 'POST',
         body: JSON.stringify(formData),
       });
-      const response = await request.json();
-      if (!request.ok) {
-        // handle bad request
+      const jsonResponse = await request.json();
+      if (!request.ok && request.status !== 200 && !jsonResponse.calendar) {
+        return toast.error(`${jsonResponse.detail}`, {id: 'uploadingCalendar'});
       } else {
-        // handle good request
-        if (response.calendar) {
-          appendNewCalendarToUser(response.calendar);
-          alert('Calendar added');
-          return handleCloseModalRequest();
-        } else {
-          // no calendar created
-          return alert('Something went wrong in calendar creation, please try again');
-        };
+        appendNewCalendarToUser(jsonResponse.calendar);
+        toast.success('Calendar Uploaded', {id: 'uploadingCalendar'});
+        return handleCloseModalRequest();
       };
     };
   };
 
   return (
     <div className={styles.addCalendarFormContainer}>
+      <Toaster 
+          position="top-center"
+      />
       <h2 className={styles.addCalendarHeader}>
         Calendar
       </h2>

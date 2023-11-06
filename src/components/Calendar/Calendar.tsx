@@ -7,6 +7,7 @@ import MonthView from './MonthView';
 import WeekView from './WeekView';
 import DayView from './DayView';
 import EditCalendar from './EditCalendar';
+import toast, { Toaster } from 'react-hot-toast'
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
@@ -41,17 +42,20 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     ) {
       return;
     } else {
-      (async function() {
-        await fetchCalendarAppData(); // get calendar date/holiday data from db
-        await fetchAllUserCalendarData(); // get ALL user calendar data
-      })();
-    }
+      mountAppData();
+    };
   }, []);
 
+  const mountAppData = () => {
+    fetchCalendarAppData(); // get calendar date/holiday data from db
+    fetchAllUserCalendarData(); // get ALL user calendar data
+  };
+
   const fetchCalendarAppData = async () => {
+    toast.loading('App data', {id: 'calendarData'});
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
-      return alert('You must be signed in and not in incognito to remain authorized');
+      return toast.error('You must be signed in or not in incognito to perform this action', {id: 'calendarData'});
     } else {
       const apiUrl = 'http://127.0.0.1:8000/calendar/';
       const request = await fetch(apiUrl, {
@@ -62,23 +66,23 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         },
         method: 'GET',
       });
-      if (!request.ok) {
-        return alert('We were unable to load calendar data, please try again later');
+      const jsonResponse: calendarApiResponse = await request.json();
+      if (!request.ok || request.status !== 200) {
+        return toast.error('App data', {id: 'calendarData'});
       } else {
-        const jsonResponse: calendarApiResponse = await request.json();
         if (jsonResponse.data) {
-          return saveCalendarDatesAndHolidaysData(jsonResponse.data);
-        } else {
-          return alert('We were not able to retrieve the necessary calendar data');
+          saveCalendarDatesAndHolidaysData(jsonResponse.data);
+          return toast.success('App data', {id: 'calendarData'});
         };
       };
     };
   };
 
   const fetchAllUserCalendarData = async () => {
+    toast.loading('Your calendar data', {id: 'userCalendarData'});
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
-      return alert('You must be signed in and not in incognito to remain authorized');
+      return toast.error('You must be signed in or not in incognito to perform this action', {id: 'userCalendarData'});
     } else {
       const apiUrl = 'http://127.0.0.1:8000/calendar/getUserCalendarData';
       const request = await fetch(apiUrl, {
@@ -90,13 +94,14 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         method: 'GET',
       });
       const response: allUserCalendarsPopulatedApiResponse = await request.json();
-      if (!request.ok) {
-        return alert('We were unable to load calendar data, please try again later');
+      if (!request.ok && request.status !== 200) {
+        return toast.error('Your calendar data', {id: 'userCalendarData'});
       } else {
         if (response.updated_user) {
           const populatedCalendars = response.updated_user.calendars;
           const populatedPendingCalendars = response.updated_user.pending_calendars;
-          return saveAllUserCalendarsToUser(populatedCalendars, populatedPendingCalendars);
+          saveAllUserCalendarsToUser(populatedCalendars, populatedPendingCalendars);
+          return toast.success('Your calendar data', {id: 'userCalendarData'});
         };
       };
     };
@@ -251,6 +256,9 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
     return (
       <main className={styles.calendarContainer}>
+        <Toaster 
+          position="top-center"
+        />
         <CalendarNav {...calendarNavProps} />
         {renderCalendarView()}
       </main>

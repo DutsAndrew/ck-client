@@ -72,11 +72,12 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
   };
 
   const handleRemoveUser = async (user: userCalendarInstance): Promise<void> => {
+    const toastId = toast.loading('Loading...');
     const convertedUserId = identifyUserIdFromDifferentTypes(user);
     const authToken = localStorage.getItem('auth-token');
     if (authUserIds.includes(userId)) {
       if (typeof authToken === 'undefined') {
-        return alert('You must be signed in and not in incognito to remain authorized')
+        toast.error('You must be signed in or not in incognito to make this request', {id: toastId});
       } else {
         const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
         const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${typeConversion}/?user=${convertedUserId}`;
@@ -89,14 +90,15 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
           method: 'DELETE',
         });
         const jsonResponse = await request.json();
-        if (jsonResponse.updated_calendar) {
-          return handleSuccessfulUserRemovalFromCalendar(jsonResponse.updated_calendar)
+        if (request.status === 200 && request.ok && jsonResponse.updated_calendar) {
+          handleSuccessfulUserRemovalFromCalendar(jsonResponse.updated_calendar);
+          toast.success('User removed!', {id: toastId});
         } else {
-          return alert(`Whoops, ${jsonResponse.detail}`);
-        };
+          toast.error(`${jsonResponse.detail}`, {id: toastId});
+        }
       };
     } else {
-      return alert('You do not have the permissions to perform this action');
+      toast.error('You are not authorized to make that change', {id: toastId});
     };
   };
 
@@ -112,7 +114,6 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
 
   const handleUserPermissionChange = (type: string): void => {
     setSelectedUserPermissions(type);
-    toast.success('success');
   };
 
   const handleAddUserClick = () => {

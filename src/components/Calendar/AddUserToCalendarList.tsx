@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { AddUserToCalendarListProps, calendarUserQueryResults, userInstance, userQuery } from "../../types/interfaces";
+import { AddUserToCalendarListProps, calendarUserQueryResults, userQuery } from "../../types/interfaces";
+import toast, { Toaster } from 'react-hot-toast'
 import searchSvg from '../../assets/magnify.svg';
 import plusSvg from '../../assets/plus.svg';
 import uniqid from "uniqid";
@@ -39,10 +40,11 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
   };
 
   const handleUserQueryToDb = async () => {
-    if (userLookup.length === 0) return alert('Your user lookup is too short');
+    const toastId = toast.loading('Loading...');
+    if (userLookup.length === 0) return toast.error('No user to lookup', {id: toastId});
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
-      return alert('You must be signed in and not in incognito to search for users in the database');
+      return toast.error('You must be signed in or not in incognito to make this request', {id: toastId});
     } else {
       const apiUrl = `http://127.0.0.1:8000/calendar/userQuery?user=${userLookup}`;
       const request = await fetch(apiUrl, {
@@ -54,25 +56,26 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
         method: 'GET',
       });
       const jsonResponse = await request.json();
-      console.log(jsonResponse);
       setApiRequestSent(true);
-      if (jsonResponse.user_results) {
-        return setUserQueryResults(jsonResponse.user_results);
+      if (request.ok && request.status === 200 && jsonResponse.user_results) {
+        setUserQueryResults(jsonResponse.user_results);
+        return toast.success('Users found', {id: toastId});
       } else {
-        alert('We could not find the user you were looking for')
         setUserQueryResults([]);
         setUserLookup('');
+        return toast.error('No users found', {id: toastId});
       };
     };
   };
 
   const handleAddUserClickRequest = async (user: userQuery) => {
+    const toastId = toast.loading('Loading...');
     if (type.toLowerCase() === 'pending' && typeOfPendingUser.length === 0) {
-      alert('You cannot add a pending user, without marking the user as "Authorized" or "View Only"');
+      return toast.error('You must mark a user as "authorized" or "pending"', {id: toastId});
     };
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
-      return alert('You must be signed in and not in incognito to search for users in the database');
+      return toast.error('You must be signed in or not in incognito to make this request', {id: toastId});
     } else {
       const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
       const pendingConversion = typeOfPendingUser.length > 0 ? typeOfPendingUser : false;
@@ -87,17 +90,21 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
         method: 'POST',
       });
       const jsonResponse = await request.json();
-      if (jsonResponse.updated_calendar) {
+      if (request.ok && request.status === 200 && jsonResponse.updated_calendar) {
         updateCalendarInUser(jsonResponse.updated_calendar);
         handleCalendarEditorChange(jsonResponse.updated_calendar);
+        return toast.success('User added!', {id: toastId});
       } else {
-        alert(`We ran into some issues. ${jsonResponse.detail}`);
+        return toast.error(`${jsonResponse.detail}`, {id: toastId});
       };
     };
   };
 
   return (
     <>
+      <Toaster 
+        position="top-center"
+      />
       <button 
         onClick={() => handleAddUserClick()}
         className={styles.calendarEditorAddUserButton}>
