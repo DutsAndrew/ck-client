@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import { addCalendarFormProps, addCalendarFormState, calendarUserQueryResults } from "../../../types/interfaces";
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import uniqid from "uniqid";
 
 const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
@@ -40,6 +40,14 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
   const handleUserSearchBarEntry = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (userLookup.length === 1) setUserLookupResults([]); // when user deletes entry, search results are removed
     return setUserLookup(event.currentTarget.value);
+  };
+
+  const handleUserKeyClickOnSearchBarEntry = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.code === 'Enter') {
+      handleUserSearchRequest();
+    } else {
+      return;
+    };
   };
 
   const handleUserSearchRequest = async () => {
@@ -90,22 +98,26 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
   };
 
   const handleAddUserToViewOnlyUsersList = (user: any) => {
+    toast.loading('Adding user to "View Only"', {id: 'viewOnlyUserRequest'});
     // exit if user is already in list
     if (formData.viewOnlyUsers.includes(user)) {
-      return;
+      return toast.error('User already marked to View Only', {id: 'viewOnlyUserRequest'});
     };
     // if the other invited user list has user, remove it and add it to this one instead
     if (formData.authorizedUsers.includes(user)) {
+      toast.success('User moved from "Authorized" to "View Only"', {id: 'viewOnlyUserRequest'});
       return setFormData({
         ...formData,
         authorizedUsers: formData.authorizedUsers.filter((invitedUser) => invitedUser !== user),
         viewOnlyUsers: [...formData.viewOnlyUsers, user],
       });
+    } else {
+      toast.success('User added to "View Only', {id: 'viewOnlyUserRequest'});
+      setFormData({
+        ...formData,
+        viewOnlyUsers: [...formData.viewOnlyUsers, user],
+      });
     };
-    setFormData({
-      ...formData,
-      viewOnlyUsers: [...formData.viewOnlyUsers, user],
-    });
   };
 
   const handleRemoveUserFromAuthorizedUsersList = (user: any) => {
@@ -156,9 +168,6 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
 
   return (
     <div className={styles.addCalendarFormContainer}>
-      <Toaster 
-          position="top-center"
-      />
       <h2 className={styles.addCalendarHeader}>
         Calendar
       </h2>
@@ -191,6 +200,7 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
             id='user-search-input'
             value={userLookup}
             onChange={(e) => handleUserSearchBarEntry(e)}
+            onKeyDown={(e) => handleUserKeyClickOnSearchBarEntry(e)}
             className={styles.addCalendarFormInput}
           />
           <button 

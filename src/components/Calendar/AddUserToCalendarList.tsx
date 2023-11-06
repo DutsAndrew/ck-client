@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import { AddUserToCalendarListProps, calendarUserQueryResults, userQuery } from "../../types/interfaces";
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import searchSvg from '../../assets/magnify.svg';
 import plusSvg from '../../assets/plus.svg';
 import uniqid from "uniqid";
@@ -102,9 +102,6 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
 
   return (
     <>
-      <Toaster 
-        position="top-center"
-      />
       <button 
         onClick={() => handleAddUserClick()}
         className={styles.calendarEditorAddUserButton}>

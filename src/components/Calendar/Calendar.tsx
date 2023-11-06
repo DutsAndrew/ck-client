@@ -7,7 +7,7 @@ import MonthView from './MonthView';
 import WeekView from './WeekView';
 import DayView from './DayView';
 import EditCalendar from './EditCalendar';
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
@@ -256,9 +256,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
     return (
       <main className={styles.calendarContainer}>
-        <Toaster 
-          position="top-center"
-        />
         <CalendarNav {...calendarNavProps} />
         {renderCalendarView()}
       </main>

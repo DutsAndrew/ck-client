@@ -2,6 +2,7 @@ import React, { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/pages/signup.module.css';
 import { signUpData, signUpApiResponseObject } from '../types/interfaces';
+import toast from 'react-hot-toast';
 
 export default function SignUp() {
 
@@ -237,6 +238,7 @@ export default function SignUp() {
   };
 
   const sendApiRequestToSignUp = async (userObject: signUpData | undefined) => {
+    toast.loading('Signing up...', {id: 'signUp'});
     if (typeof userObject === 'undefined') return;
     const apiUrl = 'http://127.0.0.1:8000/auth/signup';
     const request = await fetch(apiUrl, {
@@ -249,32 +251,17 @@ export default function SignUp() {
     });
 
     const response: signUpApiResponseObject = await request.json();
-    // handle failed request
-    if (!request.ok) {
-      handleBadApiRequest(request, response);
-      return;
-    };
-    // handle good request
-    handleGoodApiRequest(response);
+    handleSignUpResponse(request, response);
   };
 
-  const handleBadApiRequest = (request: Response, response: signUpApiResponseObject) => {
-    if (response.detail) {
-      if (request.status === 400) {
-        alert(`Email already registered, please try again or login, ${response.detail}`);
-      } else if (request.status === 500) {
-        alert(`Server-side error, ${response.detail}`);
-      } else {
-        alert(`Error: ${response.detail}`);
-      };
-    };
-  };
-
-  const handleGoodApiRequest = (response: signUpApiResponseObject) => {
-    if (typeof response.user !== 'undefined') {
-      alert(`Account created for: ${response.user.first_name}, ${response.user.last_name}`);
+  const handleSignUpResponse = (request: Response, response: signUpApiResponseObject) => {
+    if (!request.ok || request.status !== 200) {  // handle failed request
+      return toast.error(`${response.detail}`, {id: 'signUp'});
+    } else if (response.user) { // handle good request
+      toast.success(`Signed up: ${response.user.first_name}, ${response.user.last_name}`);
       navigate('/login');
-      return;
+    } else {
+      return toast.error('Failed to sign up', {id: 'signUp'});
     };
   };
 

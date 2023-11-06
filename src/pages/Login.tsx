@@ -4,6 +4,7 @@ import styles from '../styles/pages/signup.module.css';
 import { loginData, loginApiResponseObject } from '../types/interfaces';
 import { loginProps } from '../types/interfaces';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export default function Login(props: loginProps): JSX.Element {
 
@@ -140,6 +141,7 @@ export default function Login(props: loginProps): JSX.Element {
   };
 
   const sendApiRequestToLogin = async (userObject: loginData | undefined) => {
+    toast.loading('Logging in...', {id: 'loggingIn'});
     if (typeof userObject === 'undefined') return;
     const apiUrl = 'http://127.0.0.1:8000/auth/login';
     const request = await fetch(apiUrl, {
@@ -151,31 +153,25 @@ export default function Login(props: loginProps): JSX.Element {
       body: JSON.stringify(userObject, null, 2),
     });
 
-    // handle failed request
-    if (!request.ok) {
-      handleBadApiResponse(request);
+    if (!request.ok || request.status !== 200) {  // handle failed request
+      toast.error('Failed to login', {id: 'loggingIn'});
       return;
-    } else {
-      // handle good response
+    } else { // handle good response
       const jsonResponse = await request.json();
       handleGoodApiResponse(request, jsonResponse);
     };
   };
 
-  const handleBadApiResponse = (response: Response) => {
-    return
-  };
-
   const handleGoodApiResponse = async (response: any, jsonResponse: loginApiResponseObject) => {
     const authHeaders = response.headers.get('authorization');
     if (authHeaders) {
+      toast.success('Logged in', {id: 'loggingIn'});
       const token = authHeaders.split(' ')[1];
       localStorage.setItem("auth-token", token);
       saveLoggedInUser(jsonResponse.user);
       return navigate('/dashboard');
     } else {
-      handleBadApiResponse(response);
-      return;
+      toast.error('Failed to log in', {id: 'loggingIn'});
     };
   };
 

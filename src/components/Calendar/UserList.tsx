@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import uniqid from "uniqid";
 import AddUserToCalendarList from "./AddUserToCalendarList";
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { 
   calendarObject, 
   userCalendarInstance, 
@@ -127,9 +127,6 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         id={idRef} 
         className={styles.calendarEditorUsersList}
       >
-        <Toaster 
-          position="top-center"
-        />
         <h4 className={styles.calendarEditorUserListHeaderText}>
           {type} Users
         </h4>
