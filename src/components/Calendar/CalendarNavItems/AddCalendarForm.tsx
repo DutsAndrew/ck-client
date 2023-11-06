@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addCalendarFormProps, addCalendarFormState, calendarUserQueryResults } from "../../../types/interfaces";
+import { addCalendarFormProps, addCalendarFormState, calendarUserQueryResults, userQuery } from "../../../types/interfaces";
 import toast from 'react-hot-toast'
 import uniqid from "uniqid";
 
@@ -78,30 +78,33 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
     };
   };
 
-  const handleAddUserToAuthorizedUsersList = (user: any) => {
-    // exit if user is already in list
-    if (formData.authorizedUsers.includes(user)) {
-      return;
+  const handleAddUserToAuthorizedUsersList = (user: userQuery) => {
+    toast.loading('Adding user as "Authorized"', {id: 'authorizedUserRequest'});
+    if (formData.authorizedUsers.includes(user)) { // exit if user is already in list
+      return toast.error('User already marked as "Authorized"', {id: 'authorizedUserRequest'});
     };
     // if the other invited user list has user, remove it and add it to this one instead
     if (formData.viewOnlyUsers.includes(user)) {
+      toast.success('User moved from "View Only" to "Authorized"', {id: 'authorizedUserRequest'});
       return setFormData({
         ...formData,
         viewOnlyUsers: formData.viewOnlyUsers.filter((invitedUser) => invitedUser !== user),
         authorizedUsers: [...formData.authorizedUsers, user],
       });
+    } else {
+      toast.success('User added as "Authorized"', {id: 'authorizedUserRequest'});
+      setFormData({
+        ...formData,
+        authorizedUsers: [...formData.authorizedUsers, user],
+      });
     };
-    setFormData({
-      ...formData,
-      authorizedUsers: [...formData.authorizedUsers, user],
-    });
   };
 
-  const handleAddUserToViewOnlyUsersList = (user: any) => {
-    toast.loading('Adding user to "View Only"', {id: 'viewOnlyUserRequest'});
+  const handleAddUserToViewOnlyUsersList = (user: userQuery) => {
+    toast.loading('Adding user as "View Only"', {id: 'viewOnlyUserRequest'});
     // exit if user is already in list
     if (formData.viewOnlyUsers.includes(user)) {
-      return toast.error('User already marked to View Only', {id: 'viewOnlyUserRequest'});
+      return toast.error('User already marked as "View Only"', {id: 'viewOnlyUserRequest'});
     };
     // if the other invited user list has user, remove it and add it to this one instead
     if (formData.authorizedUsers.includes(user)) {
@@ -112,7 +115,7 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
         viewOnlyUsers: [...formData.viewOnlyUsers, user],
       });
     } else {
-      toast.success('User added to "View Only', {id: 'viewOnlyUserRequest'});
+      toast.success('User added as "View Only"', {id: 'viewOnlyUserRequest'});
       setFormData({
         ...formData,
         viewOnlyUsers: [...formData.viewOnlyUsers, user],
@@ -120,14 +123,16 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
     };
   };
 
-  const handleRemoveUserFromAuthorizedUsersList = (user: any) => {
+  const handleRemoveUserFromAuthorizedUsersList = (user: userQuery) => {
+    toast.success('User removed from "Authorized"', {id: 'removeAuthorizedUser'});
     setFormData({
       ...formData,
       authorizedUsers: formData.authorizedUsers.filter((invitedUser) => invitedUser !== user)
     });
   };
 
-  const handleRemoveUserFromViewOnlyUsersList = (user: any) => {
+  const handleRemoveUserFromViewOnlyUsersList = (user: userQuery) => {
+    toast.success('User removed from "View Only"', {id: 'removeViewOnlyUser'});
     setFormData({
       ...formData,
       viewOnlyUsers: formData.viewOnlyUsers.filter((invitedUser) => invitedUser !== user)
