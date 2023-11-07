@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { calendarViewModalProps } from "../../../types/interfaces";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 
@@ -8,6 +8,18 @@ const ViewModal:FC<calendarViewModalProps> = (props): JSX.Element => {
     handleChangeViewRequest,
     handleModalDeactivation,
   } = props;
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScrollStatus);
+    return () => window.removeEventListener('scroll', handleScrollStatus);
+  }, []);
+
+  const handleScrollStatus = () => {
+    const topOfPage = window.scrollY;
+    if (topOfPage > 300) {
+      handleModalDeactivation();
+    };
+  };
 
   const viewOptions = [
     "All",

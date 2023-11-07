@@ -25,8 +25,20 @@ const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Elemen
   }, []);
 
   useEffect(() => {
+    window.addEventListener('scroll', handleScrollStatus);
+    return () => window.removeEventListener('scroll', handleScrollStatus);
+  }, []);
+
+  useEffect(() => {
     handleChangeActiveCalendars(selectedCalendars.list);
   }, [selectedCalendars.list]);
+
+  const handleScrollStatus = () => {
+    const topOfPage = window.scrollY;
+    if (topOfPage > 300) {
+      handleModalDeactivation();
+    };
+  };
 
   const getParentContainersRightEdgeForStyling = () => {
     const yearDropDownElement = document.querySelector('#calendar-dropdown');

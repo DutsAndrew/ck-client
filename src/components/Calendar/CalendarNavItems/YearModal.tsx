@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { yearModalProps } from "../../../types/interfaces";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import uniqid from 'uniqid';
@@ -10,6 +10,18 @@ const YearModal:FC<yearModalProps> = (props): JSX.Element => {
     handleChangeYearRequest,
     handleModalDeactivation,
   } = props;
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScrollStatus);
+    return () => window.removeEventListener('scroll', handleScrollStatus);
+  }, []);
+
+  const handleScrollStatus = () => {
+    const topOfPage = window.scrollY;
+    if (topOfPage > 300) {
+      handleModalDeactivation();
+    };
+  };
 
   const getParentContainersRightEdgeForStyling = () => {
     const yearDropDownElement = document.querySelector('#year-dropdown');
