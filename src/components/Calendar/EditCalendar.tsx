@@ -12,6 +12,7 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     handleDeactivateCalendarEditor,
     updateCalendarInUser,
     handleCalendarEditorChange,
+    removeCalendarFromUser,
   } = props;
 
   const handleCloseCalendarEditor = () => {
@@ -37,6 +38,13 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
         });
         const jsonResponse = await request.json();
         console.log(jsonResponse);
+        if (!request.ok || request.status !== 200 || !jsonResponse.calendar_id) {
+          toast.error('Failed to fully delete calendar', {id: 'calendarDeletion'});
+        } else {
+          toast.success('Calendar removed', {id: 'calendarDeletion'});
+          removeCalendarFromUser(jsonResponse.calendar_id)
+          // NEED TO HANDLE LOCAL STATE MANAGEMENT TO EXIT OUT OF EDITOR AFTER REMOVAL OF CALENDAR
+        };
       };
     } else {
       toast.error('You cannot delete this calendar as you did not create it', {id: 'calendarDeletion'});

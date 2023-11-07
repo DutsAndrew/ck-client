@@ -21,6 +21,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     saveCalendarDatesAndHolidaysData,
     saveAllUserCalendarsToUser,
     updateCalendarInUser,
+    removeCalendarFromUser,
     calendarDatesData,
   } = props;
 
@@ -193,6 +194,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           handleDeactivateCalendarEditor={handleDeactivateCalendarEditor}
           updateCalendarInUser={updateCalendarInUser}
           handleCalendarEditorChange={handleCalendarEditorChange}
+          removeCalendarFromUser={removeCalendarFromUser}
         />
       </main>
     );

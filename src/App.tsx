@@ -75,6 +75,14 @@ function App() {
     }));
   };
 
+  const removeCalendarFromUser = (calendarId: string): void => {
+    return setUser((prevUser: userInstance) => ({
+      ...prevUser,
+      calendars: prevUser.calendars.filter((calendar) => calendar._id !== calendarId),
+      pending_calendars: prevUser.pending_calendars.filter((calendar) => calendar._id !== calendarId),
+    }));
+  };
+
   const handleSignOut = () => {
     setUser({});
     setAppData({
@@ -131,6 +139,7 @@ function App() {
                 saveCalendarDatesAndHolidaysData={saveCalendarDatesAndHolidaysData}
                 saveAllUserCalendarsToUser={saveAllUserCalendarsToUser}
                 updateCalendarInUser={updateCalendarInUser}
+                removeCalendarFromUser={removeCalendarFromUser}
                 calendarDatesData={appData.calendarData}
               />
             </Suspense>
