@@ -7,56 +7,74 @@ const YearModal:FC<yearModalProps> = (props): JSX.Element => {
 
   const {
     calendarYears,
-    handleChangeYearRequest
+    handleChangeYearRequest,
+    handleModalDeactivation,
   } = props;
 
   const getParentContainersRightEdgeForStyling = () => {
     const yearDropDownElement = document.querySelector('#year-dropdown');
     if (yearDropDownElement) {
       const targetRightEdge = yearDropDownElement.getBoundingClientRect().right;
-      if (targetRightEdge) {
-        return {
-          right: `${window.innerWidth - targetRightEdge}px`
-        };
-      } else {
-        return {
-          right: '0px'
-        };
+      return {
+        right: `${window.innerWidth - targetRightEdge}px`
       };
+    }
+    return {
+      right: '0px'
+    };
+  };
+
+  const handleBackgroundOffClick = (e: React.MouseEvent) => {
+    if ((e.target as any).id === 'calendar-modal-background') {
+      handleModalDeactivation();
+    } else {
+      return;
     };
   };
 
   if (Array.isArray(calendarYears) && calendarYears.length > 0) {
     return (
-      <nav className={styles.yearModalContainer} style={getParentContainersRightEdgeForStyling()}>
-        <div className={styles.yearModalYearListContainer}>
-          {calendarYears.map((year: any) => {
-            return <div 
-              key={uniqid()}
-              onClick={() => handleChangeYearRequest(year)}
-              className={styles.yearModalYearListItemContainer}
-            >
-              <p className={styles.yearModalYearListItemText}>
-                {year}
-              </p>
-            </div>
-          })}
-        </div>
-      </nav>
+      <div 
+        onClick={(e) => handleBackgroundOffClick(e)}
+        id='calendar-modal-background'
+        className={styles.navContainerRightDropDownBackground}
+      >
+        <nav className={styles.yearModalContainer} style={getParentContainersRightEdgeForStyling()}>
+          <div className={styles.yearModalYearListContainer}>
+            {calendarYears.map((year: any) => {
+              return <div 
+                key={uniqid()}
+                onClick={() => handleChangeYearRequest(year)}
+                className={styles.yearModalYearListItemContainer}
+              >
+                <p className={styles.yearModalYearListItemText}>
+                  {year}
+                </p>
+              </div>
+            })}
+          </div>
+        </nav>
+      </div>
     );
   } else {
     return (
-      <nav className={styles.yearModalContainer} style={getParentContainersRightEdgeForStyling()}>
-        <div className={styles.yearModalYearListContainer}>
-          <div 
-            className={styles.yearModalYearListItemContainer}
-          >
-            <p className={styles.yearModalYearListItemText}>
-              Loading Data...
-            </p>
+      <div
+        onClick={(e) => handleBackgroundOffClick(e)}
+        id='calendar-modal-background'
+        className={styles.navContainerRightDropDownBackground}
+      >
+        <nav className={styles.yearModalContainer} style={getParentContainersRightEdgeForStyling()}>
+          <div className={styles.yearModalYearListContainer}>
+            <div 
+              className={styles.yearModalYearListItemContainer}
+            >
+              <p className={styles.yearModalYearListItemText}>
+                Loading Data...
+              </p>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
     );
   };
 };

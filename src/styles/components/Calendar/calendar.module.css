@@ -750,11 +750,20 @@
 
 /* NAV BAR MODAL STYLING -- NAV BAR MODAL STYLING */
 
+.navContainerRightDropDownBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
 .yearModalContainer, .calendarModalContainer, .viewModalContainer {
   display: flex;
   flex-flow: column wrap;
   position: fixed;
-  top: 15vh;
+  top: 10.35vh;
   width: auto;
   height: auto;
   display: flex;
@@ -772,6 +781,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   padding: 16px;
+  margin: 0;
   max-height: 75vh;
   overflow-y: scroll;
   overflow-x: hidden;

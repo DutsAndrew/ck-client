@@ -215,6 +215,7 @@ interface selectedCalendarModalProps {
   activeCalendars: calendarObject[],
   handleChangeActiveCalendars: Function,
   handleCalendarEditRequest: Function,
+  handleModalDeactivation: () => void,
 };
 
 interface dropDownCalendarItemsProps {
@@ -228,11 +229,13 @@ interface dropDownCalendarItemsProps {
 
 interface calendarViewModalProps {
   handleChangeViewRequest: Function,
+  handleModalDeactivation: () => void,
 };
 
 interface yearModalProps {
   calendarYears: any[],
   handleChangeYearRequest: Function,
+  handleModalDeactivation: () => void,
 };
 
 type activeCalendarState = calendarObject[];

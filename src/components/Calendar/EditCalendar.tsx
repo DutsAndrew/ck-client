@@ -42,8 +42,8 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
           toast.error('Failed to fully delete calendar', {id: 'calendarDeletion'});
         } else {
           toast.success('Calendar removed', {id: 'calendarDeletion'});
-          removeCalendarFromUser(jsonResponse.calendar_id)
-          // NEED TO HANDLE LOCAL STATE MANAGEMENT TO EXIT OUT OF EDITOR AFTER REMOVAL OF CALENDAR
+          removeCalendarFromUser(jsonResponse.calendar_id);
+          handleDeactivateCalendarEditor();
         };
       };
     } else {
@@ -61,7 +61,7 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
       selectedCalendarId: selectedCalendarRef._id,
       updateCalendarInUser,
       handleCalendarEditorChange,
-    }
+    };
 
     return (
       <section className={styles.editCalendarContainer}>

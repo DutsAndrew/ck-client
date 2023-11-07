@@ -59,9 +59,6 @@ const NavContainerRight:FC<navRightContainerProps> = (props): JSX.Element => {
   };
 
   const handleModalDeactivation = () => {
-    const yearDropDownElement = document.querySelector('#year-dropdown');
-    yearDropDownElement?.classList.remove('dropdown-active');
-    
     setModal({
       calendar: false,
       view: false,
@@ -138,6 +135,7 @@ const NavContainerRight:FC<navRightContainerProps> = (props): JSX.Element => {
         <YearModal
           calendarYears={getCalendarYears()}
           handleChangeYearRequest={handleChangeYearRequest}
+          handleModalDeactivation={handleModalDeactivation}
         />
       }
       {modal.calendar === true && 
@@ -146,11 +144,13 @@ const NavContainerRight:FC<navRightContainerProps> = (props): JSX.Element => {
           activeCalendars={activeCalendars}
           handleChangeActiveCalendars={handleActiveCalendarChange}
           handleCalendarEditRequest={handleCalendarEditRequest}
+          handleModalDeactivation={handleModalDeactivation}
         />
       }
       {modal.view === true && 
         <ViewModal
           handleChangeViewRequest={handleChangeViewRequest}
+          handleModalDeactivation={handleModalDeactivation}
         />
       }
     </div>

@@ -9,7 +9,8 @@ const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Elemen
     userCalendars,
     activeCalendars,
     handleChangeActiveCalendars,
-    handleCalendarEditRequest
+    handleCalendarEditRequest,
+    handleModalDeactivation,
   } = props;
 
   // calendarModal only stores what the user currently modifies, actual state is stored in Calendar root component
@@ -26,6 +27,19 @@ const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Elemen
   useEffect(() => {
     handleChangeActiveCalendars(selectedCalendars.list);
   }, [selectedCalendars.list]);
+
+  const getParentContainersRightEdgeForStyling = () => {
+    const yearDropDownElement = document.querySelector('#calendar-dropdown');
+    if (yearDropDownElement) {
+      const targetRightEdge = yearDropDownElement.getBoundingClientRect().right;
+      return {
+        right: `${window.innerWidth - targetRightEdge}px`
+      };
+    }
+    return {
+      right: '0px'
+    };
+  };
 
   const handleUserSelection = (
     calendar: calendarObject,
@@ -73,6 +87,14 @@ const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Elemen
     return handleCalendarEditRequest(selectedCalendar);
   };
 
+  const handleBackgroundOffClick = (e: React.MouseEvent) => {
+    if ((e.target as any).id === 'calendar-modal-background') {
+      handleModalDeactivation();
+    } else {
+      return;
+    }
+  };
+
   const dropDownCalendarItemsProps = {
     selectedCalendars,
     handleUserSelection,
@@ -80,34 +102,39 @@ const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Elemen
   }
 
   return (
-    <nav className={styles.calendarModalContainer}>
-      <ul className={styles.calendarModalListContainer}>
-        <div className={styles.calendarModalButtonContainer}>
-          <button 
-            onClick={() => handleClearAllSelectedCalendars()}
-            className={styles.calendarModalDeselectAllButton}>
-            Clear All
-          </button>
-          <button 
-            onClick={() => handleSelectAllCalendars()}
-            className={styles.calendarModalSelectAllButton}>
-            Select All
-          </button>
-        </div>
-        <DropDownCalendarItems 
-          {...dropDownCalendarItemsProps}
-          calendars={[userCalendars.personalCalendar]} // converted to array beforehand to not mess up map render
-        />
-        <DropDownCalendarItems 
-          {...dropDownCalendarItemsProps}
-          calendars={userCalendars.teamCalendars}
-        />
-        <DropDownCalendarItems 
-          {...dropDownCalendarItemsProps}
-          calendars={userCalendars.pendingCalendars}
-        />
-      </ul>
-    </nav>
+    <div 
+      onClick={(e) => handleBackgroundOffClick(e)}
+      id='calendar-modal-background'
+      className={styles.navContainerRightDropDownBackground}>
+      <nav className={styles.calendarModalContainer} style={getParentContainersRightEdgeForStyling()}>
+        <ul className={styles.calendarModalListContainer}>
+          <div className={styles.calendarModalButtonContainer}>
+            <button 
+              onClick={() => handleClearAllSelectedCalendars()}
+              className={styles.calendarModalDeselectAllButton}>
+              Clear All
+            </button>
+            <button 
+              onClick={() => handleSelectAllCalendars()}
+              className={styles.calendarModalSelectAllButton}>
+              Select All
+            </button>
+          </div>
+          <DropDownCalendarItems 
+            {...dropDownCalendarItemsProps}
+            calendars={[userCalendars.personalCalendar]} // converted to array beforehand to not mess up map render
+          />
+          <DropDownCalendarItems 
+            {...dropDownCalendarItemsProps}
+            calendars={userCalendars.teamCalendars}
+          />
+          <DropDownCalendarItems 
+            {...dropDownCalendarItemsProps}
+            calendars={userCalendars.pendingCalendars}
+          />
+        </ul>
+      </nav>
+    </div>
   );
 };
 

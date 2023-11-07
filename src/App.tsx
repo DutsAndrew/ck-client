@@ -94,7 +94,7 @@ function App() {
 
   const handleScrollStatus = () => {
     const topOfPage = window.scrollY;
-    if (topOfPage > 50) {
+    if (topOfPage > 500) {
       setScrollStatus(true);
     } else {
       setScrollStatus(false);
