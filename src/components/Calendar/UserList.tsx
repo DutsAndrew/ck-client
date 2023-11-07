@@ -72,12 +72,12 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
   };
 
   const handleRemoveUser = async (user: userCalendarInstance): Promise<void> => {
-    const toastId = toast.loading('Loading...');
+    toast.loading('Attempting to remove user', {id: 'removingUser'});
     const convertedUserId = identifyUserIdFromDifferentTypes(user);
     const authToken = localStorage.getItem('auth-token');
     if (authUserIds.includes(userId)) {
       if (typeof authToken === 'undefined') {
-        toast.error('You must be signed in or not in incognito to make this request', {id: toastId});
+        toast.error('You must be signed in or not in incognito to make this request', {id: 'removingUser'});
       } else {
         const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
         const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${typeConversion}/?user=${convertedUserId}`;
@@ -92,13 +92,13 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         const jsonResponse = await request.json();
         if (request.status === 200 && request.ok && jsonResponse.updated_calendar) {
           handleSuccessfulUserRemovalFromCalendar(jsonResponse.updated_calendar);
-          toast.success('User removed!', {id: toastId});
+          toast.success('User removed!', {id: 'removingUser'});
         } else {
-          toast.error(`${jsonResponse.detail}`, {id: toastId});
+          toast.error(`${jsonResponse.detail}`, {id: 'removingUser'});
         }
       };
     } else {
-      toast.error('You are not authorized to make that change', {id: toastId});
+      toast.error('You are not authorized to make that change', {id: 'removingUser'});
     };
   };
 
