@@ -45,6 +45,8 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
   const handleUserKeyClickOnSearchBarEntry = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' || e.code === 'Enter') {
       handleUserSearchRequest();
+    } else if (e.key === 'Backspace' || e.code === 'Backspace') {
+      setUserLookupResults([]);
     } else {
       return;
     };
@@ -73,7 +75,11 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
         return toast.error(`${jsonResponse.detail}`, {id: 'fetchingUsers'});
       } else {
         setUserLookupResults(jsonResponse.user_results);
-        return toast.success('Users found', {id: 'fetchingUsers'});
+        if (jsonResponse.user_results.length === 0) {
+          toast.error('No users found', {id: 'fetchingUsers'});
+        } else {
+          toast.success('Users found', {id: 'fetchingUsers'});
+        };
       };
     };
   };
@@ -139,7 +145,15 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormEnterClick = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === 'Enter' || e.code === 'Enter') {
+      e.preventDefault();
+    } else {
+      return;
+    };
+  };
+
+  const handleFormSubmitByButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     uploadNewCalendarToDb();
   };
@@ -176,7 +190,10 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
       <h2 className={styles.addCalendarHeader}>
         Calendar
       </h2>
-      <form onSubmit={(e) => handleSubmit(e)} className={styles.addCalendarForm}>
+      <form 
+        onKeyDown={(e) => handleFormEnterClick(e)}
+        className={styles.addCalendarForm}
+      >
         <div className={styles.formGroup}>
           <label 
             htmlFor='calendar-name-input'
@@ -295,7 +312,12 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
             ))}
           </ul>
         </div>
-        <button type="submit" className={styles.addCalendarFormButton}>Create Calendar</button>
+        <button 
+          onClick={(e) => handleFormSubmitByButtonClick(e)}
+          type="submit"
+          className={styles.addCalendarFormButton}>
+            Create Calendar
+          </button>
       </form>
     </div>
   );
