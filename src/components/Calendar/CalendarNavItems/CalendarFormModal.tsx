@@ -9,6 +9,7 @@ const CalendarFormModal:FC<addFormModalProps> = (props): JSX.Element => {
   const {
     userCalendars,
     userId,
+    calendarDatesData,
     handleCloseModalRequest,
     appendNewCalendarToUser,
   } = props;
@@ -20,6 +21,12 @@ const CalendarFormModal:FC<addFormModalProps> = (props): JSX.Element => {
       reEnableScrollBar();
     };
   }, []);
+
+  const verifyModalBackgroundOffClick = (e: React.MouseEvent) => {
+    if ((e.target as any).id === 'calendar-form-modal-background') {
+      handleCloseModalRequest();
+    };
+  };
 
   const temporarilyDisableScrollBar = () => {
     const body = document.body;
@@ -33,6 +40,8 @@ const CalendarFormModal:FC<addFormModalProps> = (props): JSX.Element => {
 
   return (
     <section
+      id="calendar-form-modal-background"
+      onClick={(e) => verifyModalBackgroundOffClick(e)}
       className={styles.calendarFormModalBackground}
     >
       <div className={styles.calendarFormModalContainer}>
@@ -45,6 +54,7 @@ const CalendarFormModal:FC<addFormModalProps> = (props): JSX.Element => {
         <CalendarFormSwitch
           userCalendars={userCalendars}
           userId={userId}
+          calendarDatesData={calendarDatesData}
           appendNewCalendarToUser={appendNewCalendarToUser}
           handleCloseModalRequest={handleCloseModalRequest}
         />

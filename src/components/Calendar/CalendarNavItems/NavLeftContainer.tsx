@@ -12,6 +12,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
     currentView,
     userCalendars,
     userId,
+    calendarDatesData,
     handleCalendarTimeChangeRequest,
     appendNewCalendarToUser,
   } = props;
@@ -51,6 +52,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
         <CalendarFormModal
           userCalendars={userCalendars}
           userId={userId}
+          calendarDatesData={calendarDatesData}
           handleCloseModalRequest={handleCloseModalRequest}
           appendNewCalendarToUser={appendNewCalendarToUser}
         />
@@ -93,6 +95,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
         <CalendarFormModal
           userCalendars={userCalendars}
           userId={userId}
+          calendarDatesData={calendarDatesData}
           handleCloseModalRequest={handleCloseModalRequest}
           appendNewCalendarToUser={appendNewCalendarToUser}
         />

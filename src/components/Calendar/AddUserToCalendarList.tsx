@@ -69,6 +69,7 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
   };
 
   const handleAddUserClickRequest = async (user: userQuery) => {
+    // NEED TO SETUP SO THAT USERS ARE ALWAYS STORED AS A PENDING USER
     const toastId = toast.loading('Loading...');
     if (type.toLowerCase() === 'pending' && typeOfPendingUser.length === 0) {
       return toast.error('You must mark a user as "authorized" or "pending"', {id: toastId});
@@ -78,9 +79,9 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
       return toast.error('You must be signed in or not in incognito to make this request', {id: toastId});
     } else {
       const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
-      const pendingConversion = typeOfPendingUser.length > 0 ? typeOfPendingUser : false;
+      const typeOfUser = typeOfPendingUser.length > 0 ? typeOfPendingUser : typeConversion;
       const apiUrl = `
-        http://127.0.0.1:8000/calendar/${selectedCalendarId}/addUser/${user.user._id}/${typeConversion}/${pendingConversion}`;
+        http://127.0.0.1:8000/calendar/${selectedCalendarId}/addUser/${user.user._id}/${typeOfUser}`;
       const request = await fetch(apiUrl, {
         headers: {
           'Accept': 'application/json',
@@ -157,7 +158,7 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
                         </button>
                         <button 
                           type='button'
-                          onClick={() => handlePendingUserButtonActivation('view-only')}
+                          onClick={() => handlePendingUserButtonActivation('view_only')}
                           className={typeOfPendingUser === 'view-only' ? 
                             styles.AddUserToCalendarListPendingUserOptionsButtonActive : 
                             styles.AddUserToCalendarListPendingUserOptionsButton

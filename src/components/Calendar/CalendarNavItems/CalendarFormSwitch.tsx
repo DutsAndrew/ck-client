@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import AddCalendarForm from './AddCalendarForm';
 import AddEventForm from './AddEventForm';
+import AddNoteForm from './AddNoteForm';
 import { calendarFormSwitchProps } from '../../../types/interfaces';
 
 const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
@@ -9,6 +10,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
   const { 
     userCalendars,
     userId,
+    calendarDatesData,
     appendNewCalendarToUser,
     handleCloseModalRequest,
   } = props;
@@ -29,7 +31,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
           handleCloseModalRequest={handleCloseModalRequest}
         />
       );
-    } else {
+    } else if (activeForm === 'calendar') {
       return (
         <AddCalendarForm 
           userId={userId}
@@ -37,6 +39,14 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
           handleCloseModalRequest={handleCloseModalRequest}
         />
       );
+    } else if (activeForm === 'note') {
+      return (
+        <AddNoteForm 
+          calendarDatesData={calendarDatesData}
+        />
+      );
+    } else {
+      return <></>
     };
   };
 
@@ -48,6 +58,12 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
           onClick={() => handleActiveFormChange('event')}
         >
           Add Event
+        </button>
+        <button
+          className={`${styles.calendarFormSwitch} ${activeForm === 'note' ? styles.active : ''}`}
+          onClick={() => handleActiveFormChange('note')}
+        >
+          Add Note
         </button>
         <button
           className={`${styles.calendarFormSwitch} ${activeForm === 'calendar' ? styles.active : ''}`}

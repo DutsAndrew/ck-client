@@ -20,12 +20,12 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
   };
 
   const handleLeaveCalendarRequest = async () => {
-    toast.loading('Attempting to delete calendar', {id: 'leaveCalendar'});
+    toast.loading('Leaving calendar...', {id: 'leaveCalendar'});
     const calendar = selectedCalendar as calendarObject;
-    if (calendar.created_by === userId) {
+    if (calendar.created_by !== userId) {
       const authToken = localStorage.getItem('auth-token');
       if (typeof authToken === 'undefined') {
-        toast.error('You must be signed in or not in incognito to make this request', {id: 'calendarDeletion'});
+        toast.error('You must be signed in or not in incognito to make this request', {id: 'leaveCalendar'});
       } else {
         const apiUrl = `http://127.0.0.1:8000/calendar/${calendar._id}/leaveCalendar/${userId}`;
         const request = await fetch(apiUrl, {
@@ -37,17 +37,16 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
           method: 'DELETE',
         });
         const jsonResponse = await request.json();
-        console.log(jsonResponse);
-        if (!request.ok || request.status !== 200 || !jsonResponse.calendar_id) {
-          toast.error('Failed to fully delete calendar', {id: 'calendarDeletion'});
+        if (!request.ok || request.status !== 200 || !jsonResponse.calendar_id_to_remove) {
+          toast.error('Failed to leave calendar', {id: 'leaveCalendar'});
         } else {
-          toast.success('Calendar removed', {id: 'calendarDeletion'});
-          removeCalendarFromUser(jsonResponse.calendar_id);
+          toast.success('Calendar removed', {id: 'leaveCalendar'});
+          removeCalendarFromUser(jsonResponse.calendar_id_to_remove);
           handleDeactivateCalendarEditor();
         };
       };
     } else {
-      toast.error('You cannot delete this calendar as you did not create it', {id: 'calendarDeletion'});
+      toast.error('You cannot leave a calendar that you created', {id: 'leaveCalendar'});
     };
   };
 

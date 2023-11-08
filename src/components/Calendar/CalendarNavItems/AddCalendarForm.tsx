@@ -199,7 +199,7 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
             htmlFor='calendar-name-input'
             className={styles.addCalendarFormLabel}
           >
-            **Calendar Name:
+            *Calendar Name:
           </label>
           <input
             id='calendar-name-input'

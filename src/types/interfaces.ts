@@ -143,6 +143,7 @@ interface navLeftContainerProps {
   currentView: string,
   userCalendars: userCalendars,
   userId: string,
+  calendarDatesData: CalendarDatesData | {},
   handleCalendarTimeChangeRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
 };
@@ -150,6 +151,7 @@ interface navLeftContainerProps {
 interface addFormModalProps {
   userCalendars: userCalendars,
   userId: string,
+  calendarDatesData: CalendarDatesData | {},
   handleCloseModalRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
 };
@@ -259,9 +261,14 @@ interface addCalendarFormProps {
 interface calendarFormSwitchProps {
   userCalendars: userCalendars,
   userId: string,
+  calendarDatesData: {} | CalendarDatesData,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   handleCloseModalRequest: Function,
 };
+
+interface addNoteFormProps {
+  calendarDatesData: {} | CalendarDatesData,
+}
 
 interface classesProps {
   user: userInstance | {},
@@ -469,6 +476,7 @@ export type {
   addEventFormProps,
   addCalendarFormProps,
   calendarFormSwitchProps,
+  addNoteFormProps,
   classesProps,
   lessonsProps,
   projectsAndTasksDashboardProps,
