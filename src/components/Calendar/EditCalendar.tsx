@@ -19,6 +19,38 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     return handleDeactivateCalendarEditor();
   };
 
+  const handleLeaveCalendarRequest = async () => {
+    toast.loading('Attempting to delete calendar', {id: 'leaveCalendar'});
+    const calendar = selectedCalendar as calendarObject;
+    if (calendar.created_by === userId) {
+      const authToken = localStorage.getItem('auth-token');
+      if (typeof authToken === 'undefined') {
+        toast.error('You must be signed in or not in incognito to make this request', {id: 'calendarDeletion'});
+      } else {
+        const apiUrl = `http://127.0.0.1:8000/calendar/${calendar._id}/leaveCalendar/${userId}`;
+        const request = await fetch(apiUrl, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+          method: 'DELETE',
+        });
+        const jsonResponse = await request.json();
+        console.log(jsonResponse);
+        if (!request.ok || request.status !== 200 || !jsonResponse.calendar_id) {
+          toast.error('Failed to fully delete calendar', {id: 'calendarDeletion'});
+        } else {
+          toast.success('Calendar removed', {id: 'calendarDeletion'});
+          removeCalendarFromUser(jsonResponse.calendar_id);
+          handleDeactivateCalendarEditor();
+        };
+      };
+    } else {
+      toast.error('You cannot delete this calendar as you did not create it', {id: 'calendarDeletion'});
+    };
+  };
+
   const handleCalendarDeletionRequest = async () => {
     toast.loading('Attempting to delete calendar', {id: 'calendarDeletion'});
     const calendar = selectedCalendar as calendarObject;
@@ -109,6 +141,12 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                   <em>Click on a user to modify</em>
                 </p>
                 <div className={styles.calendarEditorAuxillaryItemsContainer}>
+                  <button 
+                    onClick={() => handleLeaveCalendarRequest()}
+                    className={styles.leaveCalendarButton}
+                  >
+                    Leave Calendar
+                  </button>
                   <button 
                     onClick={() => handleCalendarDeletionRequest()}
                     className={styles.deleteCalendarButton}

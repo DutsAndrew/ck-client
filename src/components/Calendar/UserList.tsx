@@ -80,7 +80,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         toast.error('You must be signed in or not in incognito to make this request', {id: 'removingUser'});
       } else {
         const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
-        const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${typeConversion}/?user=${convertedUserId}`;
+        const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/${typeConversion}/removeUserFromCalendar/${convertedUserId}`;
         const request = await fetch(apiUrl, {
           headers: {
             'Accept': 'application/json',

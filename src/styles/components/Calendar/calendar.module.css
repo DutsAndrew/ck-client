@@ -1215,11 +1215,12 @@
   align-items: center;
   margin: 0;
   margin-top: 2.5vh;
+  gap: 2vh;
   width: 100%;
   height: auto;
 }
 
-.deleteCalendarButton {
+.deleteCalendarButton, .leaveCalendarButton {
   background-color: #ff0000;
   color: #fff;
   font-size: 1em;
@@ -1229,7 +1230,7 @@
   cursor: pointer;
 }
 
-.deleteCalendarButton:hover {
+.deleteCalendarButton:hover, .leaveCalendarButton:hover {
   background-color: #cc0000;
 }
 
