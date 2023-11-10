@@ -400,6 +400,7 @@ interface userCalendarPendingUserInstance {
 
 interface calendarObject {
   authorized_users: userCalendarInstance[],
+  calendar_notes: calendarNotes,
   calendar_type: string,
   created_by: string,
   created_on: string,
@@ -409,6 +410,14 @@ interface calendarObject {
   view_only_users: userCalendarInstance[],
   _id: string,
 }
+
+interface calendarNote {
+  _id: string,
+  date: Date,
+  note: string,
+}
+
+type calendarNotes = calendarNote[];
 
 interface eventObject {
   calendar: string,

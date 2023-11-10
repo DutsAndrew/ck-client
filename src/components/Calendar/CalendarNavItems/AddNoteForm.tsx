@@ -6,9 +6,20 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
 
   const { calendarDatesData } = props;
 
+  const [formElements, setFormElements] = useState({
+    specificDay: false,
+    specificWeek: false,
+    specificMonth: false,
+    specificYear: false,
+  })
+
   const [formData, setFormData] = useState({
     date: '',
     note: '',
+    selectedDay: '',
+    selectedWeek: '',
+    selectedMonth: '',
+    selectedYear: '',
   })
 
   const generateDaySnapshotsForWeek = () => {
@@ -130,23 +141,76 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
           3) CURRENT MONTH AND ALL MONTHS FOR THE NEXT 5 YEARS
           4) Current year and any year for the next 10 years
         */}
-        {/* <div className={styles.formGroup}>
-          <label 
+        <div className={styles.formGroup}>
+          <label
+            htmlFor='repeats-input'
             className={styles.addEventFormLabel}
-            htmlFor='date-input'
-            >
-              *Date:
+          >
+            Not for a specific date?
           </label>
           <input
-            type="date"
-            id='date-input'
-            name="date"
-            value={formData.date}
+            id='repeats-input'
+            type="checkbox"
+            name="repeat"
+            checked={formElements.specificDay}
             onChange={handleFormInputChange}
-            required
-            className={styles.addEventFormInput}
+            className={styles.addEventFormCheckbox}
           />
-        </div> */}
+          {formElements.specificDay === true && 
+            <div className={styles.formGroup}>
+              <input
+                type="date"
+                id='date-input'
+                name="date"
+                value={formData.date}
+                onChange={handleFormInputChange}
+                required
+                className={styles.addEventFormInput}
+              />
+            </div>
+          }
+        </div>
+
+        <div className={styles.formGroup}>
+          <label
+            htmlFor='repeats-input'
+            className={styles.addEventFormLabel}
+          >
+            Not for a specific week?
+          </label>
+          <input
+            id='repeats-input'
+            type="checkbox"
+            name="repeat"
+            checked={formElements.specificDay}
+            onChange={handleFormInputChange}
+            className={styles.addEventFormCheckbox}
+          />
+          {formElements.specificWeek === true && 
+            <div className={styles.formGroup}>
+              <label
+                htmlFor='time-input'
+                className={styles.addEventFormLabel}
+              >
+                Select Time (optional):
+              </label>
+              <select
+                id='time-input'
+                name="selectedTime"
+                value={formData.selectedWeek}
+                onChange={handleInputChange}
+                className={styles.addEventFormSelect}
+              >
+                <option value="">Select Week</option>
+                {generateWeekSnapshotsForYear().map((weekSnapShot) => (
+                  <option key={weekSnapShot} value={weekSnapShot}>
+                    {weekSnapShot}
+                  </option>
+                ))}
+              </select>
+            </div>
+          }
+        </div>
         <button type="submit" className={styles.addEventFormButton}>Add Note</button>
       </form>
     </div>
