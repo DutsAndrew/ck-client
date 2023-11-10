@@ -4,46 +4,20 @@ import { addNoteFormProps } from "../../../types/interfaces";
 
 const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
 
-  const { calendarDatesData } = props;
-
   const [formElements, setFormElements] = useState({
     specificDay: false,
     specificWeek: false,
     specificMonth: false,
     specificYear: false,
-  })
+  });
 
   const [formData, setFormData] = useState({
-    date: '',
     note: '',
     selectedDay: '',
     selectedWeek: '',
     selectedMonth: '',
     selectedYear: '',
-  })
-
-  const generateDaySnapshotsForWeek = () => {
-    const today = new Date();
-    const currentDay = today.getDay();
-
-    // calc Monday of week
-    const monday = new Date(today);
-    monday.setDate(today.getDate() - currentDay + 1);
-    const mondayFormatted = monday.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric' }); // keep it in MM DD format
-
-    // init array for week
-    const datesOfWeek = [mondayFormatted];
-
-    // fill remainder of week
-    for (let i = 1; i < 7; i++) {
-      const nextDay = new Date(monday);
-      nextDay.setDate(monday.getDate() + i);
-      const nextDayFormatted = nextDay.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric' }); // keep it in MM DD format
-      datesOfWeek.push(nextDayFormatted);
-    };
-
-    return datesOfWeek;
-  };
+  });
 
   const generateWeekSnapshotsForYear = () => {
     const currentDate = new Date();
@@ -104,14 +78,56 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
   const generateYearSnapshotForTenYears = () => {
     const years: number[] = [];
     let year = new Date().getFullYear();
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 11; i++) {
       years.push(year + i);
     };
     return years;
   };
 
-  const handleFormInputChange = () => {
+  const handleFormInputChange = (
+    typeOfChange: string,
+    e: React.ChangeEvent<HTMLInputElement> 
+    | React.ChangeEvent<HTMLTextAreaElement> 
+    | React.ChangeEvent<HTMLSelectElement>
+  ) => {
 
+    if (typeOfChange === 'checkbox') return handleCheckBoxSelection(e);
+    if (
+      typeOfChange === 'note' 
+      || typeOfChange === 'day'
+      || typeOfChange === 'week'
+    ) return handleFormDataEntry(e);
+  };
+
+  const handleCheckBoxSelection = (
+    e: React.ChangeEvent<HTMLInputElement> 
+    | React.ChangeEvent<HTMLTextAreaElement> 
+    | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const inputId = e.target.id;
+    const checkStatus = (e.target as any).checked;
+    setFormElements((prevFormElements) => ({
+      specificDay: inputId === 'day-checkbox' ? checkStatus : false,
+      specificWeek: inputId === 'week-checkbox' ? checkStatus : false,
+      specificMonth: inputId === 'month-checkbox' ? checkStatus : false,
+      specificYear: inputId === 'year-checkbox' ? checkStatus : false,
+    }));
+  };
+
+  const handleFormDataEntry = (
+    e: React.ChangeEvent<HTMLInputElement> 
+    | React.ChangeEvent<HTMLTextAreaElement> 
+    | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const inputId = e.target.id;
+    const value = e.target.value;
+    setFormData((prevFormData) => ({
+      note: inputId === 'note-input' ? value : prevFormData.note,
+      selectedDay: inputId === 'day-input' ? value : prevFormData.selectedDay,
+      selectedWeek: inputId === 'week-input' ? value : prevFormData.selectedWeek,
+      selectedMonth: inputId === 'month-input' ? value : prevFormData.selectedMonth,
+      selectedYear: inputId === 'year-input' ? value: prevFormData.selectedYear,
+    }));
   };
 
   const handleFormSubmit = () => {
@@ -123,47 +139,43 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       <h2 className={styles.addEventHeader}>
         Note
       </h2>
+
       <form onSubmit={handleFormSubmit} className={styles.addEventForm}>
         <div className={styles.formGroup}>
           <textarea
             id='note-input'
             name="note"
             value={formData.note}
-            onChange={handleFormInputChange}
-            placeholder="Write a note to self..."
+            onChange={(e) => handleFormInputChange('note', e)}
+            placeholder="Write a note for your calendar..."
             required
             className={styles.addEventFormInput}
           />
         </div>
-        {/* SETUP SO THAT USER CAN ASSIGN THE NOTE TO THE FOLLOWING: 
-          1) TODAY AND EVERY DAY OF THE CURRENT WEEK
-          2) CURRENT WEEK AND ALL WEEKS OF THE YEAR AND THE FOLLOWING YEAR
-          3) CURRENT MONTH AND ALL MONTHS FOR THE NEXT 5 YEARS
-          4) Current year and any year for the next 10 years
-        */}
+  
         <div className={styles.formGroup}>
           <label
-            htmlFor='repeats-input'
+            htmlFor='date-checkbox'
             className={styles.addEventFormLabel}
           >
-            Not for a specific date?
+            Note for a specific date?
           </label>
           <input
-            id='repeats-input'
+            id='day-checkbox'
             type="checkbox"
-            name="repeat"
+            name="day-checkbox"
             checked={formElements.specificDay}
-            onChange={handleFormInputChange}
+            onChange={(e) => handleFormInputChange('checkbox', e)}
             className={styles.addEventFormCheckbox}
           />
           {formElements.specificDay === true && 
             <div className={styles.formGroup}>
               <input
                 type="date"
-                id='date-input'
-                name="date"
-                value={formData.date}
-                onChange={handleFormInputChange}
+                id='day-input'
+                name="day"
+                value={formData.selectedDay}
+                onChange={(e) => handleFormInputChange('day', e)}
                 required
                 className={styles.addEventFormInput}
               />
@@ -173,32 +185,26 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
 
         <div className={styles.formGroup}>
           <label
-            htmlFor='repeats-input'
+            htmlFor='week-input'
             className={styles.addEventFormLabel}
           >
-            Not for a specific week?
+            Note for a specific week?
           </label>
           <input
-            id='repeats-input'
+            id='week-checkbox'
             type="checkbox"
-            name="repeat"
-            checked={formElements.specificDay}
-            onChange={handleFormInputChange}
+            name="week-checkbox"
+            checked={formElements.specificWeek}
+            onChange={(e) => handleFormInputChange('checkbox', e)}
             className={styles.addEventFormCheckbox}
           />
           {formElements.specificWeek === true && 
             <div className={styles.formGroup}>
-              <label
-                htmlFor='time-input'
-                className={styles.addEventFormLabel}
-              >
-                Select Time (optional):
-              </label>
               <select
-                id='time-input'
-                name="selectedTime"
+                id='week-input'
+                name="week"
                 value={formData.selectedWeek}
-                onChange={handleInputChange}
+                onChange={(e) => handleFormInputChange('week', e)}
                 className={styles.addEventFormSelect}
               >
                 <option value="">Select Week</option>
@@ -211,6 +217,103 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
             </div>
           }
         </div>
+
+        <div className={styles.formGroup}>
+          <label
+            htmlFor='month-input'
+            className={styles.addEventFormLabel}
+          >
+            Note for a specific month?
+          </label>
+          <input
+            id='month-checkbox'
+            type="checkbox"
+            name="month-checkbox"
+            checked={formElements.specificMonth}
+            onChange={(e) => handleFormInputChange('checkbox', e)}
+            className={styles.addEventFormCheckbox}
+          />
+          {formElements.specificMonth === true && 
+            <div className={styles.formGroup}>
+              <select
+                id='month-input'
+                name="month"
+                value={formData.selectedMonth}
+                onChange={(e) => handleFormInputChange('month', e)}
+                className={styles.addEventFormSelect}
+              >
+                <option value="">Select Month</option>
+                {generateMonthSnapShotsForFiveYears().map((monthSnapshot) => (
+                  <option key={monthSnapshot} value={monthSnapshot}>
+                    {monthSnapshot}
+                  </option>
+                ))}
+              </select>
+            </div>
+          }
+        </div>
+
+        <div className={styles.formGroup}>
+          <label
+            htmlFor='month-input'
+            className={styles.addEventFormLabel}
+          >
+            Note for a specific year?
+          </label>
+          <input
+            id='year-checkbox'
+            type="checkbox"
+            name="year-checkbox"
+            checked={formElements.specificYear}
+            onChange={(e) => handleFormInputChange('checkbox', e)}
+            className={styles.addEventFormCheckbox}
+          />
+          {formElements.specificYear === true && 
+            <div className={styles.formGroup}>
+              <select
+                id='year-input'
+                name="year"
+                value={formData.selectedYear}
+                onChange={(e) => handleFormInputChange('year', e)}
+                className={styles.addEventFormSelect}
+              >
+                <option value="">Select Year</option>
+                {generateYearSnapshotForTenYears().map((yearSnapshot) => (
+                  <option key={yearSnapshot} value={yearSnapshot}>
+                    {yearSnapshot}
+                  </option>
+                ))}
+              </select>
+            </div>
+          }
+        </div>
+
+        {/* SETUP SO USER HAS TO SELECT WHICH CALENDAR TO ADD NOTES TOO */}
+        {/* {calendars && calendars.length > 0 && (
+          <div className={styles.formGroup}>
+            <label
+              htmlFor='calendar-selection-input'
+              className={styles.addEventFormLabel}
+            >
+              *Select Calendar:
+            </label>
+            <select
+              id='calendar-selection-input'
+              name="selectedCalendar"
+              value={(formData as any).selectedCalendar}
+              onChange={handleInputChange}
+              className={styles.addEventFormSelect}
+              required
+            >
+              {calendars.map((calendar) => (
+                <option key={calendar} value={calendar} className={styles.addEventFormOption}>
+                  {calendar}
+                </option>
+              ))}
+            </select>
+          </div>
+        )} */}
+
         <button type="submit" className={styles.addEventFormButton}>Add Note</button>
       </form>
     </div>

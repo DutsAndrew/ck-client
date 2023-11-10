@@ -10,7 +10,6 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
   const { 
     userCalendars,
     userId,
-    calendarDatesData,
     appendNewCalendarToUser,
     handleCloseModalRequest,
   } = props;
@@ -41,9 +40,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
       );
     } else if (activeForm === 'note') {
       return (
-        <AddNoteForm 
-          calendarDatesData={calendarDatesData}
-        />
+        <AddNoteForm />
       );
     } else {
       return <></>

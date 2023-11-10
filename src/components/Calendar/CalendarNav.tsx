@@ -25,7 +25,6 @@ const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
         currentView={currentView}
         userCalendars={userCalendars}
         userId={userId}
-        calendarDatesData={calendarDatesData}
         handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
         appendNewCalendarToUser={appendNewCalendarToUser}
       />
