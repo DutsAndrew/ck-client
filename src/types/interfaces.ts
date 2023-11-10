@@ -264,8 +264,8 @@ interface calendarFormSwitchProps {
 };
 
 interface addNoteFormProps {
-  //
-}
+  userCalendars: userCalendars,
+};
 
 interface classesProps {
   user: userInstance | {},

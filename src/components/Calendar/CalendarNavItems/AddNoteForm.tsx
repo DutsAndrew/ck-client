@@ -1,8 +1,10 @@
 import React, { FC, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addNoteFormProps } from "../../../types/interfaces";
+import { addNoteFormProps, calendarObject } from "../../../types/interfaces";
 
 const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
+
+  const { userCalendars } = props;
 
   const [formElements, setFormElements] = useState({
     specificDay: false,
@@ -17,6 +19,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     selectedWeek: '',
     selectedMonth: '',
     selectedYear: '',
+    selectedCalendar: '',
   });
 
   const generateWeekSnapshotsForYear = () => {
@@ -96,6 +99,9 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       typeOfChange === 'note' 
       || typeOfChange === 'day'
       || typeOfChange === 'week'
+      || typeOfChange === 'month'
+      || typeOfChange === 'year'
+      || typeOfChange === 'calendar'
     ) return handleFormDataEntry(e);
   };
 
@@ -123,15 +129,25 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     const value = e.target.value;
     setFormData((prevFormData) => ({
       note: inputId === 'note-input' ? value : prevFormData.note,
-      selectedDay: inputId === 'day-input' ? value : prevFormData.selectedDay,
-      selectedWeek: inputId === 'week-input' ? value : prevFormData.selectedWeek,
-      selectedMonth: inputId === 'month-input' ? value : prevFormData.selectedMonth,
-      selectedYear: inputId === 'year-input' ? value: prevFormData.selectedYear,
+      selectedDay: inputId === 'day-input' ? value : '',
+      selectedWeek: inputId === 'week-input' ? value : '',
+      selectedMonth: inputId === 'month-input' ? value : '',
+      selectedYear: inputId === 'year-input' ? value : '',
+      selectedCalendar: inputId === 'calendar-selection-input' ? value : '',
     }));
   };
 
-  const handleFormSubmit = () => {
+  const handleFormEnterClick = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === 'Enter' || e.code === 'Enter') {
+      e.preventDefault();
+    } else {
+      return;
+    };
+  };
 
+  const handleAddNoteSubmitClick = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    
   };
 
   return (
@@ -140,12 +156,16 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
         Note
       </h2>
 
-      <form onSubmit={handleFormSubmit} className={styles.addEventForm}>
+      <form 
+        onKeyDown={(e) => handleFormEnterClick(e)}
+        className={styles.addEventForm}>
         <div className={styles.formGroup}>
           <textarea
             id='note-input'
             name="note"
             value={formData.note}
+            minLength={1}
+            maxLength={255}
             onChange={(e) => handleFormInputChange('note', e)}
             placeholder="Write a note for your calendar..."
             required
@@ -176,7 +196,6 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
                 name="day"
                 value={formData.selectedDay}
                 onChange={(e) => handleFormInputChange('day', e)}
-                required
                 className={styles.addEventFormInput}
               />
             </div>
@@ -289,7 +308,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
         </div>
 
         {/* SETUP SO USER HAS TO SELECT WHICH CALENDAR TO ADD NOTES TOO */}
-        {/* {calendars && calendars.length > 0 && (
+        {userCalendars && (
           <div className={styles.formGroup}>
             <label
               htmlFor='calendar-selection-input'
@@ -300,21 +319,31 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
             <select
               id='calendar-selection-input'
               name="selectedCalendar"
-              value={(formData as any).selectedCalendar}
-              onChange={handleInputChange}
+              value={formData.selectedCalendar}
+              onChange={(e) => handleFormInputChange('calendar', e)}
               className={styles.addEventFormSelect}
               required
             >
-              {calendars.map((calendar) => (
-                <option key={calendar} value={calendar} className={styles.addEventFormOption}>
-                  {calendar}
+              {[userCalendars.personalCalendar].map((personalCalendar: calendarObject) => (
+                <option key={personalCalendar._id} value={personalCalendar.name} className={styles.addEventFormOption}>
+                  {personalCalendar.name}
+                </option>
+              ))}
+              {userCalendars.teamCalendars.map((teamCalendar: calendarObject) => (
+                <option key={teamCalendar._id} value={teamCalendar.name} className={styles.addEventFormOption}>
+                  {teamCalendar.name}
                 </option>
               ))}
             </select>
           </div>
-        )} */}
+        )}
 
-        <button type="submit" className={styles.addEventFormButton}>Add Note</button>
+        <button 
+          type="submit" 
+          onClick={(e) => handleAddNoteSubmitClick(e)}
+          className={styles.addEventFormButton}>
+            Add Note
+        </button>
       </form>
     </div>
   );

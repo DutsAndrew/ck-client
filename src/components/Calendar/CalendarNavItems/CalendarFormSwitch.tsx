@@ -40,7 +40,9 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
       );
     } else if (activeForm === 'note') {
       return (
-        <AddNoteForm />
+        <AddNoteForm
+          userCalendars={userCalendars}
+        />
       );
     } else {
       return <></>
