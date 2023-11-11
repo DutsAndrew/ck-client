@@ -51,11 +51,12 @@ function App() {
     });
   };
 
-  const saveAllUserCalendarsToUser = (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[]): void => {
+  const saveAllUserCalendarsToUser = (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[], populatedPersonalCalendar: calendarObject): void => {
     return setUser((prevUser: userInstance) => ({
       ...prevUser,
       calendars: populatedCalendars,
       pending_calendars: populatedPendingCalendars,
+      personal_calendar: populatedPersonalCalendar,
     }));
   };
 

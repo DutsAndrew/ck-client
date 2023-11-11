@@ -37,9 +37,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   useEffect(() => {
     if (
-      Object.keys(calendarDatesData).length > 0
-      && (usersPendingCalendars.length > 0 && Object.values(usersPendingCalendars).length !== 0)
-      && (usersTeamCalendars.length > 0 && Object.values(usersTeamCalendars).length !== 0)
+      Object.keys(calendarDatesData).length > 0 // if calendar data was fetched then user calendars were fetched as well
     ) {
       return;
     } else {
@@ -101,7 +99,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         if (response.updated_user) {
           const populatedCalendars = response.updated_user.calendars;
           const populatedPendingCalendars = response.updated_user.pending_calendars;
-          saveAllUserCalendarsToUser(populatedCalendars, populatedPendingCalendars);
+          const populatedPersonalCalendar = response.updated_user.personal_calendar;
+          saveAllUserCalendarsToUser(populatedCalendars, populatedPendingCalendars, populatedPersonalCalendar);
           return toast.success('Your calendar data', {id: 'userCalendarData'});
         };
       };

@@ -47,6 +47,7 @@ interface allUserCalendarsPopulatedApiResponse {
   updated_user: {
     calendars: calendarObject[],
     pending_calendars: calendarObject[],
+    personal_calendar: calendarObject,
     _id: string,
   },
 };
@@ -85,7 +86,7 @@ interface calendarProps {
   userId: string,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   saveCalendarDatesAndHolidaysData: (data: CalendarDatesData) => void,
-  saveAllUserCalendarsToUser: (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[]) => void,
+  saveAllUserCalendarsToUser: (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[], populatedPersonalCalendar: calendarObject) => void,
   updateCalendarInUser: (newCalendar: calendarObject) => void,
   removeCalendarFromUser: (calendarId: string) => void,
   calendarDatesData: object,

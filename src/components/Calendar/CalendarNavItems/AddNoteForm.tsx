@@ -93,7 +93,6 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     | React.ChangeEvent<HTMLTextAreaElement> 
     | React.ChangeEvent<HTMLSelectElement>
   ) => {
-
     if (typeOfChange === 'checkbox') return handleCheckBoxSelection(e);
     if (
       typeOfChange === 'note' 
@@ -133,15 +132,13 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       selectedWeek: inputId === 'week-input' ? value : '',
       selectedMonth: inputId === 'month-input' ? value : '',
       selectedYear: inputId === 'year-input' ? value : '',
-      selectedCalendar: inputId === 'calendar-selection-input' ? value : '',
+      selectedCalendar: inputId === 'calendar-selection-input' ? value : prevFormData.selectedCalendar,
     }));
   };
 
-  const handleFormEnterClick = (e: React.KeyboardEvent<HTMLFormElement>) => {
+  const handleFormKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === 'Enter' || e.code === 'Enter') {
       e.preventDefault();
-    } else {
-      return;
     };
   };
 
@@ -157,7 +154,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       </h2>
 
       <form 
-        onKeyDown={(e) => handleFormEnterClick(e)}
+        onKeyDown={(e) => handleFormKeyDown(e)}
         className={styles.addEventForm}>
         <div className={styles.formGroup}>
           <textarea
