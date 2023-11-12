@@ -265,8 +265,19 @@ interface calendarFormSwitchProps {
 };
 
 interface addNoteFormProps {
+  userId: string,
   userCalendars: userCalendars,
 };
+
+interface addNoteFormDataState {
+  note: string,
+  selectedDay: string,
+  selectedWeek: string,
+  selectedMonth: string,
+  selectedYear: string,
+  selectedCalendar: string,
+  selectedCalendarId: string,
+}
 
 interface classesProps {
   user: userInstance | {},
@@ -484,6 +495,7 @@ export type {
   addCalendarFormProps,
   calendarFormSwitchProps,
   addNoteFormProps,
+  addNoteFormDataState,
   classesProps,
   lessonsProps,
   projectsAndTasksDashboardProps,

@@ -16,7 +16,6 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
 
   const [activeForm, setActiveForm] = useState('event');
 
-
   const handleActiveFormChange = (formRequest: string): void => {
     setActiveForm(formRequest);
   };
@@ -41,6 +40,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
     } else if (activeForm === 'note') {
       return (
         <AddNoteForm
+          userId={userId}
           userCalendars={userCalendars}
         />
       );

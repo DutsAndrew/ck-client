@@ -1,11 +1,14 @@
 import React, { FC, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addNoteFormProps, calendarObject } from "../../../types/interfaces";
+import { addNoteFormDataState, addNoteFormProps, calendarObject } from "../../../types/interfaces";
 import toast from "react-hot-toast";
 
 const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
 
-  const { userCalendars } = props;
+  const { 
+    userId,
+    userCalendars 
+  } = props;
 
   const [formElements, setFormElements] = useState({
     specificDay: false,
@@ -14,13 +17,13 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     specificYear: false,
   });
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<addNoteFormDataState>({
     note: '',
     selectedDay: '',
     selectedWeek: '',
     selectedMonth: '',
     selectedYear: '',
-    selectedCalendar: '',
+    selectedCalendar: userCalendars.personalCalendar.name,
     selectedCalendarId: '',
   });
 
@@ -130,14 +133,16 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     const value = e.target.value;
 
     // calendarId only needed for when user selects a calendar
-    const calendarId = (e.target as any).options[(e.target as any).selectedIndex].getAttribute('data-calendarId');
-    if (calendarId !== null) {
-      return setFormData((prevFormData) => ({
-        ...prevFormData,
-        selectedCalendar: value,
-        selectedCalendarId: calendarId,
-      }));
-    }
+    if ((e.target as any).options) {
+      const calendarId: string = (e.target as any).options[(e.target as any).selectedIndex].getAttribute('data-calendarid');
+      if (calendarId !== null) {
+        return setFormData((prevFormData) => ({
+          ...prevFormData,
+          selectedCalendar: value,
+          selectedCalendarId: calendarId,
+        }));
+      };
+    };
 
     setFormData((prevFormData) => ({
       note: inputId === 'note-input' ? value : prevFormData.note,
@@ -156,34 +161,74 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     };
   };
 
-  const handleCalendarSelection = (calendarId: string) => {
-    console.log('adding calendarId')
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      selectedCalendarId: calendarId,
-    }));
-  };
-
   const handleAddNoteSubmitClick = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log(formData)
-    // toast.loading('Finding Users', {id: 'fetchingUsers'})
-    // const authToken = localStorage.getItem('auth-token');
-    // if (typeof authToken === 'undefined') {
-    //   return toast.error('You need to be signed in or not in incognito to perform this action', {id: 'fetchingUsers'});
-    // } else {
-    //   const apiUrl = `http://127.0.0.1:8000/calendar/addNote`;
-    //   const request = await fetch(apiUrl, {
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Authorization': `Bearer ${authToken}`,
-    //       'Content-Type': 'application/json'
-    //     },
-    //     method: 'POST',
-    //   });
-    //   const jsonResponse = await request.json();
-    //   console.log(jsonResponse)
-    // };
+    toast.loading('Adding note to calendar...', {id: 'addingNote'})
+    const errors = checkForFormErrors();
+    if (typeof errors === 'string') return toast.error(`${errors}`, {id: 'addingNote'});
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      return toast.error('You need to be signed in or not in incognito to perform this action', {id: 'addingNote'});
+    } else {
+      const calendarId = formData.selectedCalendarId.length > 0 ? formData.selectedCalendarId : 'false'; // send calendarId as false when personal calendar of user is getting a note
+      const apiUrl = `http://127.0.0.1:8000/calendar/${calendarId}/addNote`;
+      const request = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(formData, null, 2),
+      });
+      const jsonResponse = await request.json();
+      console.log(jsonResponse)
+    };
+  };
+
+  const checkForFormErrors = () => {
+    const formDataCheck = checkIfFormDataIsGood();
+    if (typeof formDataCheck === 'string') return formDataCheck;
+
+    const authorizationCheck = checkIfUserIsAuthorizedToAddNotes();
+    if (typeof authorizationCheck === 'string') return authorizationCheck;
+
+    return true;
+  };
+
+  const checkIfFormDataIsGood = () => {
+    if (formData.selectedCalendar.length === 0) {
+      return 'No calendar selected, aborting';
+    };
+    if (
+      formData.selectedDay.length === 0
+      && formData.selectedWeek.length === 0
+      && formData.selectedMonth.length === 0
+      && formData.selectedYear.length === 0
+    ) {
+      return 'You cannot add a note without specifying it for a specific day, week, month, or year';
+    };
+  };
+
+  const checkIfUserIsAuthorizedToAddNotes = () => {
+    if (formData.selectedCalendarId.length === 0) return true;
+
+    let calendarInstance: {} | calendarObject = {};
+    const allCalendars = [...userCalendars.pendingCalendars, ...userCalendars.teamCalendars];
+
+    for (const calendar of allCalendars) {
+      if (calendar._id === formData.selectedCalendarId) {
+        calendarInstance = calendar;
+        break;
+      };
+    };
+
+    if (Object.keys(calendarInstance).length === 0) return 'Selected calendar does not match what user selected';
+
+    const authStatus = (calendarInstance as calendarObject).authorized_users.some(user => user._id === userId);
+    if (!authStatus) return 'You do not have authorization to add notes to this calendar';
+
+    return true;
   };
 
   return (
@@ -364,7 +409,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
                 <option 
                   key={personalCalendar._id} 
                   value={personalCalendar.name}
-                  data-calendarId={personalCalendar._id}
+                  data-calendarid=''
                   className={styles.addEventFormOption}>
                     {personalCalendar.name}
                 </option>
@@ -373,7 +418,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
                 <option 
                   key={teamCalendar._id} 
                   value={teamCalendar.name} 
-                  data-calendarId={teamCalendar._id}
+                  data-calendarid={teamCalendar._id}
                   className={styles.addEventFormOption}>
                     {teamCalendar.name}
                 </option>
