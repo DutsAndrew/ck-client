@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import { addNoteFormProps, calendarObject } from "../../../types/interfaces";
+import toast from "react-hot-toast";
 
 const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
 
@@ -20,6 +21,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     selectedMonth: '',
     selectedYear: '',
     selectedCalendar: '',
+    selectedCalendarId: '',
   });
 
   const generateWeekSnapshotsForYear = () => {
@@ -126,13 +128,25 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
   ) => {
     const inputId = e.target.id;
     const value = e.target.value;
+
+    // calendarId only needed for when user selects a calendar
+    const calendarId = (e.target as any).options[(e.target as any).selectedIndex].getAttribute('data-calendarId');
+    if (calendarId !== null) {
+      return setFormData((prevFormData) => ({
+        ...prevFormData,
+        selectedCalendar: value,
+        selectedCalendarId: calendarId,
+      }));
+    }
+
     setFormData((prevFormData) => ({
       note: inputId === 'note-input' ? value : prevFormData.note,
       selectedDay: inputId === 'day-input' ? value : '',
       selectedWeek: inputId === 'week-input' ? value : '',
       selectedMonth: inputId === 'month-input' ? value : '',
       selectedYear: inputId === 'year-input' ? value : '',
-      selectedCalendar: inputId === 'calendar-selection-input' ? value : prevFormData.selectedCalendar,
+      selectedCalendar: prevFormData.selectedCalendar,
+      selectedCalendarId: prevFormData.selectedCalendarId,
     }));
   };
 
@@ -142,9 +156,34 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     };
   };
 
-  const handleAddNoteSubmitClick = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleCalendarSelection = (calendarId: string) => {
+    console.log('adding calendarId')
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      selectedCalendarId: calendarId,
+    }));
+  };
+
+  const handleAddNoteSubmitClick = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    
+    console.log(formData)
+    // toast.loading('Finding Users', {id: 'fetchingUsers'})
+    // const authToken = localStorage.getItem('auth-token');
+    // if (typeof authToken === 'undefined') {
+    //   return toast.error('You need to be signed in or not in incognito to perform this action', {id: 'fetchingUsers'});
+    // } else {
+    //   const apiUrl = `http://127.0.0.1:8000/calendar/addNote`;
+    //   const request = await fetch(apiUrl, {
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Authorization': `Bearer ${authToken}`,
+    //       'Content-Type': 'application/json'
+    //     },
+    //     method: 'POST',
+    //   });
+    //   const jsonResponse = await request.json();
+    //   console.log(jsonResponse)
+    // };
   };
 
   return (
@@ -322,13 +361,21 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
               required
             >
               {[userCalendars.personalCalendar].map((personalCalendar: calendarObject) => (
-                <option key={personalCalendar._id} value={personalCalendar.name} className={styles.addEventFormOption}>
-                  {personalCalendar.name}
+                <option 
+                  key={personalCalendar._id} 
+                  value={personalCalendar.name}
+                  data-calendarId={personalCalendar._id}
+                  className={styles.addEventFormOption}>
+                    {personalCalendar.name}
                 </option>
               ))}
               {userCalendars.teamCalendars.map((teamCalendar: calendarObject) => (
-                <option key={teamCalendar._id} value={teamCalendar.name} className={styles.addEventFormOption}>
-                  {teamCalendar.name}
+                <option 
+                  key={teamCalendar._id} 
+                  value={teamCalendar.name} 
+                  data-calendarId={teamCalendar._id}
+                  className={styles.addEventFormOption}>
+                    {teamCalendar.name}
                 </option>
               ))}
             </select>
