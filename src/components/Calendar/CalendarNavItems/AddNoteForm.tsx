@@ -23,7 +23,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     selectedWeek: '',
     selectedMonth: '',
     selectedYear: '',
-    selectedCalendar: userCalendars.personalCalendar.name,
+    selectedCalendar: '',
     selectedCalendarId: '',
   });
 
@@ -47,13 +47,13 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
 
     let currentDatePointer = new Date(currentYear, 0, 1); // Start from January 1st of the current year
 
-    while (currentDatePointer.getFullYear() === currentYear) {
+    while (currentDatePointer.getFullYear() !== currentYear + 2) { // keep looping until you've calculated every week snapshot for the current year and next
       const startDate = startOfWeek(currentDatePointer);
       const endDate = endOfWeek(currentDatePointer);
       
       const startFormatted = startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       const endFormatted = endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      const dateFormatted = `${startFormatted} - ${endFormatted}`;
+      const dateFormatted = `${startFormatted} - ${endFormatted}, ${currentDatePointer.getFullYear()}`;
       
       weekSnapshots.push(dateFormatted);
       
@@ -171,7 +171,9 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       return toast.error('You need to be signed in or not in incognito to perform this action', {id: 'addingNote'});
     } else {
       const calendarId = formData.selectedCalendarId.length > 0 ? formData.selectedCalendarId : 'false'; // send calendarId as false when personal calendar of user is getting a note
-      const apiUrl = `http://127.0.0.1:8000/calendar/${calendarId}/addNote`;
+      const noteType = setNoteType();
+      if (typeof noteType === 'undefined') return toast.error('You cannot create a note without selecting a note type', {id: 'addingNote'});
+      const apiUrl = `http://127.0.0.1:8000/calendar/${calendarId}/addNote/${noteType}`;
       const request = await fetch(apiUrl, {
         headers: {
           'Accept': 'application/json',
@@ -197,6 +199,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
   };
 
   const checkIfFormDataIsGood = () => {
+    if (formData.note.length === 0) return 'You cannot create a note without a note written out';
     if (formData.selectedCalendar.length === 0) {
       return 'No calendar selected, aborting';
     };
@@ -229,6 +232,13 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     if (!authStatus) return 'You do not have authorization to add notes to this calendar';
 
     return true;
+  };
+
+  const setNoteType = () => {
+    if (formElements.specificDay === true) return 'day';
+    if (formElements.specificWeek === true) return 'week';
+    if (formElements.specificMonth === true) return 'month';
+    if (formElements.specificYear === true) return 'year';
   };
 
   return (
@@ -405,6 +415,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
               className={styles.addEventFormSelect}
               required
             >
+              <option value="">Select Calendar</option>
               {[userCalendars.personalCalendar].map((personalCalendar: calendarObject) => (
                 <option 
                   key={personalCalendar._id} 
