@@ -32,7 +32,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     return !isNaN(parsedDate.getTime());
   };
 
-  class CalendarNote { // built to be compatible with Python backend in snake_case
+  class CalendarNote {
     createdBy: string;
     note: string;
     noteType: string;
@@ -275,7 +275,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       const snapShot = getSelectedNoteTypeSnapshot();
       const calendarNote = new CalendarNote(formData['note'], noteType, snapShot, userId);
       console.log(formData, calendarNote);
-      const apiUrl = `http://127.0.0.1:8000/calendar/${calendarId}/addNote/${noteType}`;
+      const apiUrl = `http://127.0.0.1:8000/calendar/${calendarId}/addNote`;
       const request = await fetch(apiUrl, {
         headers: {
           'Accept': 'application/json',
@@ -283,7 +283,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
           'Content-Type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify(formData, null, 2),
+        body: JSON.stringify(calendarNote, null, 2),
       });
       const jsonResponse = await request.json();
       console.log(jsonResponse)
