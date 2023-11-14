@@ -27,6 +27,105 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     selectedCalendarId: '',
   });
 
+  const isValidDate = (dateString: string): boolean => {
+    const parsedDate = new Date(dateString);
+    return !isNaN(parsedDate.getTime());
+  };
+
+  class CalendarNote { // built to be compatible with Python backend in snake_case
+    createdBy: string;
+    note: string;
+    noteType: string;
+    dates: {
+        startDate: Date;
+        endDate: Date;
+    };
+
+    constructor(note: string, noteType: string, snapShot: string, createdBy: string) {
+      this.createdBy = createdBy;
+      this.note = note;
+      this.noteType = noteType;
+      this.dates = this.calculateStartAndEndDates(noteType, snapShot);
+    };
+
+    calculateStartAndEndDates = (noteType: string, snapShot: string) => {
+      if (snapShot.length === 0 || !isValidDate(snapShot)) return {
+        'startDate': new Date(),
+        'endDate': new Date(),
+      };
+
+      if (noteType === 'day') {
+        const dates = calculateStartAndEndForDay(snapShot);
+        return dates;
+      } else if (noteType === 'week') {
+        const dates = calculateStartAndEndForWeek(snapShot);
+        return dates;
+      } else if (noteType === 'month') {
+        const dates = calculateStartAndEndForMonth(snapShot);
+        return dates;
+      } else if (noteType === 'year') {
+        const dates = calculateStartAndEndForYear(snapShot);
+        return dates;
+      } else {
+        return {
+          'startDate': new Date(),
+          'endDate': new Date(),
+        };
+      };
+    };
+  };
+
+  const calculateStartAndEndForDay = (snapShot: string) => {
+    const year = snapShot.split('-')[0],
+          month = snapShot.split('-')[1],
+          day = snapShot.split('-')[2],
+          reformattedDate = `${month}-${day}-${year}`, // reformatting the date so that it's MM-DD-YYYY for easier date conversion
+          startDate = new Date(reformattedDate),
+          endDate = new Date(startDate);
+          endDate.setDate(startDate.getDate() + 1)
+    return {
+      'startDate': startDate,
+      'endDate': endDate,
+    };
+  };
+
+  const calculateStartAndEndForWeek = (snapShot: string) => {
+    const startYear = snapShot.split(', ')[1],
+          startMonth = snapShot.split(' ')[0],
+          startDay = snapShot.split(' ')[1],
+          reformattedStartDate = `${startMonth}-${startDay}-${startYear}`, // reformatting the date so that it's MM-DD-YYYY for easier date conversion
+          startDate = new Date(reformattedStartDate);
+    const endYear = snapShot.split(', ')[1],
+          endMonth = snapShot.split('-')[1].split(' ')[1],
+          endDay = snapShot.split('-')[1].split(' ')[2].split(',')[0],
+          reformattedEndDate = `${endMonth}-${endDay}-${endYear}`,
+          endDate = new Date(reformattedEndDate);
+    return {
+      'startDate': startDate,
+      'endDate': endDate,
+    };
+  };
+
+  const calculateStartAndEndForMonth = (snapShot: string) => {
+    const startMonth = new Date(snapShot);
+    const endMonth = new Date(startMonth);
+    endMonth.setMonth(startMonth.getMonth() + 1);
+    return {
+      'startDate': startMonth,
+      'endDate': endMonth,
+    };
+  };
+
+  const calculateStartAndEndForYear = (snapShot: string) => {
+    const startYear = new Date(Number(snapShot), 0, 1);
+    const endYear = new Date(startYear);
+    endYear.setFullYear(startYear.getFullYear() + 1);
+    return {
+      'startDate': startYear,
+      'endDate': endYear,
+    };
+  };
+
   const generateWeekSnapshotsForYear = () => {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
@@ -173,6 +272,9 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       const calendarId = formData.selectedCalendarId.length > 0 ? formData.selectedCalendarId : 'false'; // send calendarId as false when personal calendar of user is getting a note
       const noteType = setNoteType();
       if (typeof noteType === 'undefined') return toast.error('You cannot create a note without selecting a note type', {id: 'addingNote'});
+      const snapShot = getSelectedNoteTypeSnapshot();
+      const calendarNote = new CalendarNote(formData['note'], noteType, snapShot, userId);
+      console.log(formData, calendarNote);
       const apiUrl = `http://127.0.0.1:8000/calendar/${calendarId}/addNote/${noteType}`;
       const request = await fetch(apiUrl, {
         headers: {
@@ -239,6 +341,14 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     if (formElements.specificWeek === true) return 'week';
     if (formElements.specificMonth === true) return 'month';
     if (formElements.specificYear === true) return 'year';
+  };
+
+  const getSelectedNoteTypeSnapshot = () => {
+    if (formData.selectedDay.length !== 0) return formData.selectedDay;
+    if (formData.selectedWeek.length !== 0) return formData.selectedWeek;
+    if (formData.selectedMonth.length !== 0) return formData.selectedMonth;
+    if (formData.selectedYear.length !== 0) return formData.selectedYear;
+    return '';
   };
 
   return (
