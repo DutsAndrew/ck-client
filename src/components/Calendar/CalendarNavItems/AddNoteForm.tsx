@@ -27,7 +27,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     selectedCalendarId: '',
   });
 
-  const isValidDate = (dateString: string): boolean => {
+  const isValidDate = (dateString: Date): boolean => {
     const parsedDate = new Date(dateString);
     return !isNaN(parsedDate.getTime());
   };
@@ -49,9 +49,11 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     };
 
     calculateStartAndEndDates = (noteType: string, snapShot: string) => {
-      if (snapShot.length === 0 || !isValidDate(snapShot)) return {
-        'startDate': new Date(),
-        'endDate': new Date(),
+      if (snapShot.length === 0) {
+        return {
+          'startDate': new Date(),
+          'endDate': new Date(),
+        };
       };
 
       if (noteType === 'day') {
@@ -274,7 +276,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       if (typeof noteType === 'undefined') return toast.error('You cannot create a note without selecting a note type', {id: 'addingNote'});
       const snapShot = getSelectedNoteTypeSnapshot();
       const calendarNote = new CalendarNote(formData['note'], noteType, snapShot, userId);
-      console.log(formData, calendarNote);
+      const calendarNoteErrors = checkCalendarNoteForErrors(calendarNote);
+      if (calendarNoteErrors === true) return toast.error('The dates in your note are not valid', {id: 'addingNote'});
       const apiUrl = `http://127.0.0.1:8000/calendar/${calendarId}/addNote`;
       const request = await fetch(apiUrl, {
         headers: {
@@ -349,6 +352,17 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     if (formData.selectedMonth.length !== 0) return formData.selectedMonth;
     if (formData.selectedYear.length !== 0) return formData.selectedYear;
     return '';
+  };
+
+  const checkCalendarNoteForErrors = (calendarNote: CalendarNote) => {
+    const startDateValid = isValidDate(calendarNote.dates.startDate);
+    const endDateValid = isValidDate(calendarNote.dates.endDate);
+    
+    if (startDateValid === true && endDateValid === true) {
+      return false; // no errors
+    } else {
+      return true; // has errors
+    };
   };
 
   return (
