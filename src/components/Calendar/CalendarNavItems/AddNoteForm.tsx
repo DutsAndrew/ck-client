@@ -356,8 +356,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
   };
 
   const checkCalendarNoteForErrors = (calendarNote: CalendarNote) => {
-    const startDateValid = isValidDate(calendarNote.dates.startDate);
-    const endDateValid = isValidDate(calendarNote.dates.endDate);
+    const startDateValid = isValidDate(new Date(calendarNote.dates.startDate));
+    const endDateValid = isValidDate(new Date(calendarNote.dates.endDate));
     
     if (startDateValid === true && endDateValid === true) {
       return false; // no errors
