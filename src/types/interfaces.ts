@@ -187,28 +187,28 @@ interface navRightContainerProps {
 
 interface dayViewProps {
   currentDay: string,
-  calendars: userCalendars,
   activeCalendars: calendarObject[],
 };
 
 interface weekViewProps {
   currentDay: string,
-  calendars: userCalendars,
   activeCalendars: calendarObject[],
 };
 
 interface monthViewProps {
   currentDay: string,
-  calendars: userCalendars,
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
 };
 
 interface yearViewProps {
   currentDay: string,
-  calendars: userCalendars,
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
+};
+
+interface notesForCalendarProps {
+  calendarNotes: calendarNotes,
 };
 
 interface selectedCalendarModalProps {
@@ -422,8 +422,12 @@ interface calendarObject {
 
 interface calendarNote {
   _id: string,
-  date: Date,
+  created_by: object,
+  created_on: string,
   note: string,
+  start_date: string,
+  end_date: string,
+  type: string,
 }
 
 type calendarNotes = calendarNote[];
@@ -485,6 +489,7 @@ export type {
   weekViewProps,
   monthViewProps,
   yearViewProps,
+  notesForCalendarProps,
   selectedCalendarModalProps,
   dropDownCalendarItemsProps,
   calendarViewModalProps,

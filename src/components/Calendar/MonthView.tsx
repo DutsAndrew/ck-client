@@ -1,13 +1,13 @@
 import React, { FC } from "react";
 import { CalendarDatesData, monthViewProps } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
+import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
 
 const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
   const { 
     currentDay,
-    calendars,
     activeCalendars,
     calendarDatesData,
   } = props;
@@ -111,6 +111,13 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
         }) : 
           <p>Loading Data...</p>
         }
+      </div>
+      <div className={styles.dayViewNotesContainer}>
+        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && activeCalendars.map((calendar) => {
+          return <NotesForCalendar 
+            calendarNotes={calendar.calendar_notes}
+          />
+        })}
       </div>
     </section>
   );

@@ -1,12 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { userCalendars, weekViewProps } from "../../types/interfaces";
+import { weekViewProps } from "../../types/interfaces";
+import NotesForCalendar from "./NotesForCalendar";
+import uniqid from "uniqid";
 
 const WeekView: FC<weekViewProps> = (props): JSX.Element => {
 
   const { 
     currentDay,
-    calendars,
     activeCalendars,
   } = props;
 
@@ -16,7 +17,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
 
   useEffect(() => {
     generateSnapShot();
-  }, [currentDay, calendars]);
+  }, [currentDay, activeCalendars]);
 
   const generateSnapShot = () => {
     const currentDate = new Date(currentDay);
@@ -42,7 +43,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
       <h2 className={styles.weekViewHeaderText}>Week View</h2>
       <div className={styles.weekDayContainer}>
         {week.map((day) => (
-          <div className={styles.weekDayItem} key={day}>
+          <div className={styles.weekDayItem} key={uniqid()}>
             <p className={styles.weekDayItemText}>
               <strong><em>{day}</em></strong>
             </p>
@@ -52,6 +53,13 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
             </div>
           </div>
         ))}
+      </div>
+      <div className={styles.dayViewNotesContainer}>
+        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && activeCalendars.map((calendar) => {
+          return <NotesForCalendar 
+            calendarNotes={calendar.calendar_notes}
+          />
+        })}
       </div>
     </section>
   );

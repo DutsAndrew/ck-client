@@ -180,7 +180,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   const calendarViewProps = {
     currentDay: getTodaysDate(),
-    calendars: userCalendars,
     activeCalendars: activeCalendars,
   }
 

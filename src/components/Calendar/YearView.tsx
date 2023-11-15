@@ -1,13 +1,13 @@
 import React, { FC } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import { CalendarDatesData, yearViewProps } from "../../types/interfaces";
+import NotesForCalendar from "./NotesForCalendar";
 import uniqid from 'uniqid';
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
   const { 
     currentDay,
-    calendars,
     activeCalendars,
     calendarDatesData,
   } = props;
@@ -132,6 +132,13 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
             </div>
           ))}
         </div>
+        <div className={styles.dayViewNotesContainer}>
+        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && activeCalendars.map((calendar) => {
+          return <NotesForCalendar 
+            calendarNotes={calendar.calendar_notes}
+          />
+        })}
+      </div>
       </section>
     );
   } else { // for when calendarData hasn't been mounted from "Calendar" to "App"

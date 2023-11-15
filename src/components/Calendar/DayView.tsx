@@ -1,10 +1,15 @@
 import React, { FC } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import { dayViewProps } from "../../types/interfaces";
+import NotesForCalendar from "./NotesForCalendar";
+import uniqid from "uniqid";
 
 const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
-  const { currentDay } = props;
+  const { 
+    currentDay,
+    activeCalendars,
+  } = props;
 
   const generateBlockSchedule = () => {
     const scheduleBlock = [
@@ -51,7 +56,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
             {blockSchedule.am.map((block) => {
               return <div
                 className={styles.AMDayScheduleItem}
-                key={block}
+                key={uniqid()}
               >
               <p className={styles.AMDayScheduleText}>
                 {block}
@@ -71,7 +76,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
             {blockSchedule.pm.map((block) => {
               return <div
                 className={styles.PMDayScheduleItem}
-                key={block}
+                key={uniqid()}
               >
               <p className={styles.PMDayScheduleText}>
                 {block}
@@ -83,6 +88,13 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
             })}
           </div>
         </div>
+      </div>
+      <div className={styles.dayViewNotesContainer}>
+        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && activeCalendars.map((calendar) => {
+          return <NotesForCalendar 
+            calendarNotes={calendar.calendar_notes}
+          />
+        })}
       </div>
     </section>
   );
