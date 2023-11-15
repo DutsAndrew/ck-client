@@ -37,8 +37,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     note: string;
     noteType: string;
     dates: {
-        startDate: Date;
-        endDate: Date;
+        startDate: string;
+        endDate: string;
     };
 
     constructor(note: string, noteType: string, snapShot: string, createdBy: string) {
@@ -51,11 +51,12 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     calculateStartAndEndDates = (noteType: string, snapShot: string) => {
       if (snapShot.length === 0) {
         return {
-          'startDate': new Date(),
-          'endDate': new Date(),
+          'startDate': new Date().toISOString(),
+          'endDate': new Date().toISOString(),
         };
       };
 
+      // all of these will convert the dates toISOstring() to be compatible with backend
       if (noteType === 'day') {
         const dates = calculateStartAndEndForDay(snapShot);
         return dates;
@@ -70,8 +71,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
         return dates;
       } else {
         return {
-          'startDate': new Date(),
-          'endDate': new Date(),
+          'startDate': new Date().toISOString(),
+          'endDate': new Date().toISOString(),
         };
       };
     };
@@ -86,8 +87,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
           endDate = new Date(startDate);
           endDate.setDate(startDate.getDate() + 1)
     return {
-      'startDate': startDate,
-      'endDate': endDate,
+      'startDate': startDate.toISOString(),
+      'endDate': endDate.toISOString(),
     };
   };
 
@@ -103,8 +104,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
           reformattedEndDate = `${endMonth}-${endDay}-${endYear}`,
           endDate = new Date(reformattedEndDate);
     return {
-      'startDate': startDate,
-      'endDate': endDate,
+      'startDate': startDate.toISOString(),
+      'endDate': endDate.toISOString(),
     };
   };
 
@@ -113,8 +114,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     const endMonth = new Date(startMonth);
     endMonth.setMonth(startMonth.getMonth() + 1);
     return {
-      'startDate': startMonth,
-      'endDate': endMonth,
+      'startDate': startMonth.toISOString(),
+      'endDate': endMonth.toISOString(),
     };
   };
 
@@ -123,8 +124,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     const endYear = new Date(startYear);
     endYear.setFullYear(startYear.getFullYear() + 1);
     return {
-      'startDate': startYear,
-      'endDate': endYear,
+      'startDate': startYear.toISOString(),
+      'endDate': endYear.toISOString(),
     };
   };
 
