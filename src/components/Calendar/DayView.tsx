@@ -11,6 +11,8 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     activeCalendars,
   } = props;
 
+  console.log('dayview rerender')
+
   useEffect(() => {
     setDayViewNotes(getDayViewNotes())
   }, []);

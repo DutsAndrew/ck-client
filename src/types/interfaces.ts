@@ -455,10 +455,6 @@ interface userCalendars {
   teamCalendars: calendarObject[],
 }
 
-interface scrollToTopProps {
-  handleScrollToTop: Function,
-};
-
 export type {
   AuthStatus,
   announcementBarProps,
@@ -518,5 +514,4 @@ export type {
   userReferenceInstance,
   userCalendars,
   calendarObject,
-  scrollToTopProps,
 };

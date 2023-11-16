@@ -55,7 +55,16 @@ input:focus:invalid {
 }
 
 /* SCROLL TO TOP SVG */
-.scroll-to-top-svg {
+.scroll-to-top-svg-inactive {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: 5vh;
+  width: auto;
+  visibility: hidden;
+}
+
+.scroll-to-top-svg-active {
   position: fixed;
   bottom: 0;
   right: 0;
@@ -65,7 +74,7 @@ input:focus:invalid {
   filter: invert(53%) sepia(12%) saturate(0%) hue-rotate(160deg) brightness(93%) contrast(90%);
 }
 
-.scroll-to-top-svg:hover {
+.scroll-to-top-svg-active:hover {
   cursor: pointer;
   transform: scale(0.99);
 }
