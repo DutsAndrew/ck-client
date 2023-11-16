@@ -54,6 +54,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
           today.getFullYear() === startDate.getFullYear()
           && today.getMonth() === startDate.getMonth()
           && today.getDate() === startDate.getDate()
+          && calendarNote.type === 'day'
         ) {
           todaysNotes.push(calendarNote);
         };
@@ -116,11 +117,11 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
         </div>
       </div>
       <div className={styles.dayViewNotesContainer}>
-        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && activeCalendars.map((calendar) => {
-          return <NotesForCalendar 
-            calendarNotes={dayViewNotes}
+        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
+          <NotesForCalendar 
+            calendarNotes={getDayViewNotes()}
           />
-        })}
+        )}
       </div>
     </section>
   );

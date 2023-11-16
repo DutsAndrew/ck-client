@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { CalendarDatesData, monthViewProps } from "../../types/interfaces";
+import { CalendarDatesData, calendarNote, monthViewProps } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
@@ -82,6 +82,28 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     return calendar;
   };
 
+  const getMonthCalendarNotes = () => {
+    const thisMonthsNotes: calendarNote[] = [];
+
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+
+    activeCalendars.forEach((calendar) => {
+      calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
+        const startDate = new Date(calendarNote.start_date);
+        if (
+         startDate.getFullYear() === currentYear
+         && startDate.getMonth() === currentMonth
+         && calendarNote.type === 'month'
+        ) {
+          thisMonthsNotes.push(calendarNote);
+        };
+      });
+    });
+
+    return thisMonthsNotes;
+  };
+
   return (
     <section className={styles.monthViewContainer}>
       <h2 className={styles.monthViewHeaderText}>
@@ -113,11 +135,11 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
         }
       </div>
       <div className={styles.dayViewNotesContainer}>
-        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && activeCalendars.map((calendar) => {
-          return <NotesForCalendar 
-            calendarNotes={calendar.calendar_notes}
+        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
+          <NotesForCalendar 
+            calendarNotes={getMonthCalendarNotes()}
           />
-        })}
+        )}
       </div>
     </section>
   );

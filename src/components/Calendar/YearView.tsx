@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { CalendarDatesData, yearViewProps } from "../../types/interfaces";
+import { CalendarDatesData, calendarNote, yearViewProps } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from 'uniqid';
 
@@ -74,6 +74,26 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     return yearView;
   };
 
+  const getYearViewNotes = () => {
+    const thisYearsNotes: calendarNote[] = [];
+
+    const currentYear = new Date().getFullYear();
+
+    activeCalendars.forEach((calendar) => {
+      calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
+        const startDate = new Date(calendarNote.start_date);
+        if (
+         startDate.getFullYear() === currentYear
+         && calendarNote.type === 'year'
+        ) {
+          thisYearsNotes.push(calendarNote);
+        };
+      });
+    });
+
+    return thisYearsNotes;
+  };
+
   if (Object.keys(calendarDatesData).length > 0) { // if calendarData has been mounted in "App" from "Calendar parent component"
     const yearView = generateCurrentYearView();
     return (
@@ -133,11 +153,11 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
           ))}
         </div>
         <div className={styles.dayViewNotesContainer}>
-        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && activeCalendars.map((calendar) => {
-          return <NotesForCalendar 
-            calendarNotes={calendar.calendar_notes}
+        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
+          <NotesForCalendar 
+            calendarNotes={getYearViewNotes()}
           />
-        })}
+        )}
       </div>
       </section>
     );

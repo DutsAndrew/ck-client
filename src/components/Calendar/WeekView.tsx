@@ -58,6 +58,8 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
           && endOfWeekDate.getFullYear() === endDate.getFullYear()
           && endOfWeekDate.getMonth() === endDate.getMonth()
           && endOfWeekDate.getDate() === endDate.getDate()
+          //
+          && calendarNote.type === 'week'
         ) {
           thisWeeksNotes.push(calendarNote);
         };
@@ -87,11 +89,11 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
         ))}
       </div>
       <div className={styles.dayViewNotesContainer}>
-        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && activeCalendars.map((calendar) => {
-          return <NotesForCalendar 
+        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
+          <NotesForCalendar 
             calendarNotes={getWeekViewNotes()}
           />
-        })}
+        )}
       </div>
     </section>
   );
