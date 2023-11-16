@@ -6,11 +6,11 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
 
   const { calendarNotes } = props;
 
-  console.log(calendarNotes)
+  // console.log(calendarNotes);
 
   return (
     <div className={styles.notesForCalendarContainer}>
-
+      
     </div>
   )
 };

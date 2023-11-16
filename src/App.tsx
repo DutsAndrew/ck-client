@@ -35,10 +35,11 @@ function App() {
         }),
         [scrollStatus, setScrollStatus] = useState(false);
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScrollStatus);
-    return () => window.removeEventListener('scroll', handleScrollStatus);
-  }, []);
+  // SCROLL BAR CURRENTLY CAUSES RERENDERS IN CALENDAR COMPONENT, OTHER OPTIONS DIDN'T ALLEVIATE THE PROBLEM, SO REMOVING IT FOR NOW
+  // useEffect(() => {
+  //   window.addEventListener('scroll', handleScrollStatus);
+  //   return () => window.removeEventListener('scroll', handleScrollStatus);
+  // }, []);
 
   const saveLoggedInUser = (user: userInstance) => {
     setUser(user);
@@ -251,7 +252,7 @@ function App() {
           }
         />
       </Routes>
-      {scrollStatus === true ? <ScrollToTopButton handleScrollToTop={handleScrollToTop} /> : ''}
+      {/* {scrollStatus === true ? <ScrollToTopButton handleScrollToTop={handleScrollToTop} /> : ''} */}
       <Footer />
     </Router>
   );

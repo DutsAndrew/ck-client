@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { weekViewProps } from "../../types/interfaces";
+import { calendarNote, weekViewProps } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
 
@@ -17,7 +17,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
 
   useEffect(() => {
     generateSnapShot();
-  }, [currentDay, activeCalendars]);
+  }, []);
 
   const generateSnapShot = () => {
     const currentDate = new Date(currentDay);
@@ -33,6 +33,37 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     const endFormatted = endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
     setWeekSnapShot(`${startFormatted} - ${endFormatted}`);
+  };
+
+  const getWeekViewNotes = () => {
+    const thisWeeksNotes: calendarNote[] = [];
+
+    const currentYear = new Date().getFullYear();
+    const beginningOfWeekSnap = weekSnapshot.split(' - ')[0];
+    const endOfWeekSnap = weekSnapshot.split(' - ')[1];
+
+    const beginningOfWeekDate = new Date(`${beginningOfWeekSnap}, ${currentYear}`);
+    const endOfWeekDate = new Date(`${endOfWeekSnap}, ${currentYear}`);
+
+    activeCalendars.forEach((calendar) => {
+      calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
+        const startDate = new Date(calendarNote.start_date);
+        const endDate = new Date(calendarNote.end_date);
+        if (
+          beginningOfWeekDate.getFullYear() === startDate.getFullYear()
+          && beginningOfWeekDate.getMonth() === startDate.getMonth()
+          && beginningOfWeekDate.getDate() === startDate.getDate()
+          //
+          && endOfWeekDate.getFullYear() === endDate.getFullYear()
+          && endOfWeekDate.getMonth() === endDate.getMonth()
+          && endOfWeekDate.getDate() === endDate.getDate()
+        ) {
+          thisWeeksNotes.push(calendarNote);
+        };
+      });
+    });
+
+    return thisWeeksNotes;
   };
 
   return (
@@ -57,7 +88,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
       <div className={styles.dayViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && activeCalendars.map((calendar) => {
           return <NotesForCalendar 
-            calendarNotes={calendar.calendar_notes}
+            calendarNotes={getWeekViewNotes()}
           />
         })}
       </div>

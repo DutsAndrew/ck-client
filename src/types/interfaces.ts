@@ -211,6 +211,8 @@ interface notesForCalendarProps {
   calendarNotes: calendarNotes,
 };
 
+type calendarViewStateForCalendarNotes  = calendarNotes;
+
 interface selectedCalendarModalProps {
   userCalendars: userCalendars,
   activeCalendars: calendarObject[],
@@ -490,6 +492,8 @@ export type {
   monthViewProps,
   yearViewProps,
   notesForCalendarProps,
+  calendarNote,
+  calendarViewStateForCalendarNotes,
   selectedCalendarModalProps,
   dropDownCalendarItemsProps,
   calendarViewModalProps,

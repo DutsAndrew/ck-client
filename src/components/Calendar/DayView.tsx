@@ -1,6 +1,6 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { dayViewProps } from "../../types/interfaces";
+import { calendarNote, calendarViewStateForCalendarNotes, dayViewProps } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
 
@@ -10,6 +10,16 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     currentDay,
     activeCalendars,
   } = props;
+
+  useEffect(() => {
+    setDayViewNotes(getDayViewNotes())
+  }, []);
+
+  useEffect(() => {
+    setDayViewNotes(getDayViewNotes())
+  }, [activeCalendars]);
+
+  const [dayViewNotes, setDayViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
 
   const generateBlockSchedule = () => {
     const scheduleBlock = [
@@ -31,10 +41,24 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     };
   };
 
-  const getCurrentHour = () => {
-    const date = new Date();
-    const hour = date.getHours();
-    return hour;
+  const getDayViewNotes = () => {
+    const todaysNotes: calendarNote[] = [];
+    const today = new Date(currentDay);
+
+    activeCalendars.forEach((calendar) => {
+      calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
+        const startDate = new Date(calendarNote.start_date);
+        if (
+          today.getFullYear() === startDate.getFullYear()
+          && today.getMonth() === startDate.getMonth()
+          && today.getDate() === startDate.getDate()
+        ) {
+          todaysNotes.push(calendarNote);
+        };
+      });
+    });
+
+    return todaysNotes;
   };
 
   const blockSchedule = generateBlockSchedule();
@@ -92,7 +116,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
       <div className={styles.dayViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && activeCalendars.map((calendar) => {
           return <NotesForCalendar 
-            calendarNotes={calendar.calendar_notes}
+            calendarNotes={dayViewNotes}
           />
         })}
       </div>
