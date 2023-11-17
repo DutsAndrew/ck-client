@@ -11,8 +11,6 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     activeCalendars,
   } = props;
 
-  console.log('dayview rerender')
-
   useEffect(() => {
     setDayViewNotes(getDayViewNotes())
   }, []);
@@ -47,8 +45,8 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     const todaysNotes: calendarNote[] = [];
     const today = new Date(currentDay);
 
-    activeCalendars.forEach((calendar) => {
-      calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
+    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
+      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
         const startDate = new Date(calendarNote.start_date);
         if (
           today.getFullYear() === startDate.getFullYear()

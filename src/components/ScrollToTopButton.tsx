@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import arrowUpSvg from '../assets/arrow-up.svg';
+import arrowUpSvg from '../assets/arrow-up-with-circle.svg';
 // has global styles as this will be used on every page and mounts from App.tsx
 
 const ScrollToTopButton = (): JSX.Element => {

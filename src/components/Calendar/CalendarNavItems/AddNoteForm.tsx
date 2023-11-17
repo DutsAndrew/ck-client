@@ -7,7 +7,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
 
   const { 
     userId,
-    userCalendars 
+    userCalendars,
+    addNewCalendarNoteToCalendar,
   } = props;
 
   const [formElements, setFormElements] = useState({
@@ -51,8 +52,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     calculateStartAndEndDates = (noteType: string, snapShot: string) => {
       if (snapShot.length === 0) {
         return {
-          'startDate': new Date().toISOString(),
-          'endDate': new Date().toISOString(),
+          'startDate': new Date().toISOString().split('T')[0],
+          'endDate': new Date().toISOString().split('T')[0],
         };
       };
 
@@ -71,8 +72,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
         return dates;
       } else {
         return {
-          'startDate': new Date().toISOString(),
-          'endDate': new Date().toISOString(),
+          'startDate': new Date().toISOString().split('T')[0],
+          'endDate': new Date().toISOString().split('T')[0],
         };
       };
     };
@@ -87,8 +88,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
           endDate = new Date(startDate);
           endDate.setDate(startDate.getDate() + 1)
     return {
-      'startDate': startDate.toISOString(),
-      'endDate': endDate.toISOString(),
+      'startDate': startDate.toISOString().split('T')[0],
+      'endDate': endDate.toISOString().split('T')[0],
     };
   };
 
@@ -104,8 +105,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
           reformattedEndDate = `${endMonth}-${endDay}-${endYear}`,
           endDate = new Date(reformattedEndDate);
     return {
-      'startDate': startDate.toISOString(),
-      'endDate': endDate.toISOString(),
+      'startDate': startDate.toISOString().split('T')[0],
+      'endDate': endDate.toISOString().split('T')[0],
     };
   };
 
@@ -114,8 +115,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     const endMonth = new Date(startMonth);
     endMonth.setMonth(startMonth.getMonth() + 1);
     return {
-      'startDate': startMonth.toISOString(),
-      'endDate': endMonth.toISOString(),
+      'startDate': startMonth.toISOString().split('T')[0],
+      'endDate': endMonth.toISOString().split('T')[0],
     };
   };
 
@@ -124,8 +125,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     const endYear = new Date(startYear);
     endYear.setFullYear(startYear.getFullYear() + 1);
     return {
-      'startDate': startYear.toISOString(),
-      'endDate': endYear.toISOString(),
+      'startDate': startYear.toISOString().split('T')[0],
+      'endDate': endYear.toISOString().split('T')[0],
     };
   };
 
@@ -290,7 +291,26 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
         body: JSON.stringify(calendarNote, null, 2),
       });
       const jsonResponse = await request.json();
-      console.log(jsonResponse)
+      if (request.ok && request.status === 200 && jsonResponse.detail === "Successfully updated calendar with note") {
+        if (jsonResponse.personal_calendar) {
+          toast.success(`Note added successfully to ${jsonResponse.personal_calendar.name}`, {id: 'addingNote'});
+          addNewCalendarNoteToCalendar(
+            formData.selectedCalendarId,
+            jsonResponse.personal_calendar,
+            'personal_calendar',
+          );
+        };
+        if (jsonResponse.updated_calendar) {
+          toast.success(`Note added successfully to ${jsonResponse.updated_calendar.name}`, {id: 'addingNote'});
+          addNewCalendarNoteToCalendar(
+            formData.selectedCalendarId,
+            jsonResponse.updated_calendar,
+            'calendars',
+          );
+        };
+      } else {
+        toast.error('Failed to add note', {id: 'addingNote'});
+      };
     };
   };
 

@@ -46,8 +46,8 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     const beginningOfWeekDate = new Date(`${beginningOfWeekSnap}, ${currentYear}`);
     const endOfWeekDate = new Date(`${endOfWeekSnap}, ${currentYear}`);
 
-    activeCalendars.forEach((calendar) => {
-      calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
+    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
+      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
         const startDate = new Date(calendarNote.start_date);
         const endDate = new Date(calendarNote.end_date);
         if (
@@ -88,7 +88,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
           </div>
         ))}
       </div>
-      <div className={styles.dayViewNotesContainer}>
+      <div className={styles.weekViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
           <NotesForCalendar 
             calendarNotes={getWeekViewNotes()}

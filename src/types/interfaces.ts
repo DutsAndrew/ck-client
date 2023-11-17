@@ -89,6 +89,7 @@ interface calendarProps {
   saveAllUserCalendarsToUser: (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[], populatedPersonalCalendar: calendarObject) => void,
   updateCalendarInUser: (newCalendar: calendarObject) => void,
   removeCalendarFromUser: (calendarId: string) => void,
+  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
   calendarDatesData: object,
 };
 
@@ -138,6 +139,7 @@ interface calendarNavProps {
   handleActiveCalendarChange: Function,
   handleActivateCalendarEditor: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
+  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
 };
 
 interface navLeftContainerProps {
@@ -146,6 +148,7 @@ interface navLeftContainerProps {
   userId: string,
   handleCalendarTimeChangeRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
+  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
 };
 
 interface addFormModalProps {
@@ -153,6 +156,7 @@ interface addFormModalProps {
   userId: string,
   handleCloseModalRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
+  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
 };
 
 interface addCalendarFormState {
@@ -263,12 +267,14 @@ interface calendarFormSwitchProps {
   userCalendars: userCalendars,
   userId: string,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
+  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
   handleCloseModalRequest: Function,
 };
 
 interface addNoteFormProps {
   userId: string,
   userCalendars: userCalendars,
+  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
 };
 
 interface addNoteFormDataState {

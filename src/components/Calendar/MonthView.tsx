@@ -88,8 +88,8 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
 
-    activeCalendars.forEach((calendar) => {
-      calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
+    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
+      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
         const startDate = new Date(calendarNote.start_date);
         if (
          startDate.getFullYear() === currentYear
@@ -134,7 +134,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
           <p>Loading Data...</p>
         }
       </div>
-      <div className={styles.dayViewNotesContainer}>
+      <div className={styles.monthViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
           <NotesForCalendar 
             calendarNotes={getMonthCalendarNotes()}

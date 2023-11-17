@@ -1339,3 +1339,99 @@
   background-color: #0074E0; /* Change to blue background color */
   color: #fff;
 }
+
+/* NOTES FOR CALENDAR CONTAINER STYLING -- NOTES FOR CALENDAR CONTAINER STYLING */
+
+.dayViewNotesContainer, .weekViewNotesContainer, .monthViewNotesContainer, .yearViewNotesContainer{
+  width: 100%;
+  margin: 0;
+  margin-top: 1vh;
+}
+
+.notesForCalendarContainer {
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.notesForCalendarCarousel, .notesForCalendarCarouselHidden {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.notesForCalendarCarouselHidden {
+  visibility: hidden;
+  z-index: -1;
+  height: 0;
+}
+
+.notesForCalendarCarouselButton {
+  border-radius: 5px;
+  width: 5vw;
+  background-color: #DCDCDC;
+  color:#333;
+  cursor: pointer;
+  padding: 0;
+}
+
+.notesForCalendarCarouselButton:hover {
+  transform: scale(0.95);
+}
+
+.notesForCalendarCarouselButtonSvg {
+  width: 3vw;
+  height: auto;
+  max-height: 3vh;
+}
+
+.notesForCalendarCurrentNotesDisplay {
+  width: 85%;
+  height: auto;
+  min-height: 20vh;
+  max-height: 40vh;
+}
+
+.notesForCalendarNoteContainer {
+  width: 20vw;
+  height: auto;
+  font-size: 1em;
+  background-color: red;
+}
+
+.notesForCalendarCloseCarouselButton, .notesForCalendarOpenCarouselButton {
+  height: auto;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.notesForCalendarCloseCarouselButton {
+  width: 75%;
+}
+
+.notesForCalendarOpenCarouselButton {
+  width: 20%;
+}
+
+.notesForCalendarCloseCarouselButton:hover {
+  transform: scale(0.99);
+}
+
+.notesForCalendarCloseCarouselButtonSvg, .notesForCalendarOpenCarouselButtonSvg {
+  width: 1.75vw;
+  height: auto;
+  max-height: 3vh;
+}
+
+.notesForCalendarOpenCarouselButtonSvg {
+  transform: rotate(180deg);
+}

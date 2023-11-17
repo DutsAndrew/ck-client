@@ -22,6 +22,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     saveAllUserCalendarsToUser,
     updateCalendarInUser,
     removeCalendarFromUser,
+    addNewCalendarNoteToCalendar,
     calendarDatesData,
   } = props;
 
@@ -45,9 +46,21 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
   }, []);
 
+  useEffect(() => {
+    updateActivateCalendarsWithUpdates();
+  }, [usersPersonalCalendar, usersTeamCalendars, usersPendingCalendars]);
+
   const mountAppData = () => {
     fetchCalendarAppData(); // get calendar date/holiday data from db
     fetchAllUserCalendarData(); // get ALL user calendar data
+  };
+
+  const updateActivateCalendarsWithUpdates = () => {
+    // setActiveCalendars((prevCalendars) => {
+    //   // prevCalendars.map((calendar) => {
+    //   //   if (calendar._id === )
+    //   // })
+    // });
   };
 
   const fetchCalendarAppData = async () => {
@@ -176,6 +189,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     handleActiveCalendarChange,
     handleActivateCalendarEditor,
     appendNewCalendarToUser,
+    addNewCalendarNoteToCalendar,
   };
 
   const calendarViewProps = {
