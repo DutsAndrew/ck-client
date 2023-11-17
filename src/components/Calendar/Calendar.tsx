@@ -56,11 +56,24 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   };
 
   const updateActivateCalendarsWithUpdates = () => {
-    // setActiveCalendars((prevCalendars) => {
-    //   // prevCalendars.map((calendar) => {
-    //   //   if (calendar._id === )
-    //   // })
-    // });
+    if (activeCalendars.length === 0 || !Array.isArray(activeCalendars)) {
+      return;
+    };
+
+    const updatedActiveCalendars = activeCalendars.map((outdatedCalendar) => {
+      if (outdatedCalendar.calendar_type === 'personal') {
+        return usersPersonalCalendar;
+      };
+      if (outdatedCalendar.calendar_type === 'team') {
+        const updatedCalendar = usersTeamCalendars.find((updatedCalendar) => updatedCalendar._id === outdatedCalendar._id);
+        if (updatedCalendar) {
+          return updatedCalendar;
+        };
+      };
+      return outdatedCalendar;
+    });
+
+    setActiveCalendars(updatedActiveCalendars);
   };
 
   const fetchCalendarAppData = async () => {
