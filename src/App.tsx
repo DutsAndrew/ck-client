@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast'
 import Header from './components/Header/Header';
@@ -104,12 +104,12 @@ function App() {
   };
 
   const handleSignOut = () => {
+    setAuth(false);
     setUser({});
     setAppData({
       ...appData,
       calendarData: {},
     });
-    setAuth(false);
   };
 
   return (

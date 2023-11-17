@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { calendarEditorState, calendarObject, calendarProps, userCalendars, activeCalendarState, calendarApiResponse, allUserCalendarsPopulatedApiResponse } from '../../types/interfaces';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import CalendarNav from './CalendarNav';
 import YearView from './YearView';
@@ -36,9 +37,16 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           [usersPersonalCalendar]
         );
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (typeof userId === 'undefined') { // prevent user from fetching calendar data and crashing app without being logged in
+      navigate('/login');
+      return;
+    };
+
     if (
-      Object.keys(calendarDatesData).length > 0 // if calendar data was fetched then user calendars were fetched as well
+      Object.keys(calendarDatesData).length > 0
     ) {
       return;
     } else {
@@ -60,20 +68,24 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       return;
     };
 
-    const updatedActiveCalendars = activeCalendars.map((outdatedCalendar) => {
-      if (outdatedCalendar.calendar_type === 'personal') {
-        return usersPersonalCalendar;
-      };
-      if (outdatedCalendar.calendar_type === 'team') {
-        const updatedCalendar = usersTeamCalendars.find((updatedCalendar) => updatedCalendar._id === outdatedCalendar._id);
-        if (updatedCalendar) {
-          return updatedCalendar;
+    const updatedActiveCalendars = activeCalendars.map((outdatedCalendar: calendarObject) => {
+      if (typeof outdatedCalendar === 'undefined') return;
+
+      if (outdatedCalendar.calendar_type) {
+        if (outdatedCalendar.calendar_type === 'personal') {
+          return usersPersonalCalendar;
+        };
+        if (outdatedCalendar.calendar_type === 'team') {
+          const updatedCalendar = usersTeamCalendars.find((updatedCalendar) => updatedCalendar._id === outdatedCalendar._id);
+          if (updatedCalendar) {
+            return updatedCalendar;
+          };
         };
       };
       return outdatedCalendar;
     });
 
-    setActiveCalendars(updatedActiveCalendars);
+    if (typeof updatedActiveCalendars !== 'undefined') setActiveCalendars((updatedActiveCalendars as calendarObject[]));
   };
 
   const fetchCalendarAppData = async () => {
