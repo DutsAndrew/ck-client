@@ -15,14 +15,8 @@ const SelectedCalendarModal:FC<selectedCalendarModalProps> = (props): JSX.Elemen
 
   // calendarModal only stores what the user currently modifies, actual state is stored in Calendar root component
   const [selectedCalendars, setSelectedCalendars] = useState<calendarModalState>({
-    list: [],
+    list: activeCalendars,
   });
-
-  useEffect(() => {
-    setSelectedCalendars({
-      list: activeCalendars,
-    });
-  }, []);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScrollStatus);

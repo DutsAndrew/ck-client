@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast'
 import Header from './components/Header/Header';
@@ -7,7 +7,7 @@ import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
 import Welcome from './pages/Welcome';
 import LoadingBar from './pages/LoadingBar';
 import ScrollToTopButton from './components/ScrollToTopButton';
-import { CalendarDatesData, appDataState, calendarNote, calendarObject, userInstance } from './types/interfaces';
+import { CalendarDatesData, appDataState, calendarObject, userInstance } from './types/interfaces';
 
 // lazy loaded items - ALL non essential functionality of the app
 const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));

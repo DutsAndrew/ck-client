@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { calendarEditorState, calendarObject, calendarProps, userCalendars, activeCalendarState, calendarApiResponse, allUserCalendarsPopulatedApiResponse } from '../../types/interfaces';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import CalendarNav from './CalendarNav';
@@ -9,6 +8,15 @@ import WeekView from './WeekView';
 import DayView from './DayView';
 import EditCalendar from './EditCalendar';
 import toast from 'react-hot-toast'
+import { 
+  calendarEditorState,
+  calendarObject,
+  calendarProps,
+  userCalendars,
+  activeCalendarState,
+  calendarApiResponse,
+  allUserCalendarsPopulatedApiResponse 
+} from '../../types/interfaces';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
@@ -27,8 +35,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     calendarDatesData,
   } = props;
 
-  const [calendarData, setCalendarData] = useState({}),
-        [currentView, setCurrentView] = useState('All'),
+        const [currentView, setCurrentView] = useState('All'),
         [calendarEditor, setCalendarEditor] = useState<calendarEditorState>({
           active: false,
           calendar: {},
