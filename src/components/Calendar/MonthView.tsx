@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { CalendarDatesData, calendarNote, monthViewProps } from "../../types/interfaces";
+import { CalendarDatesData, calendarNote, calendarNoteWithCalendarName, monthViewProps } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
@@ -83,7 +83,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
   };
 
   const getMonthCalendarNotes = () => {
-    const thisMonthsNotes: calendarNote[] = [];
+    const thisMonthsNotes: calendarNoteWithCalendarName[] = [];
 
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
@@ -96,7 +96,11 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
          && startDate.getMonth() === currentMonth
          && calendarNote.type === 'month'
         ) {
-          thisMonthsNotes.push(calendarNote);
+          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
+            ...calendarNote, 
+            calendar_name: calendar.name,
+          };
+          thisMonthsNotes.push(calendarNoteWithCalendarName);
         };
       });
     });

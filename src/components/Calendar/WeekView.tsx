@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { calendarNote, weekViewProps } from "../../types/interfaces";
+import { calendarNote, calendarNoteWithCalendarName, weekViewProps } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
 
@@ -37,7 +37,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
   };
 
   const getWeekViewNotes = () => {
-    const thisWeeksNotes: calendarNote[] = [];
+    const thisWeeksNotes: calendarNoteWithCalendarName[] = [];
 
     const currentYear = new Date().getFullYear();
     const beginningOfWeekSnap = weekSnapshot.split(' - ')[0];
@@ -61,7 +61,11 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
           //
           && calendarNote.type === 'week'
         ) {
-          thisWeeksNotes.push(calendarNote);
+          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
+            ...calendarNote, 
+            calendar_name: calendar.name,
+          };
+          thisWeeksNotes.push(calendarNoteWithCalendarName);
         };
       });
     });

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { calendarNote, calendarViewStateForCalendarNotes, dayViewProps } from "../../types/interfaces";
+import { calendarNote, calendarNoteWithCalendarName, calendarViewStateForCalendarNotes, dayViewProps } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
 
@@ -42,7 +42,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
   };
 
   const getDayViewNotes = () => {
-    const todaysNotes: calendarNote[] = [];
+    const todaysNotes: calendarNoteWithCalendarName[] = [];
     const today = new Date(currentDay);
 
     Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
@@ -54,7 +54,11 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
           && today.getDate() === startDate.getDate()
           && calendarNote.type === 'day'
         ) {
-          todaysNotes.push(calendarNote);
+          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
+             ...calendarNote, 
+             calendar_name: calendar.name,
+          };
+          todaysNotes.push(calendarNoteWithCalendarName);
         };
       });
     });

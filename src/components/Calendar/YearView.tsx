@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { CalendarDatesData, calendarNote, yearViewProps } from "../../types/interfaces";
+import { CalendarDatesData, calendarNote, calendarNoteWithCalendarName, yearViewProps } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from 'uniqid';
 
@@ -75,7 +75,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
   };
 
   const getYearViewNotes = () => {
-    const thisYearsNotes: calendarNote[] = [];
+    const thisYearsNotes: calendarNoteWithCalendarName[] = [];
 
     const currentYear = new Date().getFullYear();
 
@@ -86,7 +86,11 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
          startDate.getFullYear() === currentYear
          && calendarNote.type === 'year'
         ) {
-          thisYearsNotes.push(calendarNote);
+          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
+            ...calendarNote, 
+            calendar_name: calendar.name,
+          };
+          thisYearsNotes.push(calendarNoteWithCalendarName);
         };
       });
     });

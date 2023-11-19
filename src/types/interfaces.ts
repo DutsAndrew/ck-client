@@ -212,7 +212,7 @@ interface yearViewProps {
 };
 
 interface notesForCalendarProps {
-  calendarNotes: calendarNotes,
+  calendarNotes: calendarNotesWithName,
 };
 
 type calendarViewStateForCalendarNotes  = calendarNotes;
@@ -438,7 +438,20 @@ interface calendarNote {
   type: string,
 }
 
+interface calendarNoteWithCalendarName {
+  _id: string,
+  calendar_name: string,
+  created_by: object,
+  created_on: string,
+  note: string,
+  start_date: string,
+  end_date: string,
+  type: string,
+}
+
 type calendarNotes = calendarNote[];
+
+type calendarNotesWithName = calendarNoteWithCalendarName[];
 
 interface eventObject {
   calendar: string,
@@ -495,6 +508,8 @@ export type {
   yearViewProps,
   notesForCalendarProps,
   calendarNote,
+  calendarNoteWithCalendarName,
+  calendarNotesWithName,
   calendarViewStateForCalendarNotes,
   selectedCalendarModalProps,
   dropDownCalendarItemsProps,
