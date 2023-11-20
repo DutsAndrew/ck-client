@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { notesForCalendarProps } from "../../types/interfaces";
+import { calendarNoteWithCalendarName, notesForCalendarProps } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import chevronLeftSvg from '../../assets/chevron-left.svg';
 import chevronRightSvg from '../../assets/chevron-right.svg';
@@ -67,6 +67,16 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
                 className={noteActivated.noteId === note._id && noteActivated.activated ? styles.notesForCalendarNoteContainerActivated : styles.notesForCalendarNoteContainer}>
                   {noteActivated.noteId === note._id && noteActivated.activated ? (
                     <div className={styles.notesForCalendarNoteActivatedContainer}>
+                      <p className={styles.notesForCalendarNoteCalendarNameText}>
+                        {note.calendar_name}
+                      </p>
+                      <p className={styles.notesForCalendarNoteCreatorIntroText}>
+                        Created by:
+                      </p>
+                      <p className={styles.notesForCalendarNoteCreatedByText}>
+                        {(note as calendarNoteWithCalendarName).created_by.first_name},&nbsp;
+                        {(note as calendarNoteWithCalendarName).created_by.last_name}
+                      </p>
                       <button 
                         type="button"
                         className={styles.notesForCalendarEditButton}>
@@ -80,9 +90,6 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
                     </div>
                   ) : (
                     <>
-                      <p className={styles.notesForCalendarNoteCalendarNameText}>
-                        {note.calendar_name}
-                      </p>
                       <p className={styles.notesForCalendarNoteText}>
                         {note.note}
                       </p>

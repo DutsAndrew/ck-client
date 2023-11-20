@@ -410,6 +410,14 @@ interface userCalendarInstance {
   _id: string,
 };
 
+interface userCalendarNoteInstance {
+  company: string,
+  email: string,
+  first_name: string,
+  job_title: string,
+  last_name: string,
+};
+
 interface userCalendarPendingUserInstance {
   type: string,
   user: userCalendarInstance,
@@ -430,7 +438,7 @@ interface calendarObject {
 
 interface calendarNote {
   _id: string,
-  created_by: object,
+  created_by: userCalendarNoteInstance,
   created_on: string,
   note: string,
   start_date: string,
@@ -441,7 +449,7 @@ interface calendarNote {
 interface calendarNoteWithCalendarName {
   _id: string,
   calendar_name: string,
-  created_by: object,
+  created_by: userCalendarNoteInstance,
   created_on: string,
   note: string,
   start_date: string,
