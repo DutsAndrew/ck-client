@@ -1399,6 +1399,7 @@
   height: auto;
   min-height: 20vh;
   max-height: 40vh;
+  margin: 1vh;
 }
 
 .notesForCalendarNoteContainer, .notesForCalendarNoteContainerActivated {
@@ -1406,11 +1407,22 @@
   flex-flow: column wrap;
   overflow-y: scroll;
   overflow-x: hidden;
-  width: 15vw;
+  width: 20vw;
   height: auto;
-  min-height: 15vh;
+  max-height: 25vh;
   font-size: 1em;
   cursor: pointer;
+  border-radius: 5px;
+}
+
+.notesForCalendarNote {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.notesForCalendarNoteText {
+  margin: 0;
+  font-size: 1.05em;
 }
 
 .notesForCalendarNoteContainer {
@@ -1425,13 +1437,14 @@
   align-items: center;
 }
 
-.notesForCalendarNoteActivatedContainer {
+.notesForCalendarNoteActivatedContainer, .notesForCalendarNoteContainer {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  gap: 2vh;
-  width: 100%;
+  gap: 1vh;
+  width: 20vw;
+  height: 25vh;
 }
 
 .notesForCalendarEditButton, .notesForCalendarDeleteButton {
@@ -1473,6 +1486,13 @@
   width: auto;;
   font-size: 1em;
   font-weight: bold;
+}
+
+.notesForCalendarNoteCalendarNameText, .notesForCalendarNoteCreatorIntroText, .notesForCalendarNoteCreatedByText {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .notesForCalendarCloseCarouselButton, .notesForCalendarOpenCarouselButton {

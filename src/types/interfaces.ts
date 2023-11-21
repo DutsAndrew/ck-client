@@ -215,6 +215,11 @@ interface notesForCalendarProps {
   calendarNotes: calendarNotesWithName,
 };
 
+type notesForCalendarState = {
+  notes: calendarNotesWithName | [],
+  set: number[],
+};
+
 type calendarViewStateForCalendarNotes  = calendarNotes;
 
 interface selectedCalendarModalProps {
@@ -515,6 +520,7 @@ export type {
   monthViewProps,
   yearViewProps,
   notesForCalendarProps,
+  notesForCalendarState,
   calendarNote,
   calendarNoteWithCalendarName,
   calendarNotesWithName,

@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { calendarNoteWithCalendarName, notesForCalendarProps } from "../../types/interfaces";
+import { calendarNoteWithCalendarName, notesForCalendarProps, notesForCalendarState } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import chevronLeftSvg from '../../assets/chevron-left.svg';
 import chevronRightSvg from '../../assets/chevron-right.svg';
@@ -9,7 +9,11 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
 
   const { calendarNotes } = props;
 
-  const [currentNotes, setCurrentNotes] = useState([calendarNotes.slice(0, 4)]);
+  const [currentNotes, setCurrentNotes] = useState<notesForCalendarState>({
+    notes: Array.isArray(calendarNotes) && calendarNotes.length > 0 
+      ? calendarNotes.slice(0, 3) : [],
+    set: [0, 3],
+  });
   const [carousel, setCarousel] = useState(false);
   const [noteActivated, setNoteActivated] = useState({
     noteId: '',
@@ -21,11 +25,31 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
   };
 
   const handleCarouselBackwardsClick = () => {
-
+    if (currentNotes.set[0] === 0) {
+      return;
+    } else {
+      const newStart = currentNotes.set[0] - 1;
+      const newEnd = currentNotes.set[1] - 1;
+      setCurrentNotes((prevNotes) => ({
+        notes: Array.isArray(calendarNotes) && calendarNotes.length > 0
+          ? calendarNotes.slice(newStart, newEnd) : [],
+        set: [newStart, newEnd],
+      }));
+    };
   };
 
   const handleCarouselForwardsClick = () => {
-
+    if (currentNotes.set[1] === calendarNotes.length) {
+      return;
+    } else {
+      const newStart = currentNotes.set[0] + 1;
+      const newEnd = currentNotes.set[1] + 1;
+      setCurrentNotes((prevNotes) => ({
+        notes: Array.isArray(calendarNotes) && calendarNotes.length > 0
+          ? calendarNotes.slice(newStart, newEnd) : [],
+        set: [newStart, newEnd],
+      }));
+    };
   };
 
   const handleNoteActivation = (noteId: string) => {
@@ -60,7 +84,7 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
             </img>
           </button>
           <div className={styles.notesForCalendarCurrentNotesDisplay}>
-            {Array.isArray(calendarNotes) && calendarNotes.length !== 0 && calendarNotes.map((note) => {
+            {Array.isArray(currentNotes.notes) && currentNotes.notes.length !== 0 && currentNotes.notes.map((note) => {
               return <div 
                 key={note._id}
                 onClick={() => handleNoteActivation(note._id)}
@@ -71,7 +95,7 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
                         {note.calendar_name}
                       </p>
                       <p className={styles.notesForCalendarNoteCreatorIntroText}>
-                        Created by:
+                        <em>Created by:</em>
                       </p>
                       <p className={styles.notesForCalendarNoteCreatedByText}>
                         {(note as calendarNoteWithCalendarName).created_by.first_name},&nbsp;
@@ -89,11 +113,11 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
                       </button>
                     </div>
                   ) : (
-                    <>
+                    <div className={styles.notesForCalendarNote}>
                       <p className={styles.notesForCalendarNoteText}>
                         {note.note}
                       </p>
-                    </>
+                    </div>
                   )}
               </div>
             })}
