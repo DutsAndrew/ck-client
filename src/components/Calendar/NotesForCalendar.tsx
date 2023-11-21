@@ -12,7 +12,7 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
   const [currentNotes, setCurrentNotes] = useState<notesForCalendarState>({
     // calendar notes are only displayed 3 at a time, so check if array has at least 3 items, if so slice it at 3, if not slice at the end of array
     notes: Array.isArray(calendarNotes) && calendarNotes.length > 0 
-      ? calendarNotes.slice(0, (calendarNotes.length > 3 ? 3 : calendarNotes.length - 1)) : [],
+      ? calendarNotes.slice(0, 3) : [],
     set: [0, (calendarNotes.length > 3 ? 3 : calendarNotes.length - 1)],
   });
   const [carousel, setCarousel] = useState(false);
@@ -83,7 +83,7 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
       <div className={styles.notesForCalendarContainer}>
         <div className={carousel ? styles.notesForCalendarCarousel : styles.notesForCalendarCarouselHidden}>
           {/* check if calendar notes doesn't have 3 items or if the first element in array is the start, if so remove button */}
-          <button className={calendarNotes.length > 3 || currentNotes.set[0] !== 0 ? styles.notesForCalendarCarouselButton : styles.notesForCalendarCarouselButtonDeactivated}>
+          <button className={currentNotes.set[0] !== 0 ? styles.notesForCalendarCarouselButton : styles.notesForCalendarCarouselButtonDeactivated}>
             <img 
               onClick={() => handleCarouselBackwardsClick()}
               src={chevronLeftSvg}
@@ -131,7 +131,7 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
             })}
           </div>
           {/* check if calendar notes doesn't have 3 items or if the last element in array is the end, if so remove button */}
-          <button className={calendarNotes.length > 3 || currentNotes.set[1] !== calendarNotes.length ? styles.notesForCalendarCarouselButton : styles.   notesForCalendarCarouselButtonDeactivated}>
+          <button className={calendarNotes.length > 3 && currentNotes.set[1] !== calendarNotes.length ? styles.notesForCalendarCarouselButton : styles.   notesForCalendarCarouselButtonDeactivated}>
             <img 
               onClick={() => handleCarouselForwardsClick()}
               src={chevronRightSvg}
