@@ -1379,6 +1379,10 @@
   padding: 0;
 }
 
+.notesForCalendarCarouselButtonDeactivated {
+  visibility: hidden;
+}
+
 .notesForCalendarCarouselButton:hover {
   transform: scale(0.95);
 }

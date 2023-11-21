@@ -10,9 +10,10 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
   const { calendarNotes } = props;
 
   const [currentNotes, setCurrentNotes] = useState<notesForCalendarState>({
+    // calendar notes are only displayed 3 at a time, so check if array has at least 3 items, if so slice it at 3, if not slice at the end of array
     notes: Array.isArray(calendarNotes) && calendarNotes.length > 0 
-      ? calendarNotes.slice(0, 3) : [],
-    set: [0, 3],
+      ? calendarNotes.slice(0, (calendarNotes.length > 3 ? 3 : calendarNotes.length - 1)) : [],
+    set: [0, (calendarNotes.length > 3 ? 3 : calendarNotes.length - 1)],
   });
   const [carousel, setCarousel] = useState(false);
   const [noteActivated, setNoteActivated] = useState({
@@ -20,11 +21,15 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
     activated: false,
   });
 
+  console.log(currentNotes.notes, currentNotes.set)
+
   const handleCarouselStatusChange = () => {
     setCarousel(!carousel);
   };
 
   const handleCarouselBackwardsClick = () => {
+    if (calendarNotes.length <= 3) return;
+
     if (currentNotes.set[0] === 0) {
       return;
     } else {
@@ -39,6 +44,8 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
   };
 
   const handleCarouselForwardsClick = () => {
+    if (calendarNotes.length <= 3) return;
+
     if (currentNotes.set[1] === calendarNotes.length) {
       return;
     } else {
@@ -75,7 +82,8 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
     return (
       <div className={styles.notesForCalendarContainer}>
         <div className={carousel ? styles.notesForCalendarCarousel : styles.notesForCalendarCarouselHidden}>
-          <button className={styles.notesForCalendarCarouselButton}>
+          {/* check if calendar notes doesn't have 3 items or if the first element in array is the start, if so remove button */}
+          <button className={calendarNotes.length > 3 || currentNotes.set[0] !== 0 ? styles.notesForCalendarCarouselButton : styles.notesForCalendarCarouselButtonDeactivated}>
             <img 
               onClick={() => handleCarouselBackwardsClick()}
               src={chevronLeftSvg}
@@ -122,7 +130,8 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
               </div>
             })}
           </div>
-          <button className={styles.notesForCalendarCarouselButton}>
+          {/* check if calendar notes doesn't have 3 items or if the last element in array is the end, if so remove button */}
+          <button className={calendarNotes.length > 3 || currentNotes.set[1] !== calendarNotes.length ? styles.notesForCalendarCarouselButton : styles.   notesForCalendarCarouselButtonDeactivated}>
             <img 
               onClick={() => handleCarouselForwardsClick()}
               src={chevronRightSvg}
