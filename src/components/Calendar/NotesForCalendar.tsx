@@ -4,10 +4,14 @@ import styles from '../../styles/components/Calendar/calendar.module.css';
 import chevronLeftSvg from '../../assets/chevron-left.svg';
 import chevronRightSvg from '../../assets/chevron-right.svg';
 import chevronUpSvg from '../../assets/arrow-up.svg';
+import addItemSvg from '../../assets/plus.svg';
 
 const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
 
-  const { calendarNotes } = props;
+  const { 
+    calendarNotes,
+    handleNotesForCalendarRequestToAddNewNote,
+  } = props;
 
   const [currentNotes, setCurrentNotes] = useState<notesForCalendarState>({
     // calendar notes are only displayed 3 at a time, so check if array has at least 3 items, if so slice it at 3, if not slice at the end of array
@@ -20,8 +24,6 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
     noteId: '',
     activated: false,
   });
-
-  console.log(currentNotes.notes, currentNotes.set)
 
   const handleCarouselStatusChange = () => {
     setCarousel(!carousel);
@@ -73,6 +75,10 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
     });
   };
 
+  const handleAddCalendarNote = () => {
+    return handleNotesForCalendarRequestToAddNewNote();
+  };
+
   if (calendarNotes.length === 0) {
     return (
       <>
@@ -80,7 +86,13 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
     );
   } else {
     return (
-      <div className={styles.notesForCalendarContainer}>
+      <div className={carousel ? styles.notesForCalendarContainer : styles.notesForCalendarContainerClosed}>
+        <img 
+          onClick={() => handleAddCalendarNote()}
+          src={addItemSvg}
+          alt="add item icon"
+          className={carousel ? styles.notesForCalendarAddNewNoteSvg : styles.notesForCalendarAddNewNoteSvgHidden}>
+        </img>
         <div className={carousel ? styles.notesForCalendarCarousel : styles.notesForCalendarCarouselHidden}>
           {/* check if calendar notes doesn't have 3 items or if the first element in array is the start, if so remove button */}
           <button className={currentNotes.set[0] !== 0 ? styles.notesForCalendarCarouselButton : styles.notesForCalendarCarouselButtonDeactivated}>

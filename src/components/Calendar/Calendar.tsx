@@ -42,7 +42,13 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         }),
         [activeCalendars, setActiveCalendars]= useState<activeCalendarState>(
           [usersPersonalCalendar]
-        );
+        ),
+        [calendarFormStatus, setCalendarFormStatus] = useState({
+          // state in case user shortcuts the calendar form by interacting with the calendar app instead of clicking the "plus" sign
+          event: false,
+          note: false,
+          calendar: false,
+        });
 
   const navigate = useNavigate();
 
@@ -204,6 +210,22 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     });
   };
 
+  const handleNotesForCalendarRequestToAddNewNote = () => {
+    setCalendarFormStatus({
+      event: false,
+      note: true,
+      calendar: false,
+    });
+  };
+
+  const handleRemoveCalendarShortcutRequest = () => {
+    setCalendarFormStatus({
+      event: false,
+      note: false,
+      calendar: false,
+    });
+  };
+
   const userCalendars: userCalendars = {
     personalCalendar: usersPersonalCalendar,
     pendingCalendars: usersPendingCalendars,
@@ -216,17 +238,20 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     activeCalendars,
     calendarDatesData,
     userId,
+    calendarFormStatus,
     changeCurrentView,
     handleCalendarTimeChangeRequest,
     handleActiveCalendarChange,
     handleActivateCalendarEditor,
     appendNewCalendarToUser,
     addNewCalendarNoteToCalendar,
+    handleRemoveCalendarShortcutRequest,
   };
 
   const calendarViewProps = {
     currentDay: getTodaysDate(),
     activeCalendars: activeCalendars,
+    handleNotesForCalendarRequestToAddNewNote,
   }
 
   if (calendarEditor.active === true) {

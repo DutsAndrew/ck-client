@@ -1348,12 +1348,48 @@
   margin-top: 1vh;
 }
 
-.notesForCalendarContainer {
+.notesForCalendarContainer, .notesForCalendarContainerClosed {
   width: 100%;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+}
+
+.notesForCalendarContainer {
+  background-color: #FFFFE0;
+}
+
+.notesForCalendarContainerClosed {
+  background-color: none;
+}
+
+.notesForCalendarAddNewNoteSvg {
+  height: auto;
+  filter: invert(90%) sepia(7%) saturate(1613%) hue-rotate(76deg) brightness(87%) contrast(88%);
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .notesForCalendarAddNewNoteSvg {
+    width: 10vw;
+  }
+}
+
+@media (min-width: 601px) {
+  .notesForCalendarAddNewNoteSvg {
+    width: 3vw;
+  }
+}
+
+.notesForCalendarAddNewNoteSvgHidden {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.notesForCalendarAddNewNoteSvg:hover {
+  animation: rotateAnimation 1s forwards;
 }
 
 .notesForCalendarCarousel, .notesForCalendarCarouselHidden {
@@ -1372,11 +1408,22 @@
 
 .notesForCalendarCarouselButton {
   border-radius: 5px;
-  width: 5vw;
   background-color: #DCDCDC;
   color:#333;
   cursor: pointer;
   padding: 0;
+}
+
+@media (max-width: 600px) {
+  .notesForCalendarCarouselButton {
+    width: 10vw;
+  }
+}
+
+@media (min-width: 601px) {
+  .notesForCalendarCarouselButton {
+    width: 5vw;
+  }
 }
 
 .notesForCalendarCarouselButtonDeactivated {
@@ -1521,8 +1568,16 @@
   padding: 0;
 }
 
-.notesForCalendarCloseCarouselButton, .notesForCalendarOpenCarouselButton {
-  width: 20%;
+@media (max-width: 600px) {
+  .notesForCalendarCloseCarouselButton, .notesForCalendarOpenCarouselButton {
+    width: 40%;
+  }
+}
+
+@media (min-width: 601px) {
+  .notesForCalendarCloseCarouselButton, .notesForCalendarOpenCarouselButton {
+    width: 20%;
+  }
 }
 
 .notesForCalendarCloseCarouselButton:hover {

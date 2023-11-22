@@ -10,6 +10,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     currentDay,
     activeCalendars,
     calendarDatesData,
+    handleNotesForCalendarRequestToAddNewNote,
   } = props;
 
   const week = [
@@ -160,6 +161,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
           <NotesForCalendar 
             calendarNotes={getYearViewNotes()}
+            handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
           />
         )}
       </div>

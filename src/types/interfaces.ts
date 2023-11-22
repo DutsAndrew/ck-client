@@ -128,32 +128,43 @@ interface AddUserToCalendarListProps {
   handleCalendarEditorChange: (updatedCalendar: calendarObject) => void,
 };
 
+type calendarFormStatus = {
+  event: boolean,
+  note: boolean,
+  calendar: boolean,
+};
+
 interface calendarNavProps {
   userCalendars: userCalendars,
   currentView: string,
   activeCalendars: calendarObject[],
   calendarDatesData: CalendarDatesData | {},
   userId: string,
+  calendarFormStatus: calendarFormStatus,
   changeCurrentView: Function,
   handleCalendarTimeChangeRequest: Function,
   handleActiveCalendarChange: Function,
   handleActivateCalendarEditor: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
+  handleRemoveCalendarShortcutRequest: () => void,
 };
 
 interface navLeftContainerProps {
   currentView: string,
   userCalendars: userCalendars,
   userId: string,
+  calendarFormStatus: calendarFormStatus,
   handleCalendarTimeChangeRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
-  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
+  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
+  handleRemoveCalendarShortcutRequest: () => void,
 };
 
 interface addFormModalProps {
   userCalendars: userCalendars,
   userId: string,
+  calendarFormStatus: calendarFormStatus,
   handleCloseModalRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
@@ -192,27 +203,32 @@ interface navRightContainerProps {
 interface dayViewProps {
   currentDay: string,
   activeCalendars: calendarObject[],
+  handleNotesForCalendarRequestToAddNewNote: () => void,
 };
 
 interface weekViewProps {
   currentDay: string,
   activeCalendars: calendarObject[],
+  handleNotesForCalendarRequestToAddNewNote: () => void,
 };
 
 interface monthViewProps {
   currentDay: string,
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
+  handleNotesForCalendarRequestToAddNewNote: () => void,
 };
 
 interface yearViewProps {
   currentDay: string,
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
+  handleNotesForCalendarRequestToAddNewNote: () => void,
 };
 
 interface notesForCalendarProps {
   calendarNotes: calendarNotesWithName,
+  handleNotesForCalendarRequestToAddNewNote: () => void,
 };
 
 type notesForCalendarState = {
@@ -271,6 +287,7 @@ interface addCalendarFormProps {
 interface calendarFormSwitchProps {
   userCalendars: userCalendars,
   userId: string,
+  calendarFormStatus: calendarFormStatus,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
   handleCloseModalRequest: Function,

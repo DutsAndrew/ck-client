@@ -9,6 +9,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
   const { 
     currentDay,
     activeCalendars,
+    handleNotesForCalendarRequestToAddNewNote,
   } = props;
 
   const week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -96,6 +97,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
           <NotesForCalendar 
             calendarNotes={getWeekViewNotes()}
+            handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
           />
         )}
       </div>

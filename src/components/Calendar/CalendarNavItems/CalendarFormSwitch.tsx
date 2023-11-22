@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import AddCalendarForm from './AddCalendarForm';
 import AddEventForm from './AddEventForm';
@@ -10,15 +10,26 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
   const { 
     userCalendars,
     userId,
+    calendarFormStatus,
     appendNewCalendarToUser,
     addNewCalendarNoteToCalendar,
     handleCloseModalRequest,
   } = props;
 
+  useEffect(() => {
+    handleUserShortCutRender(); // user activated the form by interacting with calendar app and not clicking the "plus" sign
+  }, [calendarFormStatus]);
+
   const [activeForm, setActiveForm] = useState('event');
 
   const handleActiveFormChange = (formRequest: string): void => {
     setActiveForm(formRequest);
+  };
+
+  const handleUserShortCutRender = () => {
+    if (calendarFormStatus.event === true) setActiveForm('event');
+    if (calendarFormStatus.note === true) setActiveForm('note');
+    if (calendarFormStatus.calendar === true) setActiveForm('calendar');
   };
 
   const renderFormView = () => {

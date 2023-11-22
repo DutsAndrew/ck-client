@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import plusSVG from '../../../assets/plus.svg';
 import leftArrowSvg from '../../../assets/chevron-left.svg';
@@ -12,10 +12,16 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
     currentView,
     userCalendars,
     userId,
+    calendarFormStatus,
     handleCalendarTimeChangeRequest,
     appendNewCalendarToUser,
     addNewCalendarNoteToCalendar,
+    handleRemoveCalendarShortcutRequest,
   } = props;
+
+  useEffect(() => {
+    handleOpenFormOnFormShortcut();
+  }, [calendarFormStatus]);
 
   const [modal, setModal] = useState({
     open: false,
@@ -38,6 +44,19 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
     setModal({
       open: false,
     });
+    return handleRemoveCalendarShortcutRequest();
+  };
+
+  const handleOpenFormOnFormShortcut = () => {
+    if (
+      calendarFormStatus.event === true
+      || calendarFormStatus.note === true
+      || calendarFormStatus.calendar === true
+    ) {
+      setModal({
+        open: true,
+      });
+    };
   };
 
   if (modal.open === true && currentView === 'All') {
@@ -52,6 +71,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
         <CalendarFormModal
           userCalendars={userCalendars}
           userId={userId}
+          calendarFormStatus={calendarFormStatus}
           handleCloseModalRequest={handleCloseModalRequest}
           appendNewCalendarToUser={appendNewCalendarToUser}
           addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
@@ -95,6 +115,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
         <CalendarFormModal
           userCalendars={userCalendars}
           userId={userId}
+          calendarFormStatus={calendarFormStatus}
           handleCloseModalRequest={handleCloseModalRequest}
           appendNewCalendarToUser={appendNewCalendarToUser}
           addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
