@@ -1398,8 +1398,8 @@
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  gap: 2vh;
   width: 85%;
+  gap: 2vh;
   height: auto;
   min-height: 20vh;
   max-height: 40vh;
@@ -1409,37 +1409,36 @@
 .notesForCalendarNoteContainer, .notesForCalendarNoteContainerActivated {
   display: flex;
   flex-flow: column wrap;
-  overflow-y: scroll;
   overflow-x: hidden;
-  font-size: 1em;
+  overflow-y: scroll;
   cursor: pointer;
   border-radius: 5px;
 }
 
 @media (max-width: 600px) {
   .notesForCalendarNoteContainer, .notesForCalendarNoteContainerActivated {
-    width: 40vw;
-    height: auto;
-    max-height: 25vh;
+    width: 35vw;
+    height: 30vh;
+    font-size: 0.9em;
   }
 }
 
 @media (min-width: 601px) {
   .notesForCalendarNoteContainer, .notesForCalendarNoteContainerActivated {
     width: 20vw;
-    height: auto;
+    min-height: 10vh;
     max-height: 25vh;
+    font-size: 1.05em;
   }
 }
 
 .notesForCalendarNote {
-  overflow-y: scroll;
+  overflow-y: visible;
   overflow-x: hidden;
 }
 
 .notesForCalendarNoteText {
   margin: 0;
-  font-size: 1.05em;
   padding: 2vh;
 }
 
@@ -1461,8 +1460,6 @@
   justify-content: center;
   align-items: center;
   gap: 1vh;
-  width: 20vw;
-  height: 25vh;
 }
 
 .notesForCalendarEditButton, .notesForCalendarDeleteButton {

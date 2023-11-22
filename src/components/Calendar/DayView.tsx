@@ -119,7 +119,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
         </div>
       </div>
       <div className={styles.dayViewNotesContainer}>
-        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
+        {Array.isArray(activeCalendars) && activeCalendars.length !== 0 &&  (
           <NotesForCalendar 
             calendarNotes={getDayViewNotes()}
           />
