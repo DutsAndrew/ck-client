@@ -11,6 +11,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     activeCalendars,
     calendarDatesData,
     handleNotesForCalendarRequestToAddNewNote,
+    handleCalendarNoteModificationRequest,
   } = props;
 
   const week = [
@@ -90,6 +91,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
           const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
             ...calendarNote, 
             calendar_name: calendar.name,
+            calendar_id: calendar._id,
           };
           thisYearsNotes.push(calendarNoteWithCalendarName);
         };
@@ -162,6 +164,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
           <NotesForCalendar 
             calendarNotes={getYearViewNotes()}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
+            handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
           />
         )}
       </div>

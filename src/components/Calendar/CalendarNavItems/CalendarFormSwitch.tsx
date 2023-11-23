@@ -11,6 +11,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
     userCalendars,
     userId,
     calendarFormStatus,
+    calendarNoteEditRequest,
     appendNewCalendarToUser,
     addNewCalendarNoteToCalendar,
     handleCloseModalRequest,
@@ -19,6 +20,10 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
   useEffect(() => {
     handleUserShortCutRender(); // user activated the form by interacting with calendar app and not clicking the "plus" sign
   }, [calendarFormStatus]);
+
+  useEffect(() => {
+    handleCalendarNoteEditRequest();
+  }, [calendarNoteEditRequest]);
 
   const [activeForm, setActiveForm] = useState('event');
 
@@ -30,6 +35,10 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
     if (calendarFormStatus.event === true) setActiveForm('event');
     if (calendarFormStatus.note === true) setActiveForm('note');
     if (calendarFormStatus.calendar === true) setActiveForm('calendar');
+  };
+
+  const handleCalendarNoteEditRequest = () => {
+    if (calendarNoteEditRequest.status === true) setActiveForm('note');
   };
 
   const renderFormView = () => {
@@ -55,6 +64,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
           userId={userId}
           userCalendars={userCalendars}
           addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
+          calendarNoteEditRequest={calendarNoteEditRequest}
         />
       );
     } else {

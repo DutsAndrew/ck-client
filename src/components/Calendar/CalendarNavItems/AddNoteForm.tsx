@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import { addNoteFormDataState, addNoteFormProps, calendarObject } from "../../../types/interfaces";
 import toast from "react-hot-toast";
@@ -9,7 +9,12 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     userId,
     userCalendars,
     addNewCalendarNoteToCalendar,
+    calendarNoteEditRequest,
   } = props;
+
+  useEffect(() => {
+    handleCalendarNoteEditRequest();
+  }, [calendarNoteEditRequest]);
 
   const [formElements, setFormElements] = useState({
     specificDay: false,
@@ -384,6 +389,10 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     } else {
       return true; // has errors
     };
+  };
+
+  const handleCalendarNoteEditRequest = () => {
+    console.log('edit', calendarNoteEditRequest)
   };
 
   return (

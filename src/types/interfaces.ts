@@ -134,6 +134,13 @@ type calendarFormStatus = {
   calendar: boolean,
 };
 
+type calendarNoteEditRequest = {
+  calendarId: string,
+  note: {} | calendarNoteWithCalendarName,
+  noteId: string,
+  status: boolean,
+}
+
 interface calendarNavProps {
   userCalendars: userCalendars,
   currentView: string,
@@ -141,6 +148,7 @@ interface calendarNavProps {
   calendarDatesData: CalendarDatesData | {},
   userId: string,
   calendarFormStatus: calendarFormStatus,
+  calendarNoteEditRequest: calendarNoteEditRequest,
   changeCurrentView: Function,
   handleCalendarTimeChangeRequest: Function,
   handleActiveCalendarChange: Function,
@@ -155,6 +163,7 @@ interface navLeftContainerProps {
   userCalendars: userCalendars,
   userId: string,
   calendarFormStatus: calendarFormStatus,
+  calendarNoteEditRequest: calendarNoteEditRequest,
   handleCalendarTimeChangeRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
@@ -165,6 +174,7 @@ interface addFormModalProps {
   userCalendars: userCalendars,
   userId: string,
   calendarFormStatus: calendarFormStatus,
+  calendarNoteEditRequest: calendarNoteEditRequest,
   handleCloseModalRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
@@ -204,12 +214,14 @@ interface dayViewProps {
   currentDay: string,
   activeCalendars: calendarObject[],
   handleNotesForCalendarRequestToAddNewNote: () => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => void,
 };
 
 interface weekViewProps {
   currentDay: string,
   activeCalendars: calendarObject[],
   handleNotesForCalendarRequestToAddNewNote: () => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => void,
 };
 
 interface monthViewProps {
@@ -217,6 +229,7 @@ interface monthViewProps {
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
   handleNotesForCalendarRequestToAddNewNote: () => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => void,
 };
 
 interface yearViewProps {
@@ -224,11 +237,13 @@ interface yearViewProps {
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
   handleNotesForCalendarRequestToAddNewNote: () => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => void,
 };
 
 interface notesForCalendarProps {
   calendarNotes: calendarNotesWithName,
   handleNotesForCalendarRequestToAddNewNote: () => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => void,
 };
 
 type notesForCalendarState = {
@@ -236,7 +251,7 @@ type notesForCalendarState = {
   set: number[],
 };
 
-type calendarViewStateForCalendarNotes  = calendarNotes;
+type calendarViewStateForCalendarNotes = calendarNotes;
 
 interface selectedCalendarModalProps {
   userCalendars: userCalendars,
@@ -288,6 +303,7 @@ interface calendarFormSwitchProps {
   userCalendars: userCalendars,
   userId: string,
   calendarFormStatus: calendarFormStatus,
+  calendarNoteEditRequest: calendarNoteEditRequest,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
   handleCloseModalRequest: Function,
@@ -296,7 +312,8 @@ interface calendarFormSwitchProps {
 interface addNoteFormProps {
   userId: string,
   userCalendars: userCalendars,
-  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
+  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
+  calendarNoteEditRequest: calendarNoteEditRequest,
 };
 
 interface addNoteFormDataState {
@@ -470,6 +487,7 @@ interface calendarNote {
 
 interface calendarNoteWithCalendarName {
   _id: string,
+  calendar_id: string,
   calendar_name: string,
   created_by: userCalendarNoteInstance,
   created_on: string,

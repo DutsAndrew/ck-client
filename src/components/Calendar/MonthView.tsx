@@ -11,6 +11,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     activeCalendars,
     calendarDatesData,
     handleNotesForCalendarRequestToAddNewNote,
+    handleCalendarNoteModificationRequest,
   } = props;
 
   // 1. Identify current date
@@ -100,6 +101,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
           const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
             ...calendarNote, 
             calendar_name: calendar.name,
+            calendar_id: calendar._id,
           };
           thisMonthsNotes.push(calendarNoteWithCalendarName);
         };
@@ -144,6 +146,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
           <NotesForCalendar 
             calendarNotes={getMonthCalendarNotes()}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
+            handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
           />
         )}
       </div>

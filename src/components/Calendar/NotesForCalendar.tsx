@@ -5,12 +5,14 @@ import chevronLeftSvg from '../../assets/chevron-left.svg';
 import chevronRightSvg from '../../assets/chevron-right.svg';
 import chevronUpSvg from '../../assets/arrow-up.svg';
 import addItemSvg from '../../assets/plus.svg';
+import toast from "react-hot-toast";
 
 const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
 
   const { 
     calendarNotes,
     handleNotesForCalendarRequestToAddNewNote,
+    handleCalendarNoteModificationRequest,
   } = props;
 
   const [currentNotes, setCurrentNotes] = useState<notesForCalendarState>({
@@ -79,6 +81,14 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
     return handleNotesForCalendarRequestToAddNewNote();
   };
 
+  const handleEditCalendarNoteClick = (calendarNoteId: string, calendarId: string, note: calendarNoteWithCalendarName) => {
+    return handleCalendarNoteModificationRequest(calendarId, calendarNoteId, note);
+  };
+
+  const handleDeleteCalendarNoteClick = (calendarNoteId: string, calendarId: string) => {
+
+  };
+
   if (calendarNotes.length === 0) {
     return (
       <>
@@ -123,11 +133,13 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
                       </p>
                       <button 
                         type="button"
+                        onClick={() => handleEditCalendarNoteClick(note._id, note.calendar_id, note)}
                         className={styles.notesForCalendarEditButton}>
                           Edit
                       </button>
                       <button 
                         type="button"
+                        onClick={() => handleDeleteCalendarNoteClick(note._id, note.calendar_id)}
                         className={styles.notesForCalendarDeleteButton}>
                           Delete
                       </button>

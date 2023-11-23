@@ -10,6 +10,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     currentDay,
     activeCalendars,
     handleNotesForCalendarRequestToAddNewNote,
+    handleCalendarNoteModificationRequest,
   } = props;
 
   useEffect(() => {
@@ -58,6 +59,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
           const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
              ...calendarNote, 
              calendar_name: calendar.name,
+             calendar_id: calendar._id,
           };
           todaysNotes.push(calendarNoteWithCalendarName);
         };
@@ -124,6 +126,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
           <NotesForCalendar 
             calendarNotes={getDayViewNotes()}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
+            handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
           />
         )}
       </div>

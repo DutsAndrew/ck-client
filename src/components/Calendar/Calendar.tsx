@@ -15,7 +15,8 @@ import {
   userCalendars,
   activeCalendarState,
   calendarApiResponse,
-  allUserCalendarsPopulatedApiResponse 
+  allUserCalendarsPopulatedApiResponse, 
+  calendarNoteWithCalendarName
 } from '../../types/interfaces';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
@@ -48,6 +49,12 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           event: false,
           note: false,
           calendar: false,
+        }),
+        [calendarNoteEditRequest, setCalendarNoteEditRequest] = useState({
+          calendarId: '',
+          note: {},
+          noteId: '',
+          status: false,
         });
 
   const navigate = useNavigate();
@@ -226,6 +233,15 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     });
   };
 
+  const handleCalendarNoteModificationRequest = (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => {
+    return setCalendarNoteEditRequest({
+      calendarId: calendarId,
+      note: calendarNote,
+      noteId: calendarNoteId,
+      status: true,
+    });
+  };
+
   const userCalendars: userCalendars = {
     personalCalendar: usersPersonalCalendar,
     pendingCalendars: usersPendingCalendars,
@@ -239,6 +255,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     calendarDatesData,
     userId,
     calendarFormStatus,
+    calendarNoteEditRequest,
     changeCurrentView,
     handleCalendarTimeChangeRequest,
     handleActiveCalendarChange,
@@ -252,6 +269,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     currentDay: getTodaysDate(),
     activeCalendars: activeCalendars,
     handleNotesForCalendarRequestToAddNewNote,
+    handleCalendarNoteModificationRequest,
   }
 
   if (calendarEditor.active === true) {

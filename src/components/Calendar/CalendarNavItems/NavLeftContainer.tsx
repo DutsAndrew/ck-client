@@ -13,6 +13,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
     userCalendars,
     userId,
     calendarFormStatus,
+    calendarNoteEditRequest,
     handleCalendarTimeChangeRequest,
     appendNewCalendarToUser,
     addNewCalendarNoteToCalendar,
@@ -22,6 +23,10 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
   useEffect(() => {
     handleOpenFormOnFormShortcut();
   }, [calendarFormStatus]);
+
+  useEffect(() => {
+    handleCalendarNoteEditRequest();
+  }, [calendarNoteEditRequest]);
 
   const [modal, setModal] = useState({
     open: false,
@@ -59,6 +64,18 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
     };
   };
 
+  const handleCalendarNoteEditRequest = () => {
+    if (calendarNoteEditRequest.status === true) {
+      setModal({
+        open: true,
+      });
+    } else {
+      setModal({
+        open: false,
+      });
+    };
+  };
+
   if (modal.open === true && currentView === 'All') {
     return (
       <div className={styles.calendarNavContainerLeft}>
@@ -72,6 +89,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           userCalendars={userCalendars}
           userId={userId}
           calendarFormStatus={calendarFormStatus}
+          calendarNoteEditRequest={calendarNoteEditRequest}
           handleCloseModalRequest={handleCloseModalRequest}
           appendNewCalendarToUser={appendNewCalendarToUser}
           addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
@@ -116,6 +134,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           userCalendars={userCalendars}
           userId={userId}
           calendarFormStatus={calendarFormStatus}
+          calendarNoteEditRequest={calendarNoteEditRequest}
           handleCloseModalRequest={handleCloseModalRequest}
           appendNewCalendarToUser={appendNewCalendarToUser}
           addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
