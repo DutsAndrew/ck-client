@@ -17,7 +17,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
     handleCalendarTimeChangeRequest,
     appendNewCalendarToUser,
     addNewCalendarNoteToCalendar,
-    handleRemoveCalendarShortcutRequest,
+    handleCalendarFormDataCleanup,
   } = props;
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
     setModal({
       open: false,
     });
-    return handleRemoveCalendarShortcutRequest();
+    return handleCalendarFormDataCleanup();
   };
 
   const handleOpenFormOnFormShortcut = () => {

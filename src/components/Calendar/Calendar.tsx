@@ -53,7 +53,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         [calendarNoteEditRequest, setCalendarNoteEditRequest] = useState({
           calendarId: '',
           note: {},
-          noteId: '',
           status: false,
         });
 
@@ -225,20 +224,31 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     });
   };
 
-  const handleRemoveCalendarShortcutRequest = () => {
+  const handleCalendarFormDataCleanup = () => {
     setCalendarFormStatus({
       event: false,
       note: false,
       calendar: false,
     });
+    
+    if (calendarNoteEditRequest.status === true) {
+      handleCancelCalendarNoteModificationRequest();
+    };
   };
 
-  const handleCalendarNoteModificationRequest = (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => {
+  const handleCalendarNoteModificationRequest = (calendarId: string, calendarNote: calendarNoteWithCalendarName) => {
     return setCalendarNoteEditRequest({
       calendarId: calendarId,
       note: calendarNote,
-      noteId: calendarNoteId,
       status: true,
+    });
+  };
+
+  const handleCancelCalendarNoteModificationRequest = () => {
+    setCalendarNoteEditRequest({
+      calendarId: '',
+      note: {},
+      status: false,
     });
   };
 
@@ -262,7 +272,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     handleActivateCalendarEditor,
     appendNewCalendarToUser,
     addNewCalendarNoteToCalendar,
-    handleRemoveCalendarShortcutRequest,
+    handleCalendarFormDataCleanup,
   };
 
   const calendarViewProps = {

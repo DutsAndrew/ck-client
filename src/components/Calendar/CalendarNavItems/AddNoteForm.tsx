@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addNoteFormDataState, addNoteFormProps, calendarObject } from "../../../types/interfaces";
+import { addNoteFormDataState, addNoteFormProps, calendarNoteWithCalendarName, calendarObject } from "../../../types/interfaces";
 import toast from "react-hot-toast";
 
 const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
@@ -392,7 +392,49 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
   };
 
   const handleCalendarNoteEditRequest = () => {
-    console.log('edit', calendarNoteEditRequest)
+    if (Object.keys(calendarNoteEditRequest).length > 0) {
+      const calendarNote = calendarNoteEditRequest.note as calendarNoteWithCalendarName;
+      const setNoteDateElement = handleAutoSetNoteEditElementDate();
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        note: calendarNote.note,
+        selectedCalendar: calendarNote.calendar_name,
+        selectedCalendarId: calendarNoteEditRequest.calendarId,
+      }));
+    } else {
+      return;
+    };
+  };
+
+  const handleAutoSetNoteEditElementDate = () => {
+    const calendarNote = calendarNoteEditRequest.note as calendarNoteWithCalendarName;
+    if (calendarNote.type === 'day') {
+      setFormElements((prevFormElements) => ({
+        ...prevFormElements,
+        specificDay: true,
+      }));
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        selectedDay: calendarNote.start_date.split(' ')[0], // grab date without time
+      }));
+    } else if (calendarNote.type === 'week') {
+      setFormElements((prevFormElements) => ({
+        ...prevFormElements,
+        specificWeek: true,
+      }));
+    } else if (calendarNote.type === 'month') {
+      setFormElements((prevFormElements) => ({
+        ...prevFormElements,
+        specificMonth: true,
+      }));
+    } else if (calendarNote.type === 'year') {
+      setFormElements((prevFormElements) => ({
+        ...prevFormElements,
+        specificYear: true,
+      }));
+    } else {
+      return;
+    };
   };
 
   return (

@@ -137,7 +137,6 @@ type calendarFormStatus = {
 type calendarNoteEditRequest = {
   calendarId: string,
   note: {} | calendarNoteWithCalendarName,
-  noteId: string,
   status: boolean,
 }
 
@@ -154,8 +153,8 @@ interface calendarNavProps {
   handleActiveCalendarChange: Function,
   handleActivateCalendarEditor: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
-  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void
-  handleRemoveCalendarShortcutRequest: () => void,
+  addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
+  handleCalendarFormDataCleanup: () => void,
 };
 
 interface navLeftContainerProps {
@@ -167,7 +166,7 @@ interface navLeftContainerProps {
   handleCalendarTimeChangeRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
-  handleRemoveCalendarShortcutRequest: () => void,
+  handleCalendarFormDataCleanup: () => void,
 };
 
 interface addFormModalProps {
@@ -214,14 +213,14 @@ interface dayViewProps {
   currentDay: string,
   activeCalendars: calendarObject[],
   handleNotesForCalendarRequestToAddNewNote: () => void,
-  handleCalendarNoteModificationRequest: (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarName) => void,
 };
 
 interface weekViewProps {
   currentDay: string,
   activeCalendars: calendarObject[],
   handleNotesForCalendarRequestToAddNewNote: () => void,
-  handleCalendarNoteModificationRequest: (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarName) => void,
 };
 
 interface monthViewProps {
@@ -229,7 +228,7 @@ interface monthViewProps {
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
   handleNotesForCalendarRequestToAddNewNote: () => void,
-  handleCalendarNoteModificationRequest: (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarName) => void,
 };
 
 interface yearViewProps {
@@ -237,13 +236,13 @@ interface yearViewProps {
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
   handleNotesForCalendarRequestToAddNewNote: () => void,
-  handleCalendarNoteModificationRequest: (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarName) => void,
 };
 
 interface notesForCalendarProps {
   calendarNotes: calendarNotesWithName,
   handleNotesForCalendarRequestToAddNewNote: () => void,
-  handleCalendarNoteModificationRequest: (calendarId: string, calendarNoteId: string, calendarNote: calendarNoteWithCalendarName) => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarName) => void,
 };
 
 type notesForCalendarState = {

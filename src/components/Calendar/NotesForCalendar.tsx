@@ -81,8 +81,8 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
     return handleNotesForCalendarRequestToAddNewNote();
   };
 
-  const handleEditCalendarNoteClick = (calendarNoteId: string, calendarId: string, note: calendarNoteWithCalendarName) => {
-    return handleCalendarNoteModificationRequest(calendarId, calendarNoteId, note);
+  const handleEditCalendarNoteClick = (calendarId: string, note: calendarNoteWithCalendarName) => {
+    return handleCalendarNoteModificationRequest(calendarId, note);
   };
 
   const handleDeleteCalendarNoteClick = (calendarNoteId: string, calendarId: string) => {
@@ -133,7 +133,7 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
                       </p>
                       <button 
                         type="button"
-                        onClick={() => handleEditCalendarNoteClick(note._id, note.calendar_id, note)}
+                        onClick={() => handleEditCalendarNoteClick(note.calendar_id, note)}
                         className={styles.notesForCalendarEditButton}>
                           Edit
                       </button>
