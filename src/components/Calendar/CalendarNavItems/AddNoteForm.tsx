@@ -192,10 +192,10 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
   };
 
   const generateYearSnapshotForTenYears = () => {
-    const years: number[] = [];
+    const years: string[] = [];
     let year = new Date().getFullYear();
     for (let i = 0; i < 11; i++) {
-      years.push(year + i);
+      years.push(`${year + i}`);
     };
     return years;
   };
@@ -408,34 +408,69 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
 
   const handleAutoSetNoteEditElementDate = () => {
     const calendarNote = calendarNoteEditRequest.note as calendarNoteWithCalendarName;
+    const startDateOfNote = new Date(calendarNote.start_date);
+
+    let specificDate = '';
+    let selectedDate = '';
+    let dateData = '';
+
     if (calendarNote.type === 'day') {
-      setFormElements((prevFormElements) => ({
-        ...prevFormElements,
-        specificDay: true,
-      }));
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        selectedDay: calendarNote.start_date.split(' ')[0], // grab date without time
-      }));
+      specificDate = 'specificDay';
+      selectedDate = 'selectedDay';
+      dateData = calendarNote.start_date.split(' ')[0]; // grab date without time
     } else if (calendarNote.type === 'week') {
-      setFormElements((prevFormElements) => ({
-        ...prevFormElements,
-        specificWeek: true,
-      }));
+      specificDate = 'specificWeek';
+      selectedDate = 'selectedWeek';
+      dateData = getWeekSnapshot(startDateOfNote);
     } else if (calendarNote.type === 'month') {
-      setFormElements((prevFormElements) => ({
-        ...prevFormElements,
-        specificMonth: true,
-      }));
+      specificDate = 'specificMonth';
+      selectedDate = 'selectedMonth';
+      dateData = `${getCalendarMonth(startDateOfNote.getMonth() + 1)} ${startDateOfNote.getFullYear()}`;
     } else if (calendarNote.type === 'year') {
-      setFormElements((prevFormElements) => ({
-        ...prevFormElements,
-        specificYear: true,
-      }));
+      specificDate = 'specificYear';
+      selectedDate = 'selectedYear';
+      dateData = `${startDateOfNote.getFullYear()}`;
     } else {
       return;
     };
+
+    setFormElements((prevFormElements) => ({
+      ...prevFormElements,
+      [specificDate]: true,
+    }));
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [selectedDate]: dateData,
+    }));
   };
+
+  const getCalendarMonth = (index: number) => {
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June', 
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    return monthNames[index];
+  };
+
+  function getWeekSnapshot(dateString: Date) { // Monday - Sunday snapshot of week
+    const date = new Date(dateString);
+    const dayOfWeek = date.getDay(); // 0 (Sunday) to 6 (Saturday)
+  
+    const startOfWeek = new Date(date);
+    const diff = date.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust for Monday
+    startOfWeek.setDate(diff);
+  
+    const endOfWeek = new Date(date);
+    const endDiff = date.getDate() - dayOfWeek + (dayOfWeek === 0 ? 0 : 7); // Adjust for Sunday
+    endOfWeek.setDate(endDiff);
+  
+    const startDateString = startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const endDateString = endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  
+    const weekSnapshot = `${startDateString} - ${endDateString}`;
+  
+    return weekSnapshot;
+  }
 
   return (
     <div className={styles.addEventFormContainer}>

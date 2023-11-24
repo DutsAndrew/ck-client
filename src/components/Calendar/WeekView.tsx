@@ -16,8 +16,6 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
   const week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const [weekSnapshot, setWeekSnapShot] = useState('');
 
-  // console.log('weekView reload')
-
   useEffect(() => {
     generateSnapShot();
   }, []);

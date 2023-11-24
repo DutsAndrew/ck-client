@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { calendarNoteWithCalendarName, notesForCalendarProps, notesForCalendarState } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import chevronLeftSvg from '../../assets/chevron-left.svg';
@@ -16,16 +16,36 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
   } = props;
 
   const [currentNotes, setCurrentNotes] = useState<notesForCalendarState>({
-    // calendar notes are only displayed 3 at a time, so check if array has at least 3 items, if so slice it at 3, if not slice at the end of array
-    notes: Array.isArray(calendarNotes) && calendarNotes.length > 0 
-      ? calendarNotes.slice(0, 3) : [],
-    set: [0, (calendarNotes.length > 3 ? 3 : calendarNotes.length - 1)],
+    notes: [], // current notes will be added here when calendarNotes is given as a prop
+    set: [0, 0], // current window for notes being viewed, this is stored for slicing array not by index
   });
   const [carousel, setCarousel] = useState(false);
   const [noteActivated, setNoteActivated] = useState({
     noteId: '',
     activated: false,
   });
+
+  useEffect(() => {
+    setCurrentNotesSlidingWindow();
+  }, [calendarNotes]);
+
+  const setCurrentNotesSlidingWindow = () => {
+    if (calendarNotes.length === 0) return;
+
+    if (calendarNotes.length < 3) { // if less than 3 notes accurately set the set array
+      setCurrentNotes({
+        notes: calendarNotes.slice(0, calendarNotes.length),
+        set: [0, calendarNotes.length],
+      });
+    };
+
+    if (calendarNotes.length >= 3) { // if calendarNotes is large just splice and set the first 3 notes
+      setCurrentNotes({
+        notes: calendarNotes.slice(0, 3),
+        set: [0, 3],
+      });
+    };
+  };
 
   const handleCarouselStatusChange = () => {
     setCarousel(!carousel);
