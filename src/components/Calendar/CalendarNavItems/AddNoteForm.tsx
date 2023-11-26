@@ -9,12 +9,9 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     userId,
     userCalendars,
     addNewCalendarNoteToCalendar,
+    updateCalendarNote,
     calendarNoteEditRequest,
   } = props;
-
-  useEffect(() => {
-    handleCalendarNoteEditRequest();
-  }, [calendarNoteEditRequest]);
 
   const [formElements, setFormElements] = useState({
     specificDay: false,
@@ -32,6 +29,10 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     selectedCalendar: '',
     selectedCalendarId: '',
   });
+
+  useEffect(() => {
+    handleCalendarNoteEditRequest();
+  }, [calendarNoteEditRequest]);
 
   const isValidDate = (dateString: Date): boolean => {
     const parsedDate = new Date(dateString);
@@ -319,6 +320,44 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     };
   };
 
+  const handleUpdateNoteSubmitClick = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    toast.loading('Updating note...', {id: 'updatingNote'});
+    const errors = checkForFormErrors();
+    if (typeof errors === 'string') return toast.error(`${errors}`, {id: 'updatingNote'});
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      return toast.error('You need to be signed in or not in incognito to perform this action', {id: 'updatingNote'});
+    } else {
+      const noteType = setNoteType();
+      if (typeof noteType === 'undefined') return toast.error('You cannot update a note without selecting a note type', {id: 'updatingNote'});
+      const snapShot = getSelectedNoteTypeSnapshot();
+      const calendarNote = new CalendarNote(formData['note'], noteType, snapShot, userId);
+      const calendarNoteErrors = checkCalendarNoteForErrors(calendarNote);
+      if (calendarNoteErrors === true) return toast.error('The dates in your note are not valid', {id: 'updatingNote'});
+      const note = (calendarNoteEditRequest.note as calendarNoteWithCalendarName);
+      const apiUrl = `http://127.0.0.1:8000/calendar/updateNote/${note._id}`;
+      const request = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify(calendarNote, null, 2),
+      });
+      const jsonResponse = await request.json();
+      if (request.ok && request.status === 200 && jsonResponse.detail === "Successfully updated the note") {
+        if (jsonResponse.updated_note) {
+          toast.success(`Note updated!`, {id: 'updatingNote'});
+          return updateCalendarNote(formData.selectedCalendarId, jsonResponse.updated_note);
+        };
+      } else {
+        toast.error('Failed to update note', {id: 'updatingNote'});
+      };
+    };
+  };
+
   const checkForFormErrors = () => {
     const formDataCheck = checkIfFormDataIsGood();
     if (typeof formDataCheck === 'string') return formDataCheck;
@@ -348,7 +387,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     if (formData.selectedCalendarId.length === 0) return true;
 
     let calendarInstance: {} | calendarObject = {};
-    const allCalendars = [...userCalendars.pendingCalendars, ...userCalendars.teamCalendars];
+    const allCalendars = [userCalendars.personalCalendar, ...userCalendars.pendingCalendars, ...userCalendars.teamCalendars];
 
     for (const calendar of allCalendars) {
       if (calendar._id === formData.selectedCalendarId) {
@@ -394,9 +433,39 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
   const handleCalendarNoteEditRequest = () => {
     if (Object.keys(calendarNoteEditRequest).length > 0) {
       const calendarNote = calendarNoteEditRequest.note as calendarNoteWithCalendarName;
-      const setNoteDateElement = handleAutoSetNoteEditElementDate();
+      const startDateOfNote = new Date(calendarNote.start_date);
+
+      let specificDate = '';
+      let selectedDate = '';
+      let dateData = '';
+
+      if (calendarNote.type === 'day') {
+        specificDate = 'specificDay';
+        selectedDate = 'selectedDay';
+        dateData = calendarNote.start_date.split(' ')[0]; // grab date without time
+      } else if (calendarNote.type === 'week') {
+        specificDate = 'specificWeek';
+        selectedDate = 'selectedWeek';
+        dateData = getWeekSnapshot(startDateOfNote);
+      } else if (calendarNote.type === 'month') {
+        specificDate = 'specificMonth';
+        selectedDate = 'selectedMonth';
+        dateData = `${getCalendarMonth(startDateOfNote.getMonth() + 1)} ${startDateOfNote.getFullYear()}`;
+      } else if (calendarNote.type === 'year') {
+        specificDate = 'specificYear';
+        selectedDate = 'selectedYear';
+        dateData = `${startDateOfNote.getFullYear()}`;
+      } else {
+        return;
+      };
+
+      setFormElements((prevFormElements) => ({
+        ...prevFormElements,
+        [specificDate]: true,
+      }));
       setFormData((prevFormData) => ({
         ...prevFormData,
+        [selectedDate]: dateData,
         note: calendarNote.note,
         selectedCalendar: calendarNote.calendar_name,
         selectedCalendarId: calendarNoteEditRequest.calendarId,
@@ -404,44 +473,6 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     } else {
       return;
     };
-  };
-
-  const handleAutoSetNoteEditElementDate = () => {
-    const calendarNote = calendarNoteEditRequest.note as calendarNoteWithCalendarName;
-    const startDateOfNote = new Date(calendarNote.start_date);
-
-    let specificDate = '';
-    let selectedDate = '';
-    let dateData = '';
-
-    if (calendarNote.type === 'day') {
-      specificDate = 'specificDay';
-      selectedDate = 'selectedDay';
-      dateData = calendarNote.start_date.split(' ')[0]; // grab date without time
-    } else if (calendarNote.type === 'week') {
-      specificDate = 'specificWeek';
-      selectedDate = 'selectedWeek';
-      dateData = getWeekSnapshot(startDateOfNote);
-    } else if (calendarNote.type === 'month') {
-      specificDate = 'specificMonth';
-      selectedDate = 'selectedMonth';
-      dateData = `${getCalendarMonth(startDateOfNote.getMonth() + 1)} ${startDateOfNote.getFullYear()}`;
-    } else if (calendarNote.type === 'year') {
-      specificDate = 'specificYear';
-      selectedDate = 'selectedYear';
-      dateData = `${startDateOfNote.getFullYear()}`;
-    } else {
-      return;
-    };
-
-    setFormElements((prevFormElements) => ({
-      ...prevFormElements,
-      [specificDate]: true,
-    }));
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [selectedDate]: dateData,
-    }));
   };
 
   const getCalendarMonth = (index: number) => {
@@ -671,7 +702,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
 
         <button 
           type="submit" 
-          onClick={(e) => handleAddNoteSubmitClick(e)}
+          onClick={(e) => calendarNoteEditRequest.status === true ? handleUpdateNoteSubmitClick(e) : handleAddNoteSubmitClick(e)}
           className={styles.addEventFormButton}>
             Add Note
         </button>

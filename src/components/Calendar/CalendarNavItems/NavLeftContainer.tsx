@@ -18,6 +18,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
     appendNewCalendarToUser,
     addNewCalendarNoteToCalendar,
     handleCalendarFormDataCleanup,
+    updateCalendarNote,
   } = props;
 
   useEffect(() => {
@@ -93,6 +94,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           handleCloseModalRequest={handleCloseModalRequest}
           appendNewCalendarToUser={appendNewCalendarToUser}
           addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
+          updateCalendarNote={updateCalendarNote}
         />
       </div>
     );
@@ -138,6 +140,7 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           handleCloseModalRequest={handleCloseModalRequest}
           appendNewCalendarToUser={appendNewCalendarToUser}
           addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
+          updateCalendarNote={updateCalendarNote}
         />
       </div>
     );

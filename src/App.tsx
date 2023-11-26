@@ -7,7 +7,7 @@ import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
 import Welcome from './pages/Welcome';
 import LoadingBar from './pages/LoadingBar';
 import ScrollToTopButton from './components/ScrollToTopButton';
-import { CalendarDatesData, appDataState, calendarObject, userInstance } from './types/interfaces';
+import { CalendarDatesData, appDataState, calendarNote, calendarObject, userInstance } from './types/interfaces';
 
 // lazy loaded items - ALL non essential functionality of the app
 const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));
@@ -103,6 +103,27 @@ function App() {
     };
   };
 
+  const updateCalendarNote = (calendarId: string, updatedNote: calendarNote) => {
+    setUser((prevUser: userInstance) => {
+      const updatedCalendars = prevUser.calendars.map((calendar) => {
+        if (calendar._id === calendarId) {
+          const updatedCalendarNotes = calendar.calendar_notes.map((note) => {
+            if (note._id === updatedNote._id) {
+              return updatedNote; // Update the specific note
+            }
+            return note; // Return other notes as is
+          });
+          return { ...calendar, calendar_notes: updatedCalendarNotes };
+        }
+        return calendar; // Return other calendars as is
+      });
+      return {
+        ...prevUser,
+        calendars: updatedCalendars 
+      };
+    });
+  };
+
   const handleSignOut = () => {
     setAuth(false);
     setUser({});
@@ -148,6 +169,7 @@ function App() {
                 updateCalendarInUser={updateCalendarInUser}
                 removeCalendarFromUser={removeCalendarFromUser}
                 addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
+                updateCalendarNote={updateCalendarNote}
                 calendarDatesData={appData.calendarData}
               />
             </Suspense>

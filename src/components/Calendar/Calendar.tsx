@@ -33,6 +33,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     updateCalendarInUser,
     removeCalendarFromUser,
     addNewCalendarNoteToCalendar,
+    updateCalendarNote,
     calendarDatesData,
   } = props;
 
@@ -273,6 +274,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     appendNewCalendarToUser,
     addNewCalendarNoteToCalendar,
     handleCalendarFormDataCleanup,
+    updateCalendarNote,
   };
 
   const calendarViewProps = {
