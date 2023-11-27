@@ -14,6 +14,12 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
   } = props;
 
+  const [yearViewNotes, setYearViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
+
+  useEffect(() => {
+    setYearViewNotes(getYearViewNotes())
+  }, [activeCalendars]);
+
   const getYearViewNotes = () => {
     const thisYearsNotes: calendarNoteWithCalendarName[] = [];
 
@@ -38,12 +44,6 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
     return thisYearsNotes;
   };
-
-  const [yearViewNotes, setYearViewNotes] = useState<calendarViewStateForCalendarNotes>(getYearViewNotes());
-
-  useEffect(() => {
-    setYearViewNotes(getYearViewNotes())
-  }, [activeCalendars]);
 
   const week = [
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"

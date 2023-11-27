@@ -13,6 +13,12 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
   } = props;
 
+  const [dayViewNotes, setDayViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
+
+  useEffect(() => {
+    setDayViewNotes(getDayViewNotes())
+  }, [activeCalendars]);
+
   const getDayViewNotes = () => {
     const todaysNotes: calendarNoteWithCalendarName[] = [];
     const today = new Date(currentDay);
@@ -38,12 +44,6 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
     return todaysNotes;
   };
-
-  const [dayViewNotes, setDayViewNotes] = useState<calendarViewStateForCalendarNotes>(getDayViewNotes());
-
-  useEffect(() => {
-    setDayViewNotes(getDayViewNotes())
-  }, [activeCalendars]);
 
   const generateBlockSchedule = () => {
     const scheduleBlock = [

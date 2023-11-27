@@ -14,6 +14,12 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
   } = props;
 
+  const [monthViewNotes, setMonthViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
+
+  useEffect(() => {
+    setMonthViewNotes(getMonthViewNotes())
+  }, [activeCalendars]);
+
   const getMonthViewNotes = () => {
     const thisMonthsNotes: calendarNoteWithCalendarName[] = [];
 
@@ -40,12 +46,6 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
     return thisMonthsNotes;
   };
-
-  const [monthViewNotes, setMonthViewNotes] = useState<calendarViewStateForCalendarNotes>(getMonthViewNotes());
-
-  useEffect(() => {
-    setMonthViewNotes(getMonthViewNotes())
-  }, [activeCalendars]);
 
   const week = [
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"

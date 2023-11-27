@@ -31,6 +31,13 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     return `${startFormatted} - ${endFormatted}`;
   };
 
+  const [weekSnapshot, setWeekSnapShot] = useState(generateSnapShot());
+  const [weekViewNotes, setWeekViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
+
+  useEffect(() => {
+    setWeekViewNotes(getWeekViewNotes())
+  }, [activeCalendars]);
+
   const getWeekViewNotes = () => {
     const thisWeeksNotes: calendarNoteWithCalendarName[] = [];
 
@@ -68,13 +75,6 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
 
     return thisWeeksNotes;
   };
-
-  const [weekSnapshot, setWeekSnapShot] = useState(generateSnapShot());
-  const [weekViewNotes, setWeekViewNotes] = useState<calendarViewStateForCalendarNotes>(getWeekViewNotes());
-
-  useEffect(() => {
-    setWeekViewNotes(getWeekViewNotes())
-  }, [activeCalendars]);
 
   return (
     <section className={styles.weekViewContainer}>
