@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { calendarNote, calendarNoteWithCalendarName, weekViewProps } from "../../types/interfaces";
+import { calendarNote, calendarNoteWithCalendarName, calendarViewStateForCalendarNotes, weekViewProps } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
 
@@ -14,11 +14,6 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
   } = props;
 
   const week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  const [weekSnapshot, setWeekSnapShot] = useState('');
-
-  useEffect(() => {
-    generateSnapShot();
-  }, []);
 
   const generateSnapShot = () => {
     const currentDate = new Date(currentDay);
@@ -33,7 +28,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     const startFormatted = mondayDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     const endFormatted = endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-    setWeekSnapShot(`${startFormatted} - ${endFormatted}`);
+    return `${startFormatted} - ${endFormatted}`;
   };
 
   const getWeekViewNotes = () => {
@@ -74,6 +69,13 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     return thisWeeksNotes;
   };
 
+  const [weekSnapshot, setWeekSnapShot] = useState(generateSnapShot());
+  const [weekViewNotes, setWeekViewNotes] = useState<calendarViewStateForCalendarNotes>(getWeekViewNotes());
+
+  useEffect(() => {
+    setWeekViewNotes(getWeekViewNotes())
+  }, [activeCalendars]);
+
   return (
     <section className={styles.weekViewContainer}>
       <p className={styles.currentDateText}>
@@ -96,7 +98,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
       <div className={styles.weekViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
           <NotesForCalendar 
-            calendarNotes={getWeekViewNotes()}
+            calendarNotes={weekViewNotes}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
             handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
           />

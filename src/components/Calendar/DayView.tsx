@@ -13,36 +13,6 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
   } = props;
 
-  useEffect(() => {
-    setDayViewNotes(getDayViewNotes())
-  }, []);
-
-  useEffect(() => {
-    setDayViewNotes(getDayViewNotes())
-  }, [activeCalendars]);
-
-  const [dayViewNotes, setDayViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
-
-  const generateBlockSchedule = () => {
-    const scheduleBlock = [
-      "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM",
-      "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM",
-    ];
-
-    const amBlock = scheduleBlock
-      .filter((item) => item.split(' ')[1] === 'AM')
-      .map((item) => item.split(' ')[0]);
-
-    const pmBlock = scheduleBlock
-      .filter((item) => item.split(' ')[1] === 'PM')
-      .map((item) => item.split(' ')[0]);
-
-    return {
-      am: amBlock,
-      pm: pmBlock,
-    };
-  };
-
   const getDayViewNotes = () => {
     const todaysNotes: calendarNoteWithCalendarName[] = [];
     const today = new Date(currentDay);
@@ -67,6 +37,32 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     });
 
     return todaysNotes;
+  };
+
+  const [dayViewNotes, setDayViewNotes] = useState<calendarViewStateForCalendarNotes>(getDayViewNotes());
+
+  useEffect(() => {
+    setDayViewNotes(getDayViewNotes())
+  }, [activeCalendars]);
+
+  const generateBlockSchedule = () => {
+    const scheduleBlock = [
+      "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM",
+      "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM",
+    ];
+
+    const amBlock = scheduleBlock
+      .filter((item) => item.split(' ')[1] === 'AM')
+      .map((item) => item.split(' ')[0]);
+
+    const pmBlock = scheduleBlock
+      .filter((item) => item.split(' ')[1] === 'PM')
+      .map((item) => item.split(' ')[0]);
+
+    return {
+      am: amBlock,
+      pm: pmBlock,
+    };
   };
 
   const blockSchedule = generateBlockSchedule();
@@ -124,7 +120,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
       <div className={styles.dayViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 &&  (
           <NotesForCalendar 
-            calendarNotes={getDayViewNotes()}
+            calendarNotes={dayViewNotes}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
             handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
           />

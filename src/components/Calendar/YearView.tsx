@@ -1,6 +1,6 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { CalendarDatesData, calendarNote, calendarNoteWithCalendarName, yearViewProps } from "../../types/interfaces";
+import { CalendarDatesData, calendarNote, calendarNoteWithCalendarName, calendarViewStateForCalendarNotes, yearViewProps } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from 'uniqid';
 
@@ -13,6 +13,37 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
   } = props;
+
+  const getYearViewNotes = () => {
+    const thisYearsNotes: calendarNoteWithCalendarName[] = [];
+
+    const currentYear = new Date().getFullYear();
+
+    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
+      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
+        const startDate = new Date(calendarNote.start_date);
+        if (
+         startDate.getFullYear() === currentYear
+         && calendarNote.type === 'year'
+        ) {
+          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
+            ...calendarNote, 
+            calendar_name: calendar.name,
+            calendar_id: calendar._id,
+          };
+          thisYearsNotes.push(calendarNoteWithCalendarName);
+        };
+      });
+    });
+
+    return thisYearsNotes;
+  };
+
+  const [yearViewNotes, setYearViewNotes] = useState<calendarViewStateForCalendarNotes>(getYearViewNotes());
+
+  useEffect(() => {
+    setYearViewNotes(getYearViewNotes())
+  }, [activeCalendars]);
 
   const week = [
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
@@ -76,31 +107,6 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     return yearView;
   };
 
-  const getYearViewNotes = () => {
-    const thisYearsNotes: calendarNoteWithCalendarName[] = [];
-
-    const currentYear = new Date().getFullYear();
-
-    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
-      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
-        const startDate = new Date(calendarNote.start_date);
-        if (
-         startDate.getFullYear() === currentYear
-         && calendarNote.type === 'year'
-        ) {
-          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
-            ...calendarNote, 
-            calendar_name: calendar.name,
-            calendar_id: calendar._id,
-          };
-          thisYearsNotes.push(calendarNoteWithCalendarName);
-        };
-      });
-    });
-
-    return thisYearsNotes;
-  };
-
   if (Object.keys(calendarDatesData).length > 0) { // if calendarData has been mounted in "App" from "Calendar parent component"
     const yearView = generateCurrentYearView();
     return (
@@ -162,7 +168,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
         <div className={styles.yearViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
           <NotesForCalendar 
-            calendarNotes={getYearViewNotes()}
+            calendarNotes={yearViewNotes}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
             handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
           />

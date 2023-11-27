@@ -254,7 +254,7 @@ type notesForCalendarState = {
   set: number[],
 };
 
-type calendarViewStateForCalendarNotes = calendarNotes;
+type calendarViewStateForCalendarNotes = calendarNotesWithName;
 
 interface selectedCalendarModalProps {
   userCalendars: userCalendars,

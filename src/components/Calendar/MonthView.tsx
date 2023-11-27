@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { CalendarDatesData, calendarNote, calendarNoteWithCalendarName, monthViewProps } from "../../types/interfaces";
+import React, { FC, useState, useEffect } from "react";
+import { CalendarDatesData, calendarNote, calendarNoteWithCalendarName, calendarViewStateForCalendarNotes, monthViewProps } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
@@ -14,14 +14,38 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
   } = props;
 
-  // 1. Identify current date
-  // 2. Find current year in personalCalendar
-  // 3. Identify index of the first month we're on
-  // 4. Check if the remaining months in that list are less than 3
-  // 5. If there are 3 or more months left in the current year render the next 3 months including the current month
-  // 6. If there's less than 3 months left in the current year render 1-2 remaining months and the 1-2 next in the following year's calendar
-  // 7. Search through calendar holiday's and check if any matches for the current calendar cycle, render them if needed
-  // 8. Search through events array, find matches, render them to current calendar cycle
+  const getMonthViewNotes = () => {
+    const thisMonthsNotes: calendarNoteWithCalendarName[] = [];
+
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+
+    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
+      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
+        const startDate = new Date(calendarNote.start_date);
+        if (
+         startDate.getFullYear() === currentYear
+         && startDate.getMonth() === currentMonth
+         && calendarNote.type === 'month'
+        ) {
+          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
+            ...calendarNote, 
+            calendar_name: calendar.name,
+            calendar_id: calendar._id,
+          };
+          thisMonthsNotes.push(calendarNoteWithCalendarName);
+        };
+      });
+    });
+
+    return thisMonthsNotes;
+  };
+
+  const [monthViewNotes, setMonthViewNotes] = useState<calendarViewStateForCalendarNotes>(getMonthViewNotes());
+
+  useEffect(() => {
+    setMonthViewNotes(getMonthViewNotes())
+  }, [activeCalendars]);
 
   const week = [
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
@@ -84,33 +108,6 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     return calendar;
   };
 
-  const getMonthCalendarNotes = () => {
-    const thisMonthsNotes: calendarNoteWithCalendarName[] = [];
-
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
-
-    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
-      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
-        const startDate = new Date(calendarNote.start_date);
-        if (
-         startDate.getFullYear() === currentYear
-         && startDate.getMonth() === currentMonth
-         && calendarNote.type === 'month'
-        ) {
-          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
-            ...calendarNote, 
-            calendar_name: calendar.name,
-            calendar_id: calendar._id,
-          };
-          thisMonthsNotes.push(calendarNoteWithCalendarName);
-        };
-      });
-    });
-
-    return thisMonthsNotes;
-  };
-
   return (
     <section className={styles.monthViewContainer}>
       <h2 className={styles.monthViewHeaderText}>
@@ -144,7 +141,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
       <div className={styles.monthViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
           <NotesForCalendar 
-            calendarNotes={getMonthCalendarNotes()}
+            calendarNotes={monthViewNotes}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
             handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
           />

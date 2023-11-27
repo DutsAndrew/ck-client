@@ -105,6 +105,24 @@ function App() {
 
   const updateCalendarNote = (calendarId: string, updatedNote: calendarNote) => {
     setUser((prevUser: userInstance) => {
+      const { personal_calendar } = prevUser;
+
+      if (personal_calendar._id === calendarId) {
+        const updatedCalendarNotes = personal_calendar.calendar_notes.map((note) => {
+          if (note._id === updatedNote._id) {
+            return updatedNote;
+          };
+          return note;
+        });
+
+        const updatedPersonalCalendar = {
+          ...personal_calendar,
+          calendar_notes: updatedCalendarNotes,
+        };
+  
+        return { ...prevUser, personal_calendar: updatedPersonalCalendar };
+      };
+
       const updatedCalendars = prevUser.calendars.map((calendar) => {
         if (calendar._id === calendarId) {
           const updatedCalendarNotes = calendar.calendar_notes.map((note) => {
