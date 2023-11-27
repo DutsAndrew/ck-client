@@ -279,14 +279,14 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     if (typeof authToken === 'undefined') {
       return toast.error('You need to be signed in or not in incognito to perform this action', {id: 'addingNote'});
     } else {
-      const calendarId = formData.selectedCalendarId.length > 0 ? formData.selectedCalendarId : 'false'; // send calendarId as false when personal calendar of user is getting a note
+      const calendarCheck = identifyCalendarIdAndIfCalendarIsPersonal();
       const noteType = setNoteType();
       if (typeof noteType === 'undefined') return toast.error('You cannot create a note without selecting a note type', {id: 'addingNote'});
       const snapShot = getSelectedNoteTypeSnapshot();
       const calendarNote = new CalendarNote(formData['note'], noteType, snapShot, userId);
       const calendarNoteErrors = checkCalendarNoteForErrors(calendarNote);
       if (calendarNoteErrors === true) return toast.error('The dates in your note are not valid', {id: 'addingNote'});
-      const apiUrl = `http://127.0.0.1:8000/calendar/${calendarId}/addNote`;
+      const apiUrl = `http://127.0.0.1:8000/calendar/${calendarCheck.calendarId}/addNote/${calendarCheck.isPersonal}`;
       const request = await fetch(apiUrl, {
         headers: {
           'Accept': 'application/json',
@@ -329,6 +329,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     if (typeof authToken === 'undefined') {
       return toast.error('You need to be signed in or not in incognito to perform this action', {id: 'updatingNote'});
     } else {
+      const calendarCheck = identifyCalendarIdAndIfCalendarIsPersonal();
       const noteType = setNoteType();
       if (typeof noteType === 'undefined') return toast.error('You cannot update a note without selecting a note type', {id: 'updatingNote'});
       const snapShot = getSelectedNoteTypeSnapshot();
@@ -336,7 +337,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       const calendarNoteErrors = checkCalendarNoteForErrors(calendarNote);
       if (calendarNoteErrors === true) return toast.error('The dates in your note are not valid', {id: 'updatingNote'});
       const note = (calendarNoteEditRequest.note as calendarNoteWithCalendarName);
-      const apiUrl = `http://127.0.0.1:8000/calendar/updateNote/${note._id}`;
+      const apiUrl = `http://127.0.0.1:8000/calendar/${calendarCheck.calendarId}/updateNote/${note._id}/${calendarCheck.isPersonal}`;
       const request = await fetch(apiUrl, {
         headers: {
           'Accept': 'application/json',
@@ -389,10 +390,14 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     let calendarInstance: {} | calendarObject = {};
     const allCalendars = [userCalendars.personalCalendar, ...userCalendars.pendingCalendars, ...userCalendars.teamCalendars];
 
-    for (const calendar of allCalendars) {
-      if (calendar._id === formData.selectedCalendarId) {
-        calendarInstance = calendar;
-        break;
+    if (formData.selectedCalendarId.startsWith('personal_calendar:')) {
+      calendarInstance = userCalendars.personalCalendar;
+    } else {
+      for (const calendar of allCalendars) {
+        if (calendar._id === formData.selectedCalendarId) {
+          calendarInstance = calendar;
+          break;
+        };
       };
     };
 
@@ -427,6 +432,19 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       return false; // no errors
     } else {
       return true; // has errors
+    };
+  };
+
+  const identifyCalendarIdAndIfCalendarIsPersonal = () => {
+    const calendarId = formData.selectedCalendarId.startsWith('personal_calendar:') 
+      ? formData.selectedCalendarId.split(': ')[1]
+      : formData.selectedCalendarId;
+
+    const isPersonal = formData.selectedCalendarId.startsWith('personal_calendar:') ? true : false;
+
+    return {
+      'calendarId': calendarId,
+      'isPersonal': isPersonal,
     };
   };
 
@@ -682,7 +700,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
                 <option 
                   key={personalCalendar._id} 
                   value={personalCalendar.name}
-                  data-calendarid=''
+                  data-calendarid={`personal_calendar: ${personalCalendar._id}`} // stored like this for FastAPI backend to parse
                   className={styles.addEventFormOption}>
                     {personalCalendar.name}
                 </option>
