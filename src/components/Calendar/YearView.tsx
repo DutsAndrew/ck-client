@@ -1,17 +1,25 @@
 import React, { FC, useState, useEffect } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { CalendarDatesData, calendarNote, calendarNoteWithCalendarName, calendarViewStateForCalendarNotes, yearViewProps } from "../../types/interfaces";
+import { 
+  CalendarDatesData,
+  calendarNoteWithCalendarInfo,
+  calendarNotesWithInfo,
+  calendarViewStateForCalendarNotes,
+  yearViewProps 
+} from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from 'uniqid';
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
   const { 
+    userId,
     currentDay,
     activeCalendars,
     calendarDatesData,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
+    yearNotes,
   } = props;
 
   const [yearViewNotes, setYearViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
@@ -21,25 +29,17 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
   }, [activeCalendars]);
 
   const getYearViewNotes = () => {
-    const thisYearsNotes: calendarNoteWithCalendarName[] = [];
+    const thisYearsNotes: calendarNotesWithInfo = [];
 
     const currentYear = new Date().getFullYear();
 
-    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
-      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
-        const startDate = new Date(calendarNote.start_date);
-        if (
-         startDate.getFullYear() === currentYear
-         && calendarNote.type === 'year'
-        ) {
-          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
-            ...calendarNote, 
-            calendar_name: calendar.name,
-            calendar_id: calendar._id,
-          };
-          thisYearsNotes.push(calendarNoteWithCalendarName);
-        };
-      });
+    Array.isArray(yearNotes) && yearNotes.forEach((calendarNote: calendarNoteWithCalendarInfo) => {
+      const startDate = new Date(calendarNote.start_date);
+      if (
+       startDate.getFullYear() === currentYear
+      ) {
+        thisYearsNotes.push(calendarNote);
+      };
     });
 
     return thisYearsNotes;
@@ -168,6 +168,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
         <div className={styles.yearViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
           <NotesForCalendar 
+            userId={userId}
             calendarNotes={yearViewNotes}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
             handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}

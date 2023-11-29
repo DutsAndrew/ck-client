@@ -1,5 +1,11 @@
 import React, { FC, useState, useEffect } from "react";
-import { CalendarDatesData, calendarNote, calendarNoteWithCalendarName, calendarViewStateForCalendarNotes, monthViewProps } from "../../types/interfaces";
+import { 
+  CalendarDatesData,
+  calendarNoteWithCalendarInfo,
+  calendarNotesWithInfo,
+  calendarViewStateForCalendarNotes,
+  monthViewProps 
+} from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
@@ -7,11 +13,13 @@ import uniqid from "uniqid";
 const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
   const { 
+    userId,
     currentDay,
     activeCalendars,
     calendarDatesData,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
+    monthNotes,
   } = props;
 
   const [monthViewNotes, setMonthViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
@@ -21,27 +29,19 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
   }, [activeCalendars]);
 
   const getMonthViewNotes = () => {
-    const thisMonthsNotes: calendarNoteWithCalendarName[] = [];
+    const thisMonthsNotes: calendarNotesWithInfo = [];
 
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
 
-    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
-      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
-        const startDate = new Date(calendarNote.start_date);
-        if (
-         startDate.getFullYear() === currentYear
-         && startDate.getMonth() === currentMonth
-         && calendarNote.type === 'month'
-        ) {
-          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
-            ...calendarNote, 
-            calendar_name: calendar.name,
-            calendar_id: calendar._id,
-          };
-          thisMonthsNotes.push(calendarNoteWithCalendarName);
-        };
-      });
+    Array.isArray(monthNotes) && monthNotes.forEach((calendarNote: calendarNoteWithCalendarInfo) => {
+      const startDate = new Date(calendarNote.start_date);
+      if (
+       startDate.getFullYear() === currentYear
+       && startDate.getMonth() === currentMonth
+      ) {
+        thisMonthsNotes.push(calendarNote);
+      };
     });
 
     return thisMonthsNotes;
@@ -141,6 +141,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
       <div className={styles.monthViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
           <NotesForCalendar 
+            userId={userId}
             calendarNotes={monthViewNotes}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
             handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}

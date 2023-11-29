@@ -16,7 +16,10 @@ import {
   activeCalendarState,
   calendarApiResponse,
   allUserCalendarsPopulatedApiResponse, 
-  calendarNoteWithCalendarName
+  calendarNoteWithCalendarInfo,
+  calendarNotesGroupedState,
+  calendarNotesGrouped,
+  calendarNotesWithInfo
 } from '../../types/interfaces';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
@@ -37,25 +40,26 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     calendarDatesData,
   } = props;
 
-        const [currentView, setCurrentView] = useState('All'),
-        [calendarEditor, setCalendarEditor] = useState<calendarEditorState>({
-          active: false,
-          calendar: {},
-        }),
-        [activeCalendars, setActiveCalendars]= useState<activeCalendarState>(
-          [usersPersonalCalendar]
-        ),
-        [calendarFormStatus, setCalendarFormStatus] = useState({
-          // state in case user shortcuts the calendar form by interacting with the calendar app instead of clicking the "plus" sign
-          event: false,
-          note: false,
-          calendar: false,
-        }),
-        [calendarNoteEditRequest, setCalendarNoteEditRequest] = useState({
-          calendarId: '',
-          note: {},
-          status: false,
-        });
+    const [currentView, setCurrentView] = useState('All'),
+    [calendarEditor, setCalendarEditor] = useState<calendarEditorState>({
+      active: false,
+      calendar: {},
+    }),
+    [activeCalendars, setActiveCalendars]= useState<activeCalendarState>(
+      [usersPersonalCalendar]
+    ),
+    [calendarFormStatus, setCalendarFormStatus] = useState({
+      // state in case user shortcuts the calendar form by interacting with the calendar app instead of clicking the "plus" sign
+      event: false,
+      note: false,
+      calendar: false,
+    }),
+    [calendarNoteEditRequest, setCalendarNoteEditRequest] = useState({
+      calendarId: '',
+      note: {},
+      status: false,
+    }),
+    [calendarNotesGrouped, setCalendarNotesGrouped] = useState<calendarNotesGroupedState>({});
 
   const navigate = useNavigate();
 
@@ -77,6 +81,10 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   useEffect(() => {
     updateActivateCalendarsWithUpdates();
   }, [usersPersonalCalendar, usersTeamCalendars, usersPendingCalendars]);
+
+  useEffect(() => {
+    groupCalendarNotes();
+  }, [activeCalendars]);
 
   const mountAppData = () => {
     fetchCalendarAppData(); // get calendar date/holiday data from db
@@ -237,12 +245,18 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
   };
 
-  const handleCalendarNoteModificationRequest = (calendarId: string, calendarNote: calendarNoteWithCalendarName) => {
-    return setCalendarNoteEditRequest({
-      calendarId: calendarId,
-      note: calendarNote,
-      status: true,
-    });
+  const handleCalendarNoteModificationRequest = (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => {
+    const authAccess = doesUserHaveCalendarAccess(calendarId);
+
+    if (authAccess === false) {
+      return toast.error('You do not have access to modify this calendar', {id: 'noteModificationError'});
+    } else {
+      return setCalendarNoteEditRequest({
+        calendarId: calendarId,
+        note: calendarNote,
+        status: true,
+      });
+    };
   };
 
   const handleCancelCalendarNoteModificationRequest = () => {
@@ -251,6 +265,65 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       note: {},
       status: false,
     });
+  };
+
+  const doesUserHaveCalendarAccess = (calendarId: string) => {
+    let doesUserHaveAccess = false;
+
+    activeCalendars.forEach((calendar) => {
+      if (calendar._id === calendarId) {
+        calendar.authorized_users.forEach((user) => {
+          if (user._id === userId) {
+            doesUserHaveAccess = true;
+          };
+        });
+      };
+    });
+
+    return doesUserHaveAccess;
+  };
+
+  const groupCalendarNotes = () => {
+    if (!Array.isArray(activeCalendars) || activeCalendars.length === 0) return; 
+
+    const dayNotes: calendarNotesWithInfo = [];
+    const weekNotes: calendarNotesWithInfo = [];
+    const monthNotes: calendarNotesWithInfo = [];
+    const yearNotes: calendarNotesWithInfo = [];
+
+    activeCalendars.forEach((calendar) => {
+      calendar.calendar_notes.forEach((note) => {
+        const calendarNoteWithCalendarInfo: calendarNoteWithCalendarInfo = {
+          ...note, 
+          calendar_name: calendar.name,
+          calendar_id: calendar._id,
+          is_user_authorized: typeof calendar.authorized_users.find((user) => user._id === userId) === 'undefined' ? false : true,
+        };
+        switch(note.type) {
+          case 'day':
+            dayNotes.push(calendarNoteWithCalendarInfo);
+            break;
+          case 'week':
+            weekNotes.push(calendarNoteWithCalendarInfo);
+            break;
+          case 'month':
+            monthNotes.push(calendarNoteWithCalendarInfo);
+            break;
+          case 'year':
+            yearNotes.push(calendarNoteWithCalendarInfo);
+            break;
+        };
+      });
+    });
+
+    const notes = {
+      dayNotes: dayNotes,
+      weekNotes: weekNotes,
+      monthNotes: monthNotes,
+      yearNotes: yearNotes,
+    };
+
+    return setCalendarNotesGrouped(notes);
   };
 
   const userCalendars: userCalendars = {
@@ -278,6 +351,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   };
 
   const calendarViewProps = {
+    userId: userId,
     currentDay: getTodaysDate(),
     activeCalendars: activeCalendars,
     handleNotesForCalendarRequestToAddNewNote,
@@ -310,15 +384,23 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       if (currentView === 'All') {
         return (
           <>
-            <DayView {...calendarViewProps} />
-            <WeekView {...calendarViewProps} />
+            <DayView 
+              {...calendarViewProps}
+              dayNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).dayNotes : {}}
+            />
+            <WeekView 
+              {...calendarViewProps}
+              weekNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).weekNotes : {}}
+            />
             <MonthView 
               calendarDatesData={calendarDatesData}
               {...calendarViewProps}
+              monthNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).monthNotes : {}}
             />
             <YearView 
               calendarDatesData={calendarDatesData}
               {...calendarViewProps}
+              yearNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).yearNotes : {}}
             />
           </>
         );
@@ -326,12 +408,14 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         return (
           <DayView 
             {...calendarViewProps}
+            dayNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).dayNotes : {}}
           />
         );
       } else if (currentView === 'Week') {
         return (
           <WeekView 
             {...calendarViewProps}
+            weekNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).weekNotes : {}}
           />
         );
       } else if (currentView === 'Month') {
@@ -339,6 +423,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           <MonthView 
             calendarDatesData={calendarDatesData}
             {...calendarViewProps}
+            monthNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).monthNotes : {}}
           />
         );
       } else if (currentView === 'Year') {
@@ -346,6 +431,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           <YearView 
             calendarDatesData={calendarDatesData}
             {...calendarViewProps} 
+            yearNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).yearNotes : {}}
           />
         );
       } else {

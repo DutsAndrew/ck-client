@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
-import { calendarNoteWithCalendarName, notesForCalendarProps, notesForCalendarState } from "../../types/interfaces";
+import { calendarNoteWithCalendarInfo, notesForCalendarProps, notesForCalendarState } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import chevronLeftSvg from '../../assets/chevron-left.svg';
 import chevronRightSvg from '../../assets/chevron-right.svg';
@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
 
   const { 
+    userId,
     calendarNotes,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
@@ -101,12 +102,32 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
     return handleNotesForCalendarRequestToAddNewNote();
   };
 
-  const handleEditCalendarNoteClick = (calendarId: string, note: calendarNoteWithCalendarName) => {
+  const handleEditCalendarNoteClick = (calendarId: string, note: calendarNoteWithCalendarInfo) => {
     return handleCalendarNoteModificationRequest(calendarId, note);
   };
 
-  const handleDeleteCalendarNoteClick = (calendarNoteId: string, calendarId: string) => {
-
+  const handleDeleteCalendarNoteClick = async (calendarNoteId: string, calendarId: string) => {
+    toast.loading('Deleting note...', {id: 'deletingCalendarNote'});
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      return toast.error('You need to be signed in or not in incognito to perform this action', {id: 'deletingCalendarNote'});
+    } else {
+      const apiUrl = `http://127.0.0.1:8000/calendar/${calendarId}/deleteNote/${calendarNoteId}`;
+      const request = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        method: 'DELETE',
+      });
+      const jsonResponse = await request.json();
+      if (request.ok && request.status === 200 && jsonResponse.detail === "Successfully deleted the note") {
+        return toast.success('Note deleted', {id: 'deletingCalendarNote'});
+      } else {
+        return toast.error('Failed to delete note', {id: 'deletingCalendarNote'});
+      };
+    };
   };
 
   if (calendarNotes.length === 0) {
@@ -148,8 +169,8 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
                         <em>Created by:</em>
                       </p>
                       <p className={styles.notesForCalendarNoteCreatedByText}>
-                        {(note as calendarNoteWithCalendarName).created_by.first_name},&nbsp;
-                        {(note as calendarNoteWithCalendarName).created_by.last_name}
+                        {(note as calendarNoteWithCalendarInfo).created_by.first_name},&nbsp;
+                        {(note as calendarNoteWithCalendarInfo).created_by.last_name}
                       </p>
                       <button 
                         type="button"

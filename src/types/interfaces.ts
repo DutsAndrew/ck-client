@@ -137,7 +137,7 @@ type calendarFormStatus = {
 
 type calendarNoteEditRequest = {
   calendarId: string,
-  note: {} | calendarNoteWithCalendarName,
+  note: {} | calendarNoteWithCalendarInfo,
   status: boolean,
 }
 
@@ -214,47 +214,56 @@ interface navRightContainerProps {
 };
 
 interface dayViewProps {
+  userId: string,
   currentDay: string,
   activeCalendars: calendarObject[],
   handleNotesForCalendarRequestToAddNewNote: () => void,
-  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarName) => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
+  dayNotes: {} | calendarNoteWithCalendarInfo[],
 };
 
 interface weekViewProps {
+  userId: string,
   currentDay: string,
   activeCalendars: calendarObject[],
   handleNotesForCalendarRequestToAddNewNote: () => void,
-  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarName) => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
+  weekNotes: {} | calendarNoteWithCalendarInfo[],
 };
 
 interface monthViewProps {
+  userId: string,
   currentDay: string,
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
   handleNotesForCalendarRequestToAddNewNote: () => void,
-  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarName) => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
+  monthNotes: {} | calendarNoteWithCalendarInfo[],
 };
 
 interface yearViewProps {
+  userId: string,
   currentDay: string,
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
   handleNotesForCalendarRequestToAddNewNote: () => void,
-  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarName) => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
+  yearNotes: {} | calendarNoteWithCalendarInfo[],
 };
 
 interface notesForCalendarProps {
-  calendarNotes: calendarNotesWithName,
+  userId: string,
+  calendarNotes: calendarNotesWithInfo,
   handleNotesForCalendarRequestToAddNewNote: () => void,
-  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarName) => void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
 };
 
 type notesForCalendarState = {
-  notes: calendarNotesWithName | [],
+  notes: calendarNotesWithInfo | [],
   set: number[],
 };
 
-type calendarViewStateForCalendarNotes = calendarNotesWithName;
+type calendarViewStateForCalendarNotes = calendarNotesWithInfo;
 
 interface selectedCalendarModalProps {
   userCalendars: userCalendars,
@@ -285,6 +294,15 @@ interface yearModalProps {
 };
 
 type activeCalendarState = calendarObject[];
+
+type calendarNotesGroupedState = {} | calendarNotesGrouped;
+
+interface calendarNotesGrouped {
+  dayNotes: calendarNotesWithInfo,
+  weekNotes: calendarNotesWithInfo,
+  monthNotes: calendarNotesWithInfo,
+  yearNotes: calendarNotesWithInfo,
+};
 
 interface calendarModalState {
   list: calendarObject[],
@@ -490,12 +508,13 @@ interface calendarNote {
   type: string,
 }
 
-interface calendarNoteWithCalendarName {
+interface calendarNoteWithCalendarInfo {
   _id: string,
   calendar_id: string,
   calendar_name: string,
   created_by: userCalendarNoteInstance,
   created_on: string,
+  is_user_authorized: boolean,
   note: string,
   start_date: string,
   end_date: string,
@@ -504,7 +523,7 @@ interface calendarNoteWithCalendarName {
 
 type calendarNotes = calendarNote[];
 
-type calendarNotesWithName = calendarNoteWithCalendarName[];
+type calendarNotesWithInfo = calendarNoteWithCalendarInfo[];
 
 interface eventObject {
   calendar: string,
@@ -562,14 +581,16 @@ export type {
   notesForCalendarProps,
   notesForCalendarState,
   calendarNote,
-  calendarNoteWithCalendarName,
-  calendarNotesWithName,
+  calendarNoteWithCalendarInfo,
+  calendarNotesWithInfo,
   calendarViewStateForCalendarNotes,
   selectedCalendarModalProps,
   dropDownCalendarItemsProps,
   calendarViewModalProps,
   yearModalProps,
   activeCalendarState,
+  calendarNotesGroupedState,
+  calendarNotesGrouped,
   calendarModalState,
   addEventFormProps,
   addCalendarFormProps,

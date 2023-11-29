@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addNoteFormDataState, addNoteFormProps, calendarNoteWithCalendarName, calendarObject } from "../../../types/interfaces";
+import { addNoteFormDataState, addNoteFormProps, calendarNoteWithCalendarInfo, calendarObject } from "../../../types/interfaces";
 import toast from "react-hot-toast";
 
 const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
@@ -336,7 +336,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       const calendarNote = new CalendarNote(formData['note'], noteType, snapShot, userId);
       const calendarNoteErrors = checkCalendarNoteForErrors(calendarNote);
       if (calendarNoteErrors === true) return toast.error('The dates in your note are not valid', {id: 'updatingNote'});
-      const note = (calendarNoteEditRequest.note as calendarNoteWithCalendarName);
+      const note = (calendarNoteEditRequest.note as calendarNoteWithCalendarInfo);
       const apiUrl = `http://127.0.0.1:8000/calendar/${calendarCheck.calendarId}/updateNote/${note._id}/${calendarCheck.isPersonal}`;
       const request = await fetch(apiUrl, {
         headers: {
@@ -450,7 +450,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
 
   const handleCalendarNoteEditRequest = () => {
     if (Object.keys(calendarNoteEditRequest).length > 0) {
-      const calendarNote = calendarNoteEditRequest.note as calendarNoteWithCalendarName;
+      const calendarNote = calendarNoteEditRequest.note as calendarNoteWithCalendarInfo;
       const startDateOfNote = new Date(calendarNote.start_date);
 
       let specificDate = '';
@@ -722,7 +722,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
           type="submit" 
           onClick={(e) => calendarNoteEditRequest.status === true ? handleUpdateNoteSubmitClick(e) : handleAddNoteSubmitClick(e)}
           className={styles.addEventFormButton}>
-            Add Note
+            {calendarNoteEditRequest.status === true ? 'Add Edited Note' : 'Add Note'}
         </button>
       </form>
     </div>

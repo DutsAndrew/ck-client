@@ -1,16 +1,23 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { calendarNote, calendarNoteWithCalendarName, calendarViewStateForCalendarNotes, weekViewProps } from "../../types/interfaces";
+import { 
+  calendarNoteWithCalendarInfo,
+  calendarNotesWithInfo,
+  calendarViewStateForCalendarNotes,
+  weekViewProps
+} from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
 
 const WeekView: FC<weekViewProps> = (props): JSX.Element => {
 
   const { 
+    userId,
     currentDay,
     activeCalendars,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
+    weekNotes,
   } = props;
 
   const week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -39,7 +46,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
   }, [activeCalendars]);
 
   const getWeekViewNotes = () => {
-    const thisWeeksNotes: calendarNoteWithCalendarName[] = [];
+    const thisWeeksNotes: calendarNotesWithInfo = [];
 
     const currentYear = new Date().getFullYear();
     const beginningOfWeekSnap = weekSnapshot.split(' - ')[0];
@@ -48,29 +55,20 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     const beginningOfWeekDate = new Date(`${beginningOfWeekSnap}, ${currentYear}`);
     const endOfWeekDate = new Date(`${endOfWeekSnap}, ${currentYear}`);
 
-    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
-      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
-        const startDate = new Date(calendarNote.start_date);
-        const endDate = new Date(calendarNote.end_date);
-        if (
-          beginningOfWeekDate.getFullYear() === startDate.getFullYear()
-          && beginningOfWeekDate.getMonth() === startDate.getMonth()
-          && beginningOfWeekDate.getDate() === startDate.getDate()
-          //
-          && endOfWeekDate.getFullYear() === endDate.getFullYear()
-          && endOfWeekDate.getMonth() === endDate.getMonth()
-          && endOfWeekDate.getDate() === endDate.getDate()
-          //
-          && calendarNote.type === 'week'
-        ) {
-          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
-            ...calendarNote, 
-            calendar_name: calendar.name,
-            calendar_id: calendar._id,
-          };
-          thisWeeksNotes.push(calendarNoteWithCalendarName);
-        };
-      });
+    Array.isArray(weekNotes) && weekNotes.forEach((calendarNote: calendarNoteWithCalendarInfo) => {
+      const startDate = new Date(calendarNote.start_date);
+      const endDate = new Date(calendarNote.end_date);
+      if (
+        beginningOfWeekDate.getFullYear() === startDate.getFullYear()
+        && beginningOfWeekDate.getMonth() === startDate.getMonth()
+        && beginningOfWeekDate.getDate() === startDate.getDate()
+        //
+        && endOfWeekDate.getFullYear() === endDate.getFullYear()
+        && endOfWeekDate.getMonth() === endDate.getMonth()
+        && endOfWeekDate.getDate() === endDate.getDate()
+      ) {
+        thisWeeksNotes.push(calendarNote);
+      };
     });
 
     return thisWeeksNotes;
@@ -98,6 +96,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
       <div className={styles.weekViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 && (
           <NotesForCalendar 
+            userId={userId}
             calendarNotes={weekViewNotes}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
             handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}

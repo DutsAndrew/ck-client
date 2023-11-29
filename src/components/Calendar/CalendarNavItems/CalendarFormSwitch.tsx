@@ -87,7 +87,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
           className={`${styles.calendarFormSwitch} ${activeForm === 'note' ? styles.active : ''}`}
           onClick={() => handleActiveFormChange('note')}
         >
-          Add Note
+          {calendarNoteEditRequest.status === true ? 'Edit Note' : 'Add Note'}
         </button>
         <button
           className={`${styles.calendarFormSwitch} ${activeForm === 'calendar' ? styles.active : ''}`}

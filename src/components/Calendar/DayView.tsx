@@ -1,45 +1,44 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { calendarNote, calendarNoteWithCalendarName, calendarViewStateForCalendarNotes, dayViewProps } from "../../types/interfaces";
+import { 
+  calendarNoteWithCalendarInfo,
+  calendarNotesWithInfo,
+  calendarViewStateForCalendarNotes,
+  dayViewProps,
+} from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
 
 const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
   const { 
+    userId,
     currentDay,
     activeCalendars,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
+    dayNotes,
   } = props;
 
   const [dayViewNotes, setDayViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
 
   useEffect(() => {
     setDayViewNotes(getDayViewNotes())
-  }, [activeCalendars]);
+  }, [activeCalendars, dayNotes]);
 
   const getDayViewNotes = () => {
-    const todaysNotes: calendarNoteWithCalendarName[] = [];
+    const todaysNotes: calendarNotesWithInfo = [];
     const today = new Date(currentDay);
 
-    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
-      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((calendarNote: calendarNote) => {
-        const startDate = new Date(calendarNote.start_date);
-        if (
-          today.getFullYear() === startDate.getFullYear()
-          && today.getMonth() === startDate.getMonth()
-          && today.getDate() === startDate.getDate()
-          && calendarNote.type === 'day'
-        ) {
-          const calendarNoteWithCalendarName: calendarNoteWithCalendarName = {
-             ...calendarNote, 
-             calendar_name: calendar.name,
-             calendar_id: calendar._id,
-          };
-          todaysNotes.push(calendarNoteWithCalendarName);
-        };
-      });
+    Array.isArray(dayNotes) && dayNotes.forEach((calendarNote: calendarNoteWithCalendarInfo) => {
+      const startDate = new Date(calendarNote.start_date);
+      if (
+        today.getFullYear() === startDate.getFullYear()
+        && today.getMonth() === startDate.getMonth()
+        && today.getDate() === startDate.getDate()
+      ) {
+        todaysNotes.push(calendarNote);
+      };
     });
 
     return todaysNotes;
@@ -120,6 +119,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
       <div className={styles.dayViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 &&  (
           <NotesForCalendar 
+            userId={userId}
             calendarNotes={dayViewNotes}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
             handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
