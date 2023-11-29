@@ -40,6 +40,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     calendarDatesData,
   } = props;
 
+  console.log(usersPersonalCalendar.calendar_notes, usersTeamCalendars);
+
     const [currentView, setCurrentView] = useState('All'),
     [calendarEditor, setCalendarEditor] = useState<calendarEditorState>({
       active: false,
@@ -291,8 +293,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     const monthNotes: calendarNotesWithInfo = [];
     const yearNotes: calendarNotesWithInfo = [];
 
-    activeCalendars.forEach((calendar) => {
-      calendar.calendar_notes.forEach((note) => {
+    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
+      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((note) => {
         const calendarNoteWithCalendarInfo: calendarNoteWithCalendarInfo = {
           ...note, 
           calendar_name: calendar.name,

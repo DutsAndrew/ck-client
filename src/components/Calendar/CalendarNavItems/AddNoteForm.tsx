@@ -351,7 +351,12 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       if (request.ok && request.status === 200 && jsonResponse.detail === "Successfully updated the note") {
         if (jsonResponse.updated_note) {
           toast.success(`Note updated!`, {id: 'updatingNote'});
-          return updateCalendarNote(formData.selectedCalendarId, jsonResponse.updated_note);
+          return updateCalendarNote(
+            formData.selectedCalendarId.startsWith('personal_calendar:') 
+              ? formData.selectedCalendarId.split(': ')[1] 
+              : formData.selectedCalendarId,
+            jsonResponse.updated_note
+          );
         };
       } else {
         toast.error('Failed to update note', {id: 'updatingNote'});
