@@ -90,7 +90,7 @@ interface calendarProps {
   updateCalendarInUser: (newCalendar: calendarObject) => void,
   removeCalendarFromUser: (calendarId: string) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
-  updateCalendarNote: (calendarId: string, updatedNote: calendarNote) => void,
+  updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
   calendarDatesData: object,
 };
 
@@ -156,7 +156,7 @@ interface calendarNavProps {
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
   handleCalendarFormDataCleanup: () => void,
-  updateCalendarNote: (calendarId: string, updatedNote: calendarNote) => void,
+  updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
 };
 
 interface navLeftContainerProps {
@@ -169,7 +169,7 @@ interface navLeftContainerProps {
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
   handleCalendarFormDataCleanup: () => void,
-  updateCalendarNote: (calendarId: string, updatedNote: calendarNote) => void,
+  updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
 };
 
 interface addFormModalProps {
@@ -180,7 +180,7 @@ interface addFormModalProps {
   handleCloseModalRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
-  updateCalendarNote: (calendarId: string, updatedNote: calendarNote) => void,
+  updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
 };
 
 interface addCalendarFormState {
@@ -327,7 +327,7 @@ interface calendarFormSwitchProps {
   calendarNoteEditRequest: calendarNoteEditRequest,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
-  updateCalendarNote: (calendarId: string, updatedNote: calendarNote) => void,
+  updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
   handleCloseModalRequest: Function,
 };
 
@@ -335,7 +335,7 @@ interface addNoteFormProps {
   userId: string,
   userCalendars: userCalendars,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
-  updateCalendarNote: (calendarId: string, updatedNote: calendarNote) => void,
+  updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
   calendarNoteEditRequest: calendarNoteEditRequest,
 };
 
@@ -496,17 +496,24 @@ interface calendarObject {
   pending_users: userCalendarInstance[],
   view_only_users: userCalendarInstance[],
   _id: string,
-}
+};
 
 interface calendarNote {
   _id: string,
+  calendar_id: string,
   created_by: userCalendarNoteInstance,
   created_on: string,
-  note: string,
-  start_date: string,
   end_date: string,
+  note: string,
+  personal_calendar: boolean,
+  start_date: string,
   type: string,
-}
+  user_ref: {
+    first_name: string,
+    last_name: string,
+    user_id: string,
+  },
+};
 
 interface calendarNoteWithCalendarInfo {
   _id: string,
@@ -519,7 +526,7 @@ interface calendarNoteWithCalendarInfo {
   start_date: string,
   end_date: string,
   type: string,
-}
+};
 
 type calendarNotes = calendarNote[];
 

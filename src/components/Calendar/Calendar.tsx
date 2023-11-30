@@ -40,8 +40,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     calendarDatesData,
   } = props;
 
-  console.log(usersPersonalCalendar.calendar_notes, usersTeamCalendars);
-
     const [currentView, setCurrentView] = useState('All'),
     [calendarEditor, setCalendarEditor] = useState<calendarEditorState>({
       active: false,
@@ -294,28 +292,30 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     const yearNotes: calendarNotesWithInfo = [];
 
     Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
-      Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((note) => {
-        const calendarNoteWithCalendarInfo: calendarNoteWithCalendarInfo = {
-          ...note, 
-          calendar_name: calendar.name,
-          calendar_id: calendar._id,
-          is_user_authorized: typeof calendar.authorized_users.find((user) => user._id === userId) === 'undefined' ? false : true,
-        };
-        switch(note.type) {
-          case 'day':
-            dayNotes.push(calendarNoteWithCalendarInfo);
-            break;
-          case 'week':
-            weekNotes.push(calendarNoteWithCalendarInfo);
-            break;
-          case 'month':
-            monthNotes.push(calendarNoteWithCalendarInfo);
-            break;
-          case 'year':
-            yearNotes.push(calendarNoteWithCalendarInfo);
-            break;
-        };
-      });
+      if (calendar && calendar.calendar_notes) {
+        Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((note) => {
+          const calendarNoteWithCalendarInfo: calendarNoteWithCalendarInfo = {
+            ...note, 
+            calendar_name: calendar.name,
+            calendar_id: calendar._id,
+            is_user_authorized: typeof calendar.authorized_users.find((user) => user._id === userId) === 'undefined' ? false : true,
+          };
+          switch(note.type) {
+            case 'day':
+              dayNotes.push(calendarNoteWithCalendarInfo);
+              break;
+            case 'week':
+              weekNotes.push(calendarNoteWithCalendarInfo);
+              break;
+            case 'month':
+              monthNotes.push(calendarNoteWithCalendarInfo);
+              break;
+            case 'year':
+              yearNotes.push(calendarNoteWithCalendarInfo);
+              break;
+          };
+        });
+      };
     });
 
     const notes = {

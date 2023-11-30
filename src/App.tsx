@@ -103,41 +103,86 @@ function App() {
     };
   };
 
-  const updateCalendarNote = (calendarId: string, updatedNote: calendarNote) => {
-    setUser((prevUser: userInstance) => {
-      const { personal_calendar } = prevUser;
-
-      if (personal_calendar._id === calendarId) {
-        const updatedCalendarNotes = personal_calendar.calendar_notes.map((note) => {
-          if (note._id === updatedNote._id) {
-            return updatedNote;
+  const updateCalendarNote = (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => {
+    if (calendarChange === true) {
+      return updateCalendarNoteCalendarSwap(calendarId, updatedNote);
+    }  else {
+      return setUser((prevUser: userInstance) => {
+        const { personal_calendar } = prevUser;
+  
+        if (personal_calendar._id === calendarId) {
+          const updatedCalendarNotes = personal_calendar.calendar_notes.map((note) => {
+            if (note._id === updatedNote._id) {
+              return updatedNote;
+            };
+            return note;
+          });
+  
+          const updatedPersonalCalendar = {
+            ...personal_calendar,
+            calendar_notes: updatedCalendarNotes,
           };
-          return note;
-        });
-
-        const updatedPersonalCalendar = {
-          ...personal_calendar,
-          calendar_notes: updatedCalendarNotes,
+    
+          return { 
+            ...prevUser,
+            personal_calendar: updatedPersonalCalendar 
+          };
         };
   
-        return { ...prevUser, personal_calendar: updatedPersonalCalendar };
+        const updatedCalendars = prevUser.calendars.map((calendar) => {
+          if (calendar._id === calendarId) {
+            const updatedCalendarNotes = calendar.calendar_notes.map((note) => {
+              if (note._id === updatedNote._id) {
+                return updatedNote; // Update the specific note
+              }
+              return note; // Return other notes as is
+            });
+            return { ...calendar, calendar_notes: updatedCalendarNotes };
+          }
+          return calendar; // Return other calendars as is
+        });
+        return {
+          ...prevUser,
+          calendars: updatedCalendars 
+        };
+      });
+    };
+  };
+
+  const updateCalendarNoteCalendarSwap = (calendarId: string, updatedNote: calendarNote) => {
+    console.log('swapping calendars')
+    setUser((prevUser: userInstance) => {
+      const { personal_calendar, calendars } = prevUser;
+
+      // Filter and remove the note from its current location
+      const updatedPersonalCalendarNotes = personal_calendar.calendar_notes.filter(
+        note => (note._id !== updatedNote._id)
+      );
+      const updatedCalendars = calendars.map(calendar => ({
+        ...calendar,
+        calendar_notes: calendar.calendar_notes.filter(
+          note => note._id !== updatedNote._id
+        ),
+      }));
+
+      // Add note to it's matching calendar
+      if (updatedNote.personal_calendar === true) {
+        updatedPersonalCalendarNotes.push(updatedNote);
+      } else {
+        // add to calendar in calendars array
+        updatedCalendars.map((calendar) => ({
+          ...calendar,
+          calendar_notes: calendar._id === calendarId ? [...calendar.calendar_notes, updatedNote] : calendar.calendar_notes,
+        }));
       };
 
-      const updatedCalendars = prevUser.calendars.map((calendar) => {
-        if (calendar._id === calendarId) {
-          const updatedCalendarNotes = calendar.calendar_notes.map((note) => {
-            if (note._id === updatedNote._id) {
-              return updatedNote; // Update the specific note
-            }
-            return note; // Return other notes as is
-          });
-          return { ...calendar, calendar_notes: updatedCalendarNotes };
-        }
-        return calendar; // Return other calendars as is
-      });
       return {
         ...prevUser,
-        calendars: updatedCalendars 
+        personal_calendar: {
+          ...personal_calendar,
+          calendar_notes: updatedPersonalCalendarNotes,
+        },
+        calendars: updatedCalendars,
       };
     });
   };

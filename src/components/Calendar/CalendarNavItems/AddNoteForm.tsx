@@ -348,19 +348,35 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
         body: JSON.stringify(calendarNote, null, 2),
       });
       const jsonResponse = await request.json();
-      if (request.ok && request.status === 200 && jsonResponse.detail === "Successfully updated the note") {
-        if (jsonResponse.updated_note) {
-          toast.success(`Note updated!`, {id: 'updatingNote'});
+      return handleUpdateNoteApiResponse(request, jsonResponse);
+    };
+  };
+
+  const handleUpdateNoteApiResponse = (request: Response, jsonResponse: any) => {
+    if (request.ok && request.status === 200 && jsonResponse.detail === "Successfully updated the note") {
+      if (jsonResponse.updated_note) {
+        toast.success(`Note updated!`, {id: 'updatingNote'});
+        if ((calendarNoteEditRequest.note as calendarNoteWithCalendarInfo).calendar_id !== jsonResponse.updated_note.calendar_id) {
+          // calendarNote was swapped to a different calendar
+          updateCalendarNote(
+            formData.selectedCalendarId.startsWith('personal_calendar:') 
+              ? formData.selectedCalendarId.split(': ')[1] 
+              : formData.selectedCalendarId,
+            jsonResponse.updated_note,
+            true,
+          );
+        } else {
           return updateCalendarNote(
             formData.selectedCalendarId.startsWith('personal_calendar:') 
               ? formData.selectedCalendarId.split(': ')[1] 
               : formData.selectedCalendarId,
-            jsonResponse.updated_note
+            jsonResponse.updated_note,
+            false
           );
         };
-      } else {
-        toast.error('Failed to update note', {id: 'updatingNote'});
       };
+    } else {
+      toast.error('Failed to update note', {id: 'updatingNote'});
     };
   };
 
