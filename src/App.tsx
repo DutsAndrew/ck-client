@@ -176,6 +176,8 @@ function App() {
         }));
       };
 
+      console.log(updatedPersonalCalendarNotes, updatedCalendars)
+
       return {
         ...prevUser,
         personal_calendar: {
