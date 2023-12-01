@@ -45,7 +45,11 @@ function App() {
     });
   };
 
-  const saveAllUserCalendarsToUser = (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[], populatedPersonalCalendar: calendarObject): void => {
+  const saveAllUserCalendarsToUser = (
+    populatedCalendars: calendarObject[], 
+    populatedPendingCalendars: calendarObject[], 
+    populatedPersonalCalendar: calendarObject
+  ): void => {
     return setUser((prevUser: userInstance) => ({
       ...prevUser,
       calendars: populatedCalendars,
@@ -78,7 +82,11 @@ function App() {
     }));
   };
 
-  const addNewCalendarNoteToCalendar = (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => {
+  const addNewCalendarNoteToCalendar = (
+    calendarId: string, 
+    updatedCalendar: calendarObject, 
+    calendarType: 'calendars' | 'personal_calendar'
+  ) => {
     if (!user || !(user as userInstance)[calendarType]) {
       return;
     };

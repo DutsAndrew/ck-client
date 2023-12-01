@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import calendarEditSvg from '../../../assets/calendar-edit.svg';
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import { dropDownCalendarItemsProps } from "../../../types/interfaces";
+import uniqid from "uniqid";
 
 const DropDownCalendarItems:FC<dropDownCalendarItemsProps> = (props): JSX.Element => {
 
@@ -16,7 +17,7 @@ const DropDownCalendarItems:FC<dropDownCalendarItemsProps> = (props): JSX.Elemen
       <>
         {calendars.map((calendar) => {
           return <li
-          key={calendar._id}
+          key={uniqid()}
           onClick={(e) => handleUserSelection(calendar, e)}
           className={styles.calendarModalCalendarsContainer}
         >
