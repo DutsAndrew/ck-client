@@ -337,6 +337,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       const calendarNoteErrors = checkCalendarNoteForErrors(calendarNote);
       if (calendarNoteErrors === true) return toast.error('The dates in your note are not valid', {id: 'updatingNote'});
       const note = (calendarNoteEditRequest.note as calendarNoteWithCalendarInfo);
+
       const apiUrl = `http://127.0.0.1:8000/calendar/${calendarCheck.calendarId}/updateNote/${note._id}/${calendarCheck.isPersonal}`;
       const request = await fetch(apiUrl, {
         headers: {

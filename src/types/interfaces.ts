@@ -523,9 +523,15 @@ interface calendarNoteWithCalendarInfo {
   created_on: string,
   is_user_authorized: boolean,
   note: string,
+  personal_calendar: boolean,
   start_date: string,
   end_date: string,
   type: string,
+  user_ref: {
+    first_name: string,
+    last_name: string,
+    user_id: string,
+  },
 };
 
 type calendarNotes = calendarNote[];

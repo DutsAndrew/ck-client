@@ -104,6 +104,7 @@ function App() {
   };
 
   const updateCalendarNote = (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => {
+    console.log(updatedNote)
     if (calendarChange === true) {
       return updateCalendarNoteCalendarSwap(calendarId, updatedNote);
     }  else {
