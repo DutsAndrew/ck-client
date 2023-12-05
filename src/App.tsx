@@ -111,15 +111,14 @@ function App() {
     };
   };
 
-  const updateCalendarNote = (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => {
-    console.log(updatedNote)
+  const updateCalendarNote = (previousCalendarId: string, updatedNote: calendarNote, calendarChange: boolean) => {
     if (calendarChange === true) {
-      return updateCalendarNoteCalendarSwap(calendarId, updatedNote);
+      return updateCalendarNoteCalendarSwap(previousCalendarId, updatedNote);
     }  else {
       return setUser((prevUser: userInstance) => {
         const { personal_calendar } = prevUser;
   
-        if (personal_calendar._id === calendarId) {
+        if (personal_calendar._id === updatedNote.calendar_id) {
           const updatedCalendarNotes = personal_calendar.calendar_notes.map((note) => {
             if (note._id === updatedNote._id) {
               return updatedNote;
@@ -139,7 +138,7 @@ function App() {
         };
   
         const updatedCalendars = prevUser.calendars.map((calendar) => {
-          if (calendar._id === calendarId) {
+          if (calendar._id === updatedNote.calendar_id) {
             const updatedCalendarNotes = calendar.calendar_notes.map((note) => {
               if (note._id === updatedNote._id) {
                 return updatedNote; // Update the specific note
@@ -158,8 +157,7 @@ function App() {
     };
   };
 
-  const updateCalendarNoteCalendarSwap = (calendarId: string, updatedNote: calendarNote) => {
-    console.log('swapping calendars')
+  const updateCalendarNoteCalendarSwap = (previousCalendarId: string, updatedNote: calendarNote) => {
     setUser((prevUser: userInstance) => {
       const { personal_calendar, calendars } = prevUser;
 
@@ -167,7 +165,7 @@ function App() {
       const updatedPersonalCalendarNotes = personal_calendar.calendar_notes.filter(
         note => (note._id !== updatedNote._id)
       );
-      const updatedCalendars = calendars.map(calendar => ({
+      let updatedCalendars = calendars.map(calendar => ({
         ...calendar,
         calendar_notes: calendar.calendar_notes.filter(
           note => note._id !== updatedNote._id
@@ -175,17 +173,18 @@ function App() {
       }));
 
       // Add note to it's matching calendar
-      if (updatedNote.personal_calendar === true) {
+      if (updatedNote.calendar_id === personal_calendar._id) {
         updatedPersonalCalendarNotes.push(updatedNote);
       } else {
         // add to calendar in calendars array
-        updatedCalendars.map((calendar) => ({
+        updatedCalendars = updatedCalendars.map((calendar) => ({
           ...calendar,
-          calendar_notes: calendar._id === calendarId ? [...calendar.calendar_notes, updatedNote] : calendar.calendar_notes,
+          calendar_notes:
+            calendar._id === updatedNote.calendar_id
+              ? [...calendar.calendar_notes, updatedNote]
+              : calendar.calendar_notes,
         }));
       };
-
-      console.log(updatedPersonalCalendarNotes, updatedCalendars)
 
       return {
         ...prevUser,

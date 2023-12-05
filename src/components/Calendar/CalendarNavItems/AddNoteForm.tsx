@@ -360,17 +360,13 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
         if ((calendarNoteEditRequest.note as calendarNoteWithCalendarInfo).calendar_id !== jsonResponse.updated_note.calendar_id) {
           // calendarNote was swapped to a different calendar
           updateCalendarNote(
-            formData.selectedCalendarId.startsWith('personal_calendar:') 
-              ? formData.selectedCalendarId.split(': ')[1] 
-              : formData.selectedCalendarId,
+            (calendarNoteEditRequest.note as calendarNoteWithCalendarInfo).calendar_id,
             jsonResponse.updated_note,
             true,
           );
         } else {
           return updateCalendarNote(
-            formData.selectedCalendarId.startsWith('personal_calendar:') 
-              ? formData.selectedCalendarId.split(': ')[1] 
-              : formData.selectedCalendarId,
+            (calendarNoteEditRequest.note as calendarNoteWithCalendarInfo).calendar_id,
             jsonResponse.updated_note,
             false
           );

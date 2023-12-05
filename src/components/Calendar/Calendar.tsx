@@ -109,6 +109,9 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
             return updatedCalendar;
           };
         };
+        // to prevent bug where string of personal calendar id is stored and never updated with fetched calendar
+      } else if (typeof outdatedCalendar === 'string' && activeCalendars.length === 1) {
+        outdatedCalendar = usersPersonalCalendar;
       };
       return outdatedCalendar;
     });
@@ -358,7 +361,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     activeCalendars: activeCalendars,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
-  }
+  };
 
   if (calendarEditor.active === true) {
     return (
