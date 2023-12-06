@@ -17,6 +17,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     activeCalendars,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
+    removeCalendarNoteFromCalendar,
     weekNotes,
   } = props;
 
@@ -100,6 +101,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
             calendarNotes={weekViewNotes}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
             handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
+            removeCalendarNoteFromCalendar={removeCalendarNoteFromCalendar}
           />
         )}
       </div>

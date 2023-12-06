@@ -197,6 +197,32 @@ function App() {
     });
   };
 
+  const removeCalendarNoteFromCalendar = (calendarId: string, noteId: string): void => {
+    setUser((prevUser: userInstance) => {
+      const { personal_calendar, calendars } = prevUser;
+
+      // Filter and remove the note from its current location
+      const updatedPersonalCalendarNotes = personal_calendar.calendar_notes.filter(
+        note => (note._id !== noteId)
+      );
+      const updatedCalendars = calendars.map(calendar => ({
+        ...calendar,
+        calendar_notes: calendar.calendar_notes.filter(
+          note => note._id !== noteId
+        ),
+      }));
+
+      return {
+        ...prevUser,
+        personal_calendar: {
+          ...personal_calendar,
+          calendar_notes: updatedPersonalCalendarNotes,
+        },
+        calendars: updatedCalendars,
+      };
+    });
+  };
+
   const handleSignOut = () => {
     setAuth(false);
     setUser({});
@@ -243,6 +269,7 @@ function App() {
                 removeCalendarFromUser={removeCalendarFromUser}
                 addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
                 updateCalendarNote={updateCalendarNote}
+                removeCalendarNoteFromCalendar={removeCalendarNoteFromCalendar}
                 calendarDatesData={appData.calendarData}
               />
             </Suspense>

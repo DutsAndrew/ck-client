@@ -19,6 +19,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     calendarDatesData,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
+    removeCalendarNoteFromCalendar,
     yearNotes,
   } = props;
 
@@ -172,6 +173,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
             calendarNotes={yearViewNotes}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
             handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
+            removeCalendarNoteFromCalendar={removeCalendarNoteFromCalendar}
           />
         )}
       </div>

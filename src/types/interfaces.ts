@@ -91,6 +91,7 @@ interface calendarProps {
   removeCalendarFromUser: (calendarId: string) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
   updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
+  removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   calendarDatesData: object,
 };
 
@@ -219,6 +220,7 @@ interface dayViewProps {
   activeCalendars: calendarObject[],
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
+  removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   dayNotes: {} | calendarNoteWithCalendarInfo[],
 };
 
@@ -228,6 +230,7 @@ interface weekViewProps {
   activeCalendars: calendarObject[],
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
+  removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   weekNotes: {} | calendarNoteWithCalendarInfo[],
 };
 
@@ -238,6 +241,7 @@ interface monthViewProps {
   calendarDatesData: {} | CalendarDatesData,
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
+  removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   monthNotes: {} | calendarNoteWithCalendarInfo[],
 };
 
@@ -248,6 +252,7 @@ interface yearViewProps {
   calendarDatesData: {} | CalendarDatesData,
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
+  removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   yearNotes: {} | calendarNoteWithCalendarInfo[],
 };
 
@@ -256,6 +261,7 @@ interface notesForCalendarProps {
   calendarNotes: calendarNotesWithInfo,
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
+  removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
 };
 
 type notesForCalendarState = {

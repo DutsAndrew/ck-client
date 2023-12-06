@@ -17,6 +17,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     activeCalendars,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
+    removeCalendarNoteFromCalendar,
     dayNotes,
   } = props;
 
@@ -123,6 +124,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
             calendarNotes={dayViewNotes}
             handleNotesForCalendarRequestToAddNewNote={handleNotesForCalendarRequestToAddNewNote}
             handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
+            removeCalendarNoteFromCalendar={removeCalendarNoteFromCalendar}
           />
         )}
       </div>

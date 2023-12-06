@@ -14,6 +14,7 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
     calendarNotes,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
+    removeCalendarNoteFromCalendar,
   } = props;
 
   const [currentNotes, setCurrentNotes] = useState<notesForCalendarState>({
@@ -122,8 +123,9 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
         method: 'DELETE',
       });
       const jsonResponse = await request.json();
-      if (request.ok && request.status === 200 && jsonResponse.detail === "Successfully deleted the note") {
-        return toast.success('Note deleted', {id: 'deletingCalendarNote'});
+      if (request.ok && request.status === 200 && jsonResponse.detail === "Success! Calendar was updated, note was removed") {
+        toast.success('Note deleted', {id: 'deletingCalendarNote'});
+        return removeCalendarNoteFromCalendar(calendarId, calendarNoteId); 
       } else {
         return toast.error('Failed to delete note', {id: 'deletingCalendarNote'});
       };
