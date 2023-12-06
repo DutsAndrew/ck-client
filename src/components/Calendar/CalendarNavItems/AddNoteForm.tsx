@@ -298,15 +298,15 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       });
       const jsonResponse = await request.json();
       if (request.ok && request.status === 200 && jsonResponse.detail === "Successfully updated calendar with note") {
-        if (jsonResponse.personal_calendar) {
-          toast.success(`Note added successfully to ${jsonResponse.personal_calendar.name}`, {id: 'addingNote'});
+        if (jsonResponse.updated_calendar.calendar_type === 'personal') {
+          toast.success(`Note added successfully to ${jsonResponse.updated_calendar.name}`, {id: 'addingNote'});
           addNewCalendarNoteToCalendar(
             formData.selectedCalendarId,
-            jsonResponse.personal_calendar,
+            jsonResponse.updated_calendar,
             'personal_calendar',
           );
         };
-        if (jsonResponse.updated_calendar) {
+        if (jsonResponse.updated_calendar.calendar_type === 'team') {
           toast.success(`Note added successfully to ${jsonResponse.updated_calendar.name}`, {id: 'addingNote'});
           addNewCalendarNoteToCalendar(
             formData.selectedCalendarId,

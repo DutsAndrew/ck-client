@@ -94,19 +94,19 @@ function App() {
     if (calendarType === 'calendars') {
       return setUser((prevUser: userInstance) => ({
         ...prevUser,
-        [calendarType]: prevUser.calendars.map((calendar) => {
+        calendars: prevUser.calendars.map((calendar) => {
           if (calendar._id === calendarId) {
             return updatedCalendar;
           };
           return calendar;
         }),
       }));
-    }
+    };
 
     if (calendarType === 'personal_calendar') {
       return setUser((prevUser: userInstance) => ({
         ...prevUser,
-        [calendarType]: updatedCalendar,
+        personal_calendar: updatedCalendar,
       }));
     };
   };
