@@ -62,6 +62,40 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     return timeSlots;
   };
 
+  const getDayOfWeekForRepeatOption = () => {
+    const today = new Date().getDay();
+    switch(today) {
+      case 0:
+        return 'Sunday';
+      case 1:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4:
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6:
+        return 'Saturday';
+    };
+  };
+
+  const getDayOfMonthForRepeatOption = () => {
+    const today = new Date().getDate().toString();
+    switch(today.slice(-1)) {
+      case '1':
+        return `${today}st`;
+      case '2':
+        return `${today}nd`;
+      case '3':
+        return `${today}rd`;
+      default:
+        return `${today}th`;
+    };
+  };
+
   return (
     <div className={styles.addEventFormContainer}>
       <h2 className={styles.addEventHeader}>
@@ -171,10 +205,10 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
               className={styles.addEventFormSelect}
             >
               <option value="">Select Repeat Option</option>
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="yearly">Yearly</option>
+              <option value="daily">Every day</option>
+              <option value="weekly">Every {getDayOfWeekForRepeatOption()}</option>
+              <option value="monthly">The {getDayOfMonthForRepeatOption()} of each month</option>
+              <option value="yearly">On this day every year</option>
             </select>
           </div>
         )}
