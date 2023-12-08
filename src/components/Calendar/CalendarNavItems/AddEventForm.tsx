@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import { addEventFormProps } from "../../../types/interfaces";
+import toast from "react-hot-toast";
 
 const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
 
@@ -12,40 +13,14 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
 
   const [formData, setFormData] = useState({
     date: '',
-    repeat: false,
     eventName: '',
     eventDescription: '',
+    repeat: false,
     repeatOption: '',
     selectedCalendar: '',
+    selectedCalendarId: '',
     selectedTime: '',
   });
-
-  const handleInputChange = (e: any) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-
-    console.log('Event Data:', formData);
-
-    // save data to db
-
-    // Reset the form
-    setFormData({
-      date: '',
-      repeat: false,
-      eventName: '',
-      eventDescription: '',
-      repeatOption: '',
-      selectedCalendar: '',
-      selectedTime: '',
-    });
-  };
 
   const generateTimeSlots = () => {
     const timeSlots = [];
@@ -62,38 +37,93 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     return timeSlots;
   };
 
-  const getDayOfWeekForRepeatOption = () => {
-    const today = new Date().getDay();
-    switch(today) {
-      case 0:
-        return 'Sunday';
-      case 1:
-        return 'Monday';
-      case 2:
-        return 'Tuesday';
-      case 3:
-        return 'Wednesday';
-      case 4:
-        return 'Thursday';
-      case 5:
-        return 'Friday';
-      case 6:
-        return 'Saturday';
+  const handleInputChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target;
+  
+    let checkedValue: boolean | undefined = undefined;
+    if (type === 'checkbox') {
+      if (e.target instanceof HTMLInputElement) {
+        checkedValue = e.target.checked;
+      }
+    }
+  
+    let calendarId = '';
+    if (e.target instanceof HTMLSelectElement) {
+      calendarId = e.target.options[e.target.selectedIndex].getAttribute('data-calendarid') || '';
+    }
+  
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checkedValue : value,
+      selectedCalendarId: calendarId,
+    });
+  };  
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    toast.loading('Creating event...', {id: 'creatingEvent'});
+
+    const userAuth = isUserAuthorized();
+    if (!userAuth) return toast.error('You are not authorized to modify this calendar', {id: 'creatingEvent'});
+
+    return await uploadEventToDb();
+  };
+
+  const isUserAuthorized = () => {
+    const calendars = [userCalendars.personalCalendar, ...userCalendars.teamCalendars];
+    const selectedCalendar = calendars.find(calendar => calendar._id === formData.selectedCalendarId);
+  
+    if (selectedCalendar) {
+      const authorizedUsers = selectedCalendar.authorized_users;
+      return authorizedUsers.some(user => user._id === userId);
+    };
+  
+    return false;
+  };
+  
+
+  const uploadEventToDb = async () => {
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      return toast.error('You must be signed in or not in incognito to perform this action', {id: 'creatingEvent'});
+    } else {
+      const apiUrl = `http://127.0.0.1:8000/calendar/${formData.selectedCalendarId}/createEvent`;
+      const request = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(formData),
+      });
+      const jsonResponse = await request.json();
+      if (!request.ok && request.status !== 200 && !jsonResponse.calendar) {
+        return toast.error(`${jsonResponse.detail}`, {id: 'creatingEvent'});
+      } else {
+        toast.success('Event created!', {id: 'creatingEvent'});
+        resetFormState();
+        return handleCloseModalRequest();
+      };
     };
   };
 
-  const getDayOfMonthForRepeatOption = () => {
-    const today = new Date().getDate().toString();
-    switch(today.slice(-1)) {
-      case '1':
-        return `${today}st`;
-      case '2':
-        return `${today}nd`;
-      case '3':
-        return `${today}rd`;
-      default:
-        return `${today}th`;
-    };
+  const resetFormState = () => {
+    setFormData({
+      date: '',
+      repeat: false,
+      eventName: '',
+      eventDescription: '',
+      repeatOption: '',
+      selectedCalendar: '',
+      selectedCalendarId: '',
+      selectedTime: '',
+    });
   };
 
   return (
@@ -101,7 +131,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
       <h2 className={styles.addEventHeader}>
         Event
       </h2>
-      <form onSubmit={handleSubmit} className={styles.addEventForm}>
+      <form onSubmit={(e) => handleSubmit(e)} className={styles.addEventForm}>
         <div className={styles.formGroup}>
           <label 
             className={styles.addEventFormLabel}
@@ -114,7 +144,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
             id='date-input'
             name="date"
             value={formData.date}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
             required
             className={styles.addEventFormInput}
           />
@@ -131,7 +161,9 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
             type="text"
             name="eventName"
             value={formData.eventName}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
+            minLength={1}
+            maxLength={250}
             required
             className={styles.addEventFormInput}
           />
@@ -147,7 +179,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
             id='time-input'
             name="selectedTime"
             value={formData.selectedTime}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
             className={styles.addEventFormSelect}
           >
             <option value="">Select Time</option>
@@ -169,7 +201,8 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
             id='event-description-input'
             name="eventDescription"
             value={formData.eventDescription}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
+            maxLength={250}
             className={styles.addEventFormTextArea}
           />
         </div>
@@ -185,7 +218,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
             type="checkbox"
             name="repeat"
             checked={formData.repeat}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
             className={styles.addEventFormCheckbox}
           />
         </div>
@@ -201,18 +234,18 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
               id='repeat-option-input'
               name="repeatOption"
               value={formData.repeatOption}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange(e)}
               className={styles.addEventFormSelect}
             >
               <option value="">Select Repeat Option</option>
-              <option value="daily">Every day</option>
-              <option value="weekly">Every {getDayOfWeekForRepeatOption()}</option>
-              <option value="monthly">The {getDayOfMonthForRepeatOption()} of each month</option>
-              <option value="yearly">On this day every year</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
             </select>
           </div>
         )}
-        {/* {calendars && calendars.length > 0 && (
+        {[userCalendars.personalCalendar, ...userCalendars.teamCalendars] && (
           <div className={styles.formGroup}>
             <label
               htmlFor='calendar-selection-input'
@@ -224,19 +257,31 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
               id='calendar-selection-input'
               name="selectedCalendar"
               value={(formData as any).selectedCalendar}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange(e)}
               className={styles.addEventFormSelect}
               required
             >
-              {calendars.map((calendar) => (
-                <option key={calendar} value={calendar} className={styles.addEventFormOption}>
-                  {calendar}
+              <option value="">Select Calendar</option>
+              {[userCalendars.personalCalendar, ...userCalendars.teamCalendars].map((calendar) => (
+                <option 
+                  key={calendar._id} 
+                  value={calendar.name} 
+                  className={styles.addEventFormOption}
+                  data-calendarid={calendar._id}
+                >
+                  {calendar.name}
                 </option>
               ))}
             </select>
           </div>
-        )} */}
-        <button type="submit" className={styles.addEventFormButton}>Add Event</button>
+        )}
+        <button 
+          type="button" 
+          className={styles.addEventFormButton}
+          onClick={(e) => handleSubmit(e)}
+        >
+          Add Event
+        </button>
       </form>
     </div>
   );
