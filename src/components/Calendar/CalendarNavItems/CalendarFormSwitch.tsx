@@ -16,6 +16,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
     addNewCalendarNoteToCalendar,
     updateCalendarNote,
     handleCloseModalRequest,
+    updateCalendarInUser,
   } = props;
 
   useEffect(() => {
@@ -49,6 +50,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
           userCalendars={userCalendars}
           userId={userId}
           handleCloseModalRequest={handleCloseModalRequest}
+          updateCalendarInUser={updateCalendarInUser}
         />
       );
     } else if (activeForm === 'calendar') {

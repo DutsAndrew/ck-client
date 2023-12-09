@@ -58,11 +58,11 @@ function App() {
     }));
   };
 
-  const updateCalendarInUser = (newCalendar: calendarObject) => {
+  const updateCalendarInUser = (updatedCalendar: calendarObject) => {
     return setUser((prevUser: userInstance) => ({
       ...prevUser,
       calendars: prevUser.calendars.map((calendar) =>
-        calendar._id === newCalendar._id ? newCalendar : calendar
+        calendar._id === updatedCalendar._id ? updatedCalendar : calendar
       ),
     }));
   };

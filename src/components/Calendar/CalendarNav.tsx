@@ -22,6 +22,7 @@ const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
     addNewCalendarNoteToCalendar,
     handleCalendarFormDataCleanup,
     updateCalendarNote,
+    updateCalendarInUser,
   } = props;
 
   return (
@@ -37,6 +38,7 @@ const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
         addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
         handleCalendarFormDataCleanup={handleCalendarFormDataCleanup}
         updateCalendarNote={updateCalendarNote}
+        updateCalendarInUser={updateCalendarInUser}
       />
       <NavRightContainer
         userCalendars={userCalendars}

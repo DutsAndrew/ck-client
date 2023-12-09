@@ -354,6 +354,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     addNewCalendarNoteToCalendar,
     handleCalendarFormDataCleanup,
     updateCalendarNote,
+    updateCalendarInUser,
   };
 
   const calendarViewProps = {

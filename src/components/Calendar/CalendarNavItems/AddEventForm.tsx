@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addEventFormProps } from "../../../types/interfaces";
+import { addEventFormProps, newEventCreatedApiResponse } from "../../../types/interfaces";
 import toast from "react-hot-toast";
 
 const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
@@ -9,6 +9,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     userCalendars,
     userId,
     handleCloseModalRequest,
+    updateCalendarInUser,
   } = props;
 
   const [formData, setFormData] = useState({
@@ -108,6 +109,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
       } else {
         toast.success('Event created!', {id: 'creatingEvent'});
         resetFormState();
+        handleGoodApiRequest(jsonResponse);
         return handleCloseModalRequest();
       };
     };
@@ -124,6 +126,10 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
       selectedCalendarId: '',
       selectedTime: '',
     });
+  };
+
+  const handleGoodApiRequest = (jsonResponse: newEventCreatedApiResponse) => {
+    return updateCalendarInUser(jsonResponse.updated_calendar);
   };
 
   return (

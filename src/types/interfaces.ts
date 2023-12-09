@@ -52,6 +52,11 @@ interface allUserCalendarsPopulatedApiResponse {
   },
 };
 
+interface newEventCreatedApiResponse {
+  detail: string,
+  updated_calendar: calendarObject,
+};
+
 interface announcementBarProps {
   auth: boolean,
 };
@@ -87,7 +92,7 @@ interface calendarProps {
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   saveCalendarDatesAndHolidaysData: (data: CalendarDatesData) => void,
   saveAllUserCalendarsToUser: (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[], populatedPersonalCalendar: calendarObject) => void,
-  updateCalendarInUser: (newCalendar: calendarObject) => void,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   removeCalendarFromUser: (calendarId: string) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
   updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
@@ -115,7 +120,7 @@ interface userListProps {
   userId: string,
   authUserIds: string[],
   selectedCalendarId: string,
-  updateCalendarInUser: (newCalendar: calendarObject) => void,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   handleCalendarEditorChange: (updatedCalendar: calendarObject) => void,
 };
 
@@ -126,7 +131,7 @@ interface AddUserToCalendarListProps {
   addUserActivated: boolean,
   selectedCalendarId: string,
   type: string,
-  updateCalendarInUser: (newCalendar: calendarObject) => void,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   handleCalendarEditorChange: (updatedCalendar: calendarObject) => void,
 };
 
@@ -158,6 +163,7 @@ interface calendarNavProps {
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
   handleCalendarFormDataCleanup: () => void,
   updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
 };
 
 interface navLeftContainerProps {
@@ -171,6 +177,7 @@ interface navLeftContainerProps {
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
   handleCalendarFormDataCleanup: () => void,
   updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
 };
 
 interface addFormModalProps {
@@ -182,6 +189,7 @@ interface addFormModalProps {
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
   updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
 };
 
 interface addCalendarFormState {
@@ -318,6 +326,7 @@ interface addEventFormProps {
   userCalendars: userCalendars,
   userId: string,
   handleCloseModalRequest: Function,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
 };
 
 interface addCalendarFormProps {
@@ -335,6 +344,7 @@ interface calendarFormSwitchProps {
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
   updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
   handleCloseModalRequest: Function,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
 };
 
 interface addNoteFormProps {
@@ -546,11 +556,16 @@ type calendarNotesWithInfo = calendarNoteWithCalendarInfo[];
 
 interface eventObject {
   calendar: string,
-  created_by: string,
-  event_date_and_time: string,
+  created_by: {
+    first_name: string,
+    last_name: string,
+    user_id: string,
+  },
+  event_date: string,
   event_description: string,
   event_name: string,
-  patterns: string,
+  event_time: string,
+  repeat_option: string,
   repeats: boolean,
   _id: string,
 }
@@ -578,6 +593,7 @@ export type {
   populatedUserCalendars,
   calendarApiResponse,
   allUserCalendarsPopulatedApiResponse,
+  newEventCreatedApiResponse,
   CalendarDatesData,
   calendarEditorState,
   EditCalendarProps,
