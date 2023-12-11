@@ -60,7 +60,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       note: {},
       status: false,
     }),
-    [calendarNotesGrouped, setCalendarNotesGrouped] = useState<calendarNotesGroupedState>({});
+    [calendarNotesGrouped, setCalendarNotesGrouped] = useState<calendarNotesGroupedState>({}),
+    [calendarEventsGrouped, setCalendarEventsGrouped] = useState({});
 
   const navigate = useNavigate();
 
@@ -85,6 +86,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   useEffect(() => {
     groupCalendarNotes();
+    groupEvents();
   }, [activeCalendars]);
 
   const mountAppData = () => {
@@ -330,6 +332,112 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
 
     return setCalendarNotesGrouped(notes);
+  };
+
+  const groupEvents = () => {
+    if (!Array.isArray(activeCalendars) || activeCalendars.length === 0) return; 
+
+    const dayEvents: Object[] = [];
+    const weekEvents: Object[] = [];
+    const monthEvents: Object[] = [];
+    const yearEvents: Object[] = [];
+
+    Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
+      if (calendar && calendar.events) {
+        Array.isArray(calendar.events) && calendar.events.forEach((event) => {
+          const eventDate = new Date(event.event_date);
+          const eventGroup = identifyEventCategory(eventDate);
+          switch(eventGroup) {
+            case 'day':
+              dayEvents.push(event);
+              break;
+            case 'week':
+              weekEvents.push(event);
+              break;
+            case 'month':
+              monthEvents.push(event);
+              break;
+            case 'year':
+              yearEvents.push(event);
+              break;
+            case 'none':
+              break;
+            default:
+              break;
+          };
+        });
+      };
+    });
+
+    const events = {
+      dayEvents: dayEvents,
+      weekEvents: weekEvents,
+      monthEvents: monthEvents,
+      yearEvents: yearEvents,
+    };
+
+    return setCalendarEventsGrouped(events);
+  };
+
+  const identifyEventCategory = (eventDate: Date) => {
+    const today = new Date();
+    
+    // see if event is for today
+    if (
+      eventDate.getFullYear() === today.getFullYear()
+      && eventDate.getMonth() === today.getMonth()
+      && eventDate.getDate() === today.getDate()
+    ) {
+      return 'day';
+    };
+
+    // see if event is for this week
+    const thisWeeksSnapshot = getWeekSnapshot(today);
+    const eventWeeksSnapshot = getWeekSnapshot(eventDate);
+    if (
+      // beginning of week comparison
+      thisWeeksSnapshot.monday.getFullYear() === eventWeeksSnapshot.monday.getFullYear()
+      && thisWeeksSnapshot.monday.getMonth() === eventWeeksSnapshot.monday.getMonth()
+      && thisWeeksSnapshot.monday.getDate() === eventWeeksSnapshot.monday.getDate()
+
+      // end of week comparison
+      && thisWeeksSnapshot.sunday.getFullYear() === eventWeeksSnapshot.sunday.getFullYear()
+      && thisWeeksSnapshot.sunday.getMonth() === eventWeeksSnapshot.sunday.getMonth()
+      && thisWeeksSnapshot.sunday.getDate() === eventWeeksSnapshot.sunday.getDate()
+    ) {
+      return 'week';
+    };
+
+    // see if event is for this month
+    if (
+      today.getFullYear() === eventDate.getFullYear()
+      && today.getMonth() === eventDate.getMonth()
+    ) {
+      return 'month';
+    };
+
+    // see if event is for this year
+    if (
+      today.getFullYear() === eventDate.getFullYear()
+    ) {
+      return 'year';
+    };
+
+    return 'none';
+  };
+
+  const getWeekSnapshot = (day: Date) => {
+    const dayOfWeek = day.getDay();
+    const daysToAdd = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const mondayDate = new Date(day);
+    mondayDate.setDate(day.getDate() - daysToAdd);
+    const sundayDate = new Date(mondayDate);
+    sundayDate.setDate(sundayDate.getDate() + 6);
+
+    return {
+      'monday': mondayDate,
+      'sunday': sundayDate,
+    };
   };
 
   const userCalendars: userCalendars = {
