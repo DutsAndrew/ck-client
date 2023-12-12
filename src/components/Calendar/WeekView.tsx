@@ -19,6 +19,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
     weekNotes,
+    weekEvents,
   } = props;
 
   const week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];

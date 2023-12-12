@@ -230,6 +230,7 @@ interface dayViewProps {
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   dayNotes: {} | calendarNoteWithCalendarInfo[],
+  dayEvents: {} | calendarObject[],
 };
 
 interface weekViewProps {
@@ -240,6 +241,7 @@ interface weekViewProps {
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   weekNotes: {} | calendarNoteWithCalendarInfo[],
+  weekEvents: {} | calendarObject[],
 };
 
 interface monthViewProps {
@@ -251,6 +253,7 @@ interface monthViewProps {
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   monthNotes: {} | calendarNoteWithCalendarInfo[],
+  monthEvents: {} | calendarObject[],
 };
 
 interface yearViewProps {
@@ -262,6 +265,7 @@ interface yearViewProps {
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   yearNotes: {} | calendarNoteWithCalendarInfo[],
+  yearEvents: {} | calendarObject[],
 };
 
 interface notesForCalendarProps {
@@ -311,11 +315,20 @@ type activeCalendarState = calendarObject[];
 
 type calendarNotesGroupedState = {} | calendarNotesGrouped;
 
+type calendarEventsGroupedState = {} | calendarEventsGrouped;
+
 interface calendarNotesGrouped {
   dayNotes: calendarNotesWithInfo,
   weekNotes: calendarNotesWithInfo,
   monthNotes: calendarNotesWithInfo,
   yearNotes: calendarNotesWithInfo,
+};
+
+interface calendarEventsGrouped {
+  dayEvents: eventObject[],
+  weekEvents: eventObject[],
+  monthEvents: eventObject[],
+  yearEvents: eventObject[],
 };
 
 interface calendarModalState {
@@ -625,7 +638,9 @@ export type {
   yearModalProps,
   activeCalendarState,
   calendarNotesGroupedState,
+  calendarEventsGroupedState,
   calendarNotesGrouped,
+  calendarEventsGrouped,
   calendarModalState,
   addEventFormProps,
   addCalendarFormProps,

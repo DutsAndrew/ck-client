@@ -21,6 +21,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
     monthNotes,
+    monthEvents,
   } = props;
 
   const [monthViewNotes, setMonthViewNotes] = useState<calendarViewStateForCalendarNotes>([]);

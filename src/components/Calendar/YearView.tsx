@@ -21,6 +21,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
     yearNotes,
+    yearEvents,
   } = props;
 
   const [yearViewNotes, setYearViewNotes] = useState<calendarViewStateForCalendarNotes>([]);

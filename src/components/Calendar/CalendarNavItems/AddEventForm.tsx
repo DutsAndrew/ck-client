@@ -13,6 +13,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
   } = props;
 
   const [formData, setFormData] = useState({
+    combinedDateAndTime: '',
     date: '',
     eventName: '',
     eventDescription: '',
@@ -38,6 +39,22 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     return timeSlots;
   };
 
+  const combineDateAndTime = (dateString: string, timeString: string) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    const [time, amPm] = timeString.split(' ');
+    const [hours, minutes] = time.split(':').map(Number);
+  
+    let hours24Format = hours;
+    if (amPm === 'PM' && hours !== 12) {
+      hours24Format += 12;
+    } else if (amPm === 'AM' && hours === 12) {
+      hours24Format = 0;
+    };
+  
+    const combinedDate = new Date(year, month - 1, day, hours24Format, minutes);
+    return combinedDate.toISOString();
+  };
+
   const handleInputChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -50,13 +67,13 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     if (type === 'checkbox') {
       if (e.target instanceof HTMLInputElement) {
         checkedValue = e.target.checked;
-      }
-    }
+      };
+    };
   
     let calendarId = '';
     if (e.target instanceof HTMLSelectElement) {
       calendarId = e.target.options[e.target.selectedIndex].getAttribute('data-calendarid') || '';
-    }
+    };
   
     setFormData({
       ...formData,
@@ -68,6 +85,13 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     toast.loading('Creating event...', {id: 'creatingEvent'});
+
+    if (formData.date.length !== 0 && formData.selectedTime.length !== 0) {
+      setFormData({
+        ...formData,
+        combinedDateAndTime: combineDateAndTime(formData.date, formData.selectedTime),
+      });
+    };
 
     const userAuth = isUserAuthorized();
     if (!userAuth) return toast.error('You are not authorized to modify this calendar', {id: 'creatingEvent'});
@@ -93,6 +117,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     if (typeof authToken === 'undefined') {
       return toast.error('You must be signed in or not in incognito to perform this action', {id: 'creatingEvent'});
     } else {
+      console.log(formData);
       const apiUrl = `http://127.0.0.1:8000/calendar/${formData.selectedCalendarId}/createEvent`;
       const request = await fetch(apiUrl, {
         headers: {
@@ -117,6 +142,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
 
   const resetFormState = () => {
     setFormData({
+      combinedDateAndTime: '',
       date: '',
       repeat: false,
       eventName: '',

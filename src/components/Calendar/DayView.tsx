@@ -19,7 +19,10 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
     dayNotes,
+    dayEvents,
   } = props;
+
+  console.log(dayEvents)
 
   const [dayViewNotes, setDayViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
 
