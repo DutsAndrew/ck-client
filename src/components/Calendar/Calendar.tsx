@@ -181,19 +181,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
   };
 
-  const getTodaysDate = () => {
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    };
-
-    const date = new Date();
-    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
-    return formattedDate;
-  }
-
   const changeCurrentView = (viewRequest: string): void => {
     return setCurrentView(viewRequest);
   };
@@ -469,7 +456,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   const calendarViewProps = {
     userId: userId,
-    currentDay: getTodaysDate(),
     activeCalendars: activeCalendars,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
@@ -504,25 +490,25 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           <>
             <DayView 
               {...calendarViewProps}
-              dayNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).dayNotes : {}}
-              dayEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).dayEvents : {}}
+              dayNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).dayNotes : []}
+              dayEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).dayEvents : []}
             />
             <WeekView 
               {...calendarViewProps}
-              weekNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).weekNotes : {}}
-              weekEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).weekEvents : {}}
+              weekNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).weekNotes : []}
+              weekEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).weekEvents : []}
             />
             <MonthView 
               calendarDatesData={calendarDatesData}
               {...calendarViewProps}
-              monthNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).monthNotes : {}}
-              monthEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).monthEvents : {}}
+              monthNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).monthNotes : []}
+              monthEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).monthEvents : []}
             />
             <YearView 
               calendarDatesData={calendarDatesData}
               {...calendarViewProps}
-              yearNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).yearNotes : {}}
-              yearEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).yearEvents : {}}
+              yearNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).yearNotes : []}
+              yearEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).yearEvents : []}
             />
           </>
         );
@@ -530,16 +516,16 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         return (
           <DayView 
             {...calendarViewProps}
-            dayNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).dayNotes : {}}
-            dayEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).dayEvents : {}}
+            dayNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).dayNotes : []}
+            dayEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).dayEvents : []}
           />
         );
       } else if (currentView === 'Week') {
         return (
           <WeekView 
             {...calendarViewProps}
-            weekNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).weekNotes : {}}
-            weekEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).weekEvents : {}}
+            weekNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).weekNotes : []}
+            weekEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).weekEvents : []}
           />
         );
       } else if (currentView === 'Month') {
@@ -547,8 +533,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           <MonthView 
             calendarDatesData={calendarDatesData}
             {...calendarViewProps}
-            monthNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).monthNotes : {}}
-            monthEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).monthEvents : {}}
+            monthNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).monthNotes : []}
+            monthEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).monthEvents : []}
           />
         );
       } else if (currentView === 'Year') {
@@ -556,8 +542,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           <YearView 
             calendarDatesData={calendarDatesData}
             {...calendarViewProps} 
-            yearNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).yearNotes : {}}
-            yearEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).yearEvents : {}}
+            yearNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).yearNotes : []}
+            yearEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).yearEvents : []}
           />
         );
       } else {

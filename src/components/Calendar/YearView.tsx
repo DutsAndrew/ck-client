@@ -14,7 +14,6 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
   const { 
     userId,
-    currentDay,
     activeCalendars,
     calendarDatesData,
     handleNotesForCalendarRequestToAddNewNote,

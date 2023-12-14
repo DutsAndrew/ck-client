@@ -13,7 +13,6 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
 
   const { 
     userId,
-    currentDay,
     activeCalendars,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
@@ -25,7 +24,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
   const week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const generateSnapShot = () => {
-    const currentDate = new Date(currentDay);
+    const currentDate = new Date();
     const currentDayOfWeek = currentDate.getDay();
     const daysToAdd = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1;
     const mondayDate = new Date(currentDate);

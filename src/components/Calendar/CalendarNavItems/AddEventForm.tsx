@@ -86,17 +86,13 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     e.preventDefault();
     toast.loading('Creating event...', {id: 'creatingEvent'});
 
-    if (formData.date.length !== 0 && formData.selectedTime.length !== 0) {
-      setFormData({
-        ...formData,
-        combinedDateAndTime: combineDateAndTime(formData.date, formData.selectedTime),
-      });
-    };
+    const formDataConverted = formData;
+    formDataConverted.combinedDateAndTime = combineDateAndTime(formData.date, formData.selectedTime);
 
     const userAuth = isUserAuthorized();
     if (!userAuth) return toast.error('You are not authorized to modify this calendar', {id: 'creatingEvent'});
 
-    return await uploadEventToDb();
+    return await uploadEventToDb(formDataConverted);
   };
 
   const isUserAuthorized = () => {
@@ -112,12 +108,11 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
   };
   
 
-  const uploadEventToDb = async () => {
+  const uploadEventToDb = async (formDataConverted: Object) => {
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
       return toast.error('You must be signed in or not in incognito to perform this action', {id: 'creatingEvent'});
     } else {
-      console.log(formData);
       const apiUrl = `http://127.0.0.1:8000/calendar/${formData.selectedCalendarId}/createEvent`;
       const request = await fetch(apiUrl, {
         headers: {
@@ -126,7 +121,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
           'Content-Type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formDataConverted),
       });
       const jsonResponse = await request.json();
       if (!request.ok && request.status !== 200 && !jsonResponse.calendar) {

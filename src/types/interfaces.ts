@@ -224,48 +224,44 @@ interface navRightContainerProps {
 
 interface dayViewProps {
   userId: string,
-  currentDay: string,
   activeCalendars: calendarObject[],
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   dayNotes: {} | calendarNoteWithCalendarInfo[],
-  dayEvents: {} | calendarObject[],
+  dayEvents: [] | eventObject[],
 };
 
 interface weekViewProps {
   userId: string,
-  currentDay: string,
   activeCalendars: calendarObject[],
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   weekNotes: {} | calendarNoteWithCalendarInfo[],
-  weekEvents: {} | calendarObject[],
+  weekEvents: [] | eventObject[],
 };
 
 interface monthViewProps {
   userId: string,
-  currentDay: string,
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   monthNotes: {} | calendarNoteWithCalendarInfo[],
-  monthEvents: {} | calendarObject[],
+  monthEvents: [] | eventObject[],
 };
 
 interface yearViewProps {
   userId: string,
-  currentDay: string,
   activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   yearNotes: {} | calendarNoteWithCalendarInfo[],
-  yearEvents: {} | calendarObject[],
+  yearEvents: [] | eventObject[],
 };
 
 interface notesForCalendarProps {
@@ -282,6 +278,27 @@ type notesForCalendarState = {
 };
 
 type calendarViewStateForCalendarNotes = calendarNotesWithInfo;
+
+type calendarViewStateForCalendarEvents = timeSlotObject;
+
+interface timeSlotObject {
+  '5 AM': eventObject[],
+  '6 AM': eventObject[],
+  '7 AM': eventObject[],
+  '8 AM': eventObject[],
+  '9 AM': eventObject[],
+  '10 AM': eventObject[],
+  '11 AM': eventObject[],
+  '12 PM': eventObject[],
+  '1 PM': eventObject[],
+  '2 PM': eventObject[],
+  '3 PM': eventObject[],
+  '4 PM': eventObject[],
+  '5 PM': eventObject[],
+  '6 PM': eventObject[],
+  '7 PM': eventObject[],
+  'none': eventObject[],
+};
 
 interface selectedCalendarModalProps {
   userCalendars: userCalendars,
@@ -569,6 +586,7 @@ type calendarNotesWithInfo = calendarNoteWithCalendarInfo[];
 
 interface eventObject {
   calendar: string,
+  combined_date_and_time: string,
   created_by: {
     first_name: string,
     last_name: string,
@@ -632,6 +650,8 @@ export type {
   calendarNoteWithCalendarInfo,
   calendarNotesWithInfo,
   calendarViewStateForCalendarNotes,
+  calendarViewStateForCalendarEvents,
+  timeSlotObject,
   selectedCalendarModalProps,
   dropDownCalendarItemsProps,
   calendarViewModalProps,
@@ -660,4 +680,5 @@ export type {
   userReferenceInstance,
   userCalendars,
   calendarObject,
+  eventObject,
 };

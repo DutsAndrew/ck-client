@@ -64,6 +64,7 @@ function App() {
       calendars: prevUser.calendars.map((calendar) =>
         calendar._id === updatedCalendar._id ? updatedCalendar : calendar
       ),
+      personal_calendar: prevUser.personal_calendar._id === updatedCalendar._id ? updatedCalendar : prevUser.personal_calendar,
     }));
   };
 
