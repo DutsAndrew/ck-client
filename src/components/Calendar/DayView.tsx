@@ -10,6 +10,7 @@ import {
   timeSlotObject,
 } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
+import EventViewer from "./EventViewer";
 import uniqid from "uniqid";
 import { getTodaysDate, getCalendarEventTimeForLocal } from "../../scripts/calendarHelpers";
 
@@ -44,7 +45,11 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     '7 PM': [],
     'none': [],
   });
-  const [eventActivelyHovered, setEventActivelyHovered] = useState<String[]>([]);
+  const [eventActivelyHovered, setEventActivelyHovered] = useState<String>('');
+  const [eventViewStatus, setEventViewStatus] = useState({
+    set: false,
+    eventId: '',
+  });
 
   useEffect(() => {
     setDayViewNotes(getDayViewNotes());
@@ -208,11 +213,25 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
   };
 
   const handleMouseEnterEventContainer = (eventId: string) => {
-    setEventActivelyHovered([...eventActivelyHovered, eventId]);
+    setEventActivelyHovered(eventId);
   };
 
-  const handleMouseLeaveEventContainer = (eventId: string) => {
-    setEventActivelyHovered(eventActivelyHovered.filter(event => event !== eventId));
+  const handleMouseLeaveEventContainer = () => {
+    setEventActivelyHovered('');
+  };
+
+  const handleEventClickToOpenEventMenu = (eventId: string) => {
+    setEventViewStatus({
+      set: true,
+      eventId: eventId,
+    });
+  };
+
+  const handleCloseEventViewerRequest = () => {
+    setEventViewStatus({
+      set: false,
+      eventId: '',
+    });
   };
 
   const blockSchedule = generateBlockSchedule();
@@ -222,6 +241,12 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
       <p className={styles.currentDateText}>
         <strong>{getTodaysDate()}</strong>
       </p>
+      {eventViewStatus.set === true &&
+        <EventViewer 
+          event={dayEvents.find(event => event._id === eventViewStatus.eventId)} 
+          handleCloseEventViewerRequest={handleCloseEventViewerRequest}
+        />
+      }
       <h2 className={styles.dayViewHeaderText}>
         Day View
       </h2>
@@ -243,7 +268,8 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                 {(dayViewEvents as any)[`${block} AM`].map((event: eventObject) => {
                   return <div 
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
-                    onMouseLeave={() => handleMouseLeaveEventContainer(event._id)}
+                    onMouseLeave={() => handleMouseLeaveEventContainer()}
+                    onClick={() => handleEventClickToOpenEventMenu(event._id)}
                     className={styles.AMEventContainer}
                   >
                     {eventActivelyHovered.includes(event._id) ? (
@@ -279,7 +305,8 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                 {(dayViewEvents as any)[`${block} PM`].map((event: eventObject) => {
                   return <div 
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
-                    onMouseLeave={() => handleMouseLeaveEventContainer(event._id)}
+                    onMouseLeave={() => handleMouseLeaveEventContainer()}
+                    onClick={() => handleEventClickToOpenEventMenu(event._id)}
                     className={styles.PMEventContainer}
                   >
                     {eventActivelyHovered.includes(event._id) ? (

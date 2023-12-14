@@ -264,6 +264,11 @@ interface yearViewProps {
   yearEvents: [] | eventObject[],
 };
 
+interface eventViewerProps {
+  event: eventObject | undefined,
+  handleCloseEventViewerRequest: () => void,
+};
+
 interface notesForCalendarProps {
   userId: string,
   calendarNotes: calendarNotesWithInfo,
@@ -644,6 +649,7 @@ export type {
   weekViewProps,
   monthViewProps,
   yearViewProps,
+  eventViewerProps,
   notesForCalendarProps,
   notesForCalendarState,
   calendarNote,

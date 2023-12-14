@@ -182,7 +182,7 @@
 }
 
 .AMDayScheduleItem, .PMDayScheduleItem {
-  min-height: 15vh;
+  min-height: 10vh;
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
@@ -197,7 +197,6 @@
 
 .AMDayScheduleItem:hover, .PMDayScheduleItem:hover {
   cursor: pointer;
-  transform: scale(0.99);
 }
 
 .AMDayScheduleText, .PMDayScheduleText {
@@ -252,6 +251,21 @@
 
 .AMEventContainer:hover, .PMEventContainer:hover {
   background-color: white;
+}
+
+.eventViewerSectionContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  z-index: 1;
+}
+
+.eventViewContainer {
+  position: relative;
+  z-index: 2;
 }
 
 /* WEEK VIEW STYLING -- WEEK VIEW STYLING */
