@@ -44,6 +44,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     '7 PM': [],
     'none': [],
   });
+  const [eventActivelyHovered, setEventActivelyHovered] = useState<String[]>([]);
 
   useEffect(() => {
     setDayViewNotes(getDayViewNotes());
@@ -206,6 +207,14 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     };
   };
 
+  const handleMouseEnterEventContainer = (eventId: string) => {
+    setEventActivelyHovered([...eventActivelyHovered, eventId]);
+  };
+
+  const handleMouseLeaveEventContainer = (eventId: string) => {
+    setEventActivelyHovered(eventActivelyHovered.filter(event => event !== eventId));
+  };
+
   const blockSchedule = generateBlockSchedule();
 
   return (
@@ -232,8 +241,20 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
               </p>
               <div className={styles.AMDayScheduleBlock}>
                 {(dayViewEvents as any)[`${block} AM`].map((event: eventObject) => {
-                  return <div>
-                    {event.event_name}
+                  return <div 
+                    onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
+                    onMouseLeave={() => handleMouseLeaveEventContainer(event._id)}
+                    className={styles.AMEventContainer}
+                  >
+                    {eventActivelyHovered.includes(event._id) ? (
+                     <span>
+                      {getCalendarEventTimeForLocal(event)}
+                     </span>
+                    ) : (
+                      <span>
+                        {event.event_name.length > 10 ? `${event.event_name.slice(0, 10)}...` : event.event_name}
+                      </span>
+                    )}
                   </div>
                 })}
               </div>
@@ -256,8 +277,20 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
               </p>
               <div className={styles.PMDayScheduleBlock}>
                 {(dayViewEvents as any)[`${block} PM`].map((event: eventObject) => {
-                  return <div>
-                    {event.event_name}
+                  return <div 
+                    onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
+                    onMouseLeave={() => handleMouseLeaveEventContainer(event._id)}
+                    className={styles.PMEventContainer}
+                  >
+                    {eventActivelyHovered.includes(event._id) ? (
+                     <span>
+                      {getCalendarEventTimeForLocal(event)}
+                     </span>
+                    ) : (
+                      <span>
+                        {event.event_name.length > 10 ? `${event.event_name.slice(0, 10)}...` : event.event_name}
+                      </span>
+                    )}
                   </div>
                 })}
               </div>

@@ -244,6 +244,16 @@
   }
 }
 
+.AMEventContainer, .PMEventContainer {
+  width: 100%;
+  padding: 0.5vh;
+  cursor: pointer;
+}
+
+.AMEventContainer:hover, .PMEventContainer:hover {
+  background-color: white;
+}
+
 /* WEEK VIEW STYLING -- WEEK VIEW STYLING */
 
 .weekViewContainer, .monthViewContainer, .yearViewContainer {
