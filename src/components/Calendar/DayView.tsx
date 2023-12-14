@@ -231,7 +231,11 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                 {block}
               </p>
               <div className={styles.AMDayScheduleBlock}>
-                This is some boiler text to test this thing.
+                {(dayViewEvents as any)[`${block} AM`].map((event: eventObject) => {
+                  return <div>
+                    {event.event_name}
+                  </div>
+                })}
               </div>
             </div>
             })}
@@ -251,7 +255,11 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                 {block}
               </p>
               <div className={styles.PMDayScheduleBlock}>
-                This is some boiler text to test this thing.
+                {(dayViewEvents as any)[`${block} PM`].map((event: eventObject) => {
+                  return <div>
+                    {event.event_name}
+                  </div>
+                })}
               </div>
             </div>
             })}

@@ -146,6 +146,7 @@
   display: flex;
   width: auto;
   height: 100%;
+  width: 100%;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
@@ -182,6 +183,7 @@
 
 .AMDayScheduleItem, .PMDayScheduleItem {
   min-height: 15vh;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
@@ -215,7 +217,8 @@
   height: 100%;
   font-size: 0.8em;
   display: flex;
-  justify-content: center;
+  flex-flow: column wrap;
+  justify-content: flex-start;
   align-items: flex-start;
   background-color: #FAF8EE;
   box-sizing: border-box;
