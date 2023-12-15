@@ -490,6 +490,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
     handleCalendarEventModificationRequest,
+    updateCalendarInUser,
   };
 
   if (calendarEditor.active === true) {

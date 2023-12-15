@@ -238,6 +238,7 @@ interface dayViewProps {
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   dayNotes: {} | calendarNoteWithCalendarInfo[],
   dayEvents: [] | eventObject[],
 };
@@ -249,6 +250,7 @@ interface weekViewProps {
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   weekNotes: {} | calendarNoteWithCalendarInfo[],
   weekEvents: [] | eventObject[],
 };
@@ -261,6 +263,7 @@ interface monthViewProps {
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   monthNotes: {} | calendarNoteWithCalendarInfo[],
   monthEvents: [] | eventObject[],
 };
@@ -273,6 +276,7 @@ interface yearViewProps {
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   yearNotes: {} | calendarNoteWithCalendarInfo[],
   yearEvents: [] | eventObject[],
 };
@@ -281,6 +285,8 @@ interface eventViewerProps {
   event: eventObject | undefined,
   handleCloseEventViewerRequest: () => void,
   handleEditEventRequest: (event: eventObject) => void,
+  verifyUserAuthorizationOfCalendar: (calendarId: string) => boolean,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
 };
 
 interface notesForCalendarProps {

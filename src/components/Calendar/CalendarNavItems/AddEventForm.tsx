@@ -13,6 +13,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     calendarEventEditRequest,
   } = props;
 
+  const [calendars, setCalendars] = useState([userCalendars.personalCalendar, ...userCalendars.teamCalendars]);
   const [formData, setFormData] = useState({
     combinedDateAndTime: '',
     date: '',
@@ -28,6 +29,10 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
   useEffect(() => {
     handleCalendarEventEditRequest();
   }, [calendarEventEditRequest]);
+
+  useEffect(() => {
+    setCalendars([userCalendars.personalCalendar, ...userCalendars.teamCalendars])
+  }, [userCalendars]);
 
   const generateTimeSlots = () => {
     const timeSlots = [];
@@ -80,16 +85,17 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
       calendarId = e.target.options[e.target.selectedIndex].getAttribute('data-calendarid') || '';
     };
   
-    setFormData({
+    setFormData({ // ternaries are for when user is editing event to prevent former values from being left or stripped unnecessarily
       ...formData,
       [name]: type === 'checkbox' ? checkedValue : value,
-      selectedCalendarId: calendarId,
+      repeatOption: formData.repeat === false ? '' : formData.repeatOption,
+      selectedCalendarId: formData.selectedCalendarId.length > 0 ? formData.selectedCalendarId : calendarId, 
     });
   };  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    toast.loading('Creating event...', {id: 'creatingEvent'});
+    toast.loading(calendarEventEditRequest.status === true ? 'Editing Event...' : 'Creating Event...', {id: 'creatingEvent'});
 
     const formDataConverted = formData;
     formDataConverted.combinedDateAndTime = combineDateAndTime(formData.date, formData.selectedTime);
@@ -97,11 +103,14 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     const userAuth = isUserAuthorized();
     if (!userAuth) return toast.error('You are not authorized to modify this calendar', {id: 'creatingEvent'});
 
-    return await uploadEventToDb(formDataConverted);
+    if (calendarEventEditRequest.status === true) {
+      return await uploadEditedEventToDb(formDataConverted);
+    } else {
+      return await uploadEventToDb(formDataConverted);
+    };
   };
 
   const isUserAuthorized = () => {
-    const calendars = [userCalendars.personalCalendar, ...userCalendars.teamCalendars];
     const selectedCalendar = calendars.find(calendar => calendar._id === formData.selectedCalendarId);
   
     if (selectedCalendar) {
@@ -140,6 +149,38 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     };
   };
 
+  const uploadEditedEventToDb = async (formDataConverted: Object) => {
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      return toast.error('You must be signed in or not in incognito to perform this action', {id: 'editingEvent'});
+    } else {
+      if (calendarEventEditRequest.event && (calendarEventEditRequest.event as eventObject)._id) {
+        const eventId = (calendarEventEditRequest.event as eventObject)._id;
+        const apiUrl = `http://127.0.0.1:8000/calendar/${formData.selectedCalendarId}/editEvent/${eventId}`;
+        const request = await fetch(apiUrl, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          },
+          method: 'PUT',
+          body: JSON.stringify(formDataConverted),
+        });
+        const jsonResponse = await request.json();
+        if (!request.ok && request.status !== 200 && !jsonResponse.calendar) {
+          return toast.error(`${jsonResponse.detail}`, {id: 'editingEvent'});
+        } else {
+          toast.success('Event Edited!', {id: 'editingEvent'});
+          resetFormState();
+          handleGoodApiRequest(jsonResponse);
+          return handleCloseModalRequest();
+        };
+      } else {
+        return;
+      };
+    };
+  };
+
   const resetFormState = () => {
     setFormData({
       combinedDateAndTime: '',
@@ -161,7 +202,6 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
   const handleCalendarEventEditRequest = () => {
     if (calendarEventEditRequest.status === true) {
       const event = (calendarEventEditRequest.event as eventObject);
-      const calendars = [userCalendars.personalCalendar, ...userCalendars.teamCalendars];
       const selectedCalendar = calendars.find((calendar) => calendar._id === event.calendar_id);
       setFormData({
         combinedDateAndTime: '',
@@ -171,7 +211,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
         eventDescription: event.event_description,
         repeatOption: event.repeat_option,
         selectedCalendar: selectedCalendar?.name ? selectedCalendar.name : '',
-        selectedCalendarId: event.calendar_id,
+        selectedCalendarId: calendarEventEditRequest.calendarId,
         selectedTime: event.event_time,
       });
     } else {
@@ -298,7 +338,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
             </select>
           </div>
         )}
-        {[userCalendars.personalCalendar, ...userCalendars.teamCalendars] && (
+        {Array.isArray(calendars) && calendars.length > 0 && (
           <div className={styles.formGroup}>
             <label
               htmlFor='calendar-selection-input'
@@ -315,7 +355,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
               required
             >
               <option value="">Select Calendar</option>
-              {[userCalendars.personalCalendar, ...userCalendars.teamCalendars].map((calendar) => (
+              {calendars.map((calendar) => (
                 <option 
                   key={calendar._id} 
                   value={calendar.name} 

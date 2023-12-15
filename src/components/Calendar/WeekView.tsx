@@ -18,6 +18,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
     handleCalendarEventModificationRequest,
+    updateCalendarInUser,
     weekNotes,
     weekEvents,
   } = props;

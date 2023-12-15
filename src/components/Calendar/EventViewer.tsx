@@ -4,6 +4,7 @@ import styles from '../../styles/components/Calendar/calendar.module.css';
 import pencilSvg from '../../assets/pencil-outline.svg';
 import trashSvg from '../../assets/delete.svg';
 import { getCalendarEventTimeForLocal } from "../../scripts/calendarHelpers";
+import toast from "react-hot-toast";
 
 const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
 
@@ -11,6 +12,8 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
     event, // event could be passed as undefined, handle appropriately
     handleCloseEventViewerRequest,
     handleEditEventRequest,
+    verifyUserAuthorizationOfCalendar,
+    updateCalendarInUser,
   } = props;
 
   useEffect(() => {
@@ -41,8 +44,44 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
     return handleEditEventRequest((event as eventObject));
   };
 
-  const handleDeleteIconClick = () => {
+  const handleDeleteIconClick = async () => {
+    const calendarId = event?.calendar_id;
 
+    if (typeof calendarId === 'undefined') {
+      return;
+    };
+    
+    if (verifyUserAuthorizationOfCalendar(calendarId)) {
+      return await deleteEventRequest();
+    };
+  };
+
+  const deleteEventRequest = async () => {
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      return toast.error('You must be signed in or not in incognito to perform this action', {id: 'deletingEvent'});
+    } else {
+      if (event?.calendar_id && event?._id) {
+        const apiUrl = `http://127.0.0.1:8000/calendar/${event.calendar_id}/deleteEvent/${event._id}`;
+        const request = await fetch(apiUrl, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          },
+          method: 'DELETE',
+        });
+        const jsonResponse = await request.json();
+        if (!request.ok && request.status !== 200 && !jsonResponse.updated_calendar) {
+          return toast.error(`${jsonResponse.detail}`, {id: 'deletingEvent'});
+        } else {
+          toast.success('Event Deleted!', {id: 'deletingEvent'});
+          return updateCalendarInUser(jsonResponse.updated_calendar);
+        };
+      } else {
+        return;
+      };
+    };
   };
 
   if (typeof event === 'undefined') {

@@ -1,4 +1,4 @@
-import { eventObject } from '../types/interfaces';
+import { calendarObject, eventObject } from '../types/interfaces';
 
 const getTodaysDate = () => {
   const options: Intl.DateTimeFormatOptions = {
@@ -31,7 +31,19 @@ const getCalendarEventTimeForLocal = (event: eventObject) => {
   return localTime;
 };
 
+const isUserAuthorized = (calendars: calendarObject[], calendarId: string, userId: string) => {
+  const selectedCalendar = calendars.find(calendar => calendar._id === calendarId);
+
+  if (selectedCalendar) {
+    const authorizedUsers = selectedCalendar.authorized_users;
+    return authorizedUsers.some(user => user._id === userId);
+  };
+
+  return false;
+};
+
 export {
   getTodaysDate,
   getCalendarEventTimeForLocal,
+  isUserAuthorized,
 };

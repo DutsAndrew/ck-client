@@ -12,7 +12,7 @@ import {
 import NotesForCalendar from "./NotesForCalendar";
 import EventViewer from "./EventViewer";
 import uniqid from "uniqid";
-import { getTodaysDate, getCalendarEventTimeForLocal } from "../../scripts/calendarHelpers";
+import { getTodaysDate, getCalendarEventTimeForLocal, isUserAuthorized } from "../../scripts/calendarHelpers";
 
 const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
@@ -23,6 +23,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
     handleCalendarEventModificationRequest,
+    updateCalendarInUser,
     dayNotes,
     dayEvents,
   } = props;
@@ -240,6 +241,10 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     handleCalendarEventModificationRequest(event.calendar_id, event);
   };
 
+  const verifyUserAuthorizationOfCalendar = (calendarId: string) => {
+    return isUserAuthorized(activeCalendars, calendarId, userId);
+  };
+
   const blockSchedule = generateBlockSchedule();
 
   return (
@@ -252,6 +257,8 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
           event={dayEvents.find(event => event._id === eventViewStatus.eventId)} 
           handleCloseEventViewerRequest={handleCloseEventViewerRequest}
           handleEditEventRequest={handleEditEventRequest}
+          verifyUserAuthorizationOfCalendar={verifyUserAuthorizationOfCalendar}
+          updateCalendarInUser={updateCalendarInUser}
         />
       }
       <h2 className={styles.dayViewHeaderText}>
