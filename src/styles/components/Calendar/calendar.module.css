@@ -254,6 +254,9 @@
 }
 
 .eventViewerSectionContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -264,8 +267,87 @@
 }
 
 .eventViewContainer {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: center;
   position: relative;
   z-index: 2;
+  gap: 1vh;
+  width: 50vw;
+  height: 50vh;
+  background-color: #d3ebd7;
+  color: #333333;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  transition: transform 0.25s ease-out;
+  transform-origin: top left;
+  transform: scale(0);
+  animation: growAnimation 0.25s forwards;
+}
+
+@keyframes growAnimation {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .eventViewContainer {
+    width: 75vw;
+    height: 50vh;
+  }
+}
+
+@media (min-width: 601px) {
+  .eventViewContainer {
+    width: 50vw;
+    height: 50vh;
+  }
+}
+
+.eventViewSvgContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  max-height: 10vh;
+  gap: 0.25vw;
+}
+
+.eventViewEditSvg, .eventViewDeleteSvg {
+  height: 4vh;
+  width: auto;
+  padding-top: 0.5vh;
+  cursor: pointer;
+}
+
+.eventViewEditSvg:hover, .eventViewDeleteSvg:hover {
+  transform: scale(0.90);
+}
+
+.eventViewEditSvg {
+  filter: invert(31%) sepia(66%) saturate(4968%) hue-rotate(189deg) brightness(95%) contrast(100%);
+}
+
+.eventViewDeleteSvg {
+  filter: invert(10%) sepia(78%) saturate(6605%) hue-rotate(3deg) brightness(82%) contrast(113%);
+}
+
+.eventViewDetailContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 3vh;
+}
+
+.eventViewNameText, .eventViewDescriptionText, .eventViewDateText, .eventViewTimeText, .eventViewRepeatText, .eventViewCreatedByText {
+  font-size: 1.25em;
+  margin: 0;
+  padding: 0;
 }
 
 /* WEEK VIEW STYLING -- WEEK VIEW STYLING */
