@@ -31,6 +31,10 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
     handleCalendarNoteEditRequest();
   }, [calendarNoteEditRequest]);
 
+  useEffect(() => {
+    handleCalendarEventEditRequest();
+  }, [calendarEventEditRequest]);
+
   const [modal, setModal] = useState({
     open: false,
   });
@@ -69,6 +73,18 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
 
   const handleCalendarNoteEditRequest = () => {
     if (calendarNoteEditRequest.status === true) {
+      setModal({
+        open: true,
+      });
+    } else {
+      setModal({
+        open: false,
+      });
+    };
+  };
+
+  const handleCalendarEventEditRequest = () => {
+    if (calendarEventEditRequest.status === true) {
       setModal({
         open: true,
       });

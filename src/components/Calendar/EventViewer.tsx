@@ -13,8 +13,6 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
     handleEditEventRequest,
   } = props;
 
-  console.log(event)
-
   useEffect(() => {
     temporarilyDisableScrollBar();
 

@@ -274,7 +274,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     if (authAccess === false) {
       return toast.error('You do not have access to modify this calendar', {id: 'eventModificationError'});
     } else {
-      setCalendarEventEditRequest({
+      return setCalendarEventEditRequest({
         calendarId: calendarId,
         event: calendarEvent,
         status: true,

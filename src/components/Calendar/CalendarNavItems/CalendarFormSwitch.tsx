@@ -28,6 +28,10 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
     handleCalendarNoteEditRequest();
   }, [calendarNoteEditRequest]);
 
+  useEffect(() => {
+    handleCalendarEventEditRequest();
+  }, []);
+
   const [activeForm, setActiveForm] = useState('event');
 
   const handleActiveFormChange = (formRequest: string): void => {
@@ -42,6 +46,10 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
 
   const handleCalendarNoteEditRequest = () => {
     if (calendarNoteEditRequest.status === true) setActiveForm('note');
+  };
+
+  const handleCalendarEventEditRequest = () => {
+    if (calendarEventEditRequest.status === true) setActiveForm('event');
   };
 
   const renderFormView = () => {
@@ -85,7 +93,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
           className={`${styles.calendarFormSwitch} ${activeForm === 'event' ? styles.active : ''}`}
           onClick={() => handleActiveFormChange('event')}
         >
-          Add Event
+          {calendarEventEditRequest.status === true ? 'Edit Event' : 'Add Event'}
         </button>
         <button
           className={`${styles.calendarFormSwitch} ${activeForm === 'note' ? styles.active : ''}`}

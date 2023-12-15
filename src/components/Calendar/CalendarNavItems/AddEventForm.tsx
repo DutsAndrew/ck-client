@@ -1,6 +1,6 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addEventFormProps, newEventCreatedApiResponse } from "../../../types/interfaces";
+import { addEventFormProps, eventObject, newEventCreatedApiResponse } from "../../../types/interfaces";
 import toast from "react-hot-toast";
 
 const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
@@ -24,6 +24,10 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     selectedCalendarId: '',
     selectedTime: '',
   });
+
+  useEffect(() => {
+    handleCalendarEventEditRequest();
+  }, [calendarEventEditRequest]);
 
   const generateTimeSlots = () => {
     const timeSlots = [];
@@ -152,6 +156,27 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
 
   const handleGoodApiRequest = (jsonResponse: newEventCreatedApiResponse) => {
     return updateCalendarInUser(jsonResponse.updated_calendar);
+  };
+
+  const handleCalendarEventEditRequest = () => {
+    if (calendarEventEditRequest.status === true) {
+      const event = (calendarEventEditRequest.event as eventObject);
+      const calendars = [userCalendars.personalCalendar, ...userCalendars.teamCalendars];
+      const selectedCalendar = calendars.find((calendar) => calendar._id === event.calendar_id);
+      setFormData({
+        combinedDateAndTime: '',
+        date: event.event_date.split(" ")[0],
+        repeat: event.repeats,
+        eventName: event.event_name,
+        eventDescription: event.event_description,
+        repeatOption: event.repeat_option,
+        selectedCalendar: selectedCalendar?.name ? selectedCalendar.name : '',
+        selectedCalendarId: event.calendar_id,
+        selectedTime: event.event_time,
+      });
+    } else {
+      return;
+    };
   };
 
   return (
@@ -308,7 +333,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
           className={styles.addEventFormButton}
           onClick={(e) => handleSubmit(e)}
         >
-          Add Event
+          {calendarEventEditRequest.status === true ? 'Edit Event' : 'Add Event'}
         </button>
       </form>
     </div>

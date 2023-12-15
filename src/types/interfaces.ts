@@ -237,7 +237,7 @@ interface dayViewProps {
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
-  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | undefined,
+  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   dayNotes: {} | calendarNoteWithCalendarInfo[],
   dayEvents: [] | eventObject[],
 };
@@ -248,7 +248,7 @@ interface weekViewProps {
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
-  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | undefined,
+  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   weekNotes: {} | calendarNoteWithCalendarInfo[],
   weekEvents: [] | eventObject[],
 };
@@ -260,7 +260,7 @@ interface monthViewProps {
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
-  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | undefined,
+  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   monthNotes: {} | calendarNoteWithCalendarInfo[],
   monthEvents: [] | eventObject[],
 };
@@ -272,7 +272,7 @@ interface yearViewProps {
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
-  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | undefined,
+  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   yearNotes: {} | calendarNoteWithCalendarInfo[],
   yearEvents: [] | eventObject[],
 };
