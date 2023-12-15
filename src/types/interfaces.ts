@@ -147,6 +147,12 @@ type calendarNoteEditRequest = {
   status: boolean,
 }
 
+type calendarEventEditRequest = {
+  calendarId: string,
+  event: {} | eventObject,
+  status: boolean,
+}
+
 interface calendarNavProps {
   userCalendars: userCalendars,
   currentView: string,
@@ -155,6 +161,7 @@ interface calendarNavProps {
   userId: string,
   calendarFormStatus: calendarFormStatus,
   calendarNoteEditRequest: calendarNoteEditRequest,
+  calendarEventEditRequest: calendarEventEditRequest,
   changeCurrentView: Function,
   handleCalendarTimeChangeRequest: Function,
   handleActiveCalendarChange: Function,
@@ -172,6 +179,7 @@ interface navLeftContainerProps {
   userId: string,
   calendarFormStatus: calendarFormStatus,
   calendarNoteEditRequest: calendarNoteEditRequest,
+  calendarEventEditRequest: calendarEventEditRequest,
   handleCalendarTimeChangeRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
@@ -185,6 +193,7 @@ interface addFormModalProps {
   userId: string,
   calendarFormStatus: calendarFormStatus,
   calendarNoteEditRequest: calendarNoteEditRequest,
+  calendarEventEditRequest: calendarEventEditRequest,
   handleCloseModalRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
@@ -228,6 +237,7 @@ interface dayViewProps {
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
+  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | undefined,
   dayNotes: {} | calendarNoteWithCalendarInfo[],
   dayEvents: [] | eventObject[],
 };
@@ -238,6 +248,7 @@ interface weekViewProps {
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
+  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | undefined,
   weekNotes: {} | calendarNoteWithCalendarInfo[],
   weekEvents: [] | eventObject[],
 };
@@ -249,6 +260,7 @@ interface monthViewProps {
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
+  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | undefined,
   monthNotes: {} | calendarNoteWithCalendarInfo[],
   monthEvents: [] | eventObject[],
 };
@@ -260,6 +272,7 @@ interface yearViewProps {
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
+  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | undefined,
   yearNotes: {} | calendarNoteWithCalendarInfo[],
   yearEvents: [] | eventObject[],
 };
@@ -267,6 +280,7 @@ interface yearViewProps {
 interface eventViewerProps {
   event: eventObject | undefined,
   handleCloseEventViewerRequest: () => void,
+  handleEditEventRequest: (event: eventObject) => void,
 };
 
 interface notesForCalendarProps {
@@ -362,6 +376,7 @@ interface addEventFormProps {
   userId: string,
   handleCloseModalRequest: Function,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
+  calendarEventEditRequest: calendarEventEditRequest,
 };
 
 interface addCalendarFormProps {
@@ -375,6 +390,7 @@ interface calendarFormSwitchProps {
   userId: string,
   calendarFormStatus: calendarFormStatus,
   calendarNoteEditRequest: calendarNoteEditRequest,
+  calendarEventEditRequest: calendarEventEditRequest,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
   updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
@@ -590,7 +606,7 @@ type calendarNotes = calendarNote[];
 type calendarNotesWithInfo = calendarNoteWithCalendarInfo[];
 
 interface eventObject {
-  calendar: string,
+  calendar_id: string,
   combined_date_and_time: string,
   created_by: {
     first_name: string,

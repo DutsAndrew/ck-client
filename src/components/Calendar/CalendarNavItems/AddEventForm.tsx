@@ -10,6 +10,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     userId,
     handleCloseModalRequest,
     updateCalendarInUser,
+    calendarEventEditRequest,
   } = props;
 
   const [formData, setFormData] = useState({

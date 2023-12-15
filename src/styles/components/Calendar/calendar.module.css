@@ -214,6 +214,8 @@
   min-width: 5vw;
   width: 100%;
   height: 100%;
+  overflow-y: visible;
+  overflow-x: hidden;
   font-size: 0.8em;
   display: flex;
   flex-flow: column wrap;
@@ -268,14 +270,16 @@
 
 .eventViewContainer {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: center;
   position: relative;
   z-index: 2;
   gap: 1vh;
-  width: 50vw;
-  height: 50vh;
+  padding-bottom: 2vh;
+  height: auto;
+  overflow-y: visible;
+  overflow-x: hidden;
   background-color: #d3ebd7;
   color: #333333;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -298,14 +302,12 @@
 @media (max-width: 600px) {
   .eventViewContainer {
     width: 75vw;
-    height: 50vh;
   }
 }
 
 @media (min-width: 601px) {
   .eventViewContainer {
     width: 50vw;
-    height: 50vh;
   }
 }
 
@@ -315,7 +317,7 @@
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  max-height: 10vh;
+  max-height: 5vh;
   gap: 0.25vw;
 }
 
@@ -345,7 +347,7 @@
 }
 
 .eventViewNameText, .eventViewDescriptionText, .eventViewDateText, .eventViewTimeText, .eventViewRepeatText, .eventViewCreatedByText {
-  font-size: 1.25em;
+  font-size: 1.75em;
   margin: 0;
   padding: 0;
 }

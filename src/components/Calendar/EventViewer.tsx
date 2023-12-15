@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { eventViewerProps } from "../../types/interfaces";
+import { eventObject, eventViewerProps } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import pencilSvg from '../../assets/pencil-outline.svg';
 import trashSvg from '../../assets/delete.svg';
@@ -8,9 +8,10 @@ import { getCalendarEventTimeForLocal } from "../../scripts/calendarHelpers";
 const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
 
   const { 
-    event,
+    event, // event could be passed as undefined, handle appropriately
     handleCloseEventViewerRequest,
-  } = props; // event could be passed as undefined, handle appropriately
+    handleEditEventRequest,
+  } = props;
 
   console.log(event)
 
@@ -38,14 +39,13 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
     body.classList.remove('disableScrollbar');
   };
 
-  // edit button to pull up event form to edit event
-          // trash can icon to delete event
-          // all event details that are not currently displayed:
-            // event date
-            // event description
-            // event handleCalendarTimeChangeRequest
-            // repeats and repeat option
-            // created by
+  const handleEditEventIconClick = () => {
+    return handleEditEventRequest((event as eventObject));
+  };
+
+  const handleDeleteIconClick = () => {
+
+  };
 
   if (typeof event === 'undefined') {
     return (
@@ -61,11 +61,13 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
         <div className={styles.eventViewContainer}>
           <div className={styles.eventViewSvgContainer}>
             <img 
+              onClick={() => handleEditEventIconClick()}
               className={styles.eventViewEditSvg} 
               alt="edit icon" 
               src={pencilSvg}>
             </img>
             <img 
+              onClick={() => handleDeleteIconClick()}
               className={styles.eventViewDeleteSvg} 
               alt="delete icon" 
               src={trashSvg}>

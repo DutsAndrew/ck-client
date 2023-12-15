@@ -22,6 +22,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
+    handleCalendarEventModificationRequest,
     dayNotes,
     dayEvents,
   } = props;
@@ -234,6 +235,11 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     });
   };
 
+  const handleEditEventRequest = (event: eventObject) => {
+    handleCloseEventViewerRequest();
+    handleCalendarEventModificationRequest(event.calendar_id, event);
+  };
+
   const blockSchedule = generateBlockSchedule();
 
   return (
@@ -245,6 +251,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
         <EventViewer 
           event={dayEvents.find(event => event._id === eventViewStatus.eventId)} 
           handleCloseEventViewerRequest={handleCloseEventViewerRequest}
+          handleEditEventRequest={handleEditEventRequest}
         />
       }
       <h2 className={styles.dayViewHeaderText}>

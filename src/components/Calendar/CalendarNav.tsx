@@ -14,6 +14,7 @@ const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
     userId,
     calendarFormStatus,
     calendarNoteEditRequest,
+    calendarEventEditRequest,
     changeCurrentView,
     handleCalendarTimeChangeRequest,
     handleActiveCalendarChange,
@@ -33,6 +34,7 @@ const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
         userId={userId}
         calendarFormStatus={calendarFormStatus}
         calendarNoteEditRequest={calendarNoteEditRequest}
+        calendarEventEditRequest={calendarEventEditRequest}
         handleCalendarTimeChangeRequest={handleCalendarTimeChangeRequest}
         appendNewCalendarToUser={appendNewCalendarToUser}
         addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}

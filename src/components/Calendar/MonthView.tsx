@@ -19,6 +19,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
+    handleCalendarEventModificationRequest,
     monthNotes,
     monthEvents,
   } = props;

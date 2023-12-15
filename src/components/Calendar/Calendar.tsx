@@ -21,7 +21,8 @@ import {
   calendarNotesGrouped,
   calendarNotesWithInfo,
   calendarEventsGroupedState,
-  calendarEventsGrouped
+  calendarEventsGrouped,
+  eventObject
 } from '../../types/interfaces';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
@@ -60,6 +61,11 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     [calendarNoteEditRequest, setCalendarNoteEditRequest] = useState({
       calendarId: '',
       note: {},
+      status: false,
+    }),
+    [calendarEventEditRequest, setCalendarEventEditRequest] = useState({
+      calendarId: '',
+      event: {},
       status: false,
     }),
     [calendarNotesGrouped, setCalendarNotesGrouped] = useState<calendarNotesGroupedState>({}),
@@ -262,6 +268,28 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     });
   };
 
+  const handleCalendarEventModificationRequest = (calendarId: string, calendarEvent: eventObject) => {
+    const authAccess = doesUserHaveCalendarAccess(calendarId);
+    
+    if (authAccess === false) {
+      return toast.error('You do not have access to modify this calendar', {id: 'eventModificationError'});
+    } else {
+      setCalendarEventEditRequest({
+        calendarId: calendarId,
+        event: calendarEvent,
+        status: true,
+      });
+    };
+  };
+
+  const handleCancelCalendarEventModificationRequest = () => {
+    setCalendarEventEditRequest({
+      calendarId: '',
+      event: {},
+      status: false,
+    });
+  };
+
   const doesUserHaveCalendarAccess = (calendarId: string) => {
     let doesUserHaveAccess = false;
 
@@ -443,6 +471,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     userId,
     calendarFormStatus,
     calendarNoteEditRequest,
+    calendarEventEditRequest,
     changeCurrentView,
     handleCalendarTimeChangeRequest,
     handleActiveCalendarChange,
@@ -460,6 +489,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
+    handleCalendarEventModificationRequest,
   };
 
   if (calendarEditor.active === true) {
