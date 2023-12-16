@@ -53,7 +53,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     if (timeString.length === 0) { // no time, start early return
       return dateString;
     };
-    
+
     const [year, month, day] = dateString.split('-').map(Number);
     const [time, amPm] = timeString.split(' ');
     const [hours, minutes] = time.split(':').map(Number);
@@ -95,11 +95,10 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
       repeatOption: formData.repeat === false ? '' : formData.repeatOption,
       selectedCalendarId: formData.selectedCalendarId.length > 0 ? formData.selectedCalendarId : calendarId, 
     });
-  };  
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    toast.loading(calendarEventEditRequest.status === true ? 'Editing Event...' : 'Creating Event...', {id: 'creatingEvent'});
 
     const formDataConverted = formData;
     formDataConverted.combinedDateAndTime = combineDateAndTime(formData.date, formData.selectedTime);
@@ -108,8 +107,10 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     if (!userAuth) return toast.error('You are not authorized to modify this calendar', {id: 'creatingEvent'});
 
     if (calendarEventEditRequest.status === true) {
+      toast.loading('Editing Event...', {id: 'creatingEvent'});
       return await uploadEditedEventToDb(formDataConverted);
     } else {
+      toast.loading('Creating Event...', {id: 'creatingEvent'});
       return await uploadEventToDb(formDataConverted);
     };
   };
