@@ -180,18 +180,21 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
   };
 
   const compareDates = (eventA: eventObject, eventB: eventObject) => {
-    const dateA = eventA.combined_date_and_time ? new Date(eventA.combined_date_and_time) : new Date(eventA.event_date);
-    const dateB = eventB.combined_date_and_time ? new Date(eventB.combined_date_and_time) : new Date(eventA.event_date);
+    const dateA = eventA.combined_date_and_time;
+    const dateB = eventB.combined_date_and_time;
   
-    if (dateA && dateB) {
-      return dateA.getTime() - dateB.getTime();
-    } else if (dateA) {
-      return -1; // Put events with dateA first
-    } else if (dateB) {
-      return 1; // Put events with dateB first
+    const timeA = dateA ? new Date(dateA).getTime() : 0;
+    const timeB = dateB ? new Date(dateB).getTime() : 0;
+
+    if (timeA === 0 && timeB === 0) {
+      return 0; // If both dates have no time, consider them equal
+    } else if (timeA === 0) {
+      return 1; // Put events with no time in dateA at the end
+    } else if (timeB === 0) {
+      return -1; // Put events with no time in dateB at the end
     } else {
-      return 0; // If both dates are missing, consider them equal
-    }
+      return timeA - timeB; // Compare by timestamps for events with specific times
+    };
   };
 
   const generateBlockSchedule = () => {
@@ -275,12 +278,15 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                 className={styles.AMDayScheduleItem}
                 key={uniqid()}
               >
-              <p className={styles.AMDayScheduleText}>
+              <p 
+                className={styles.AMDayScheduleText}
+              >
                 {block}
               </p>
               <div className={styles.AMDayScheduleBlock}>
                 {(dayViewEvents as any)[`${block} AM`].map((event: eventObject) => {
                   return <div 
+                    key={uniqid()}
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
                     onMouseLeave={() => handleMouseLeaveEventContainer()}
                     onClick={() => handleEventClickToOpenEventMenu(event._id)}

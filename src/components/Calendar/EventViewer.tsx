@@ -30,6 +30,13 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
     };
   };
 
+  const getCurrenTopOfClientScreen = () => {
+    const yPosition = window.scrollY || document.documentElement.scrollTop;
+    return {
+      top: `${yPosition}px`,
+    };
+  };
+
   const temporarilyDisableScrollBar = () => {
     const body = document.body;
     body.classList.add('disableScrollbar');
@@ -93,6 +100,7 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
       <section 
         onClick={(e) => handleEventViewerOffClick(e)}
         id="event-viewer-background"
+        style={getCurrenTopOfClientScreen()}
         className={styles.eventViewerSectionContainer}
       >
         <div className={styles.eventViewContainer}>

@@ -10,7 +10,8 @@ import {
 } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
-import { getDayOfWeekLocalTime, getLocalDateAndTimeForEvent } from "../../scripts/calendarHelpers";
+import { getCalendarEventTimeForLocal, getDayOfWeekLocalTime, getLocalDateAndTimeForEvent, isUserAuthorized } from "../../scripts/calendarHelpers";
+import EventViewer from "./EventViewer";
 
 const WeekView: FC<weekViewProps> = (props): JSX.Element => {
 
@@ -54,6 +55,11 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     'friday': [],
     'saturday': [],
     'sunday': [],
+  });
+  const [weekEventActivelyHovered, setWeekEventActivelyHovered] = useState('');
+  const [eventViewStatus, setEventViewStatus] = useState({
+    set: false,
+    eventId: '',
   });
 
   useEffect(() => {
@@ -129,9 +135,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     });
 
     const sortedCurrentWeekEvents = sortWeekEvents(currentWeeksEvents);
-
-    console.log(sortedCurrentWeekEvents);
-
+    console.log(sortedCurrentWeekEvents)
     return sortedCurrentWeekEvents;
   };
 
@@ -161,11 +165,51 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     };
   };
 
+  const handleMouseEnterEventContainer = (eventId: string) => {
+    setWeekEventActivelyHovered(eventId);
+  };
+
+  const handleMouseLeaveEventContainer = () => {
+    setWeekEventActivelyHovered('');
+  };
+
+  const handleEventClickToOpenEventMenu = (eventId: string) => {
+    setEventViewStatus({
+      set: true,
+      eventId: eventId,
+    });
+  };
+
+  const handleCloseEventViewerRequest = () => {
+    setEventViewStatus({
+      set: false,
+      eventId: '',
+    });
+  };
+
+  const handleEditEventRequest = (event: eventObject) => {
+    handleCloseEventViewerRequest();
+    handleCalendarEventModificationRequest(event.calendar_id, event);
+  };
+
+  const verifyUserAuthorizationOfCalendar = (calendarId: string) => {
+    return isUserAuthorized(activeCalendars, calendarId, userId);
+  };
+
   return (
     <section className={styles.weekViewContainer}>
       <p className={styles.currentDateText}>
         <strong>{weekSnapshot}</strong>
       </p>
+      {eventViewStatus.set === true &&
+        <EventViewer 
+          event={weekEvents.find(event => event._id === eventViewStatus.eventId)} 
+          handleCloseEventViewerRequest={handleCloseEventViewerRequest}
+          handleEditEventRequest={handleEditEventRequest}
+          verifyUserAuthorizationOfCalendar={verifyUserAuthorizationOfCalendar}
+          updateCalendarInUser={updateCalendarInUser}
+        />
+      }
       <h2 className={styles.weekViewHeaderText}>Week View</h2>
       <div className={styles.weekDayContainer}>
         {week.map((day) => (
@@ -174,8 +218,25 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
               <strong><em>{day}</em></strong>
             </p>
             <div className={styles.weekDayItemBlock}>
-              {/* Render API events here */}
-              This is some boilerplate text to see how it looks
+              {(weekViewEvents as any)[`${day.toLowerCase()}`].map((event: eventObject) => {
+                return <div 
+                key={uniqid()}
+                onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
+                onMouseLeave={() => handleMouseLeaveEventContainer()}
+                onClick={() => handleEventClickToOpenEventMenu(event._id)}
+                className={styles.weekViewEventContainer}
+              >
+                {weekEventActivelyHovered.includes(event._id) ? (
+                 <span>
+                  {event.event_time.length > 0 ? getCalendarEventTimeForLocal(event) : 'No time set'}
+                 </span>
+                ) : (
+                  <span>
+                    {event.event_name.length > 10 ? `${event.event_name.slice(0, 10)}...` : event.event_name}
+                  </span>
+                )}
+              </div>
+              })}
             </div>
           </div>
         ))}

@@ -210,7 +210,7 @@
   box-sizing: border-box;
 }
 
-.AMDayScheduleBlock, .PMDayScheduleBlock {
+.AMDayScheduleBlock, .PMDayScheduleBlock, .weekDayItemBlock {
   min-width: 5vw;
   width: 100%;
   height: 100%;
@@ -245,14 +245,18 @@
   }
 }
 
-.AMEventContainer, .PMEventContainer {
+.AMEventContainer, .PMEventContainer, .weekViewEventContainer {
   width: 100%;
   padding: 0.5vh;
   cursor: pointer;
 }
 
-.AMEventContainer:hover, .PMEventContainer:hover {
+.AMEventContainer:hover, .PMEventContainer:hover, .weekViewEventContainer:hover {
   background-color: white;
+}
+
+.weekViewContainer {
+  font-size: 1.25em;
 }
 
 .eventViewerSectionContainer {
@@ -260,7 +264,6 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
