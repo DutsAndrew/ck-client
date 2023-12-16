@@ -55,7 +55,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
   useEffect(() => {
     setDayViewNotes(getDayViewNotes());
-    setDayViewEvents(getDayViewTimeSlots());
+    setDayViewEvents(getDayViewEventsAndTimeSlots());
   }, [activeCalendars, dayNotes, dayEvents]);
 
   const getDayViewNotes = () => {
@@ -76,7 +76,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     return todaysNotes;
   };
 
-  const getDayViewTimeSlots = () => {
+  const getDayViewEventsAndTimeSlots = () => {
     const eventsForEachTimeSlot: timeSlotObject  = {
       '5 AM': [],
       '6 AM': [],

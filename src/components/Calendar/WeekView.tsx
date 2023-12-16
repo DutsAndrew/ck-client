@@ -4,10 +4,13 @@ import {
   calendarNoteWithCalendarInfo,
   calendarNotesWithInfo,
   calendarViewStateForCalendarNotes,
+  calendarWeekViewStateForCalendarEvents,
+  eventObject,
   weekViewProps
 } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
+import { getDayOfWeekLocalTime, getLocalDateAndTimeForEvent } from "../../scripts/calendarHelpers";
 
 const WeekView: FC<weekViewProps> = (props): JSX.Element => {
 
@@ -43,10 +46,20 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
 
   const [weekSnapshot, setWeekSnapShot] = useState(generateSnapShot());
   const [weekViewNotes, setWeekViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
+  const [weekViewEvents, setWeekViewEvents] = useState<calendarWeekViewStateForCalendarEvents>({
+    'monday': [],
+    'tuesday': [],
+    'wednesday': [],
+    'thursday': [],
+    'friday': [],
+    'saturday': [],
+    'sunday': [],
+  });
 
   useEffect(() => {
     setWeekViewNotes(getWeekViewNotes())
-  }, [activeCalendars]);
+    setWeekViewEvents(getWeekViewEvents());
+  }, [activeCalendars, weekNotes, weekEvents]);
 
   const getWeekViewNotes = () => {
     const thisWeeksNotes: calendarNotesWithInfo = [];
@@ -75,6 +88,77 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     });
 
     return thisWeeksNotes;
+  };
+
+  const getWeekViewEvents = () => {
+    const currentWeeksEvents: calendarWeekViewStateForCalendarEvents = {
+      'monday': [],
+      'tuesday': [],
+      'wednesday': [],
+      'thursday': [],
+      'friday': [],
+      'saturday': [],
+      'sunday': [],
+    };
+
+    weekEvents.forEach((event) => {
+      const localDayOfWeek = getDayOfWeekLocalTime(event);
+      switch(localDayOfWeek) {
+        case 0:
+          currentWeeksEvents.sunday.push(event);
+          break;
+        case 1:
+          currentWeeksEvents.monday.push(event);
+          break;
+        case 2:
+          currentWeeksEvents.tuesday.push(event);
+          break;
+        case 3:
+          currentWeeksEvents.wednesday.push(event);
+          break;
+        case 4:
+          currentWeeksEvents.thursday.push(event);
+          break;
+        case 5:
+          currentWeeksEvents.friday.push(event);
+          break;
+        case 6:
+          currentWeeksEvents.saturday.push(event);
+          break;
+      };
+    });
+
+    const sortedCurrentWeekEvents = sortWeekEvents(currentWeeksEvents);
+
+    console.log(sortedCurrentWeekEvents);
+
+    return sortedCurrentWeekEvents;
+  };
+
+  const sortWeekEvents = (currentDayEvents: calendarWeekViewStateForCalendarEvents) => {
+    Object.keys(currentDayEvents).forEach(key => {
+      (currentDayEvents as any)[key].sort(compareTimes);
+    });
+
+    return currentDayEvents;
+  };
+
+  const compareTimes = (eventA: eventObject, eventB: eventObject) => {
+    const dateA = eventA.combined_date_and_time;
+    const dateB = eventB.combined_date_and_time;
+  
+    const timeA = dateA ? new Date(dateA).getTime() : 0;
+    const timeB = dateB ? new Date(dateB).getTime() : 0;
+
+    if (timeA === 0 && timeB === 0) {
+      return 0; // If both dates have no time, consider them equal
+    } else if (timeA === 0) {
+      return 1; // Put events with no time in dateA at the end
+    } else if (timeB === 0) {
+      return -1; // Put events with no time in dateB at the end
+    } else {
+      return timeA - timeB; // Compare by timestamps for events with specific times
+    };
   };
 
   return (

@@ -50,6 +50,10 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
   };
 
   const combineDateAndTime = (dateString: string, timeString: string) => {
+    if (timeString.length === 0) { // no time, start early return
+      return dateString;
+    };
+    
     const [year, month, day] = dateString.split('-').map(Number);
     const [time, amPm] = timeString.split(' ');
     const [hours, minutes] = time.split(':').map(Number);

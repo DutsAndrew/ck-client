@@ -325,6 +325,18 @@ interface timeSlotObject {
   'none': eventObject[],
 };
 
+type calendarWeekViewStateForCalendarEvents = weekSlotObject;
+
+interface weekSlotObject {
+  'monday': eventObject[],
+  'tuesday': eventObject[],
+  'wednesday': eventObject[],
+  'thursday': eventObject[],
+  'friday': eventObject[],
+  'saturday': eventObject[],
+  'sunday': eventObject[],
+};
+
 interface selectedCalendarModalProps {
   userCalendars: userCalendars,
   activeCalendars: calendarObject[],
@@ -679,6 +691,7 @@ export type {
   calendarNotesWithInfo,
   calendarViewStateForCalendarNotes,
   calendarViewStateForCalendarEvents,
+  calendarWeekViewStateForCalendarEvents,
   timeSlotObject,
   selectedCalendarModalProps,
   dropDownCalendarItemsProps,

@@ -166,7 +166,7 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                           {event.event_name}
                         </p>
                         <p className={styles.calendarEditorEvenDateAndTime}>
-                          {event.event_date_and_time}
+                          {event.combined_date_and_time}
                         </p>
                       </li>
                     ))

@@ -244,6 +244,10 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     if (calendarNoteEditRequest.status === true) {
       handleCancelCalendarNoteModificationRequest();
     };
+
+    if (calendarEventEditRequest.status === true) {
+      handleCancelCalendarEventModificationRequest();
+    };
   };
 
   const handleCalendarNoteModificationRequest = (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => {
