@@ -4,12 +4,14 @@ import {
   calendarNoteWithCalendarInfo,
   calendarNotesWithInfo,
   calendarViewStateForCalendarNotes,
+  eventObject,
   monthViewProps 
 } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
-import { getEventDate } from "../../scripts/calendarHelpers";
+import { getCalendarEventTimeForLocal, getEventDate, isUserAuthorized } from "../../scripts/calendarHelpers";
+import EventViewer from "./EventViewer";
 
 const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
@@ -27,7 +29,14 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
   } = props;
 
   const [monthViewNotes, setMonthViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
-  const [monthViewEvents, setMonthViewEvents] = useState([]);
+  const [monthViewEvents, setMonthViewEvents] = useState<Map<string, any[]>>();
+  const [monthEventActivelyHovered, setMonthEventActivelyHovered] = useState('');
+  const [eventViewStatus, setEventViewStatus] = useState({
+    set: false,
+    eventId: '',
+  });
+
+  console.log(monthViewEvents);
 
   useEffect(() => {
     setMonthViewNotes(getMonthViewNotes());
@@ -81,6 +90,8 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
   };
 
   const generateMonthCalendar = () => {
+    if (Object.keys(calendarDatesData).length === 0) return [];
+
     const preview: any = getMonthPreview();
     const monthStartsOn = preview.month_starts_on;
     const numberOfDays = preview.days;
@@ -118,8 +129,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     const calendarDays = generateMonthCalendar();
     const mapForDaysInMonth = buildMapForDaysInMonth(calendarDays);
     const mapWithEvents = addEventsToMapForMonth(mapForDaysInMonth);
-    console.log(mapWithEvents);
-    return [];
+    return mapWithEvents;
   };
 
   const buildMapForDaysInMonth = (calendarDays: String[]) => {
@@ -148,8 +158,48 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     return mapForDaysInMonth;
   };
 
+  const handleMouseEnterEventContainer = (eventId: string) => {
+    setMonthEventActivelyHovered(eventId);
+  };
+
+  const handleMouseLeaveEventContainer = () => {
+    setMonthEventActivelyHovered('');
+  };
+
+  const handleEventClickToOpenEventMenu = (eventId: string) => {
+    setEventViewStatus({
+      set: true,
+      eventId: eventId,
+    });
+  };
+
+  const handleCloseEventViewerRequest = () => {
+    setEventViewStatus({
+      set: false,
+      eventId: '',
+    });
+  };
+
+  const handleEditEventRequest = (event: eventObject) => {
+    handleCloseEventViewerRequest();
+    handleCalendarEventModificationRequest(event.calendar_id, event);
+  };
+
+  const verifyUserAuthorizationOfCalendar = (calendarId: string) => {
+    return isUserAuthorized(activeCalendars, calendarId, userId);
+  };
+
   return (
     <section className={styles.monthViewContainer}>
+      {eventViewStatus.set === true &&
+        <EventViewer 
+          event={monthEvents.find(event => event._id === eventViewStatus.eventId)} 
+          handleCloseEventViewerRequest={handleCloseEventViewerRequest}
+          handleEditEventRequest={handleEditEventRequest}
+          verifyUserAuthorizationOfCalendar={verifyUserAuthorizationOfCalendar}
+          updateCalendarInUser={updateCalendarInUser}
+        />
+      }
       <h2 className={styles.monthViewHeaderText}>
         Month View
       </h2>
@@ -157,7 +207,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
         {calendarMonths[new Date().getMonth()]}
       </h2>
       <div className={styles.monthItemsContainer}>
-        {Object.keys(calendarDatesData).length > 0 ? generateMonthCalendar().map((item) => {
+        {Object.keys((calendarDatesData as CalendarDatesData)).length > 0 ? generateMonthCalendar().map((item) => {
           const isAccurateMonthDate = item.includes('-');
           const containerClass = isAccurateMonthDate
           ? styles.monthItemValidDateContainer
@@ -167,12 +217,33 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
             key={uniqid()}
             className={`${styles.monthItemContainer} ${containerClass}`}
           >
-            <p className={styles.monthItemDateNumberText}>
-              {item.includes('-') ? item.split('-')[0] : ''}
-            </p>
             <p className={styles.monthItemWeekDayText}>
               {item.includes('-') ? item.split('-')[1] : item}
             </p>
+            <p className={styles.monthItemDateNumberText}>
+              {item.includes('-') ? item.split('-')[0] : ''}
+            </p>
+            <div className={styles.monthViewEventsContainer}>
+              {monthViewEvents?.get(item.includes('-') ? item.split('-')[0] : '')?.map((event) => {
+                return <div 
+                key={uniqid()}
+                onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
+                onMouseLeave={() => handleMouseLeaveEventContainer()}
+                onClick={() => handleEventClickToOpenEventMenu(event._id)}
+                className={styles.monthViewEventContainer}
+              >
+                {monthEventActivelyHovered.includes(event._id) ? (
+                 <span>
+                  {event.event_time.length > 0 ? getCalendarEventTimeForLocal(event) : 'No time set'}
+                 </span>
+                ) : (
+                  <span>
+                    {event.event_name.length > 10 ? `${event.event_name.slice(0, 10)}...` : event.event_name}
+                  </span>
+                )}
+              </div>
+              })}
+            </div>
           </div>
         }) : 
           <p>Loading Data...</p>

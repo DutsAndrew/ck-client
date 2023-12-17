@@ -107,7 +107,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     if (!userAuth) return toast.error('You are not authorized to modify this calendar', {id: 'creatingEvent'});
 
     if (calendarEventEditRequest.status === true) {
-      toast.loading('Editing Event...', {id: 'creatingEvent'});
+      toast.loading('Editing Event...', {id: 'editingEvent'});
       return await uploadEditedEventToDb(formDataConverted);
     } else {
       toast.loading('Creating Event...', {id: 'creatingEvent'});
