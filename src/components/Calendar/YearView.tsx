@@ -9,6 +9,7 @@ import {
 } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from 'uniqid';
+import { getLocalDateAndTimeForEvent } from "../../scripts/calendarHelpers";
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
@@ -26,10 +27,12 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
   } = props;
 
   const [yearViewNotes, setYearViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
+  const [yearViewEvents, setYearViewEvents] = useState<Map<string, any[]>>();
 
   useEffect(() => {
     setYearViewNotes(getYearViewNotes())
-  }, [activeCalendars]);
+    setYearViewEvents(getYearViewEvents());
+  }, [activeCalendars, yearNotes, yearEvents]);
 
   const getYearViewNotes = () => {
     const thisYearsNotes: calendarNotesWithInfo = [];
@@ -67,6 +70,8 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
   };
 
   const generateCurrentYearView = () => {
+    if (Object.keys(calendarDatesData).length === 0) return [];
+
     const yearView: any[] = [];
 
     const userCalendar = getCurrentYearFromAppData();
@@ -108,6 +113,58 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     });
 
     return yearView;
+  };
+
+  const getYearViewEvents = () => {
+    if (Object.keys(calendarDatesData).length === 0) return [];
+
+    const yearViewArray = generateYearViewArray();
+    const eventsAddedToArray = addEventsToYearViewArray(yearViewArray);
+    return eventsAddedToArray;
+  };
+
+  const generateYearViewArray = () => {
+    const yearView = generateCurrentYearView();
+    const yearEventArray = [
+      new Map<string, any[]>(),
+      new Map<string, any[]>(),
+      new Map<string, any[]>(),
+      new Map<string, any[]>(),
+      new Map<string, any[]>(),
+      new Map<string, any[]>(),
+      new Map<string, any[]>(),
+      new Map<string, any[]>(),
+      new Map<string, any[]>(),
+      new Map<string, any[]>(),
+      new Map<string, any[]>(),
+      new Map<string, any[]>(),
+    ]
+
+    yearView.forEach((month: string[]) => { // O(n^2) complexity, this will run rather slow, but is looping through less than 400 items, so isn't terrible
+      const monthIndex = yearView.indexOf(month);
+      month.forEach((day: string) => {
+        if (day.length > 0) { // date is valid and not filler
+          yearEventArray[monthIndex].set(day, []);
+        };
+      });
+    });
+
+    return yearEventArray;
+  };
+
+  const addEventsToYearViewArray = (yearViewArray: Map<string, any[]>[]): Map<string, any[]>[] => {
+    yearEvents.forEach((event) => {
+      const eventDate = getLocalDateAndTimeForEvent(event);
+      const dateConversion = new Date(eventDate);
+      const month = dateConversion.getMonth();
+      const day = dateConversion.getDate();
+
+      const arrayEventBelongsTo = yearViewArray[month].get(day.toString());
+
+      arrayEventBelongsTo?.push(event);
+    });
+
+    return yearViewArray;
   };
 
   if (Object.keys(calendarDatesData).length > 0) { // if calendarData has been mounted in "App" from "Calendar parent component"
