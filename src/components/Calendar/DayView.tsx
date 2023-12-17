@@ -233,6 +233,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
   };
 
   const handleCloseEventViewerRequest = () => {
+    handleMouseLeaveEventContainer();
     setEventViewStatus({
       set: false,
       eventId: '',

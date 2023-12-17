@@ -36,8 +36,6 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     eventId: '',
   });
 
-  console.log(monthViewEvents);
-
   useEffect(() => {
     setMonthViewNotes(getMonthViewNotes());
     setMonthViewEvents(getMonthViewEvents());
@@ -174,6 +172,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
   };
 
   const handleCloseEventViewerRequest = () => {
+    handleMouseLeaveEventContainer();
     setEventViewStatus({
       set: false,
       eventId: '',

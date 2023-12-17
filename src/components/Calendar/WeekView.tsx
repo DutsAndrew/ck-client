@@ -180,6 +180,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
   };
 
   const handleCloseEventViewerRequest = () => {
+    handleMouseLeaveEventContainer();
     setEventViewStatus({
       set: false,
       eventId: '',

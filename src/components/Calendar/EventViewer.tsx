@@ -83,6 +83,7 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
           return toast.error(`${jsonResponse.detail}`, {id: 'deletingEvent'});
         } else {
           toast.success('Event Deleted!', {id: 'deletingEvent'});
+          reEnableScrollBar();
           return updateCalendarInUser(jsonResponse.updated_calendar);
         };
       } else {
