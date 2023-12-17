@@ -9,6 +9,7 @@ import {
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
+import { getEventDate } from "../../scripts/calendarHelpers";
 
 const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
@@ -26,10 +27,12 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
   } = props;
 
   const [monthViewNotes, setMonthViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
+  const [monthViewEvents, setMonthViewEvents] = useState([]);
 
   useEffect(() => {
-    setMonthViewNotes(getMonthViewNotes())
-  }, [activeCalendars]);
+    setMonthViewNotes(getMonthViewNotes());
+    setMonthViewEvents(getMonthViewEvents());
+  }, [activeCalendars, monthNotes, monthEvents]);
 
   const getMonthViewNotes = () => {
     const thisMonthsNotes: calendarNotesWithInfo = [];
@@ -109,6 +112,40 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     };
 
     return calendar;
+  };
+
+  const getMonthViewEvents = () => {
+    const calendarDays = generateMonthCalendar();
+    const mapForDaysInMonth = buildMapForDaysInMonth(calendarDays);
+    const mapWithEvents = addEventsToMapForMonth(mapForDaysInMonth);
+    console.log(mapWithEvents);
+    return [];
+  };
+
+  const buildMapForDaysInMonth = (calendarDays: String[]) => {
+    const mapForDaysInMonth = new Map<string, any[]>();
+
+    calendarDays.forEach((day) => {
+      const isDayInMonth = day.includes("-");
+      if (isDayInMonth) {
+        const dayNumber = day.split("-")[0];
+        mapForDaysInMonth.set(dayNumber, []);
+      };
+    });
+
+    return mapForDaysInMonth;
+  };
+
+  const addEventsToMapForMonth = (mapForDaysInMonth: Map<string, any[]>) => {
+    monthEvents.forEach((event) => {
+      const eventDate = getEventDate(event).toString();
+      const mapArray = mapForDaysInMonth.get(eventDate);
+      if (mapArray) {
+        mapArray.push(event);
+      };
+    });
+
+    return mapForDaysInMonth;
   };
 
   return (

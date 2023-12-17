@@ -135,7 +135,6 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     });
 
     const sortedCurrentWeekEvents = sortWeekEvents(currentWeeksEvents);
-    console.log(sortedCurrentWeekEvents)
     return sortedCurrentWeekEvents;
   };
 

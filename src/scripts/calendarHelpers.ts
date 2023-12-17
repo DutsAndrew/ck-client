@@ -80,6 +80,24 @@ const getDayOfWeekLocalTime = (event: eventObject) => {
   return dayOfWeek;
 };
 
+const getEventDate = (event: eventObject) => {
+  const [datePart, timePart] = event.combined_date_and_time.split(' ');
+  const [year, month, day] = datePart.split('-').map(Number);
+
+  if (event.event_time.length === 0) { // handle early return for no time set
+    const dateObject = new Date(year, month - 1, day, 0, 0, 0);
+    const dateOfEvent = dateObject.getDate();
+
+    return dateOfEvent;
+  };
+
+  const [hour, minute, second] = timePart.split(':').map(Number);
+  const dateObject = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
+  const dateOfEvent = dateObject.getDate();
+
+  return dateOfEvent;
+};
+
 const isUserAuthorized = (calendars: calendarObject[], calendarId: string, userId: string) => {
   const selectedCalendar = calendars.find(calendar => calendar._id === calendarId);
 
@@ -96,5 +114,6 @@ export {
   getCalendarEventTimeForLocal,
   getLocalDateAndTimeForEvent,
   getDayOfWeekLocalTime,
+  getEventDate,
   isUserAuthorized,
 };
