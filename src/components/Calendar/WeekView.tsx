@@ -9,7 +9,6 @@ import {
   weekViewProps
 } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
-import uniqid from "uniqid";
 import { compareEventTimes, getCalendarEventTimeForLocal, getDayOfWeekLocalTime, getLocalDateAndTimeForEvent, isUserAuthorized } from "../../scripts/calendarHelpers";
 import EventViewer from "./EventViewer";
 
@@ -195,14 +194,17 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
       <h2 className={styles.weekViewHeaderText}>Week View</h2>
       <div className={styles.weekDayContainer}>
         {week.map((day) => (
-          <div className={styles.weekDayItem} key={uniqid()}>
+          <div 
+            className={styles.weekDayItem} 
+            key={`week-view-${day}`}
+          >
             <p className={styles.weekDayItemText}>
               <strong><em>{day}</em></strong>
             </p>
             <div className={styles.weekDayItemBlock}>
               {(weekViewEvents as any)[`${day.toLowerCase()}`].map((event: eventObject) => {
                 return <div 
-                key={uniqid()}
+                key={event._id}
                 onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
                 onMouseLeave={() => handleMouseLeaveEventContainer()}
                 onClick={() => handleEventClickToOpenEventMenu(event._id)}

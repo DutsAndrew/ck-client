@@ -222,7 +222,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
           : styles.monthItemInvalidDateContainer;
 
           return <div 
-            key={uniqid()}
+            key={isAccurateMonthDate ? item : `${uniqid()}-item`}
             className={`${styles.monthItemContainer} ${containerClass}`}
           >
             <p className={styles.monthItemWeekDayText}>
@@ -232,11 +232,11 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
               {item.includes('-') ? item.split('-')[0] : ''}
             </p>
             <div className={styles.monthViewEventsContainer}>
-              {monthViewEvents?.get(item.includes('-') ? item.split('-')[0] : '')?.map((event) => {
+              {monthViewEvents?.get(item.includes('-') ? item.split('-')[0] : '')?.map((event: eventObject) => {
                 return <div 
-                key={uniqid()}
+                key={event._id}
                 onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
-                onMouseLeave={() => handleMouseLeaveEventContainer()}
+                onMouseLeave={handleMouseLeaveEventContainer}
                 onClick={() => handleEventClickToOpenEventMenu(event._id)}
                 className={styles.monthViewEventContainer}
               >

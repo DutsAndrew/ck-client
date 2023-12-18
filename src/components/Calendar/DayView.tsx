@@ -11,7 +11,6 @@ import {
 } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import EventViewer from "./EventViewer";
-import uniqid from "uniqid";
 import { getTodaysDate, getCalendarEventTimeForLocal, isUserAuthorized, compareEventTimes } from "../../scripts/calendarHelpers";
 
 const DayView:FC<dayViewProps> = (props): JSX.Element => {
@@ -259,7 +258,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
             {blockSchedule.am.map((block) => {
               return <div
                 className={styles.AMDayScheduleItem}
-                key={uniqid()}
+                key={`day-view${block}-PM`}
               >
               <p 
                 className={styles.AMDayScheduleText}
@@ -269,7 +268,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
               <div className={styles.AMDayScheduleBlock}>
                 {(dayViewEvents as any)[`${block} AM`].map((event: eventObject) => {
                   return <div 
-                    key={uniqid()}
+                    key={event._id}
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
                     onMouseLeave={() => handleMouseLeaveEventContainer()}
                     onClick={() => handleEventClickToOpenEventMenu(event._id)}
@@ -299,7 +298,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
             {blockSchedule.pm.map((block) => {
               return <div
                 className={styles.PMDayScheduleItem}
-                key={uniqid()}
+                key={`day-view${block}-PM`}
               >
               <p className={styles.PMDayScheduleText}>
                 {block}
@@ -307,6 +306,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
               <div className={styles.PMDayScheduleBlock}>
                 {(dayViewEvents as any)[`${block} PM`].map((event: eventObject) => {
                   return <div 
+                    key={event._id}
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
                     onMouseLeave={() => handleMouseLeaveEventContainer()}
                     onClick={() => handleEventClickToOpenEventMenu(event._id)}
