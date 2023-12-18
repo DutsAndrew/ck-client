@@ -12,7 +12,7 @@ import {
 import NotesForCalendar from "./NotesForCalendar";
 import EventViewer from "./EventViewer";
 import uniqid from "uniqid";
-import { getTodaysDate, getCalendarEventTimeForLocal, isUserAuthorized } from "../../scripts/calendarHelpers";
+import { getTodaysDate, getCalendarEventTimeForLocal, isUserAuthorized, compareEventTimes } from "../../scripts/calendarHelpers";
 
 const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
@@ -173,28 +173,10 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
   const sortDayViewEventTimeSlots = (timeSlots: timeSlotObject) => {  
     Object.keys(timeSlots).forEach(key => {
-      (timeSlots as any)[key].sort(compareDates);
+      (timeSlots as any)[key].sort(compareEventTimes);
     });
 
     return timeSlots;
-  };
-
-  const compareDates = (eventA: eventObject, eventB: eventObject) => {
-    const dateA = eventA.combined_date_and_time;
-    const dateB = eventB.combined_date_and_time;
-  
-    const timeA = dateA ? new Date(dateA).getTime() : 0;
-    const timeB = dateB ? new Date(dateB).getTime() : 0;
-
-    if (timeA === 0 && timeB === 0) {
-      return 0; // If both dates have no time, consider them equal
-    } else if (timeA === 0) {
-      return 1; // Put events with no time in dateA at the end
-    } else if (timeB === 0) {
-      return -1; // Put events with no time in dateB at the end
-    } else {
-      return timeA - timeB; // Compare by timestamps for events with specific times
-    };
   };
 
   const generateBlockSchedule = () => {

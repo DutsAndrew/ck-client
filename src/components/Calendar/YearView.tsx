@@ -5,11 +5,12 @@ import {
   calendarNoteWithCalendarInfo,
   calendarNotesWithInfo,
   calendarViewStateForCalendarNotes,
+  eventObject,
   yearViewProps 
 } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from 'uniqid';
-import { getLocalDateAndTimeForEvent } from "../../scripts/calendarHelpers";
+import { compareEventTimes, getLocalDateAndTimeForEvent } from "../../scripts/calendarHelpers";
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
@@ -27,7 +28,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
   } = props;
 
   const [yearViewNotes, setYearViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
-  const [yearViewEvents, setYearViewEvents] = useState<Map<string, any[]>>();
+  const [yearViewEvents, setYearViewEvents] = useState<Map<string, any[]>[]>();
 
   useEffect(() => {
     setYearViewNotes(getYearViewNotes())
@@ -120,7 +121,8 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
     const yearViewArray = generateYearViewArray();
     const eventsAddedToArray = addEventsToYearViewArray(yearViewArray);
-    return eventsAddedToArray;
+    const sortEventsInEachArray = sortEventsInMonthArray(eventsAddedToArray);
+    return sortEventsInEachArray;
   };
 
   const generateYearViewArray = () => {
@@ -162,6 +164,16 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
       const arrayEventBelongsTo = yearViewArray[month].get(day.toString());
 
       arrayEventBelongsTo?.push(event);
+    });
+
+    return yearViewArray;
+  };
+
+  const sortEventsInMonthArray = (yearViewArray: Map<string, any[]>[]) => {
+    yearViewArray.forEach((month) => {
+      month.forEach((dayArrayOfEvents: eventObject[]) => {
+        dayArrayOfEvents.sort(compareEventTimes);
+      });
     });
 
     return yearViewArray;

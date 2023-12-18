@@ -10,7 +10,7 @@ import {
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";
-import { getCalendarEventTimeForLocal, getEventDate, isUserAuthorized } from "../../scripts/calendarHelpers";
+import { compareEventTimes, getCalendarEventTimeForLocal, getEventDate, isUserAuthorized } from "../../scripts/calendarHelpers";
 import EventViewer from "./EventViewer";
 
 const MonthView:FC<monthViewProps> = (props): JSX.Element => {
@@ -127,7 +127,8 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     const calendarDays = generateMonthCalendar();
     const mapForDaysInMonth = buildMapForDaysInMonth(calendarDays);
     const mapWithEvents = addEventsToMapForMonth(mapForDaysInMonth);
-    return mapWithEvents;
+    const sortedMapWithEvents = sortMonthEvents(mapWithEvents);
+    return sortedMapWithEvents;
   };
 
   const buildMapForDaysInMonth = (calendarDays: String[]) => {
@@ -154,6 +155,14 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     });
 
     return mapForDaysInMonth;
+  };
+
+  const sortMonthEvents = (monthMapOfEvents: Map<string, any[]>) => {
+    monthMapOfEvents.forEach((eventsArray: eventObject[]) => {
+      eventsArray.sort(compareEventTimes);
+    });
+  
+    return monthMapOfEvents;
   };
 
   const handleMouseEnterEventContainer = (eventId: string) => {
