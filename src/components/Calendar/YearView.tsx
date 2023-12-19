@@ -6,11 +6,14 @@ import {
   calendarNotesWithInfo,
   calendarViewStateForCalendarNotes,
   eventObject,
-  yearViewProps 
+  yearViewProps, 
+  yearViewSelectedDateState
 } from "../../types/interfaces";
+import uniqid from "uniqid";
 import NotesForCalendar from "./NotesForCalendar";
 import { compareEventTimes, getLocalDateAndTimeForEvent } from "../../scripts/calendarHelpers";
 import circleSvg from '../../assets/circle-small.svg';
+import YearViewEventViewer from "./YearViewEventViewer";
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
@@ -29,6 +32,10 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
   const [yearViewNotes, setYearViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
   const [yearViewEvents, setYearViewEvents] = useState<Map<string, any[]>[]>();
+  const [selectedDate, setSelectedDate] = useState<yearViewSelectedDateState>({
+    status: false,
+    events: [],
+  });
 
   useEffect(() => {
     setYearViewNotes(getYearViewNotes())
@@ -122,7 +129,6 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     const yearViewArray = generateYearViewArray();
     const eventsAddedToArray = addEventsToYearViewArray(yearViewArray);
     const sortEventsInEachArray = sortEventsInMonthArray(eventsAddedToArray);
-    console.log(sortEventsInEachArray, (sortEventsInEachArray as any)[0].get('1').length)
     return sortEventsInEachArray;
   };
 
@@ -180,6 +186,39 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     return yearViewArray;
   };
 
+  const handleCalendarDateSelectionClick = (month: number, day: string) => {
+    if (day.length === 0) return; // invalid date, do not engage options
+
+    if ( // return if yearViewEvents is not initialized, or there are no events on that day
+      !Array.isArray(yearViewEvents)
+      || yearViewEvents.length === 0
+      || !yearViewEvents[month]
+      || !yearViewEvents[month].get(day)
+      || yearViewEvents[month].get(day)!.length === 0 // ! non-null assertion operator used, there has to be a length of that map value if it can be retrieved in the previous check
+    ) {
+      return;
+    } else {
+      const eventsList = yearViewEvents[month].get(day);
+      if (eventsList && eventsList.length > 0) {
+        handleOpenYearViewDateEventViewer(eventsList);
+      };
+    };
+  };
+
+  const handleOpenYearViewDateEventViewer = (eventsList: eventObject[]) => {
+    setSelectedDate({
+      status: true,
+      events: eventsList,
+    });
+  };
+
+  const handleCloseYearViewDateEventViewer = () => {
+    setSelectedDate({
+      status: false,
+      events: [],
+    });
+  };
+
   if (Object.keys(calendarDatesData).length > 0) { // if calendarData has been mounted in "App" from "Calendar parent component"
     const yearView = generateCurrentYearView();
     return (
@@ -187,13 +226,19 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
         <h2 className={styles.yearViewHeaderText}>
           Year View
         </h2>
+        {selectedDate.status === true &&
+          <YearViewEventViewer 
+            events={selectedDate.events}
+            handleCloseYearViewDateEventViewer={handleCloseYearViewDateEventViewer}
+          />
+        }
         <h2 className={styles.currentYearText}>
           {getTodaysYear()}
         </h2>
         <div className={styles.yearItemsContainer}>
           {yearView.map((month) => (
             <div
-              key={`year-view-${yearView.indexOf(month)}-container`}
+              key={uniqid()}
               className={styles.yearMonthContainer}
             >
               <h3 className={styles.yearViewMonthHeaderText}>
@@ -204,7 +249,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
                   {week.map((day) => {
                     return (
                       <div 
-                        key={`year-view-${day}-for-${yearView.indexOf(month)}-month`}
+                        key={uniqid()}
                         className={styles.dayOfWeekListItemContainer}
                       >
                         <p 
@@ -232,8 +277,8 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
                   return (
                     <div
-
-                      key={`year-view-${day}-for-${yearView.indexOf(month)}-month`}
+                      onClick={() => handleCalendarDateSelectionClick(monthIndex, day)}
+                      key={uniqid()}
                       className={`${styles.yearViewMonthItemContainer} ${containerClass} ${doesDayHaveEvents}`}
                     >
                       <p className={styles.yearViewMonthItemDateNumberText}>

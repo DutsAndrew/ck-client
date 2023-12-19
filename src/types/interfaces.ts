@@ -289,6 +289,11 @@ interface eventViewerProps {
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
 };
 
+interface yearViewEventViewerProps {
+  events: eventObject[],
+  handleCloseYearViewDateEventViewer: () => void,
+};
+
 interface notesForCalendarProps {
   userId: string,
   calendarNotes: calendarNotesWithInfo,
@@ -300,6 +305,11 @@ interface notesForCalendarProps {
 type notesForCalendarState = {
   notes: calendarNotesWithInfo | [],
   set: number[],
+};
+
+interface yearViewSelectedDateState {
+  status: boolean,
+  events: eventObject[],
 };
 
 type calendarViewStateForCalendarNotes = calendarNotesWithInfo;
@@ -684,8 +694,10 @@ export type {
   monthViewProps,
   yearViewProps,
   eventViewerProps,
+  yearViewEventViewerProps,
   notesForCalendarProps,
   notesForCalendarState,
+  yearViewSelectedDateState,
   calendarNote,
   calendarNoteWithCalendarInfo,
   calendarNotesWithInfo,
