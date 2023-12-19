@@ -478,7 +478,6 @@
 .monthItemInvalidDateContainer:hover {
   background-color: #E5E5E5;
   cursor: pointer;
-  transform: scale(1.05);
 }
 
 .monthItemDateNumberText {
@@ -852,11 +851,9 @@
 .yearViewMonthItemContainer:hover {
   background-color: #E5E5E5;
   cursor: pointer;
-  transform: scale(1.05);
 }
 
 .yearViewMonthItemContainer:hover > p {
-  transform: scale(1.25);
   font-weight: bold;
 }
 

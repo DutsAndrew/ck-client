@@ -9,7 +9,6 @@ import {
   yearViewProps 
 } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
-import uniqid from 'uniqid';
 import { compareEventTimes, getLocalDateAndTimeForEvent } from "../../scripts/calendarHelpers";
 import circleSvg from '../../assets/circle-small.svg';
 
@@ -194,7 +193,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
         <div className={styles.yearItemsContainer}>
           {yearView.map((month) => (
             <div
-              key={uniqid()}
+              key={`year-view-${yearView.indexOf(month)}-container`}
               className={styles.yearMonthContainer}
             >
               <h3 className={styles.yearViewMonthHeaderText}>
@@ -205,12 +204,11 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
                   {week.map((day) => {
                     return (
                       <div 
-                        key={day}
+                        key={`year-view-${day}-for-${yearView.indexOf(month)}-month`}
                         className={styles.dayOfWeekListItemContainer}
                       >
                         <p 
                           className={styles.dayOfWeekListItemText}
-                          key={uniqid()}
                         >
                           {day.slice(0,1)}
                         </p>
@@ -234,7 +232,8 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
                   return (
                     <div
-                      key={uniqid()}
+
+                      key={`year-view-${day}-for-${yearView.indexOf(month)}-month`}
                       className={`${styles.yearViewMonthItemContainer} ${containerClass} ${doesDayHaveEvents}`}
                     >
                       <p className={styles.yearViewMonthItemDateNumberText}>
