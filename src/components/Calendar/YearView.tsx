@@ -11,6 +11,7 @@ import {
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from 'uniqid';
 import { compareEventTimes, getLocalDateAndTimeForEvent } from "../../scripts/calendarHelpers";
+import circleSvg from '../../assets/circle-small.svg';
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
@@ -122,6 +123,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     const yearViewArray = generateYearViewArray();
     const eventsAddedToArray = addEventsToYearViewArray(yearViewArray);
     const sortEventsInEachArray = sortEventsInMonthArray(eventsAddedToArray);
+    console.log(sortEventsInEachArray, (sortEventsInEachArray as any)[0].get('1').length)
     return sortEventsInEachArray;
   };
 
@@ -217,19 +219,43 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
                   })}
                 </div>
                 {month.map((day: any) => {
+                  const monthIndex = yearView.indexOf(month);
                   const isAccurateMonthDate = day.length > 0;
                   const containerClass = isAccurateMonthDate
                     ? styles.monthItemValidDateContainer
                     : styles.monthItemInvalidDateContainer;
+                  const doesDayHaveEvents = (Array.isArray(yearViewEvents) &&
+                    yearViewEvents.length > 0 &&
+                    yearViewEvents[monthIndex] &&
+                    yearViewEvents[monthIndex].get(day) &&
+                    yearViewEvents[monthIndex].get(day)!.length > 0) // ! non-null assertion operator used, there has to be a length of that map value if it can be retrieved in the previous check
+                    ? styles.yearViewDateHasEvents
+                    : '';
 
                   return (
                     <div
                       key={uniqid()}
-                      className={`${styles.yearViewMonthItemContainer} ${containerClass}`}
+                      className={`${styles.yearViewMonthItemContainer} ${containerClass} ${doesDayHaveEvents}`}
                     >
                       <p className={styles.yearViewMonthItemDateNumberText}>
                         {day.length > 0 ? day : ''}
                       </p>
+                      {Array.isArray(yearViewEvents) &&
+                        yearViewEvents.length > 0 &&
+                        yearViewEvents[monthIndex] &&
+                        yearViewEvents[monthIndex].get(day) ? (
+                        yearViewEvents[monthIndex].get(day)!.length > 0 ? ( // ! non-null assertion operator used, there has to be a length of that map value if it can be retrieved in the previous check
+                          <img 
+                            className={styles.yearViewEventsFoundForDateSvg}
+                            src={circleSvg}
+                            alt="circle icon">
+                          </img>
+                        ) : (
+                          <></>
+                        )
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   );
                 })}

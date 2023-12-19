@@ -838,10 +838,15 @@
 
 .yearViewMonthItemContainer {
   display: flex;
-  justify-content: center;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
   align-items: center;
   width: 14%;
   height: 5vh;
+}
+
+.yearViewDateHasEvents {
+  background-color: #F0E6FF;
 }
 
 .yearViewMonthItemContainer:hover {
@@ -861,7 +866,15 @@
   align-items: center;
   width: auto;
   margin: 0;
+  padding: 0;
   font-size: 0.9em;
+}
+
+.yearViewEventsFoundForDateSvg {
+  width: 2vw;
+  height: auto;
+  margin: 0;
+  padding: 0;
 }
 
 /* #99A7B9 for coloring events added to calendar */
