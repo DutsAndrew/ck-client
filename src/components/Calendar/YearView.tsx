@@ -11,9 +11,9 @@ import {
 } from "../../types/interfaces";
 import uniqid from "uniqid";
 import NotesForCalendar from "./NotesForCalendar";
-import { compareEventTimes, getLocalDateAndTimeForEvent } from "../../scripts/calendarHelpers";
+import { compareEventTimes, getLocalDateAndTimeForEvent, isUserAuthorized } from "../../scripts/calendarHelpers";
 import circleSvg from '../../assets/circle-small.svg';
-import YearViewEventViewer from "./YearViewEventViewer";
+import EventViewer from "./EventViewer";
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
@@ -212,11 +212,20 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     });
   };
 
-  const handleCloseYearViewDateEventViewer = () => {
+  const handleCloseEventViewerRequest = () => {
     setSelectedDate({
       status: false,
       events: [],
     });
+  };
+
+  const handleEditEventRequest = (event: eventObject) => {
+    handleCloseEventViewerRequest();
+    handleCalendarEventModificationRequest(event.calendar_id, event);
+  };
+
+  const verifyUserAuthorizationOfCalendar = (calendarId: string) => {
+    return isUserAuthorized(activeCalendars, calendarId, userId);
   };
 
   if (Object.keys(calendarDatesData).length > 0) { // if calendarData has been mounted in "App" from "Calendar parent component"
@@ -227,9 +236,12 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
           Year View
         </h2>
         {selectedDate.status === true &&
-          <YearViewEventViewer 
+          <EventViewer
             events={selectedDate.events}
-            handleCloseYearViewDateEventViewer={handleCloseYearViewDateEventViewer}
+            handleCloseEventViewerRequest={handleCloseEventViewerRequest}
+            handleEditEventRequest={handleEditEventRequest}
+            verifyUserAuthorizationOfCalendar={verifyUserAuthorizationOfCalendar}
+            updateCalendarInUser={updateCalendarInUser}
           />
         }
         <h2 className={styles.currentYearText}>

@@ -282,16 +282,12 @@ interface yearViewProps {
 };
 
 interface eventViewerProps {
-  event: eventObject | undefined,
+  event?: eventObject | undefined,
+  events?: eventObject[],
   handleCloseEventViewerRequest: () => void,
   handleEditEventRequest: (event: eventObject) => void,
   verifyUserAuthorizationOfCalendar: (calendarId: string) => boolean,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
-};
-
-interface yearViewEventViewerProps {
-  events: eventObject[],
-  handleCloseYearViewDateEventViewer: () => void,
 };
 
 interface notesForCalendarProps {
@@ -694,7 +690,6 @@ export type {
   monthViewProps,
   yearViewProps,
   eventViewerProps,
-  yearViewEventViewerProps,
   notesForCalendarProps,
   notesForCalendarState,
   yearViewSelectedDateState,

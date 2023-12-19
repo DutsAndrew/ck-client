@@ -9,7 +9,8 @@ import toast from "react-hot-toast";
 const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
 
   const { 
-    event, // event could be passed as undefined, handle appropriately
+    event, // event could be passed as undefined, handle appropriately, event is conditional
+    events, // // event could be passed as undefined, handle appropriately, events is conditional
     handleCloseEventViewerRequest,
     handleEditEventRequest,
     verifyUserAuthorizationOfCalendar,
@@ -92,11 +93,7 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
     };
   };
 
-  if (typeof event === 'undefined') {
-    return (
-      <></>
-    );
-  } else {
+  if (typeof event !== 'undefined' && Object.keys(event).length > 0) {
     return (
       <section 
         onClick={(e) => handleEventViewerOffClick(e)}
@@ -145,8 +142,18 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
           </div>
         </div>
       </section>
-    )
-  }
+    );
+  } else if (typeof events !== 'undefined' && events.length > 0) {
+    return (
+      <section className={styles.eventsViewerSectionContainer}>
+        
+      </section>
+    );
+  } else {
+    return (
+      <></>
+    );
+  };
 };
 
 export default EventViewer;
