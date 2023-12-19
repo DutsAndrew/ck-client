@@ -1,15 +1,15 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import { 
+  calendarEventWithCalendarName,
   calendarNoteWithCalendarInfo,
   calendarNotesWithInfo,
   calendarViewStateForCalendarNotes,
   calendarWeekViewStateForCalendarEvents,
-  eventObject,
   weekViewProps
 } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
-import { compareEventTimes, getCalendarEventTimeForLocal, getDayOfWeekLocalTime, getLocalDateAndTimeForEvent, isUserAuthorized } from "../../scripts/calendarHelpers";
+import { compareEventTimes, getCalendarEventTimeForLocal, getDayOfWeekLocalTime, isUserAuthorized } from "../../scripts/calendarHelpers";
 import EventViewer from "./EventViewer";
 
 const WeekView: FC<weekViewProps> = (props): JSX.Element => {
@@ -168,7 +168,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     });
   };
 
-  const handleEditEventRequest = (event: eventObject) => {
+  const handleEditEventRequest = (event: calendarEventWithCalendarName) => {
     handleCloseEventViewerRequest();
     handleCalendarEventModificationRequest(event.calendar_id, event);
   };
@@ -202,7 +202,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
               <strong><em>{day}</em></strong>
             </p>
             <div className={styles.weekDayItemBlock}>
-              {(weekViewEvents as any)[`${day.toLowerCase()}`].map((event: eventObject) => {
+              {(weekViewEvents as any)[`${day.toLowerCase()}`].map((event: calendarEventWithCalendarName) => {
                 return <div 
                 key={event._id}
                 onMouseEnter={() => handleMouseEnterEventContainer(event._id)}

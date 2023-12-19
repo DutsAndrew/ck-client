@@ -1,12 +1,12 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import { 
+  calendarEventWithCalendarName,
   calendarNoteWithCalendarInfo,
   calendarNotesWithInfo,
   calendarViewStateForCalendarEvents,
   calendarViewStateForCalendarNotes,
   dayViewProps,
-  eventObject,
   timeSlotObject,
 } from "../../types/interfaces";
 import NotesForCalendar from "./NotesForCalendar";
@@ -159,7 +159,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     return sortedTimeSlots;
   };
 
-  const buildEventTimeSlot = (event: eventObject) => {
+  const buildEventTimeSlot = (event: calendarEventWithCalendarName) => {
     const convertedTime = getCalendarEventTimeForLocal(event);
     let eventHour = convertedTime.slice(0, 2);
     const timeOfDay = convertedTime.split(" ")[1]; // grab the AM / PM part of time
@@ -221,7 +221,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     });
   };
 
-  const handleEditEventRequest = (event: eventObject) => {
+  const handleEditEventRequest = (event: calendarEventWithCalendarName) => {
     handleCloseEventViewerRequest();
     handleCalendarEventModificationRequest(event.calendar_id, event);
   };
@@ -266,7 +266,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                 {block}
               </p>
               <div className={styles.AMDayScheduleBlock}>
-                {(dayViewEvents as any)[`${block} AM`].map((event: eventObject) => {
+                {(dayViewEvents as any)[`${block} AM`].map((event: calendarEventWithCalendarName) => {
                   return <div 
                     key={event._id}
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
@@ -304,7 +304,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                 {block}
               </p>
               <div className={styles.PMDayScheduleBlock}>
-                {(dayViewEvents as any)[`${block} PM`].map((event: eventObject) => {
+                {(dayViewEvents as any)[`${block} PM`].map((event: calendarEventWithCalendarName) => {
                   return <div 
                     key={event._id}
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}

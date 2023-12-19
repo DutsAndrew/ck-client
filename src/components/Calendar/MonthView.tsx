@@ -1,10 +1,10 @@
 import React, { FC, useState, useEffect } from "react";
 import { 
   CalendarDatesData,
+  calendarEventWithCalendarName,
   calendarNoteWithCalendarInfo,
   calendarNotesWithInfo,
   calendarViewStateForCalendarNotes,
-  eventObject,
   monthViewProps 
 } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
@@ -158,7 +158,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
   };
 
   const sortMonthEvents = (monthMapOfEvents: Map<string, any[]>) => {
-    monthMapOfEvents.forEach((eventsArray: eventObject[]) => {
+    monthMapOfEvents.forEach((eventsArray: calendarEventWithCalendarName[]) => {
       eventsArray.sort(compareEventTimes);
     });
   
@@ -188,7 +188,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     });
   };
 
-  const handleEditEventRequest = (event: eventObject) => {
+  const handleEditEventRequest = (event: calendarEventWithCalendarName) => {
     handleCloseEventViewerRequest();
     handleCalendarEventModificationRequest(event.calendar_id, event);
   };
@@ -232,7 +232,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
               {item.includes('-') ? item.split('-')[0] : ''}
             </p>
             <div className={styles.monthViewEventsContainer}>
-              {monthViewEvents?.get(item.includes('-') ? item.split('-')[0] : '')?.map((event: eventObject) => {
+              {monthViewEvents?.get(item.includes('-') ? item.split('-')[0] : '')?.map((event: calendarEventWithCalendarName) => {
                 return <div 
                 key={event._id}
                 onMouseEnter={() => handleMouseEnterEventContainer(event._id)}

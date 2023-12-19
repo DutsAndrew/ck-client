@@ -1,8 +1,9 @@
 import React, { FC, useEffect } from "react";
-import { eventObject, eventViewerProps } from "../../types/interfaces";
+import { calendarEventWithCalendarName, eventViewerProps } from "../../types/interfaces";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import pencilSvg from '../../assets/pencil-outline.svg';
 import trashSvg from '../../assets/delete.svg';
+import closeSvg from '../../assets/close.svg';
 import { getCalendarEventTimeForLocal } from "../../scripts/calendarHelpers";
 import toast from "react-hot-toast";
 
@@ -48,29 +49,29 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
     body.classList.remove('disableScrollbar');
   };
 
-  const handleEditEventIconClick = () => {
-    return handleEditEventRequest((event as eventObject));
+  const handleEditEventIconClick = (event: calendarEventWithCalendarName) => {
+    return handleEditEventRequest((event as calendarEventWithCalendarName));
   };
 
-  const handleDeleteIconClick = async () => {
-    const calendarId = event?.calendar_id;
+  const handleDeleteIconClick = async (eventToDelete: calendarEventWithCalendarName) => {
+    const calendarId = eventToDelete.calendar_id;
 
     if (typeof calendarId === 'undefined') {
       return;
     };
     
     if (verifyUserAuthorizationOfCalendar(calendarId)) {
-      return await deleteEventRequest();
+      return await deleteEventRequest(eventToDelete);
     };
   };
 
-  const deleteEventRequest = async () => {
+  const deleteEventRequest = async (eventToDelete: calendarEventWithCalendarName) => {
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
       return toast.error('You must be signed in or not in incognito to perform this action', {id: 'deletingEvent'});
     } else {
-      if (event?.calendar_id && event?._id) {
-        const apiUrl = `http://127.0.0.1:8000/calendar/${event.calendar_id}/deleteEvent/${event._id}`;
+      if (eventToDelete.calendar_id && eventToDelete._id) {
+        const apiUrl = `http://127.0.0.1:8000/calendar/${eventToDelete.calendar_id}/deleteEvent/${eventToDelete._id}`;
         const request = await fetch(apiUrl, {
           headers: {
             'Accept': 'application/json',
@@ -85,12 +86,17 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
         } else {
           toast.success('Event Deleted!', {id: 'deletingEvent'});
           reEnableScrollBar();
-          return updateCalendarInUser(jsonResponse.updated_calendar);
+          updateCalendarInUser(jsonResponse.updated_calendar);
+          handleCloseEventViewerRequest();
         };
       } else {
         return;
       };
     };
+  };
+
+  const handleEventViewerCloseRequest = () => {
+    handleCloseEventViewerRequest();
   };
 
   if (typeof event !== 'undefined' && Object.keys(event).length > 0) {
@@ -102,15 +108,21 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
         className={styles.eventViewerSectionContainer}
       >
         <div className={styles.eventViewContainer}>
+          <img 
+            onClick={() => handleEventViewerCloseRequest()}
+            className={styles.closeEventViewerSvg} 
+            alt="close icon" 
+            src={closeSvg}>
+          </img>
           <div className={styles.eventViewSvgContainer}>
             <img 
-              onClick={() => handleEditEventIconClick()}
+              onClick={() => handleEditEventIconClick(event)}
               className={styles.eventViewEditSvg} 
               alt="edit icon" 
               src={pencilSvg}>
             </img>
             <img 
-              onClick={() => handleDeleteIconClick()}
+              onClick={() => handleDeleteIconClick(event)}
               className={styles.eventViewDeleteSvg} 
               alt="delete icon" 
               src={trashSvg}>
@@ -136,6 +148,9 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
               <strong>{event.repeats === true ? 'Repeats: ' : ''}</strong>
               {event.repeats === true ? `${event.repeat_option}` : ''}
             </p>
+            <p className={styles.eventViewCalendarNameText}>
+              <strong>Calendar:</strong> {event.calendar_name}
+            </p>
             <p className={styles.eventViewCreatedByText}>
               <strong>Created by:</strong> {event.created_by.first_name}, {event.created_by.last_name}
             </p>
@@ -145,8 +160,68 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
     );
   } else if (typeof events !== 'undefined' && events.length > 0) {
     return (
-      <section className={styles.eventsViewerSectionContainer}>
-        
+      <section 
+        onClick={(e) => handleEventViewerOffClick(e)}
+        id="event-viewer-background"
+        style={getCurrenTopOfClientScreen()}
+        className={styles.eventViewerSectionContainer}
+      >
+        <div className={styles.eventsViewerContainer}>
+          <img 
+            onClick={() => handleEventViewerCloseRequest()}
+            className={styles.closeEventViewerSvg} 
+            alt="close icon" 
+            src={closeSvg}>
+          </img>
+          {Array.isArray(events) && events.map((event) => {
+            return <div 
+              key={`event-viewer-for-${event._id}`}
+              className={styles.eventsViewContainer}
+            >
+              <div className={styles.eventViewSvgContainer}>
+                <img 
+                  onClick={() => handleEditEventIconClick(event)}
+                  className={styles.eventViewEditSvg} 
+                  alt="edit icon" 
+                  src={pencilSvg}>
+                </img>
+                <img 
+                  onClick={() => handleDeleteIconClick(event)}
+                  className={styles.eventViewDeleteSvg} 
+                  alt="delete icon" 
+                  src={trashSvg}>
+                </img>
+              </div>
+              <div className={styles.eventViewDetailContainer}>
+                <p className={styles.eventViewNameText}>
+                  <strong>Name: </strong>{event.event_name}
+                </p>
+                <p className={styles.eventViewDescriptionText}>
+                  <strong>{event.event_description.length > 0 ? 'Description: ' : ''}</strong>
+                  {event.event_description.length > 0 ? <br></br> : ''}
+                  {event.event_description.length > 0 ? `${event.event_description}` : ''}
+                </p>
+                <p className={styles.eventViewDateText}>
+                  <strong>Date: </strong>{event.event_date.split(" ")[0]}
+                </p>
+                <p className={styles.eventViewTimeText}>
+                  <strong>{event.event_time.length > 0 ? 'Time: ' : ''}</strong>
+                  {event.event_time.length > 0 ? `${getCalendarEventTimeForLocal(event)}` : ''}
+                </p>
+                <p className={styles.eventViewRepeatText}>
+                  <strong>{event.repeats === true ? 'Repeats: ' : ''}</strong>
+                  {event.repeats === true ? `${event.repeat_option}` : ''}
+                </p>
+                <p className={styles.eventViewCalendarNameText}>
+                  <strong>Calendar:</strong> {event.calendar_name}
+                </p>
+                <p className={styles.eventViewCreatedByText}>
+                  <strong>Created by:</strong> {event.created_by.first_name}, {event.created_by.last_name}
+                </p>
+              </div>
+            </div>
+          })}
+        </div>
       </section>
     );
   } else {

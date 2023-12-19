@@ -5,7 +5,7 @@ import {
   calendarNoteWithCalendarInfo,
   calendarNotesWithInfo,
   calendarViewStateForCalendarNotes,
-  eventObject,
+  calendarEventWithCalendarName,
   yearViewProps, 
   yearViewSelectedDateState
 } from "../../types/interfaces";
@@ -178,7 +178,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
   const sortEventsInMonthArray = (yearViewArray: Map<string, any[]>[]) => {
     yearViewArray.forEach((month) => {
-      month.forEach((dayArrayOfEvents: eventObject[]) => {
+      month.forEach((dayArrayOfEvents: calendarEventWithCalendarName[]) => {
         dayArrayOfEvents.sort(compareEventTimes);
       });
     });
@@ -205,7 +205,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     };
   };
 
-  const handleOpenYearViewDateEventViewer = (eventsList: eventObject[]) => {
+  const handleOpenYearViewDateEventViewer = (eventsList: calendarEventWithCalendarName[]) => {
     setSelectedDate({
       status: true,
       events: eventsList,
@@ -219,7 +219,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     });
   };
 
-  const handleEditEventRequest = (event: eventObject) => {
+  const handleEditEventRequest = (event: calendarEventWithCalendarName) => {
     handleCloseEventViewerRequest();
     handleCalendarEventModificationRequest(event.calendar_id, event);
   };

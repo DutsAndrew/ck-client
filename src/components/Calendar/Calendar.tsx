@@ -22,7 +22,8 @@ import {
   calendarNotesWithInfo,
   calendarEventsGroupedState,
   calendarEventsGrouped,
-  eventObject
+  eventObject,
+  calendarEventWithCalendarName
 } from '../../types/interfaces';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
@@ -358,28 +359,32 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   const groupEvents = () => {
     if (!Array.isArray(activeCalendars) || activeCalendars.length === 0) return; 
 
-    const dayEvents: Object[] = [];
-    const weekEvents: Object[] = [];
-    const monthEvents: Object[] = [];
-    const yearEvents: Object[] = [];
+    const dayEvents: calendarEventWithCalendarName[] = [];
+    const weekEvents: calendarEventWithCalendarName[] = [];
+    const monthEvents: calendarEventWithCalendarName[] = [];
+    const yearEvents: calendarEventWithCalendarName[] = [];
 
     Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
       if (calendar && calendar.events) {
         Array.isArray(calendar.events) && calendar.events.forEach((event) => {
+          const eventWithCalendarInfo: calendarEventWithCalendarName = {
+            ...event,
+            calendar_name: calendar.name,
+          };
           const eventDate = new Date(event.event_date);
           const eventGroup = identifyEventCategory(eventDate);
           switch(eventGroup) {
             case 'day':
-              dayEvents.push(event);
+              dayEvents.push(eventWithCalendarInfo);
               break;
             case 'week':
-              weekEvents.push(event);
+              weekEvents.push(eventWithCalendarInfo);
               break;
             case 'month':
-              monthEvents.push(event);
+              monthEvents.push(eventWithCalendarInfo);
               break;
             case 'year':
-              yearEvents.push(event);
+              yearEvents.push(eventWithCalendarInfo);
               break;
             case 'none':
               break;

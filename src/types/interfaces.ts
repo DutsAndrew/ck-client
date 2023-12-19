@@ -240,7 +240,7 @@ interface dayViewProps {
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   dayNotes: {} | calendarNoteWithCalendarInfo[],
-  dayEvents: [] | eventObject[],
+  dayEvents: [] | calendarEventWithCalendarName[],
 };
 
 interface weekViewProps {
@@ -252,7 +252,7 @@ interface weekViewProps {
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   weekNotes: {} | calendarNoteWithCalendarInfo[],
-  weekEvents: [] | eventObject[],
+  weekEvents: [] | calendarEventWithCalendarName[],
 };
 
 interface monthViewProps {
@@ -265,7 +265,7 @@ interface monthViewProps {
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   monthNotes: {} | calendarNoteWithCalendarInfo[],
-  monthEvents: [] | eventObject[],
+  monthEvents: [] | calendarEventWithCalendarName[],
 };
 
 interface yearViewProps {
@@ -278,14 +278,14 @@ interface yearViewProps {
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   yearNotes: {} | calendarNoteWithCalendarInfo[],
-  yearEvents: [] | eventObject[],
+  yearEvents: [] | calendarEventWithCalendarName[],
 };
 
 interface eventViewerProps {
-  event?: eventObject | undefined,
-  events?: eventObject[],
+  event?: calendarEventWithCalendarName | undefined,
+  events?: calendarEventWithCalendarName[],
   handleCloseEventViewerRequest: () => void,
-  handleEditEventRequest: (event: eventObject) => void,
+  handleEditEventRequest: (event: calendarEventWithCalendarName) => void,
   verifyUserAuthorizationOfCalendar: (calendarId: string) => boolean,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
 };
@@ -305,7 +305,7 @@ type notesForCalendarState = {
 
 interface yearViewSelectedDateState {
   status: boolean,
-  events: eventObject[],
+  events: calendarEventWithCalendarName[],
 };
 
 type calendarViewStateForCalendarNotes = calendarNotesWithInfo;
@@ -385,10 +385,10 @@ interface calendarNotesGrouped {
 };
 
 interface calendarEventsGrouped {
-  dayEvents: eventObject[],
-  weekEvents: eventObject[],
-  monthEvents: eventObject[],
-  yearEvents: eventObject[],
+  dayEvents: calendarEventWithCalendarName[],
+  weekEvents: calendarEventWithCalendarName[],
+  monthEvents: calendarEventWithCalendarName[],
+  yearEvents: calendarEventWithCalendarName[],
 };
 
 interface calendarModalState {
@@ -646,6 +646,24 @@ interface eventObject {
   _id: string,
 }
 
+interface calendarEventWithCalendarName {
+  calendar_id: string,
+  calendar_name: string,
+  combined_date_and_time: string,
+  created_by: {
+    first_name: string,
+    last_name: string,
+    user_id: string,
+  },
+  event_date: string,
+  event_description: string,
+  event_name: string,
+  event_time: string,
+  repeat_option: string,
+  repeats: boolean,
+  _id: string,
+}
+
 type personalCalendar = calendarObject;
 
 type allUserCalendars = calendarObject[];
@@ -729,4 +747,5 @@ export type {
   userCalendars,
   calendarObject,
   eventObject,
+  calendarEventWithCalendarName,
 };

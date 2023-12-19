@@ -261,8 +261,9 @@
 .eventViewerSectionContainer {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   position: absolute;
+  overflow-y: scroll;
   left: 0;
   width: 100%;
   height: 100%;
@@ -270,7 +271,7 @@
   z-index: 1;
 }
 
-.eventViewContainer {
+.eventViewContainer, .eventsViewerContainer {
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
@@ -278,12 +279,12 @@
   position: relative;
   z-index: 2;
   gap: 1vh;
-  padding-bottom: 2vh;
+  padding: 1vh;
   height: auto;
-  overflow-y: visible;
+  overflow-y: scroll;
   overflow-x: hidden;
-  background-color: #d3ebd7;
   color: #333333;
+  background-color: rgba(245, 245, 245, 0.5);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   transition: transform 0.25s ease-out;
@@ -342,13 +343,16 @@
   filter: invert(10%) sepia(78%) saturate(6605%) hue-rotate(3deg) brightness(82%) contrast(113%);
 }
 
-.eventViewDetailContainer {
+.eventViewDetailContainer, .eventsViewContainer {
+  background-color: #d3ebd7;
   display: flex;
   flex-flow: column nowrap;
+  width: 95%;
   gap: 3vh;
+  padding: 1vh;
 }
 
-.eventViewNameText, .eventViewDescriptionText, .eventViewDateText, .eventViewTimeText, .eventViewRepeatText, .eventViewCreatedByText {
+.eventViewNameText, .eventViewDescriptionText, .eventViewDateText, .eventViewTimeText, .eventViewRepeatText, .eventViewCreatedByText, .eventViewCalendarNameText {
   font-size: 1.75em;
   margin: 0;
   padding: 0;
@@ -546,12 +550,12 @@
   }
 }
 
-.calendarFormModalCloseIcon {
+.calendarFormModalCloseIcon, .closeEventViewerSvg {
   width: auto;
   height: 5vh;
 }
 
-.calendarFormModalCloseIcon:hover {
+.calendarFormModalCloseIcon:hover, .closeEventViewerSvg:hover {
   cursor: pointer;
   transform: scale(0.99);
   filter: invert(11%) sepia(71%) saturate(6473%) hue-rotate(359deg) brightness(85%) contrast(112%);
