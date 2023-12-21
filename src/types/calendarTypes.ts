@@ -98,6 +98,7 @@ interface calendarProps {
   updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   calendarDatesData: object,
+  usersPreferredCalendarColors: userColorPreferences,
 };
 
 interface calendarEditorState {
@@ -520,22 +521,29 @@ interface userInstance {
   total_completed_projects: number,
   total_completed_tasks: number,
   total_completed_subtasks: number,
-  user_color_preferences: {
-    calendars: [],
-    chats: [],
-    events: [],
-    teams: [],
-    user: {
-      font_color: string,
-      background_color: string,
-    },    
-  },
+  user_color_preferences: userColorPreferences,
   verified_email: boolean,
   yearly_completed_projects: number,
   yearly_completed_tasks: number,
   yearly_completed_subtasks: number,
   _id: string,
 };
+
+interface userColorPreferences {
+  calendars: colorScheme[],
+  chats: colorScheme[],
+  teams: colorScheme[],
+  user: {
+    font_color: string,
+    background_color: string,
+  },    
+};
+
+interface colorScheme {
+  apply_to_which_object_id: string,
+  font_color: string,
+  background_color: string,
+}
 
 interface userReferenceInstance {
   company: string,
@@ -657,6 +665,8 @@ interface calendarEventWithCalendarName {
     last_name: string,
     user_id: string,
   },
+  event_background_color: string,
+  event_font_color: string,
   event_date: string,
   event_description: string,
   event_name: string,

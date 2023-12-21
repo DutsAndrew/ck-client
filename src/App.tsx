@@ -272,6 +272,7 @@ function App() {
                 updateCalendarNote={updateCalendarNote}
                 removeCalendarNoteFromCalendar={removeCalendarNoteFromCalendar}
                 calendarDatesData={appData.calendarData}
+                usersPreferredCalendarColors={(user as userInstance).user_color_preferences}
               />
             </Suspense>
           }

@@ -8,6 +8,7 @@ import WeekView from './WeekView';
 import DayView from './DayView';
 import EditCalendar from './EditCalendar';
 import toast from 'react-hot-toast'
+import { getFontColorForHex } from '../../scripts/calculateFontColorForHex';
 import { 
   calendarEditorState,
   calendarObject,
@@ -23,7 +24,7 @@ import {
   calendarEventsGroupedState,
   calendarEventsGrouped,
   eventObject,
-  calendarEventWithCalendarName
+  calendarEventWithCalendarName,
 } from '../../types/calendarTypes';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
@@ -43,6 +44,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     updateCalendarNote,
     removeCalendarNoteFromCalendar,
     calendarDatesData,
+    usersPreferredCalendarColors,
   } = props;
 
     const [currentView, setCurrentView] = useState('All'),
@@ -367,24 +369,23 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
       if (calendar && calendar.events) {
         Array.isArray(calendar.events) && calendar.events.forEach((event) => {
-          const eventWithCalendarInfo: calendarEventWithCalendarName = {
-            ...event,
-            calendar_name: calendar.name,
-          };
+
+          const eventWithCustomizations = addEventCustomizations(calendar, event);
           const eventDate = new Date(event.event_date);
           const eventGroup = identifyEventCategory(eventDate);
+
           switch(eventGroup) {
             case 'day':
-              dayEvents.push(eventWithCalendarInfo);
+              dayEvents.push(eventWithCustomizations);
               break;
             case 'week':
-              weekEvents.push(eventWithCalendarInfo);
+              weekEvents.push(eventWithCustomizations);
               break;
             case 'month':
-              monthEvents.push(eventWithCalendarInfo);
+              monthEvents.push(eventWithCustomizations);
               break;
             case 'year':
-              yearEvents.push(eventWithCalendarInfo);
+              yearEvents.push(eventWithCustomizations);
               break;
             case 'none':
               break;
@@ -403,6 +404,40 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
 
     return setCalendarEventsGrouped(events);
+  };
+
+  const addEventCustomizations = (calendar: calendarObject, event: eventObject) => {
+    const backgroundColor = applyCalendarBackgroundColor(calendar.calendar_color, calendar._id);
+    const fontColor = getFontColorForHex(backgroundColor);
+
+    const eventWithCalendarInfo: calendarEventWithCalendarName = {
+      ...event,
+      calendar_name: calendar.name,
+      event_background_color: backgroundColor,
+      event_font_color: fontColor,
+    };
+
+    return eventWithCalendarInfo;
+  };
+
+  const applyCalendarBackgroundColor = (calendarColor: string, calendarId: string): string => {
+    // check if calendar has a set color, if so store it
+    let setCalendarColor = '';
+    if (calendarColor && calendarColor.length > 0) setCalendarColor = calendarColor;
+
+    // check if user has a preferred color set, if so store and return it, otherwise return calendar color, which is defaulted to none
+    if (Array.isArray(usersPreferredCalendarColors.calendars) && usersPreferredCalendarColors.calendars.length > 0) {
+      let preferredCalendarColor = '';
+      const colorPreference = usersPreferredCalendarColors.calendars.find(colorScheme => colorScheme.apply_to_which_object_id === calendarId);
+      if (typeof colorPreference !== 'undefined' && colorPreference.background_color.length > 0) {
+        preferredCalendarColor = colorPreference.background_color;
+        return preferredCalendarColor
+      } else {
+        return setCalendarColor;
+      };
+    } else {
+      return setCalendarColor;
+    };
   };
 
   const identifyEventCategory = (eventDate: Date) => {

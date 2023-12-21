@@ -233,8 +233,18 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
             </p>
             <div className={styles.monthViewEventsContainer}>
               {monthViewEvents?.get(item.includes('-') ? item.split('-')[0] : '')?.map((event: calendarEventWithCalendarName) => {
+                // marking as any the styles are very visibly being applied here
+                const eventStyle: any = {};
+                if (event.event_background_color) {
+                  eventStyle.backgroundColor = event.event_background_color;
+                };
+                if (event.event_font_color) {
+                  eventStyle.color = event.event_font_color;
+                };
+              
                 return <div 
                 key={event._id}
+                style={eventStyle}
                 onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
                 onMouseLeave={handleMouseLeaveEventContainer}
                 onClick={() => handleEventClickToOpenEventMenu(event._id)}
