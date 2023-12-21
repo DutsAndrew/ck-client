@@ -202,6 +202,7 @@ interface addFormModalProps {
 };
 
 interface addCalendarFormState {
+  calendarColor: string,
   calendarName: string,
   createdBy: string,
   authorizedUsers: userQuery[],
@@ -578,6 +579,7 @@ interface userCalendarPendingUserInstance {
 
 interface calendarObject {
   authorized_users: userCalendarInstance[],
+  calendar_color: string,
   calendar_notes: calendarNotes,
   calendar_type: string,
   created_by: string,

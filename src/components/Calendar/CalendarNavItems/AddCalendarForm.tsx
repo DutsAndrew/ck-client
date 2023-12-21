@@ -17,13 +17,13 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
   const [userLookup, setUserLookup] = useState("");
   const [userLookupResults, setUserLookupResults] = useState<calendarUserQueryResults>([]);
   const [formData, setFormData] = useState<addCalendarFormState>({
+    calendarColor: '',
     calendarName: '',
     createdBy: userId,
     authorizedUsers: [],
     viewOnlyUsers: [],
   });
   const [customColorOption, setCustomColorOption] = useState(false);
-  const [currentHexColor, setHexColor] = useState("#aabbcc");
 
   useEffect(() => {
     setFormData({
@@ -153,7 +153,10 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
   };
 
   const changeHexColorSelection = (newColor: string) => {
-    setHexColor(newColor);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      calendarColor: newColor,
+    }));
   };
 
   const handleFormEnterClick = (e: React.KeyboardEvent<HTMLFormElement>) => {
@@ -336,7 +339,7 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
         {customColorOption ? (
           <HexColorPickerCustom 
             headerText='Select a Calendar Color'
-            currentHexColor={currentHexColor}
+            currentHexColor={formData.calendarColor}
             changeHexColorSelection={changeHexColorSelection}
           />
         ) : (
