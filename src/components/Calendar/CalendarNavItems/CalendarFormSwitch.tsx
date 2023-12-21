@@ -3,7 +3,7 @@ import styles from '../../../styles/components/Calendar/calendar.module.css';
 import AddCalendarForm from './AddCalendarForm';
 import AddEventForm from './AddEventForm';
 import AddNoteForm from './AddNoteForm';
-import { calendarFormSwitchProps } from '../../../types/interfaces';
+import { calendarFormSwitchProps } from '../../../types/calendarTypes';
 
 const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
 

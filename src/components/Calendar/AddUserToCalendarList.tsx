@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { AddUserToCalendarListProps, calendarUserQueryResults, userQuery } from "../../types/interfaces";
+import { AddUserToCalendarListProps, calendarUserQueryResults, userQuery } from "../../types/calendarTypes";
 import toast from 'react-hot-toast'
 import searchSvg from '../../assets/magnify.svg';
 import plusSvg from '../../assets/plus.svg';

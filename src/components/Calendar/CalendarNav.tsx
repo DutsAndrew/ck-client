@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
-import { calendarNavProps } from "../../types/interfaces";
+import { calendarNavProps } from "../../types/calendarTypes";
 import NavLeftContainer from "./CalendarNavItems/NavLeftContainer";
 import NavRightContainer from "./CalendarNavItems/NavRightContainer";
 

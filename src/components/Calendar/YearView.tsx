@@ -8,7 +8,7 @@ import {
   calendarEventWithCalendarName,
   yearViewProps, 
   yearViewSelectedDateState
-} from "../../types/interfaces";
+} from "../../types/calendarTypes";
 import uniqid from "uniqid";
 import NotesForCalendar from "./NotesForCalendar";
 import { compareEventTimes, getLocalDateAndTimeForEvent, isUserAuthorized } from "../../scripts/calendarHelpers";

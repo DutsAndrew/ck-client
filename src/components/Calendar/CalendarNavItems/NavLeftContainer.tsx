@@ -3,7 +3,7 @@ import styles from '../../../styles/components/Calendar/calendar.module.css';
 import plusSVG from '../../../assets/plus.svg';
 import leftArrowSvg from '../../../assets/chevron-left.svg';
 import rightArrowSvg from '../../../assets/chevron-right.svg';
-import { navLeftContainerProps } from "../../../types/interfaces";
+import { navLeftContainerProps } from "../../../types/calendarTypes";
 import CalendarFormModal from "./CalendarFormModal";
 
 const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {

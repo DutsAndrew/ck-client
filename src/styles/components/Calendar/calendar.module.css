@@ -784,6 +784,12 @@
   cursor: pointer;
 }
 
+.addCalendarCustomColorCheckboxLabel {
+  padding: 2vh;
+  font-size: 1.15em;
+  cursor: pointer;
+}
+
 /* YEAR VIEW STYLING -- YEAR VIEW STYLING */
 
 .yearItemsContainer {

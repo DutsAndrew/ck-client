@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { classesProps } from '../../types/interfaces';
+import { classesProps } from '../../types/calendarTypes';
 
 const Classes:FC<classesProps> = (props): JSX.Element => {
 

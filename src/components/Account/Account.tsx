@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { accountProps } from '../../types/interfaces';
+import { accountProps } from '../../types/calendarTypes';
 
 const Account:FC<accountProps> = (props): JSX.Element => {
 

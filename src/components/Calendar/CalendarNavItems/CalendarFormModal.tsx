@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import closeSvg from '../../../assets/close.svg';
-import { addFormModalProps } from "../../../types/interfaces";
+import { addFormModalProps } from "../../../types/calendarTypes";
 import CalendarFormSwitch from "./CalendarFormSwitch";
 
 const CalendarFormModal:FC<addFormModalProps> = (props): JSX.Element => {

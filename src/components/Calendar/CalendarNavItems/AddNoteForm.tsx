@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addNoteFormDataState, addNoteFormProps, calendarNoteWithCalendarInfo, calendarObject } from "../../../types/interfaces";
+import { addNoteFormDataState, addNoteFormProps, calendarNoteWithCalendarInfo, calendarObject } from "../../../types/calendarTypes";
 import toast from "react-hot-toast";
 
 const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {

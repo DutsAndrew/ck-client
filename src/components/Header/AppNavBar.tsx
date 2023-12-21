@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from '../../styles/components/Header/header.module.css';
-import { appNavBarProps } from "../../types/interfaces";
+import { appNavBarProps } from "../../types/calendarTypes";
 import menuSvg from '../../assets/menu.svg';
 
 const AppNavBar: FC<appNavBarProps> = (props): JSX.Element => {

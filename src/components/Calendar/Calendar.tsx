@@ -24,7 +24,7 @@ import {
   calendarEventsGrouped,
   eventObject,
   calendarEventWithCalendarName
-} from '../../types/interfaces';
+} from '../../types/calendarTypes';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
 

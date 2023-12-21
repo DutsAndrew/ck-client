@@ -1,4 +1,4 @@
-import { calendarObject, eventObject } from '../types/interfaces';
+import { calendarObject, eventObject } from '../types/calendarTypes';
 
 const getTodaysDate = () => {
   const options: Intl.DateTimeFormatOptions = {

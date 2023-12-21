@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
-import { calendarNoteWithCalendarInfo, notesForCalendarProps, notesForCalendarState } from "../../types/interfaces";
+import { calendarNoteWithCalendarInfo, notesForCalendarProps, notesForCalendarState } from "../../types/calendarTypes";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import chevronLeftSvg from '../../assets/chevron-left.svg';
 import chevronRightSvg from '../../assets/chevron-right.svg';

@@ -11,7 +11,7 @@ import {
   userInstance, 
   userListProps, 
   userListState ,
-} from "../../types/interfaces";
+} from "../../types/calendarTypes";
 
 
 const UserList:FC<userListProps> = (props): JSX.Element => {

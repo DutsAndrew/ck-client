@@ -7,7 +7,7 @@ import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
 import Welcome from './pages/Welcome';
 import LoadingBar from './pages/LoadingBar';
 import ScrollToTopButton from './components/ScrollToTopButton';
-import { CalendarDatesData, appDataState, calendarNote, calendarObject, userInstance } from './types/interfaces';
+import { CalendarDatesData, appDataState, calendarNote, calendarObject, userInstance } from './types/calendarTypes';
 
 // lazy loaded items - ALL non essential functionality of the app
 const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));

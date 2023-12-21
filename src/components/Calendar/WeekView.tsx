@@ -7,7 +7,7 @@ import {
   calendarViewStateForCalendarNotes,
   calendarWeekViewStateForCalendarEvents,
   weekViewProps
-} from "../../types/interfaces";
+} from "../../types/calendarTypes";
 import NotesForCalendar from "./NotesForCalendar";
 import { compareEventTimes, getCalendarEventTimeForLocal, getDayOfWeekLocalTime, isUserAuthorized } from "../../scripts/calendarHelpers";
 import EventViewer from "./EventViewer";

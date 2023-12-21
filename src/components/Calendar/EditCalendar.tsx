@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { EditCalendarProps, calendarObject } from "../../types/interfaces";
+import { EditCalendarProps, calendarObject } from "../../types/calendarTypes";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import UserList from "./UserList";
 import toast from "react-hot-toast";

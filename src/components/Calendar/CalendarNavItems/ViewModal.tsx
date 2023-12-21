@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { calendarViewModalProps } from "../../../types/interfaces";
+import { calendarViewModalProps } from "../../../types/calendarTypes";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 
 const ViewModal:FC<calendarViewModalProps> = (props): JSX.Element => {

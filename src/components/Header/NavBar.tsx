@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import AppNavBar from './AppNavBar';
 import WelcomeNavBar from './WelcomeNavBar';
-import { NavBarProps } from '../../types/interfaces';
+import { NavBarProps } from '../../types/calendarTypes';
 
 const NavBar: FC<NavBarProps> = (props): JSX.Element => {
 

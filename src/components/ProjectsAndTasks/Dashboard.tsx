@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Projects from './Projects';
 import Tasks from './Tasks';
-import { projectsAndTasksDashboardProps } from '../../types/interfaces';
+import { projectsAndTasksDashboardProps } from '../../types/calendarTypes';
 
 const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
 

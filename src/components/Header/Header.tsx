@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import styles from '../../styles/components/Header/header.module.css';
 import NavBar from "./NavBar";
 import logo from '../../assets/classKeeperLogo.png';
-import { HeaderProps } from "../../types/interfaces";
+import { HeaderProps } from "../../types/calendarTypes";
 
 const Header:FC<HeaderProps> = (props): JSX.Element => {
 

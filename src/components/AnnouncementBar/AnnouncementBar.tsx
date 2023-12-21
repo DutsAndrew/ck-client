@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import styles from '../../styles/components/AnnouncementBar/announcements.module.css';
 import closeIcon from '../../assets/close.svg';
-import { announcementBarProps } from '../../types/interfaces';
+import { announcementBarProps } from '../../types/calendarTypes';
 
 const AnnouncementBar: FC<announcementBarProps> = (props): JSX.Element => {
 

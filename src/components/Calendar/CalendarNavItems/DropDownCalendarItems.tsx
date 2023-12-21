@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import calendarEditSvg from '../../../assets/calendar-edit.svg';
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { dropDownCalendarItemsProps } from "../../../types/interfaces";
+import { dropDownCalendarItemsProps } from "../../../types/calendarTypes";
 import uniqid from "uniqid";
 
 const DropDownCalendarItems:FC<dropDownCalendarItemsProps> = (props): JSX.Element => {

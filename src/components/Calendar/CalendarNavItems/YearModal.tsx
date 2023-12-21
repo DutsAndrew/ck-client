@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { yearModalProps } from "../../../types/interfaces";
+import { yearModalProps } from "../../../types/calendarTypes";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import uniqid from 'uniqid';
 

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { dashboardProps, userInstance } from '../../types/interfaces';
+import { dashboardProps, userInstance } from '../../types/calendarTypes';
 import styles from '../../styles/components/Dashboard/dashboard.module.css';
 import Calendars from './Calendars';
 import ClassOverviews from './ClassOverviews';

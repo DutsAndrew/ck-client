@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addCalendarFormProps, addCalendarFormState, calendarUserQueryResults, userQuery } from "../../../types/interfaces";
+import { addCalendarFormProps, addCalendarFormState, calendarUserQueryResults, userQuery } from "../../../types/calendarTypes";
 import toast from 'react-hot-toast'
 import uniqid from "uniqid";
+import HexColorPickerCustom from "../../HexColorPickerCustom";
 
 const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
 
@@ -21,6 +22,8 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
     authorizedUsers: [],
     viewOnlyUsers: [],
   });
+  const [customColorOption, setCustomColorOption] = useState(false);
+  const [currentHexColor, setHexColor] = useState("#aabbcc");
 
   useEffect(() => {
     setFormData({
@@ -143,6 +146,14 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
       ...formData,
       viewOnlyUsers: formData.viewOnlyUsers.filter((invitedUser) => invitedUser !== user)
     });
+  };
+
+  const handleCustomColorOptionSelected = () => {
+    setCustomColorOption(!customColorOption);
+  };
+
+  const changeHexColorSelection = (newColor: string) => {
+    setHexColor(newColor);
   };
 
   const handleFormEnterClick = (e: React.KeyboardEvent<HTMLFormElement>) => {
@@ -312,6 +323,26 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
             ))}
           </ul>
         </div>
+
+        <label className={styles.addCalendarCustomColorCheckboxLabel}>
+          <input
+            type="checkbox"
+            checked={customColorOption}
+            onChange={() => handleCustomColorOptionSelected()}
+          />
+          Would you like to set a custom color for this calendar?
+        </label>
+
+        {customColorOption ? (
+          <HexColorPickerCustom 
+            headerText='Select a Calendar Color'
+            currentHexColor={currentHexColor}
+            changeHexColorSelection={changeHexColorSelection}
+          />
+        ) : (
+          <></>
+        )}
+
         <button 
           onClick={(e) => handleFormSubmitByButtonClick(e)}
           type="submit"

@@ -8,7 +8,7 @@ import {
   calendarViewStateForCalendarNotes,
   dayViewProps,
   timeSlotObject,
-} from "../../types/interfaces";
+} from "../../types/calendarTypes";
 import NotesForCalendar from "./NotesForCalendar";
 import EventViewer from "./EventViewer";
 import { getTodaysDate, getCalendarEventTimeForLocal, isUserAuthorized, compareEventTimes } from "../../scripts/calendarHelpers";

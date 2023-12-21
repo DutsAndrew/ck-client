@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import menuDownSvg from '../../../assets/menu-down.svg';
-import { CalendarDatesData, navRightContainerProps, calendarObject } from "../../../types/interfaces";
+import { CalendarDatesData, navRightContainerProps, calendarObject } from "../../../types/calendarTypes";
 import SelectedCalendarModal from "./SelectedCalendarModal";
 import ViewModal from "./ViewModal";
 import YearModal from "./YearModal";

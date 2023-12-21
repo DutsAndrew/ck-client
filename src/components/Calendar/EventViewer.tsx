@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { calendarEventWithCalendarName, eventViewerProps } from "../../types/interfaces";
+import { calendarEventWithCalendarName, eventViewerProps } from "../../types/calendarTypes";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import pencilSvg from '../../assets/pencil-outline.svg';
 import trashSvg from '../../assets/delete.svg';

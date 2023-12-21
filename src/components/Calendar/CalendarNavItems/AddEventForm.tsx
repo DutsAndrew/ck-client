@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addEventFormProps, eventObject, newEventCreatedApiResponse } from "../../../types/interfaces";
+import { addEventFormProps, eventObject, newEventCreatedApiResponse } from "../../../types/calendarTypes";
 import toast from "react-hot-toast";
 
 const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {

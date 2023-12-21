@@ -1,7 +1,7 @@
 import React, { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/pages/signup.module.css';
-import { signUpData, signUpApiResponseObject } from '../types/interfaces';
+import { signUpData, signUpApiResponseObject } from '../types/calendarTypes';
 import toast from 'react-hot-toast';
 
 export default function SignUp() {

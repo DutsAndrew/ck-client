@@ -1,8 +1,8 @@
 import React, { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../styles/pages/signup.module.css';
-import { loginData, loginApiResponseObject } from '../types/interfaces';
-import { loginProps } from '../types/interfaces';
+import { loginData, loginApiResponseObject } from '../types/calendarTypes';
+import { loginProps } from '../types/calendarTypes';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 

@@ -6,7 +6,7 @@ import {
   calendarNotesWithInfo,
   calendarViewStateForCalendarNotes,
   monthViewProps 
-} from "../../types/interfaces";
+} from "../../types/calendarTypes";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import NotesForCalendar from "./NotesForCalendar";
 import uniqid from "uniqid";

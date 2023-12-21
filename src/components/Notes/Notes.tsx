@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { notesProps } from '../../types/interfaces';
+import { notesProps } from '../../types/calendarTypes';
 
 const Notes:FC<notesProps> = (props): JSX.Element => {
 

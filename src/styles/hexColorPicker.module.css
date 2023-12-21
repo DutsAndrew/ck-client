@@ -1,0 +1,54 @@
+.hexColorMainContainer {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
+.hexColorHeaderText {
+  font-size: 1.5em;
+}
+
+.hexColorContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: auto;
+  gap: 2vh;
+  padding: 2vh;
+}
+
+.hexColorPickerContainer {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  gap: 0.5vh;
+  font-size: 1.25em;
+}
+
+.hexColorPickerCurrentSelectionContainer {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: 50%;
+}
+
+.hexColorCurrentColorText {
+  margin: 0;
+  margin-bottom: 1vh;
+  padding: 0;
+}
+
+.hexColorDisplayBox {
+  width: 150px;
+  height: 150px;
+  border-radius: 5px;
+}
