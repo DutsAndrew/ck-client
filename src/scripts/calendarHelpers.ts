@@ -1,4 +1,4 @@
-import { calendarObject, eventObject } from '../types/calendarTypes';
+import { calendarEventWithCalendarName, calendarObject, eventObject } from '../types/calendarTypes';
 
 const getTodaysDate = () => {
   const options: Intl.DateTimeFormatOptions = {
@@ -127,6 +127,20 @@ const compareEventTimes = (eventA: eventObject, eventB: eventObject) => {
   };
 };
 
+const getEventColorScheme = (event: calendarEventWithCalendarName) => {
+  // marking as any the styles are very visibly being applied here
+  const eventStyle: any = {};
+
+  if (event.event_background_color) {
+    eventStyle.backgroundColor = event.event_background_color;
+  };
+  if (event.event_font_color) {
+    eventStyle.color = event.event_font_color;
+  };
+
+  return eventStyle;
+};
+
 export {
   getTodaysDate,
   getCalendarEventTimeForLocal,
@@ -135,4 +149,5 @@ export {
   getEventDate,
   isUserAuthorized,
   compareEventTimes,
+  getEventColorScheme,
 };

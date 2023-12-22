@@ -47,32 +47,32 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     usersPreferredCalendarColors,
   } = props;
 
-    const [currentView, setCurrentView] = useState('All'),
-    [calendarEditor, setCalendarEditor] = useState<calendarEditorState>({
-      active: false,
-      calendar: {},
-    }),
-    [activeCalendars, setActiveCalendars]= useState<activeCalendarState>(
-      [usersPersonalCalendar]
-    ),
-    [calendarFormStatus, setCalendarFormStatus] = useState({
-      // state in case user shortcuts the calendar form by interacting with the calendar app instead of clicking the "plus" sign
-      event: false,
-      note: false,
-      calendar: false,
-    }),
-    [calendarNoteEditRequest, setCalendarNoteEditRequest] = useState({
-      calendarId: '',
-      note: {},
-      status: false,
-    }),
-    [calendarEventEditRequest, setCalendarEventEditRequest] = useState({
-      calendarId: '',
-      event: {},
-      status: false,
-    }),
-    [calendarNotesGrouped, setCalendarNotesGrouped] = useState<calendarNotesGroupedState>({}),
-    [calendarEventsGrouped, setCalendarEventsGrouped] = useState<calendarEventsGroupedState>({});
+  const [currentView, setCurrentView] = useState('All'),
+  [calendarEditor, setCalendarEditor] = useState<calendarEditorState>({
+    active: false,
+    calendar: {},
+  }),
+  [activeCalendars, setActiveCalendars]= useState<activeCalendarState>(
+    [usersPersonalCalendar]
+  ),
+  [calendarFormStatus, setCalendarFormStatus] = useState({
+    // state in case user shortcuts the calendar form by interacting with the calendar app instead of clicking the "plus" sign
+    event: false,
+    note: false,
+    calendar: false,
+  }),
+  [calendarNoteEditRequest, setCalendarNoteEditRequest] = useState({
+    calendarId: '',
+    note: {},
+    status: false,
+  }),
+  [calendarEventEditRequest, setCalendarEventEditRequest] = useState({
+    calendarId: '',
+    event: {},
+    status: false,
+  }),
+  [calendarNotesGrouped, setCalendarNotesGrouped] = useState<calendarNotesGroupedState>({}),
+  [calendarEventsGrouped, setCalendarEventsGrouped] = useState<calendarEventsGroupedState>({});
 
   const navigate = useNavigate();
 
@@ -183,6 +183,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           const populatedCalendars = response.updated_user.calendars;
           const populatedPendingCalendars = response.updated_user.pending_calendars;
           const populatedPersonalCalendar = response.updated_user.personal_calendar;
+          console.log(populatedCalendars)
           saveAllUserCalendarsToUser(populatedCalendars, populatedPendingCalendars, populatedPersonalCalendar);
           return toast.success('Your calendar data', {id: 'userCalendarData'});
         };

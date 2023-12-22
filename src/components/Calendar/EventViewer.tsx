@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { calendarEventWithCalendarName, eventViewerProps } from "../../types/calendarTypes";
+import { calendarEventWithCalendarName, eventObject, eventViewerProps } from "../../types/calendarTypes";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import pencilSvg from '../../assets/pencil-outline.svg';
 import trashSvg from '../../assets/delete.svg';
@@ -47,6 +47,22 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
   const reEnableScrollBar = () => {
     const body = document.body;
     body.classList.remove('disableScrollbar');
+  };
+
+  const getEventColorScheme = (event: calendarEventWithCalendarName) => {
+    // marking as any the styles are very visibly being applied here
+    const eventStyle: any = {};
+
+    if (event.event_background_color) {
+      eventStyle.backgroundColor = event.event_background_color;
+    };
+    if (event.event_font_color) {
+      eventStyle.color = event.event_font_color;
+    };
+
+    console.log(eventStyle, event)
+
+    return eventStyle;
   };
 
   const handleEditEventIconClick = (event: calendarEventWithCalendarName) => {
@@ -128,7 +144,10 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
               src={trashSvg}>
             </img>
           </div>
-          <div className={styles.eventViewDetailContainer}>
+          <div 
+            style={getEventColorScheme(event)}
+            className={styles.eventViewDetailContainer}
+          >
             <p className={styles.eventViewNameText}>
               <strong>Name: </strong>{event.event_name}
             </p>
@@ -176,7 +195,8 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
           {Array.isArray(events) && events.map((event) => {
             return <div 
               key={`event-viewer-for-${event._id}`}
-              className={styles.eventsViewContainer}
+              style={getEventColorScheme(event)}
+              className={`${styles.eventsViewContainer} ${event.event_background_color.length === 0 ? styles.eventsViewContainerBackground : ''}`}
             >
               <div className={styles.eventViewSvgContainer}>
                 <img 

@@ -1,5 +1,9 @@
 import React, { FC, useState, useEffect } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
+import uniqid from "uniqid";
+import NotesForCalendar from "./NotesForCalendar";
+import circleSvg from '../../assets/circle-small.svg';
+import EventViewer from "./EventViewer";
 import { 
   CalendarDatesData,
   calendarNoteWithCalendarInfo,
@@ -9,11 +13,12 @@ import {
   yearViewProps, 
   yearViewSelectedDateState
 } from "../../types/calendarTypes";
-import uniqid from "uniqid";
-import NotesForCalendar from "./NotesForCalendar";
-import { compareEventTimes, getLocalDateAndTimeForEvent, isUserAuthorized } from "../../scripts/calendarHelpers";
-import circleSvg from '../../assets/circle-small.svg';
-import EventViewer from "./EventViewer";
+import { 
+  compareEventTimes, 
+  getLocalDateAndTimeForEvent, 
+  isUserAuthorized 
+} from "../../scripts/calendarHelpers";
+
 
 const YearView:FC<yearViewProps> = (props): JSX.Element => {
 

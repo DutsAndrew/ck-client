@@ -1,5 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
+import NotesForCalendar from "./NotesForCalendar";
+import EventViewer from "./EventViewer";
 import { 
   calendarEventWithCalendarName,
   calendarNoteWithCalendarInfo,
@@ -9,9 +11,13 @@ import {
   dayViewProps,
   timeSlotObject,
 } from "../../types/calendarTypes";
-import NotesForCalendar from "./NotesForCalendar";
-import EventViewer from "./EventViewer";
-import { getTodaysDate, getCalendarEventTimeForLocal, isUserAuthorized, compareEventTimes } from "../../scripts/calendarHelpers";
+import { 
+  getTodaysDate, 
+  getCalendarEventTimeForLocal, 
+  isUserAuthorized, 
+  compareEventTimes, 
+  getEventColorScheme 
+} from "../../scripts/calendarHelpers";
 
 const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
@@ -277,8 +283,8 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                   };
 
                   return <div 
-                    key={event._id}
-                    style={eventStyle}
+                    key={`day-view-event-${event._id}`}
+                    style={getEventColorScheme(event)}
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
                     onMouseLeave={() => handleMouseLeaveEventContainer()}
                     onClick={() => handleEventClickToOpenEventMenu(event._id)}
@@ -316,7 +322,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
               <div className={styles.PMDayScheduleBlock}>
                 {(dayViewEvents as any)[`${block} PM`].map((event: calendarEventWithCalendarName) => {
                   return <div 
-                    key={event._id}
+                    key={`day-view-event-${event._id}`}
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
                     onMouseLeave={() => handleMouseLeaveEventContainer()}
                     onClick={() => handleEventClickToOpenEventMenu(event._id)}

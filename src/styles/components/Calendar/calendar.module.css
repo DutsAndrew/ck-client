@@ -344,12 +344,15 @@
 }
 
 .eventViewDetailContainer, .eventsViewContainer {
-  background-color: #d3ebd7;
   display: flex;
   flex-flow: column nowrap;
   width: 95%;
   gap: 3vh;
   padding: 1vh;
+}
+
+.eventsViewContainerBackground {
+  background-color: #d3ebd7;
 }
 
 .eventViewNameText, .eventViewDescriptionText, .eventViewDateText, .eventViewTimeText, .eventViewRepeatText, .eventViewCreatedByText, .eventViewCalendarNameText {
