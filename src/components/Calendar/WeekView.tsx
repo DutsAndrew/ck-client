@@ -219,11 +219,11 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
                 className={styles.weekViewEventContainer}
               >
                 {weekEventActivelyHovered.includes(event._id) ? (
-                 <span>
+                 <span className={styles.eventDetailSpanText}>
                   {event.event_time.length > 0 ? getCalendarEventTimeForLocal(event) : 'No time set'}
                  </span>
                 ) : (
-                  <span>
+                  <span className={styles.eventDetailSpanText}>
                     {event.event_name.length > 10 ? `${event.event_name.slice(0, 10)}...` : event.event_name}
                   </span>
                 )}

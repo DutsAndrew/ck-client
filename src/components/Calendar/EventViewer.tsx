@@ -146,7 +146,7 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
           </div>
           <div 
             style={getEventColorScheme(event)}
-            className={styles.eventViewDetailContainer}
+            className={`${styles.eventViewDetailContainer} ${event.event_background_color.length === 0 ? styles.eventsViewContainerBackground : ''}`}
           >
             <p className={styles.eventViewNameText}>
               <strong>Name: </strong>{event.event_name}

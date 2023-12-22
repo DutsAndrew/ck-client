@@ -323,17 +323,18 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                 {(dayViewEvents as any)[`${block} PM`].map((event: calendarEventWithCalendarName) => {
                   return <div 
                     key={`day-view-event-${event._id}`}
+                    style={getEventColorScheme(event)}
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
                     onMouseLeave={() => handleMouseLeaveEventContainer()}
                     onClick={() => handleEventClickToOpenEventMenu(event._id)}
                     className={styles.PMEventContainer}
                   >
                     {eventActivelyHovered.includes(event._id) ? (
-                     <span>
+                     <span className={styles.eventDetailSpanText}>
                       {getCalendarEventTimeForLocal(event)}
                      </span>
                     ) : (
-                      <span>
+                      <span className={styles.eventDetailSpanText}>
                         {event.event_name.length > 10 ? `${event.event_name.slice(0, 10)}...` : event.event_name}
                       </span>
                     )}

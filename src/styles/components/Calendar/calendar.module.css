@@ -245,6 +245,8 @@
 }
 
 .AMEventContainer, .PMEventContainer, .weekViewEventContainer, .monthViewEventContainer {
+  background-color: #d3ebd7;
+  border-bottom: 1px solid #333333;
   width: 100%;
   padding: 0.5vh;
   cursor: pointer;
@@ -256,6 +258,11 @@
 
 .weekViewContainer {
   font-size: 1.5em;
+}
+
+.eventDetailSpanText {
+  padding: 0;
+  margin: 0;
 }
 
 .eventViewerSectionContainer {
@@ -408,7 +415,7 @@
 }
 
 .weekDayItemBlock {
-  padding-left: 0.5vw;
+  /* */
 }
 
 @media (max-width: 600px) {
