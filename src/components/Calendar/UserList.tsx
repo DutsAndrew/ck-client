@@ -138,7 +138,8 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
           updateCalendarInUser={updateCalendarInUser}
           handleCalendarEditorChange={handleCalendarEditorChange}
         />
-        {Array.isArray(users) && users.map((user) => {
+        {users.map((user) => {
+          console.log(user.company)
           return <li
             key={uniqid()}
             onClick={(e) => handleUserItemClick(user, e)}
@@ -149,35 +150,14 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
               id="calendar-editor-user-text"
               className={styles.calendarEditorUserText}
             >
-              {(
-                (user.first_name || (user as unknown as userCalendarPendingUserInstance)['user'].first_name)
-                && (user.last_name || (user as unknown as userCalendarPendingUserInstance)['user'].last_name)
-                && (user.job_title || (user as unknown as userCalendarPendingUserInstance)['user'].job_title)
-                && (user.company || (user as unknown as userCalendarPendingUserInstance)['user'].company)
-              ) ? (
-                <>
-                  {(user.first_name 
-                    ? user.first_name 
-                    : (user as unknown as userCalendarPendingUserInstance)['user'].first_name) 
-                    || ''
-                  },&nbsp;
-                  {(user.last_name 
-                    ? user.last_name 
-                    : (user as unknown as userCalendarPendingUserInstance)['user'].last_name) 
-                    || ''
-                  } -&nbsp;
-                  {(user.job_title 
-                    ? user.job_title 
-                    : (user as unknown as userCalendarPendingUserInstance)['user'].job_title)
-                    || ''
-                  },&nbsp;
-                  {(user.company 
-                    ? user.company 
-                    : (user as unknown as userCalendarPendingUserInstance)['user'].company) 
-                    || ''
-                  }
-                </>
-              ) : ''}
+              {(type === 'Pending' ? 
+                (user as unknown as userCalendarPendingUserInstance)['user'].first_name 
+                : user.first_name
+              )},&nbsp;
+              {(type === 'Pending' ?
+                (user as unknown as userCalendarPendingUserInstance)['user'].last_name
+                : user.last_name
+              )}&nbsp;
             </p>
             <p 
               id="calendar-editor-user-email-text"

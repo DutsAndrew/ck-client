@@ -294,10 +294,10 @@
   background-color: rgba(245, 245, 245, 0.5);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  transition: transform 0.25s ease-out;
+  transition: transform 100ms ease-out;
   transform-origin: top left;
   transform: scale(0);
-  animation: growAnimation 0.25s forwards;
+  animation: growAnimation 300ms forwards;
 }
 
 @keyframes growAnimation {
