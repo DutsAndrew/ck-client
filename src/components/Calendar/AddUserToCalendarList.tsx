@@ -128,7 +128,6 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
               onClick={() => handleUserQueryToDb()}>
             </img>
           </div>
-          {userQueryResults.length > 0 && 
             <ul className={styles.addUserToCalendarSearchResultsList}>
               {userQueryResults.map((user) => {
                 return <li 
@@ -138,9 +137,7 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
                   <div className={styles.addUserToCalendarListItemTextContainer}>
                     <p className={styles.addUserToCalendarListText}>
                       {user.user.first_name ? user.user.first_name : ''}&nbsp;
-                      {user.user.last_name ? user.user.last_name : ''} -&nbsp;
-                      {user.user.job_title ? user.user.job_title : ''},&nbsp;
-                      {user.user.company ? user.user.company : ''}
+                      {user.user.last_name ? user.user.last_name : ''}&nbsp;
                     </p>
                     <p className={styles.addUserToCalendarEmailText}>
                       {user.user.email ? user.user.email : ''}
@@ -180,7 +177,6 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
                 </li>
               })}
             </ul>
-          }
           {apiRequestSent === true && userQueryResults.length === 0 && <p>No results</p>}
         </div>
       }
