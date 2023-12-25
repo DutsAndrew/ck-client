@@ -10,7 +10,7 @@ import {
   userCalendarPendingUserInstance, 
   userInstance, 
   userListProps, 
-  userListState ,
+  userListState,
 } from "../../types/calendarTypes";
 
 
@@ -22,6 +22,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
     userId,
     authUserIds,
     selectedCalendarId,
+    allUserIdsOfCalendar,
     updateCalendarInUser,
     handleCalendarEditorChange,
   } = props;
@@ -73,13 +74,20 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
 
   const handleRemoveUser = async (user: userCalendarInstance): Promise<void> => {
     toast.loading('Attempting to remove user', {id: 'removingUser'});
-    const convertedUserId = identifyUserIdFromDifferentTypes(user);
+
+    if (user._id === userId) {
+      toast.error('You must click leave calendar to remove yourself', {id: 'removingUser'});
+      return;
+    };
+
     const authToken = localStorage.getItem('auth-token');
     if (authUserIds.includes(userId)) {
       if (typeof authToken === 'undefined') {
         toast.error('You must be signed in or not in incognito to make this request', {id: 'removingUser'});
       } else {
         const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
+        const convertedUserId = identifyUserIdFromDifferentTypes(user);
+
         const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/${typeConversion}/removeUserFromCalendar/${convertedUserId}`;
         const request = await fetch(apiUrl, {
           headers: {
@@ -97,6 +105,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
           toast.error(`${jsonResponse.detail}`, {id: 'removingUser'});
         }
       };
+
     } else {
       toast.error('You are not authorized to make that change', {id: 'removingUser'});
     };
@@ -112,8 +121,43 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
     setChangingUserPermissions(permissionsSwitch);
   };
 
-  const handleUserPermissionChange = (type: string): void => {
+  const handleUserPermissionChange = (type: string, user: userCalendarInstance): void => {
     setSelectedUserPermissions(type);
+    updateUserPermissionToDb(type, user);
+  };
+
+  const updateUserPermissionToDb = async (type: string, user: userCalendarInstance) => {
+    toast.loading('Attempting to remove user', {id: 'updatingUserPermissions'});
+
+    const authToken = localStorage.getItem('auth-token');
+    if (authUserIds.includes(userId)) {
+      if (typeof authToken === 'undefined') {
+        toast.error('You must be signed in or not in incognito to make this request', {id: 'updatingUserPermissions'});
+      } else {
+        const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
+        const convertedUserId = identifyUserIdFromDifferentTypes(user);
+
+        const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/${typeConversion}/updateUserPermissions/${convertedUserId}`;
+        const request = await fetch(apiUrl, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+          method: 'PUT',
+        });
+        const jsonResponse = await request.json();
+        if (request.status === 200 && request.ok && jsonResponse.updated_calendar) {
+          handleSuccessfulUserRemovalFromCalendar(jsonResponse.updated_calendar);
+          toast.success('User permissions updated!', {id: 'updatingUserPermissions'});
+        } else {
+          toast.error(`${jsonResponse.detail}`, {id: 'updatingUserPermissions'});
+        }
+      };
+
+    } else {
+      toast.error('You are not authorized to make that change', {id: 'updatingUserPermissions'});
+    };
   };
 
   const handleAddUserClick = () => {
@@ -135,6 +179,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
           addUserActivated={addUserActivated}
           selectedCalendarId={selectedCalendarId}
           type={type}
+          allUserIdsOfCalendar={allUserIdsOfCalendar}
           updateCalendarInUser={updateCalendarInUser}
           handleCalendarEditorChange={handleCalendarEditorChange}
         />
@@ -194,7 +239,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
               <div className={styles.addUserToCalendarListPendingUserOptionsContainer}>
                 <button 
                   type='button'
-                  onClick={() => handleUserPermissionChange('authorized')}
+                  onClick={() => handleUserPermissionChange('authorized', user)}
                   id="calendar-editor-permissions-button-authorized"
                   className={selectedUserPermissions === 'authorized' ? 
                     styles.AddUserToCalendarListPendingUserOptionsButtonActive : 
@@ -204,7 +249,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
                 </button>
                 <button 
                   type='button'
-                  onClick={() => handleUserPermissionChange('view-only')}
+                  onClick={() => handleUserPermissionChange('view-only', user)}
                   id="calendar-editor-permissions-button-view-only"
                   className={selectedUserPermissions === 'view-only' ? 
                     styles.AddUserToCalendarListPendingUserOptionsButtonActive : 
@@ -231,6 +276,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
           addUserActivated={addUserActivated}
           selectedCalendarId={selectedCalendarId}
           type={type}
+          allUserIdsOfCalendar={allUserIdsOfCalendar}
           updateCalendarInUser={updateCalendarInUser}
           handleCalendarEditorChange={handleCalendarEditorChange}
         />

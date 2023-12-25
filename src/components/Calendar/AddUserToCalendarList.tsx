@@ -13,6 +13,7 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
     addUserActivated,
     selectedCalendarId,
     type,
+    allUserIdsOfCalendar,
     updateCalendarInUser,
     handleCalendarEditorChange,
   } = props;
@@ -40,11 +41,11 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
   };
 
   const handleUserQueryToDb = async () => {
-    const toastId = toast.loading('Loading...');
-    if (userLookup.length === 0) return toast.error('No user to lookup', {id: toastId});
+    toast.loading('Searching for users...', {id: 'addUserToCalendarQuery'});
+    if (userLookup.length === 0) return toast.error('No user to lookup', {id: 'addUserToCalendarQuery'});
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
-      return toast.error('You must be signed in or not in incognito to make this request', {id: toastId});
+      return toast.error('You must be signed in or not in incognito to make this request', {id: 'addUserToCalendarQuery'});
     } else {
       const apiUrl = `http://127.0.0.1:8000/calendar/userQuery?user=${userLookup}`;
       const request = await fetch(apiUrl, {
@@ -59,27 +60,30 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
       setApiRequestSent(true);
       if (request.ok && request.status === 200 && jsonResponse.user_results) {
         setUserQueryResults(jsonResponse.user_results);
-        return toast.success('Users found', {id: toastId});
+        return toast.success('Search completed!', {id: 'addUserToCalendarQuery'});
       } else {
         setUserQueryResults([]);
         setUserLookup('');
-        return toast.error('No users found', {id: toastId});
+        return toast.error('No users found', {id: 'addUserToCalendarQuery'});
       };
     };
   };
 
   const handleAddUserClickRequest = async (user: userQuery) => {
-    // NEED TO SETUP SO THAT USERS ARE ALWAYS STORED AS A PENDING USER
-    const toastId = toast.loading('Loading...');
+    toast.loading('Adding user...', {id: 'addUserToCalendar'});
+
+    if (allUserIdsOfCalendar.includes(user.user._id)) return toast.error('User already added', {id: 'addUserToCalendar'})
     if (type.toLowerCase() === 'pending' && typeOfPendingUser.length === 0) {
-      return toast.error('You must mark a user as "authorized" or "pending"', {id: toastId});
+      return toast.error('You must mark a user as "authorized" or "pending"', {id: 'addUserToCalendar'});
     };
+
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
-      return toast.error('You must be signed in or not in incognito to make this request', {id: toastId});
+      return toast.error('You must be signed in or not in incognito to make this request', {id: 'addUserToCalendar'});
     } else {
       const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
       const typeOfUser = typeOfPendingUser.length > 0 ? typeOfPendingUser : typeConversion;
+
       const apiUrl = `
         http://127.0.0.1:8000/calendar/${selectedCalendarId}/addUser/${user.user._id}/${typeOfUser}`;
       const request = await fetch(apiUrl, {
@@ -90,13 +94,14 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
         },
         method: 'POST',
       });
+      
       const jsonResponse = await request.json();
       if (request.ok && request.status === 200 && jsonResponse.updated_calendar) {
         updateCalendarInUser(jsonResponse.updated_calendar);
         handleCalendarEditorChange(jsonResponse.updated_calendar);
-        return toast.success('User added!', {id: toastId});
+        return toast.success('User added!', {id: 'addUserToCalendar'});
       } else {
-        return toast.error(`${jsonResponse.detail}`, {id: toastId});
+        return toast.error(`${jsonResponse.detail}`, {id: 'addUserToCalendar'});
       };
     };
   };
@@ -156,7 +161,7 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
                         <button 
                           type='button'
                           onClick={() => handlePendingUserButtonActivation('view_only')}
-                          className={typeOfPendingUser === 'view-only' ? 
+                          className={typeOfPendingUser === 'view_only' ? 
                             styles.AddUserToCalendarListPendingUserOptionsButtonActive : 
                             styles.AddUserToCalendarListPendingUserOptionsButton
                           }>

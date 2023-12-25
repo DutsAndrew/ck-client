@@ -121,6 +121,7 @@ interface userListProps {
   userId: string,
   authUserIds: string[],
   selectedCalendarId: string,
+  allUserIdsOfCalendar: string[],
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   handleCalendarEditorChange: (updatedCalendar: calendarObject) => void,
 };
@@ -132,6 +133,7 @@ interface AddUserToCalendarListProps {
   addUserActivated: boolean,
   selectedCalendarId: string,
   type: string,
+  allUserIdsOfCalendar: string[],
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   handleCalendarEditorChange: (updatedCalendar: calendarObject) => void,
 };

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { EditCalendarProps, calendarObject } from "../../types/calendarTypes";
+import { EditCalendarProps, calendarObject, userCalendarPendingUserInstance } from "../../types/calendarTypes";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import UserList from "./UserList";
 import toast from "react-hot-toast";
@@ -46,7 +46,7 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
         };
       };
     } else {
-      toast.error('You cannot leave a calendar that you created', {id: 'leaveCalendar'});
+      toast.error('You cannot leave a calendar that you created, you must delete it', {id: 'leaveCalendar'});
     };
   };
 
@@ -78,7 +78,20 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
         };
       };
     } else {
-      toast.error('You cannot delete this calendar as you did not create it', {id: 'calendarDeletion'});
+      toast.error('Only the calendar creator can delete the calendar', {id: 'calendarDeletion'});
+    };
+  };
+
+  const getAllUserIdsOfCalendar = () => {
+    if (Object.keys(selectedCalendar).length === 0) {
+      return [];
+    } else {
+      const userIds: any[] = [
+        ...(selectedCalendar as calendarObject).authorized_users.map((user) => user._id),
+        ...(selectedCalendar as calendarObject).view_only_users.map((user) => user._id),
+        ...(selectedCalendar as calendarObject).pending_users.map((user) => (user as unknown as userCalendarPendingUserInstance).user._id),
+      ];
+      return userIds;
     };
   };
 
@@ -90,6 +103,7 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
       userId: userId,
       authUserIds: authUserIds,
       selectedCalendarId: selectedCalendarRef._id,
+      allUserIdsOfCalendar: getAllUserIdsOfCalendar(),
       updateCalendarInUser,
       handleCalendarEditorChange,
     };
