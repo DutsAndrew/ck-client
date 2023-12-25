@@ -88,7 +88,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         const typeConversion = type.toLowerCase() === 'view-only' ? 'view_only' : type.toLowerCase();
         const convertedUserId = identifyUserIdFromDifferentTypes(user);
 
-        const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/${typeConversion}/removeUserFromCalendar/${convertedUserId}`;
+        const apiUrl = `http://127.0.0.1:8000/calendar/${selectedCalendarId}/removeUserFromCalendar/${typeConversion}/${convertedUserId}`;
         const request = await fetch(apiUrl, {
           headers: {
             'Accept': 'application/json',
