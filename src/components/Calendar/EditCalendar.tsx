@@ -1,19 +1,36 @@
-import React, { FC } from "react";
-import { EditCalendarProps, calendarObject, userCalendarPendingUserInstance } from "../../types/calendarTypes";
+import React, { FC, useState } from "react";
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import UserList from "./UserList";
 import toast from "react-hot-toast";
+import EventViewer from "./EventViewer";
+import { applyCalendarBackgroundColor, isUserAuthorized } from "../../scripts/calendarHelpers";
+import { getFontColorForHex } from "../../scripts/calculateFontColorForHex";
+import { 
+  EditCalendarProps, 
+  calendarEventWithCalendarName, 
+  calendarObject, 
+  eventObject, 
+  userCalendarPendingUserInstance 
+} from "../../types/calendarTypes";
 
 const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
 
   const { 
     userId,
     selectedCalendar,
+    activeCalendars,
+    usersPreferredCalendarColors,
     handleDeactivateCalendarEditor,
     updateCalendarInUser,
     handleCalendarEditorChange,
     removeCalendarFromUser,
+    handleCalendarEventModificationRequest,
   } = props;
+
+  const [eventViewStatus, setEventViewStatus] = useState({
+    set: false,
+    eventId: '',
+  });
 
   const handleCloseCalendarEditor = () => {
     return handleDeactivateCalendarEditor();
@@ -95,6 +112,56 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     };
   };
 
+  const handleCalendarEditorEventClick = (eventId: string) => {
+    setEventViewStatus({
+      set: true,
+      eventId: eventId,
+    });
+  };
+
+  const handleCalendarEditorEventViewCloseRequest = () => {
+    setEventViewStatus({
+      set: false,
+      eventId: '',
+    });
+  };
+
+  const handleEditEventRequest = (event: calendarEventWithCalendarName) => {
+    handleCalendarEditorEventViewCloseRequest();
+    handleCalendarEventModificationRequest(event.calendar_id, event);
+  };
+
+  const verifyUserAuthorizationOfCalendar = (calendarId: string) => {
+    return isUserAuthorized(activeCalendars, calendarId, userId);
+  };
+
+  const getCalendarEventForViewing = () => {
+    if (!Object.keys(selectedCalendar)) {
+      return undefined;
+    };
+
+    const event = (selectedCalendar as calendarObject).events.find(event => event._id === eventViewStatus.eventId);
+    if (typeof event === 'undefined') return;
+
+    const eventWithCustomizations = addEventCustomizations((selectedCalendar as calendarObject), event);
+
+    return eventWithCustomizations
+  };
+
+  const addEventCustomizations = (calendar: calendarObject, event: eventObject) => {
+    const backgroundColor = applyCalendarBackgroundColor(calendar.calendar_color, calendar._id, usersPreferredCalendarColors);
+    const fontColor = getFontColorForHex(backgroundColor);
+
+    const eventWithCalendarInfo: calendarEventWithCalendarName = {
+      ...event,
+      calendar_name: calendar.name,
+      event_background_color: backgroundColor,
+      event_font_color: fontColor,
+    };
+
+    return eventWithCalendarInfo;
+  };
+
   if (Object.keys(selectedCalendar).length !== 0) {
 
     const selectedCalendarRef = selectedCalendar as calendarObject;
@@ -172,10 +239,23 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                 <h3 className={styles.calendarEditorEventListHeaderText}>
                   Events
                 </h3>
+                {eventViewStatus.set === true && Object.keys(selectedCalendar).length > 0 && 
+                  <EventViewer 
+                    event={getCalendarEventForViewing()} 
+                    handleCloseEventViewerRequest={handleCalendarEditorEventViewCloseRequest}
+                    handleEditEventRequest={handleEditEventRequest}
+                    verifyUserAuthorizationOfCalendar={verifyUserAuthorizationOfCalendar}
+                    updateCalendarInUser={updateCalendarInUser}
+                  />
+                }
                 <ul className={styles.calendarEditorEventsList}>
                   {Array.isArray(selectedCalendarRef.events) && selectedCalendarRef.events.length > 0 ? (
                     selectedCalendarRef.events.map((event) => (
-                      <li key={event._id} className={styles.calendarEditorEventItemContainer}>
+                      <li 
+                        key={event._id}
+                        onClick={() => handleCalendarEditorEventClick(event._id)}
+                        className={styles.calendarEditorEventItemContainer}
+                      >
                         <p className={styles.calendarEditorEventName}>
                           {event.event_name}
                         </p>

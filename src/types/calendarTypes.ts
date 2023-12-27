@@ -109,10 +109,13 @@ interface calendarEditorState {
 interface EditCalendarProps {
   userId: string,
   selectedCalendar: {} | calendarObject,
+  activeCalendars: calendarObject[],
+  usersPreferredCalendarColors: userColorPreferences,
   handleDeactivateCalendarEditor: Function,
   updateCalendarInUser: (newCalendar: calendarObject) => void
   handleCalendarEditorChange: (updatedCalendar: calendarObject) => void,
   removeCalendarFromUser: (calendarId: string) => void,
+  handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
 };
 
 interface userListProps {
@@ -762,4 +765,5 @@ export type {
   calendarObject,
   eventObject,
   calendarEventWithCalendarName,
+  userColorPreferences,
 };

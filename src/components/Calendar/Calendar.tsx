@@ -26,6 +26,7 @@ import {
   eventObject,
   calendarEventWithCalendarName,
 } from '../../types/calendarTypes';
+import { applyCalendarBackgroundColor } from '../../scripts/calendarHelpers';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
@@ -408,7 +409,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   };
 
   const addEventCustomizations = (calendar: calendarObject, event: eventObject) => {
-    const backgroundColor = applyCalendarBackgroundColor(calendar.calendar_color, calendar._id);
+    const backgroundColor = applyCalendarBackgroundColor(calendar.calendar_color, calendar._id, usersPreferredCalendarColors);
     const fontColor = getFontColorForHex(backgroundColor);
 
     const eventWithCalendarInfo: calendarEventWithCalendarName = {
@@ -419,26 +420,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
 
     return eventWithCalendarInfo;
-  };
-
-  const applyCalendarBackgroundColor = (calendarColor: string, calendarId: string): string => {
-    // check if calendar has a set color, if so store it
-    let setCalendarColor = '';
-    if (calendarColor && calendarColor.length > 0) setCalendarColor = calendarColor;
-
-    // check if user has a preferred color set, if so store and return it, otherwise return calendar color, which is defaulted to none
-    if (Array.isArray(usersPreferredCalendarColors.calendars) && usersPreferredCalendarColors.calendars.length > 0) {
-      let preferredCalendarColor = '';
-      const colorPreference = usersPreferredCalendarColors.calendars.find(colorScheme => colorScheme.apply_to_which_object_id === calendarId);
-      if (typeof colorPreference !== 'undefined' && colorPreference.background_color.length > 0) {
-        preferredCalendarColor = colorPreference.background_color;
-        return preferredCalendarColor
-      } else {
-        return setCalendarColor;
-      };
-    } else {
-      return setCalendarColor;
-    };
   };
 
   const identifyEventCategory = (eventDate: Date) => {
@@ -526,6 +507,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     handleCalendarFormDataCleanup,
     updateCalendarNote,
     updateCalendarInUser,
+    handleCalendarEventModificationRequest,
   };
 
   const calendarViewProps = {
@@ -544,10 +526,13 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         <EditCalendar 
           userId={userId} // to validate calendar changes if user is authorized
           selectedCalendar={calendarEditor.calendar}
+          activeCalendars={activeCalendars}
+          usersPreferredCalendarColors={usersPreferredCalendarColors}
           handleDeactivateCalendarEditor={handleDeactivateCalendarEditor}
           updateCalendarInUser={updateCalendarInUser}
           handleCalendarEditorChange={handleCalendarEditorChange}
           removeCalendarFromUser={removeCalendarFromUser}
+          handleCalendarEventModificationRequest={handleCalendarEventModificationRequest}
         />
       </main>
     );

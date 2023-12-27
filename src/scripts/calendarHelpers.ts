@@ -1,4 +1,9 @@
-import { calendarEventWithCalendarName, calendarObject, eventObject } from '../types/calendarTypes';
+import { 
+  calendarEventWithCalendarName, 
+  calendarObject, 
+  eventObject, 
+  userColorPreferences 
+} from '../types/calendarTypes';
 
 const getTodaysDate = () => {
   const options: Intl.DateTimeFormatOptions = {
@@ -141,6 +146,30 @@ const getEventColorScheme = (event: calendarEventWithCalendarName) => {
   return eventStyle;
 };
 
+const applyCalendarBackgroundColor = (
+    calendarColor: string, 
+    calendarId: string, 
+    usersPreferredCalendarColors: userColorPreferences,
+  ): string => {
+    // check if calendar has a set color, if so store it
+    let setCalendarColor = '';
+    if (calendarColor && calendarColor.length > 0) setCalendarColor = calendarColor;
+
+    // check if user has a preferred color set, if so store and return it, otherwise return calendar color, which is defaulted to none
+    if (Array.isArray(usersPreferredCalendarColors.calendars) && usersPreferredCalendarColors.calendars.length > 0) {
+      let preferredCalendarColor = '';
+      const colorPreference = usersPreferredCalendarColors.calendars.find(colorScheme => colorScheme.apply_to_which_object_id === calendarId);
+      if (typeof colorPreference !== 'undefined' && colorPreference.background_color.length > 0) {
+        preferredCalendarColor = colorPreference.background_color;
+        return preferredCalendarColor
+      } else {
+        return setCalendarColor;
+      };
+    } else {
+      return setCalendarColor;
+    };
+};
+
 export {
   getTodaysDate,
   getCalendarEventTimeForLocal,
@@ -150,4 +179,5 @@ export {
   isUserAuthorized,
   compareEventTimes,
   getEventColorScheme,
+  applyCalendarBackgroundColor,
 };
