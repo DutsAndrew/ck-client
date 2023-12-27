@@ -1015,10 +1015,8 @@
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 100vw;
   height: auto;
-  overflow-y: visible;
-  overflow-x: hidden;
 }
 
 .calendarEditorContainer {
@@ -1084,12 +1082,12 @@
   display: flex;
   flex-flow: column wrap;
   width: 100%;
-  height: auto;
+  height: 90vh;
 }
 
 .calendarEditorMainContainer {
   width: 100%;
-  height: auto;
+  height: 100%;
   min-height: 80vh;
   display: flex;
   justify-content: space-evenly;
@@ -1309,10 +1307,10 @@
 
 .calendarEditorEventsContainer {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: center;
-  height: 100%;
+  height: 90vh;
 }
 
 @media (max-width: 600px) {
@@ -1330,11 +1328,14 @@
 
 .calendarEditorEventsList {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: center;
   height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
   width: 100%;
+  gap: 2vh;
   padding: 0;
   margin: 0;
   border:#E5E5E5 1px solid;
@@ -1347,6 +1348,15 @@
   flex-flow: column wrap;
   justify-content: flex-start;
   align-items: center;
+  color: #333;
+  font-size: 16px;
+  padding: 10px;
+  margin: 10px;
+  width: 90%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E5E5E5;
 }
 
 .calendarEditorEventName {

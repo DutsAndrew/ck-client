@@ -180,7 +180,8 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                           {event.event_name}
                         </p>
                         <p className={styles.calendarEditorEvenDateAndTime}>
-                          {event.combined_date_and_time}
+                          <strong>On:</strong> {event.combined_date_and_time.split(" ")[0]} &nbsp;
+                          <strong>At:</strong> {event.combined_date_and_time.split(" ")[1]} UTC
                         </p>
                       </li>
                     ))

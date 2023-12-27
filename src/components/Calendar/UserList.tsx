@@ -184,7 +184,6 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
           handleCalendarEditorChange={handleCalendarEditorChange}
         />
         {users.map((user) => {
-          console.log(user.company)
           return <li
             key={uniqid()}
             onClick={(e) => handleUserItemClick(user, e)}
