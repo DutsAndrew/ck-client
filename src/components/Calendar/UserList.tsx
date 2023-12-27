@@ -99,7 +99,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         });
         const jsonResponse = await request.json();
         if (request.status === 200 && request.ok && jsonResponse.updated_calendar) {
-          handleSuccessfulUserRemovalFromCalendar(jsonResponse.updated_calendar);
+          handleCalendarUpdateChange(jsonResponse.updated_calendar);
           toast.success('User removed!', {id: 'removingUser'});
         } else {
           toast.error(`${jsonResponse.detail}`, {id: 'removingUser'});
@@ -111,7 +111,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
     };
   };
 
-  const handleSuccessfulUserRemovalFromCalendar = (updatedCalendar: calendarObject) => {
+  const handleCalendarUpdateChange = (updatedCalendar: calendarObject) => {
     updateCalendarInUser(updatedCalendar);
     handleCalendarEditorChange(updatedCalendar);
   };
@@ -148,7 +148,7 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
         });
         const jsonResponse = await request.json();
         if (request.status === 200 && request.ok && jsonResponse.updated_calendar) {
-          handleSuccessfulUserRemovalFromCalendar(jsonResponse.updated_calendar);
+          handleCalendarUpdateChange(jsonResponse.updated_calendar);
           toast.success('User permissions updated!', {id: 'updatingUserPermissions'});
         } else {
           toast.error(`${jsonResponse.detail}`, {id: 'updatingUserPermissions'});
