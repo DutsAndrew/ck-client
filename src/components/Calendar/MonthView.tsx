@@ -31,6 +31,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
     removeCalendarNoteFromCalendar,
     handleCalendarEventModificationRequest,
     updateCalendarInUser,
+    handleOpenAddEventFormClick,
     monthNotes,
     monthEvents,
   } = props;
@@ -229,8 +230,10 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
           : styles.monthItemInvalidDateContainer;
 
           return <div 
+            id="month-view-item-block"
             key={isAccurateMonthDate ? item : `${uniqid()}-item`}
             className={`${styles.monthItemContainer} ${containerClass}`}
+            onClick={(e) => handleOpenAddEventFormClick(e)}
           >
             <p className={styles.monthItemWeekDayText}>
               {item.includes('-') ? item.split('-')[1] : item}

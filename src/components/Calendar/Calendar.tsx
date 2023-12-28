@@ -201,7 +201,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           const populatedCalendars = response.updated_user.calendars;
           const populatedPendingCalendars = response.updated_user.pending_calendars;
           const populatedPersonalCalendar = response.updated_user.personal_calendar;
-          
+
           saveAllUserCalendarsToUser(populatedCalendars, populatedPendingCalendars, populatedPersonalCalendar);
           return toast.success('Your calendar data', {id: 'userCalendarData'});
         };
@@ -338,13 +338,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     });
 
     return authStatus;
-  };
-
-  const updateCalendarEditorAfterCalendarUpdate = (updatedCalendar: calendarObject) => {
-    setCalendarEditor({
-      active: true,
-      calendar: updatedCalendar,
-    })
   };
 
   const groupCalendarNotes = () => {
@@ -515,6 +508,24 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
   };
 
+  const handleOpenAddEventFormClick = (e: React.MouseEvent<HTMLElement>) => {
+    const elementId = (e.target as any).id;
+    
+    if (
+      elementId === 'day-view-block-item-am' 
+      || elementId === 'day-view-block-item-pm' 
+      || elementId === 'week-view-item-block' 
+      || elementId === 'month-view-item-block' 
+      || elementId === 'year-view-item-block'
+    ) {
+      setCalendarFormStatus({
+        event: true,
+        note: false,
+        calendar: false,
+      });
+    };
+  };
+
   const userCalendars: userCalendars = {
     personalCalendar: usersPersonalCalendar,
     pendingCalendars: usersPendingCalendars,
@@ -550,6 +561,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     removeCalendarNoteFromCalendar,
     handleCalendarEventModificationRequest,
     updateCalendarInUser,
+    handleOpenAddEventFormClick,
   };
 
   if (calendarEditor.active === true) {

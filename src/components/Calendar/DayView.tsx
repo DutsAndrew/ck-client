@@ -29,6 +29,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     removeCalendarNoteFromCalendar,
     handleCalendarEventModificationRequest,
     updateCalendarInUser,
+    handleOpenAddEventFormClick,
     dayNotes,
     dayEvents,
   } = props;
@@ -264,14 +265,19 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
             {blockSchedule.am.map((block) => {
               return <div
                 className={styles.AMDayScheduleItem}
-                key={`day-view${block}-PM`}
+                key={`day-view${block}-AM`}
+                onClick={(e) => handleOpenAddEventFormClick(e)}
               >
               <p 
+                id="day-view-block-item-am"
                 className={styles.AMDayScheduleText}
               >
                 {block}
               </p>
-              <div className={styles.AMDayScheduleBlock}>
+              <div 
+                id="day-view-block-item-am"
+                className={styles.AMDayScheduleBlock}
+              >
                 {(dayViewEvents as any)[`${block} AM`].map((event: calendarEventWithCalendarName) => {
                   // marking as any the styles are very visibly being applied here
                   const eventStyle: any = {};
@@ -315,11 +321,18 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
               return <div
                 className={styles.PMDayScheduleItem}
                 key={`day-view${block}-PM`}
+                onClick={(e) => handleOpenAddEventFormClick(e)}
               >
-              <p className={styles.PMDayScheduleText}>
+              <p 
+                id="day-view-block-item-pm"
+                className={styles.PMDayScheduleText}
+              >
                 {block}
               </p>
-              <div className={styles.PMDayScheduleBlock}>
+              <div 
+                id="day-view-block-item-pm"
+                className={styles.PMDayScheduleBlock}
+              >
                 {(dayViewEvents as any)[`${block} PM`].map((event: calendarEventWithCalendarName) => {
                   return <div 
                     key={`day-view-event-${event._id}`}

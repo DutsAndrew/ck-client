@@ -245,6 +245,7 @@ interface dayViewProps {
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
+  handleOpenAddEventFormClick: (e: React.MouseEvent<HTMLElement>) => void
   dayNotes: {} | calendarNoteWithCalendarInfo[],
   dayEvents: [] | calendarEventWithCalendarName[],
 };
@@ -257,6 +258,7 @@ interface weekViewProps {
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
+  handleOpenAddEventFormClick: (e: React.MouseEvent<HTMLElement>) => void
   weekNotes: {} | calendarNoteWithCalendarInfo[],
   weekEvents: [] | calendarEventWithCalendarName[],
 };
@@ -270,6 +272,7 @@ interface monthViewProps {
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
+  handleOpenAddEventFormClick: (e: React.MouseEvent<HTMLElement>) => void
   monthNotes: {} | calendarNoteWithCalendarInfo[],
   monthEvents: [] | calendarEventWithCalendarName[],
 };
@@ -283,6 +286,7 @@ interface yearViewProps {
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
+  handleOpenAddEventFormClick: (e: React.MouseEvent<HTMLElement>) => void
   yearNotes: {} | calendarNoteWithCalendarInfo[],
   yearEvents: [] | calendarEventWithCalendarName[],
 };

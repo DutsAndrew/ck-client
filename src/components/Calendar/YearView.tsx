@@ -31,6 +31,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
     removeCalendarNoteFromCalendar,
     handleCalendarEventModificationRequest,
     updateCalendarInUser,
+    handleOpenAddEventFormClick,
     yearNotes,
     yearEvents,
   } = props;
@@ -289,16 +290,23 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
                     yearViewEvents[monthIndex] &&
                     yearViewEvents[monthIndex].get(day) &&
                     yearViewEvents[monthIndex].get(day)!.length > 0) // ! non-null assertion operator used, there has to be a length of that map value if it can be retrieved in the previous check
-                    ? styles.yearViewDateHasEvents
-                    : '';
+                    ? true
+                    : false;
 
                   return (
                     <div
-                      onClick={() => handleCalendarDateSelectionClick(monthIndex, day)}
+                      id={`${doesDayHaveEvents === true ? '' : 'year-view-item-block'}`}
+                      onClick={(e) => {
+                        handleCalendarDateSelectionClick(monthIndex, day);
+                        handleOpenAddEventFormClick(e);
+                      }}
                       key={uniqid()}
-                      className={`${styles.yearViewMonthItemContainer} ${containerClass} ${doesDayHaveEvents}`}
+                      className={`${styles.yearViewMonthItemContainer} ${containerClass} ${doesDayHaveEvents === true ? styles.yearViewDateHasEvents : ''}`}
                     >
-                      <p className={styles.yearViewMonthItemDateNumberText}>
+                      <p 
+                        id={`${doesDayHaveEvents === true ? '' : 'year-view-item-block'}`}
+                        className={styles.yearViewMonthItemDateNumberText}
+                      >
                         {day.length > 0 ? day : ''}
                       </p>
                       {Array.isArray(yearViewEvents) &&
