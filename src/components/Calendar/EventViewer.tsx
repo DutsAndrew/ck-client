@@ -60,8 +60,6 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
       eventStyle.color = event.event_font_color;
     };
 
-    console.log(eventStyle, event)
-
     return eventStyle;
   };
 

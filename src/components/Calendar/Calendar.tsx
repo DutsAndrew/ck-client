@@ -94,6 +94,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   useEffect(() => {
     updateActivateCalendarsWithUpdates();
+    updateCalendarEditor();
   }, [usersPersonalCalendar, usersTeamCalendars, usersPendingCalendars]);
 
   useEffect(() => {
@@ -132,6 +133,22 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     });
 
     if (typeof updatedActiveCalendars !== 'undefined') setActiveCalendars((updatedActiveCalendars as calendarObject[]));
+  };
+
+  const updateCalendarEditor = () => {
+    if (Object.keys(calendarEditor.calendar).length > 0 && calendarEditor.active === true) {
+      const currentCalendars = [userCalendars.personalCalendar, ...userCalendars.teamCalendars];
+      const calendarEditorId = (calendarEditor.calendar as calendarObject)._id;
+      currentCalendars.forEach((calendar) => {
+        if (calendar._id === calendarEditorId) {
+          setCalendarEditor({
+            active: true,
+            calendar: calendar,
+          });
+          return;
+        };
+      });
+    };
   };
 
   const fetchCalendarAppData = async () => {
@@ -184,7 +201,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           const populatedCalendars = response.updated_user.calendars;
           const populatedPendingCalendars = response.updated_user.pending_calendars;
           const populatedPersonalCalendar = response.updated_user.personal_calendar;
-          console.log(populatedCalendars)
+          
           saveAllUserCalendarsToUser(populatedCalendars, populatedPendingCalendars, populatedPersonalCalendar);
           return toast.success('Your calendar data', {id: 'userCalendarData'});
         };
@@ -279,10 +296,11 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   const handleCalendarEventModificationRequest = (calendarId: string, calendarEvent: eventObject) => {
     const authAccess = doesUserHaveCalendarAccess(calendarId);
-    
+
     if (authAccess === false) {
       return toast.error('You do not have access to modify this calendar', {id: 'eventModificationError'});
     } else {
+      handleDeactivateCalendarEditor();
       return setCalendarEventEditRequest({
         calendarId: calendarId,
         event: calendarEvent,
@@ -300,19 +318,33 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   };
 
   const doesUserHaveCalendarAccess = (calendarId: string) => {
-    let doesUserHaveAccess = false;
+    const currentCalendars = [userCalendars.personalCalendar, ...userCalendars.teamCalendars];
+    
+    let authStatus = false;
 
-    activeCalendars.forEach((calendar) => {
+    currentCalendars.forEach((calendar) => {
       if (calendar._id === calendarId) {
+        if (calendar.created_by === userId) {
+          authStatus = true;
+          return authStatus;
+        };
         calendar.authorized_users.forEach((user) => {
           if (user._id === userId) {
-            doesUserHaveAccess = true;
+            authStatus = true;
+            return authStatus;
           };
         });
       };
     });
 
-    return doesUserHaveAccess;
+    return authStatus;
+  };
+
+  const updateCalendarEditorAfterCalendarUpdate = (updatedCalendar: calendarObject) => {
+    setCalendarEditor({
+      active: true,
+      calendar: updatedCalendar,
+    })
   };
 
   const groupCalendarNotes = () => {
@@ -526,7 +558,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         <EditCalendar 
           userId={userId} // to validate calendar changes if user is authorized
           selectedCalendar={calendarEditor.calendar}
-          activeCalendars={activeCalendars}
           usersPreferredCalendarColors={usersPreferredCalendarColors}
           handleDeactivateCalendarEditor={handleDeactivateCalendarEditor}
           updateCalendarInUser={updateCalendarInUser}

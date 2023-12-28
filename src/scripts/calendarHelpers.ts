@@ -107,6 +107,7 @@ const isUserAuthorized = (calendars: calendarObject[], calendarId: string, userI
   const selectedCalendar = calendars.find(calendar => calendar._id === calendarId);
 
   if (selectedCalendar) {
+    if (selectedCalendar.created_by === userId) return true;
     const authorizedUsers = selectedCalendar.authorized_users;
     return authorizedUsers.some(user => user._id === userId);
   };

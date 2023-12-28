@@ -18,7 +18,6 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
   const { 
     userId,
     selectedCalendar,
-    activeCalendars,
     usersPreferredCalendarColors,
     handleDeactivateCalendarEditor,
     updateCalendarInUser,
@@ -132,7 +131,8 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
   };
 
   const verifyUserAuthorizationOfCalendar = (calendarId: string) => {
-    return isUserAuthorized(activeCalendars, calendarId, userId);
+    const calendarArray = [(selectedCalendar as calendarObject)];
+    return isUserAuthorized(calendarArray, calendarId, userId);
   };
 
   const getCalendarEventForViewing = () => {
