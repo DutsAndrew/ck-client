@@ -298,7 +298,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
                       id={`${doesDayHaveEvents === true ? '' : 'year-view-item-block'}`}
                       onClick={(e) => {
                         handleCalendarDateSelectionClick(monthIndex, day);
-                        handleOpenAddEventFormClick(e);
+                        handleOpenAddEventFormClick(e, day, monthIndex);
                       }}
                       key={uniqid()}
                       className={`${styles.yearViewMonthItemContainer} ${containerClass} ${doesDayHaveEvents === true ? styles.yearViewDateHasEvents : ''}`}

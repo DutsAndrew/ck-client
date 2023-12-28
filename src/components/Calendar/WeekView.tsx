@@ -206,7 +206,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
             id="week-view-item-block"
             className={styles.weekDayItem} 
             key={`week-view-${day}`}
-            onClick={(e) => handleOpenAddEventFormClick(e)}
+            onClick={(e) => handleOpenAddEventFormClick(e, day)}
           >
             <p className={styles.weekDayItemText}>
               <strong><em>{day}</em></strong>

@@ -59,6 +59,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   [calendarFormStatus, setCalendarFormStatus] = useState({
     // state in case user shortcuts the calendar form by interacting with the calendar app instead of clicking the "plus" sign
     event: false,
+    eventDate: '',
     note: false,
     calendar: false,
   }),
@@ -251,6 +252,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   const handleNotesForCalendarRequestToAddNewNote = () => {
     setCalendarFormStatus({
       event: false,
+      eventDate: '',
       note: true,
       calendar: false,
     });
@@ -259,6 +261,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   const handleCalendarFormDataCleanup = () => {
     setCalendarFormStatus({
       event: false,
+      eventDate: '',
       note: false,
       calendar: false,
     });
@@ -508,9 +511,16 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
   };
 
-  const handleOpenAddEventFormClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleOpenAddEventFormClick = (e: React.MouseEvent<HTMLElement>, dateInfo: string, dateInfoExtra?: number) => {
+    console.log(dateInfo, dateInfoExtra)
+    // DATEINFO VARIABLE WILL COME IN THE FOLLOWING FORMATS:
+      // DAY-VIEW - "10", HOUR NUMBER
+      // WEEK-VIEW - "Friday", DAY OF WEEK STRING
+      // MONTH-VIEW - "8-Friday", CURRENTLY ON THE CURRENT MONTH CAN BE VIEWED
+      // YEAR-VIEW - "13" 0, DAY WILL COME IN STRING, DATEINFOEXTRA WILL HAVE THE MONTH INDEX
+      
     const elementId = (e.target as any).id;
-    
+
     if (
       elementId === 'day-view-block-item-am' 
       || elementId === 'day-view-block-item-pm' 
@@ -520,6 +530,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     ) {
       setCalendarFormStatus({
         event: true,
+        eventDate: '',
         note: false,
         calendar: false,
       });
