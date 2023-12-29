@@ -233,7 +233,11 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
             id="month-view-item-block"
             key={isAccurateMonthDate ? item : `${uniqid()}-item`}
             className={`${styles.monthItemContainer} ${containerClass}`}
-            onClick={(e) => handleOpenAddEventFormClick('month-view-item-block', item)}
+            onClick={(event) => {
+              if (event.target === event.currentTarget) {
+                handleOpenAddEventFormClick('month-view-item-block', item);
+              };
+            }}
           >
             <p className={styles.monthItemWeekDayText}>
               {item.includes('-') ? item.split('-')[1] : item}

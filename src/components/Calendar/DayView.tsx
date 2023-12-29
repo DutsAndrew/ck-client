@@ -321,7 +321,11 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
               return <div
                 className={styles.PMDayScheduleItem}
                 key={`day-view${block}-PM`}
-                onClick={(e) => handleOpenAddEventFormClick('day-view-block-item-pm', block)}
+                onClick={(event) => {
+                  if (event.target === event.currentTarget) {
+                    handleOpenAddEventFormClick('day-view-item-block', block);
+                  };
+                }}
               >
               <p 
                 id="day-view-block-item-pm"
