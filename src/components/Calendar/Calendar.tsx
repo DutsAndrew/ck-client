@@ -561,12 +561,14 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         const todaysIndex = today.getDay();
         const difference = dateInfo === 'Sunday' ? (7 - todaysIndex) : (targetIndex - todaysIndex); // if selected day is Sunday the date should be the next following sunday not the one for this week
         today.setDate(today.getDate() + difference);
+        today.setHours(0, 0, 0, 0);
         return today;
 
       case 'month-view-item-block':
         const currentDate = new Date();
         const monthDay = Number(dateInfo.split("-")[0]); // take day number before the "-" and convert from string to number
         const monthDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), monthDay);
+        currentDate.setHours(0, 0, 0, 0);
         return monthDate;
 
       case 'year-view-item-block':

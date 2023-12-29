@@ -213,7 +213,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     if (calendarEventEditRequest.status === true) {
       const event = (calendarEventEditRequest.event as eventObject);
       const selectedCalendar = calendars.find((calendar) => calendar._id === event.calendar_id);
-      
+
       setFormData({
         combinedDateAndTime: '',
         date: event.event_date.split(" ")[0],
@@ -239,9 +239,13 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     const day = calendarFormEventDate.getDate();
     const dayFormatted = day < 10 ? `0${day}` : day.toString();
 
+    const hours = calendarFormEventDate.getHours();
+    const hoursFormatted = hours > 12 ? `${hours - 12}:00 PM` : `${hours}:00 AM`;
+
     setFormData((prevFormData) => ({
       ...prevFormData,
       date: `${year}-${monthFormatted}-${dayFormatted}`,
+      selectedTime: hours > 0 ? hoursFormatted : '', // if hours is set and not 0, store it in correct format
     }));
   };
 
