@@ -142,7 +142,7 @@ interface AddUserToCalendarListProps {
 
 type calendarFormStatus = {
   event: boolean,
-  eventDate: string,
+  eventDate: null | Date,
   note: boolean,
   calendar: boolean,
 };
@@ -246,7 +246,7 @@ interface dayViewProps {
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
-  handleOpenAddEventFormClick: (e: React.MouseEvent<HTMLElement>, dateInfo: string, dateInfoExtra?: number) => void,
+  handleOpenAddEventFormClick: (viewType: string, dateInfo: string, dateInfoExtra?: number) => void
   dayNotes: {} | calendarNoteWithCalendarInfo[],
   dayEvents: [] | calendarEventWithCalendarName[],
 };
@@ -259,7 +259,7 @@ interface weekViewProps {
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
-  handleOpenAddEventFormClick: (e: React.MouseEvent<HTMLElement>, dateInfo: string, dateInfoExtra?: number) => void,
+  handleOpenAddEventFormClick: (viewType: string, dateInfo: string, dateInfoExtra?: number) => void
   weekNotes: {} | calendarNoteWithCalendarInfo[],
   weekEvents: [] | calendarEventWithCalendarName[],
 };
@@ -273,7 +273,7 @@ interface monthViewProps {
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
-  handleOpenAddEventFormClick: (e: React.MouseEvent<HTMLElement>, dateInfo: string, dateInfoExtra?: number) => void,
+  handleOpenAddEventFormClick: (viewType: string, dateInfo: string, dateInfoExtra?: number) => void
   monthNotes: {} | calendarNoteWithCalendarInfo[],
   monthEvents: [] | calendarEventWithCalendarName[],
 };
@@ -287,7 +287,7 @@ interface yearViewProps {
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
-  handleOpenAddEventFormClick: (e: React.MouseEvent<HTMLElement>, dateInfo: string, dateInfoExtra?: number) => void,
+  handleOpenAddEventFormClick: (viewType: string, dateInfo: string, dateInfoExtra?: number) => void
   yearNotes: {} | calendarNoteWithCalendarInfo[],
   yearEvents: [] | calendarEventWithCalendarName[],
 };
@@ -384,6 +384,8 @@ interface yearModalProps {
 
 type activeCalendarState = calendarObject[];
 
+type calendarFormStatusState = calendarFormStatus;
+
 type calendarNotesGroupedState = {} | calendarNotesGrouped;
 
 type calendarEventsGroupedState = {} | calendarEventsGrouped;
@@ -409,6 +411,7 @@ interface calendarModalState {
 interface addEventFormProps {
   userCalendars: userCalendars,
   userId: string,
+  calendarFormEventDate: null | Date,
   handleCloseModalRequest: Function,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   calendarEventEditRequest: calendarEventEditRequest,
@@ -744,6 +747,7 @@ export type {
   calendarViewModalProps,
   yearModalProps,
   activeCalendarState,
+  calendarFormStatusState,
   calendarNotesGroupedState,
   calendarEventsGroupedState,
   calendarNotesGrouped,

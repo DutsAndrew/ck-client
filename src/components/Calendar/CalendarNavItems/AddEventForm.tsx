@@ -8,6 +8,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
   const { 
     userCalendars,
     userId,
+    calendarFormEventDate,
     handleCloseModalRequest,
     updateCalendarInUser,
     calendarEventEditRequest,
@@ -27,12 +28,16 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
   });
 
   useEffect(() => {
+    setCalendars([userCalendars.personalCalendar, ...userCalendars.teamCalendars])
+  }, [userCalendars]);
+
+  useEffect(() => {
     handleCalendarEventEditRequest();
   }, [calendarEventEditRequest]);
 
   useEffect(() => {
-    setCalendars([userCalendars.personalCalendar, ...userCalendars.teamCalendars])
-  }, [userCalendars]);
+    handleCalendarFormEventDateChange();
+  }, [calendarFormEventDate]);
 
   const generateTimeSlots = () => {
     const timeSlots = [];
@@ -208,6 +213,7 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     if (calendarEventEditRequest.status === true) {
       const event = (calendarEventEditRequest.event as eventObject);
       const selectedCalendar = calendars.find((calendar) => calendar._id === event.calendar_id);
+      
       setFormData({
         combinedDateAndTime: '',
         date: event.event_date.split(" ")[0],
@@ -222,6 +228,21 @@ const AddEventForm:FC<addEventFormProps> = (props): JSX.Element => {
     } else {
       return;
     };
+  };
+
+  const handleCalendarFormEventDateChange = () => {
+    if (calendarFormEventDate === null) return;
+
+    const year = calendarFormEventDate.getFullYear();
+    const month = calendarFormEventDate.getMonth() + 1;
+    const monthFormatted = month < 10 ? `0${month}` : month.toString();
+    const day = calendarFormEventDate.getDate();
+    const dayFormatted = day < 10 ? `0${day}` : day.toString();
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      date: `${year}-${monthFormatted}-${dayFormatted}`,
+    }));
   };
 
   return (

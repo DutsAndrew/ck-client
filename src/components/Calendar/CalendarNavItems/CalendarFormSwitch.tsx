@@ -58,6 +58,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
         <AddEventForm 
           userCalendars={userCalendars}
           userId={userId}
+          calendarFormEventDate={calendarFormStatus.eventDate}
           handleCloseModalRequest={handleCloseModalRequest}
           updateCalendarInUser={updateCalendarInUser}
           calendarEventEditRequest={calendarEventEditRequest}

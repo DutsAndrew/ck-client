@@ -25,6 +25,7 @@ import {
   calendarEventsGrouped,
   eventObject,
   calendarEventWithCalendarName,
+  calendarFormStatusState,
 } from '../../types/calendarTypes';
 import { applyCalendarBackgroundColor } from '../../scripts/calendarHelpers';
 
@@ -56,10 +57,10 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   [activeCalendars, setActiveCalendars]= useState<activeCalendarState>(
     [usersPersonalCalendar]
   ),
-  [calendarFormStatus, setCalendarFormStatus] = useState({
+  [calendarFormStatus, setCalendarFormStatus] = useState<calendarFormStatusState>({
     // state in case user shortcuts the calendar form by interacting with the calendar app instead of clicking the "plus" sign
     event: false,
-    eventDate: '',
+    eventDate: null,
     note: false,
     calendar: false,
   }),
@@ -252,7 +253,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   const handleNotesForCalendarRequestToAddNewNote = () => {
     setCalendarFormStatus({
       event: false,
-      eventDate: '',
+      eventDate: null,
       note: true,
       calendar: false,
     });
@@ -261,7 +262,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   const handleCalendarFormDataCleanup = () => {
     setCalendarFormStatus({
       event: false,
-      eventDate: '',
+      eventDate: null,
       note: false,
       calendar: false,
     });
@@ -511,29 +512,72 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
   };
 
-  const handleOpenAddEventFormClick = (e: React.MouseEvent<HTMLElement>, dateInfo: string, dateInfoExtra?: number) => {
-    console.log(dateInfo, dateInfoExtra)
+  const handleOpenAddEventFormClick = (viewType: string, dateInfo: string, dateInfoExtra?: number) => {
+    if (viewType.length === 0) return;
+    if (dateInfo.length === 0) return;
+
     // DATEINFO VARIABLE WILL COME IN THE FOLLOWING FORMATS:
       // DAY-VIEW - "10", HOUR NUMBER
       // WEEK-VIEW - "Friday", DAY OF WEEK STRING
       // MONTH-VIEW - "8-Friday", CURRENTLY ON THE CURRENT MONTH CAN BE VIEWED
       // YEAR-VIEW - "13" 0, DAY WILL COME IN STRING, DATEINFOEXTRA WILL HAVE THE MONTH INDEX
       
-    const elementId = (e.target as any).id;
+    const dateOfClick = getDateFromCalendarClick(viewType, dateInfo, dateInfoExtra);
 
     if (
-      elementId === 'day-view-block-item-am' 
-      || elementId === 'day-view-block-item-pm' 
-      || elementId === 'week-view-item-block' 
-      || elementId === 'month-view-item-block' 
-      || elementId === 'year-view-item-block'
+      (viewType === 'day-view-block-item-am' && dateOfClick instanceof Date)
+      || (viewType === 'day-view-block-item-pm' && dateOfClick instanceof Date)
+      || (viewType === 'week-view-item-block' && dateOfClick instanceof Date)
+      || (viewType === 'month-view-item-block' && dateOfClick instanceof Date)
+      || (viewType === 'year-view-item-block' && dateOfClick instanceof Date)
     ) {
       setCalendarFormStatus({
         event: true,
-        eventDate: '',
+        eventDate: dateOfClick,
         note: false,
         calendar: false,
       });
+    };
+  };
+
+  const getDateFromCalendarClick = (elementId: string, dateInfo: string, dateInfoExtra?: number) => {
+    switch(elementId) {
+
+      case 'day-view-block-item-am':
+        const newAmDate = new Date();
+        newAmDate.setHours(Number(dateInfo), 0, 0, 0);
+        return newAmDate;
+
+      case 'day-view-block-item-pm':
+        const newPmDate = new Date();
+        const hours = Number(dateInfo) === 12 ? 12 : Number(dateInfo) + 12;
+        newPmDate.setHours(hours, 0, 0, 0);
+        return newPmDate;
+
+      case 'week-view-item-block':
+        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const targetIndex = dayNames.indexOf(dateInfo);
+        const today = new Date();
+        const todaysIndex = today.getDay();
+        const difference = dateInfo === 'Sunday' ? (7 - todaysIndex) : (targetIndex - todaysIndex); // if selected day is Sunday the date should be the next following sunday not the one for this week
+        today.setDate(today.getDate() + difference);
+        return today;
+
+      case 'month-view-item-block':
+        const currentDate = new Date();
+        const monthDay = Number(dateInfo.split("-")[0]); // take day number before the "-" and convert from string to number
+        const monthDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), monthDay);
+        return monthDate;
+
+      case 'year-view-item-block':
+        const currentYear = new Date().getUTCFullYear();
+        const selectedDate = Number(dateInfo);
+        const selectedMonth = dateInfoExtra ? dateInfoExtra : 0;
+        const yearDate = new Date(currentYear, selectedMonth, selectedDate, 0, 0, 0, 0);
+        return yearDate;
+
+      default:
+        return false;
     };
   };
 
