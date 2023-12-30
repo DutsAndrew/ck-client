@@ -18,6 +18,20 @@ const getTodaysDate = () => {
   return formattedDate;
 };
 
+const getDateForCurrentYear = (currentYear: string) => {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  };
+
+  const today = new Date();
+  const date = new Date(Number(currentYear), today.getMonth(), today.getDate());
+  const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+  return formattedDate;
+};
+
 const getCalendarEventTimeForLocal = (event: eventObject) => {
   const [datePart, timePart] = event.combined_date_and_time.split(' ');
   const [year, month, day] = datePart.split('-').map(Number);
@@ -173,6 +187,7 @@ const applyCalendarBackgroundColor = (
 
 export {
   getTodaysDate,
+  getDateForCurrentYear,
   getCalendarEventTimeForLocal,
   getLocalDateAndTimeForEvent,
   getDayOfWeekLocalTime,

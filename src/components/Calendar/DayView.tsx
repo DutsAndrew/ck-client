@@ -13,7 +13,8 @@ import {
   timeSlotObject,
 } from "../../types/calendarTypes";
 import { 
-  getTodaysDate, 
+  getTodaysDate,
+  getDateForCurrentYear,
   getCalendarEventTimeForLocal, 
   isUserAuthorized, 
   compareEventTimes, 
@@ -245,7 +246,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
   return (
     <section className={styles.dayViewContainer}>
       <p className={styles.currentDateText}>
-        <strong>{getTodaysDate()}</strong>
+        <strong>{getDateForCurrentYear(currentViewingYear)}</strong>
       </p>
       {eventViewStatus.set === true &&
         <EventViewer 
