@@ -3,6 +3,7 @@ import styles from '../../styles/components/Calendar/calendar.module.css';
 import NotesForCalendar from "./NotesForCalendar";
 import EventViewer from "./EventViewer";
 import { 
+  CalendarDatesData,
   calendarEventWithCalendarName,
   calendarNoteWithCalendarInfo,
   calendarNotesWithInfo,
@@ -23,7 +24,9 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
   const { 
     userId,
+    calendarDatesData,
     activeCalendars,
+    currentViewingYear,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
@@ -266,16 +269,23 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
               return <div
                 className={styles.AMDayScheduleItem}
                 key={`day-view${block}-AM`}
-                onClick={(e) => handleOpenAddEventFormClick('day-view-block-item-am', block)}
+                onClick={(event) => {
+                  if (
+                    (event.target as any).id === 'day-view-block-text'
+                    || (event.target as any).id === 'day-view-block-container'
+                  ) {
+                    handleOpenAddEventFormClick('day-view-item-block-am', block);
+                  };
+                }}
               >
               <p 
-                id="day-view-block-item-am"
+                id="day-view-block-text"
                 className={styles.AMDayScheduleText}
               >
                 {block}
               </p>
               <div 
-                id="day-view-block-item-am"
+                id="day-view-block-container"
                 className={styles.AMDayScheduleBlock}
               >
                 {(dayViewEvents as any)[`${block} AM`].map((event: calendarEventWithCalendarName) => {
@@ -289,6 +299,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                   };
 
                   return <div 
+                    id="day-view-event-item"
                     key={`day-view-event-${event._id}`}
                     style={getEventColorScheme(event)}
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
@@ -322,23 +333,27 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                 className={styles.PMDayScheduleItem}
                 key={`day-view${block}-PM`}
                 onClick={(event) => {
-                  if (event.target === event.currentTarget) {
-                    handleOpenAddEventFormClick('day-view-item-block', block);
+                  if (
+                    (event.target as any).id === 'day-view-block-text'
+                    || (event.target as any).id === 'day-view-block-container'
+                  ) {
+                    handleOpenAddEventFormClick('day-view-item-block-am', block);
                   };
                 }}
               >
               <p 
-                id="day-view-block-item-pm"
+                id="day-view-block-text"
                 className={styles.PMDayScheduleText}
               >
                 {block}
               </p>
               <div 
-                id="day-view-block-item-pm"
+                id="day-view-block-container"
                 className={styles.PMDayScheduleBlock}
               >
                 {(dayViewEvents as any)[`${block} PM`].map((event: calendarEventWithCalendarName) => {
                   return <div 
+                    id="day-view-event-item"
                     key={`day-view-event-${event._id}`}
                     style={getEventColorScheme(event)}
                     onMouseEnter={() => handleMouseEnterEventContainer(event._id)}

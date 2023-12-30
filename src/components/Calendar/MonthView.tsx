@@ -24,8 +24,9 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
 
   const { 
     userId,
-    activeCalendars,
     calendarDatesData,
+    activeCalendars,
+    currentViewingYear,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,

@@ -75,7 +75,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     status: false,
   }),
   [calendarNotesGrouped, setCalendarNotesGrouped] = useState<calendarNotesGroupedState>({}),
-  [calendarEventsGrouped, setCalendarEventsGrouped] = useState<calendarEventsGroupedState>({});
+  [calendarEventsGrouped, setCalendarEventsGrouped] = useState<calendarEventsGroupedState>({}),
+  [currentViewingYear, setCurrentViewingYear] = useState(new Date().getFullYear().toString());
 
   const navigate = useNavigate();
 
@@ -525,8 +526,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     const dateOfClick = getDateFromCalendarClick(viewType, dateInfo, dateInfoExtra);
 
     if (
-      (viewType === 'day-view-block-item-am' && dateOfClick instanceof Date)
-      || (viewType === 'day-view-block-item-pm' && dateOfClick instanceof Date)
+      (viewType === 'day-view-item-block-am' && dateOfClick instanceof Date)
+      || (viewType === 'day-view-item-block-pm' && dateOfClick instanceof Date)
       || (viewType === 'week-view-item-block' && dateOfClick instanceof Date)
       || (viewType === 'month-view-item-block' && dateOfClick instanceof Date)
       || (viewType === 'year-view-item-block' && dateOfClick instanceof Date)
@@ -543,12 +544,12 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   const getDateFromCalendarClick = (elementId: string, dateInfo: string, dateInfoExtra?: number) => {
     switch(elementId) {
 
-      case 'day-view-block-item-am':
+      case 'day-view-item-block-am':
         const newAmDate = new Date();
         newAmDate.setHours(Number(dateInfo), 0, 0, 0);
         return newAmDate;
 
-      case 'day-view-block-item-pm':
+      case 'day-view-item-block-pm':
         const newPmDate = new Date();
         const hours = Number(dateInfo) === 12 ? 12 : Number(dateInfo) + 12;
         newPmDate.setHours(hours, 0, 0, 0);
@@ -583,6 +584,10 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
   };
 
+  const storeSelectedViewingYear = (selectedYear: string) => {
+    setCurrentViewingYear(selectedYear);
+  };
+
   const userCalendars: userCalendars = {
     personalCalendar: usersPersonalCalendar,
     pendingCalendars: usersPendingCalendars,
@@ -608,11 +613,14 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     updateCalendarNote,
     updateCalendarInUser,
     handleCalendarEventModificationRequest,
+    storeSelectedViewingYear,
   };
 
   const calendarViewProps = {
     userId: userId,
+    calendarDatesData,
     activeCalendars: activeCalendars,
+    currentViewingYear,
     handleNotesForCalendarRequestToAddNewNote,
     handleCalendarNoteModificationRequest,
     removeCalendarNoteFromCalendar,
@@ -660,13 +668,12 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
               weekEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).weekEvents : []}
             />
             <MonthView 
-              calendarDatesData={calendarDatesData}
+              
               {...calendarViewProps}
               monthNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).monthNotes : []}
               monthEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).monthEvents : []}
             />
             <YearView 
-              calendarDatesData={calendarDatesData}
               {...calendarViewProps}
               yearNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).yearNotes : []}
               yearEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).yearEvents : []}
@@ -692,7 +699,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       } else if (currentView === 'Month') {
         return (
           <MonthView 
-            calendarDatesData={calendarDatesData}
             {...calendarViewProps}
             monthNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).monthNotes : []}
             monthEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).monthEvents : []}
@@ -701,7 +707,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       } else if (currentView === 'Year') {
         return (
           <YearView 
-            calendarDatesData={calendarDatesData}
             {...calendarViewProps} 
             yearNotes={Object.keys(calendarNotesGrouped).length > 0 ? (calendarNotesGrouped as calendarNotesGrouped).yearNotes : []}
             yearEvents={Object.keys(calendarEventsGrouped).length > 0 ? (calendarEventsGrouped as calendarEventsGrouped).yearEvents : []}

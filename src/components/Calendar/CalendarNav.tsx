@@ -24,6 +24,7 @@ const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
     handleCalendarFormDataCleanup,
     updateCalendarNote,
     updateCalendarInUser,
+    storeSelectedViewingYear,
   } = props;
 
   return (
@@ -50,6 +51,7 @@ const CalendarNav:FC<calendarNavProps> = (props): JSX.Element => {
         changeCurrentView={changeCurrentView}
         handleActiveCalendarChange={handleActiveCalendarChange}
         handleActivateCalendarEditor={handleActivateCalendarEditor}
+        storeSelectedViewingYear={storeSelectedViewingYear}
       />
     </nav>
   )

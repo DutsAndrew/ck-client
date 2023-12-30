@@ -16,7 +16,19 @@ const NavContainerRight:FC<navRightContainerProps> = (props): JSX.Element => {
     changeCurrentView,
     handleActiveCalendarChange,
     handleActivateCalendarEditor,
+    storeSelectedViewingYear,
   } = props;
+
+  const [selectedYear, setSelectedYear] = useState({
+    currentYear: new Date().getFullYear(),
+    selectedYear: '',
+  });
+
+  const [modal, setModal] = useState({
+    calendar: false,
+    view: false,
+    year: false,
+  });
 
   const getCalendarYears = (): any[] => {
     if (Object.keys(calendarDatesData).length > 0) {
@@ -30,17 +42,6 @@ const NavContainerRight:FC<navRightContainerProps> = (props): JSX.Element => {
       return [];
     };
   };
-
-  const [selectedYear, setSelectedYear] = useState({
-    currentYear: new Date().getFullYear(),
-    selectedYear: '',
-  });
-
-  const [modal, setModal] = useState({
-    calendar: false,
-    view: false,
-    year: false,
-  });
 
   const handleModalToggle = (modalToggleRequest: string): void => {
     if (
@@ -71,6 +72,7 @@ const NavContainerRight:FC<navRightContainerProps> = (props): JSX.Element => {
       currentYear: selectedYear.currentYear,
       selectedYear: year,
     });
+    storeSelectedViewingYear(year);
     handleModalDeactivation();
   };
 

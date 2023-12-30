@@ -177,6 +177,7 @@ interface calendarNavProps {
   handleCalendarFormDataCleanup: () => void,
   updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
+  storeSelectedViewingYear: (selectedYear: string) => void,
 };
 
 interface navLeftContainerProps {
@@ -236,11 +237,14 @@ interface navRightContainerProps {
   changeCurrentView: Function,
   handleActiveCalendarChange: Function,
   handleActivateCalendarEditor: Function,
+  storeSelectedViewingYear: (selectedYear: string) => void,
 };
 
 interface dayViewProps {
   userId: string,
+  calendarDatesData: {} | CalendarDatesData,
   activeCalendars: calendarObject[],
+  currentViewingYear: string,
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
@@ -253,7 +257,9 @@ interface dayViewProps {
 
 interface weekViewProps {
   userId: string,
+  calendarDatesData: {} | CalendarDatesData,
   activeCalendars: calendarObject[],
+  currentViewingYear: string,
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
@@ -266,8 +272,9 @@ interface weekViewProps {
 
 interface monthViewProps {
   userId: string,
-  activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
+  activeCalendars: calendarObject[],
+  currentViewingYear: string,
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
@@ -280,8 +287,9 @@ interface monthViewProps {
 
 interface yearViewProps {
   userId: string,
-  activeCalendars: calendarObject[],
   calendarDatesData: {} | CalendarDatesData,
+  activeCalendars: calendarObject[],
+  currentViewingYear: string,
   handleNotesForCalendarRequestToAddNewNote: () => void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
