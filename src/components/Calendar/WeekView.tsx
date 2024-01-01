@@ -36,8 +36,6 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     weekEvents,
   } = props;
 
-  console.log(weekEvents)
-
   const week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const generateSnapShot = () => {

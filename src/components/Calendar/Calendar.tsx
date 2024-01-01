@@ -435,6 +435,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       yearEvents: yearEvents,
     };
 
+    console.log(events)
+
     return setCalendarEventsGrouped(events);
   };
 

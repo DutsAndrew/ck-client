@@ -13,7 +13,6 @@ import {
   timeSlotObject,
 } from "../../types/calendarTypes";
 import { 
-  getTodaysDate,
   getDateForCurrentYear,
   getCalendarEventTimeForLocal, 
   isUserAuthorized, 
@@ -70,7 +69,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
 
   const getDayViewNotes = () => {
     const todaysNotes: calendarNotesWithInfo = [];
-    const today = new Date(getTodaysDate());
+    const today = new Date(getDateForCurrentYear(currentViewingYear));
 
     Array.isArray(dayNotes) && dayNotes.forEach((calendarNote: calendarNoteWithCalendarInfo) => {
       const startDate = new Date(calendarNote.start_date);
