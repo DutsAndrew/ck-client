@@ -296,10 +296,14 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
 
                   return (
                     <div
-                      id={`${doesDayHaveEvents === true ? '' : 'year-view-item-block'}`}
+                      id={`${doesDayHaveEvents === true ? 'year-view-item-block-container' : 'year-view-item-nonevent-block-container'}`}
                       onClick={(event) => {
                         handleCalendarDateSelectionClick(monthIndex, day);
-                        if (event.target === event.currentTarget) {
+                        const eventId = (event.target as any).id;
+                        if (
+                          eventId === 'year-view-item-nonevent-block-container'
+                          || eventId === 'year-view-item-non-event-item'
+                        ) {
                           handleOpenAddEventFormClick('year-view-item-block', day, monthIndex);
                         };
                       }}
@@ -307,7 +311,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
                       className={`${styles.yearViewMonthItemContainer} ${containerClass} ${doesDayHaveEvents === true ? styles.yearViewDateHasEvents : ''}`}
                     >
                       <p 
-                        id={`${doesDayHaveEvents === true ? '' : 'year-view-item-block'}`}
+                        id={`${doesDayHaveEvents === true ? 'year-view-item-event-item' : 'year-view-item-non-event-item'}`}
                         className={styles.yearViewMonthItemDateNumberText}
                       >
                         {day.length > 0 ? day : ''}
@@ -318,6 +322,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
                         yearViewEvents[monthIndex].get(day) ? (
                         yearViewEvents[monthIndex].get(day)!.length > 0 ? ( // ! non-null assertion operator used, there has to be a length of that map value if it can be retrieved in the previous check
                           <img 
+                            id="year-view-item-circle-icon"
                             className={styles.yearViewEventsFoundForDateSvg}
                             src={circleSvg}
                             alt="circle icon">
