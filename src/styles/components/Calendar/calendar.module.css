@@ -169,8 +169,15 @@
   padding-left: 1vw;
 }
 
-.AMBlockContainer, .PMBlockContainer, .noTimeBlockContainer {
+.AMBlockContainer, .PMBlockContainer {
   width: 100%;
+}
+
+.noTimeBlockContainer {
+  width: 60%;
+}
+
+.AMBlockContainer, .PMBlockContainer, .noTimeBlockContainer {
   display: flex;
   height: auto;
   flex-flow: row nowrap;
@@ -212,8 +219,8 @@
 
 .AMDayScheduleBlock, .PMDayScheduleBlock, .weekDayItemBlock, .noTimeDayScheduleBlock {
   min-width: 5vw;
-  width: 100%;
   height: 100%;
+  width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
   display: flex;
