@@ -103,7 +103,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   useEffect(() => {
     groupCalendarNotes();
     groupEvents();
-  }, [activeCalendars]);
+  }, [activeCalendars, currentViewingYear]);
 
   const mountAppData = () => {
     fetchCalendarAppData(); // get calendar date/holiday data from db
@@ -454,19 +454,21 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   const identifyEventCategory = (eventDate: Date) => {
     const today = new Date();
+    const todayWithSelectedYear = new Date(Number(currentViewingYear), today.getMonth(), today.getDate(), 0, 0, 0, 0);
     
     // see if event is for today
     if (
-      eventDate.getFullYear() === today.getFullYear()
-      && eventDate.getMonth() === today.getMonth()
-      && eventDate.getDate() === today.getDate()
+      eventDate.getFullYear() === todayWithSelectedYear.getFullYear()
+      && eventDate.getMonth() === todayWithSelectedYear.getMonth()
+      && eventDate.getDate() === todayWithSelectedYear.getDate()
     ) {
       return 'day';
     };
 
     // see if event is for this week
-    const thisWeeksSnapshot = getWeekSnapshot(today);
+    const thisWeeksSnapshot = getWeekSnapshot(todayWithSelectedYear);
     const eventWeeksSnapshot = getWeekSnapshot(eventDate);
+
     if (
       // beginning of week comparison
       thisWeeksSnapshot.monday.getFullYear() === eventWeeksSnapshot.monday.getFullYear()
@@ -483,15 +485,15 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
     // see if event is for this month
     if (
-      today.getFullYear() === eventDate.getFullYear()
-      && today.getMonth() === eventDate.getMonth()
+      todayWithSelectedYear.getFullYear() === eventDate.getFullYear()
+      && todayWithSelectedYear.getMonth() === eventDate.getMonth()
     ) {
       return 'month';
     };
 
     // see if event is for this year
     if (
-      today.getFullYear() === eventDate.getFullYear()
+      todayWithSelectedYear.getFullYear() === eventDate.getFullYear()
     ) {
       return 'year';
     };

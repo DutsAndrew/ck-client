@@ -47,12 +47,12 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
   useEffect(() => {
     setYearViewNotes(getYearViewNotes())
     setYearViewEvents(getYearViewEvents());
-  }, [activeCalendars, yearNotes, yearEvents]);
+  }, [activeCalendars, yearNotes, yearEvents, currentViewingYear]);
 
   const getYearViewNotes = () => {
     const thisYearsNotes: calendarNotesWithInfo = [];
 
-    const currentYear = new Date().getFullYear();
+    const currentYear = Number(currentViewingYear);
 
     Array.isArray(yearNotes) && yearNotes.forEach((calendarNote: calendarNoteWithCalendarInfo) => {
       const startDate = new Date(calendarNote.start_date);
@@ -76,7 +76,7 @@ const YearView:FC<yearViewProps> = (props): JSX.Element => {
   ];
 
   const getTodaysYear = () => {
-    return new Date().getFullYear();
+    return Number(currentViewingYear);
   };
 
   const getCurrentYearFromAppData = () => {

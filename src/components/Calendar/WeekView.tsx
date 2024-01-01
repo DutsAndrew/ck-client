@@ -36,10 +36,13 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     weekEvents,
   } = props;
 
+  console.log(weekEvents)
+
   const week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const generateSnapShot = () => {
-    const currentDate = new Date();
+    const today = new Date();
+    const currentDate = new Date(Number(currentViewingYear), today.getMonth(), today.getDate());
     const currentDayOfWeek = currentDate.getDay();
     const daysToAdd = currentDayOfWeek === 0 ? 6 : currentDayOfWeek - 1;
     const mondayDate = new Date(currentDate);
@@ -54,7 +57,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
     return `${startFormatted} - ${endFormatted}`;
   };
 
-  const [weekSnapshot, setWeekSnapShot] = useState(generateSnapShot());
+  const [weekSnapshot, setWeekSnapShot] = useState('');
   const [weekViewNotes, setWeekViewNotes] = useState<calendarViewStateForCalendarNotes>([]);
   const [weekViewEvents, setWeekViewEvents] = useState<calendarWeekViewStateForCalendarEvents>({
     'monday': [],
@@ -72,6 +75,10 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
   });
 
   useEffect(() => {
+    setWeekSnapShot(generateSnapShot());
+  }, [currentViewingYear]);
+
+  useEffect(() => {
     setWeekViewNotes(getWeekViewNotes())
     setWeekViewEvents(getWeekViewEvents());
   }, [activeCalendars, weekNotes, weekEvents]);
@@ -79,7 +86,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
   const getWeekViewNotes = () => {
     const thisWeeksNotes: calendarNotesWithInfo = [];
 
-    const currentYear = new Date().getFullYear();
+    const currentYear = Number(currentViewingYear);
     const beginningOfWeekSnap = weekSnapshot.split(' - ')[0];
     const endOfWeekSnap = weekSnapshot.split(' - ')[1];
 

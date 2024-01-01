@@ -48,13 +48,14 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
   useEffect(() => {
     setMonthViewNotes(getMonthViewNotes());
     setMonthViewEvents(getMonthViewEvents());
-  }, [activeCalendars, monthNotes, monthEvents]);
+  }, [activeCalendars, monthNotes, monthEvents, currentViewingYear]);
 
   const getMonthViewNotes = () => {
     const thisMonthsNotes: calendarNotesWithInfo = [];
 
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
+    const today = new Date();
+    const currentYear = Number(currentViewingYear);
+    const currentMonth = new Date(Number(currentViewingYear), today.getMonth(), today.getDate()).getMonth();
 
     Array.isArray(monthNotes) && monthNotes.forEach((calendarNote: calendarNoteWithCalendarInfo) => {
       const startDate = new Date(calendarNote.start_date);
@@ -79,11 +80,13 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
   ];
 
   const getTodaysYear = () => {
-    return new Date().getFullYear();;
+    return Number(currentViewingYear);
   };
 
   const getTodaysMonth = () => {
-    return new Date().getMonth();
+    const today = new Date();
+    const todayWithSelectedYear = new Date(Number(currentViewingYear), today.getMonth(), today.getDate());
+    return todayWithSelectedYear.getMonth();
   };
 
   const getMonthPreview = () => {
