@@ -260,6 +260,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
         Day View
       </h2>
       <div className={styles.dayViewItemsContainer}>
+
         <div className={styles.AMDayScheduleContainer}>
           <p className={styles.AMDayScheduleHeaderText}>
             AM
@@ -323,6 +324,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
             })}
           </div>
         </div>
+
         <div className={styles.PMDayScheduleContainer}>
           <p className={styles.PMDayScheduleHeaderText}>
             PM
@@ -377,7 +379,42 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
             })}
           </div>
         </div>
+
+        <div className={styles.noTimeScheduleContainer}>
+          <p className={styles.noTimeDayScheduleHeaderText}>
+            No Time Set
+          </p>
+          <div className={styles.noTimeBlockContainer}>
+            <div 
+              id="day-view-block-container"
+              className={styles.noTimeDayScheduleBlock}
+            >
+              {(dayViewEvents as any)['none'].map((event: calendarEventWithCalendarName) => {
+                return <div 
+                  id="day-view-event-item"
+                  key={`day-view-event-${event._id}`}
+                  style={getEventColorScheme(event)}
+                  onMouseEnter={() => handleMouseEnterEventContainer(event._id)}
+                  onMouseLeave={() => handleMouseLeaveEventContainer()}
+                  onClick={() => handleEventClickToOpenEventMenu(event._id)}
+                  className={styles.noTimeEventContainer}
+                >
+                  {eventActivelyHovered.includes(event._id) ? (
+                    <span className={styles.eventDetailSpanText}>
+                    {getCalendarEventTimeForLocal(event)}
+                    </span>
+                  ) : (
+                    <span className={styles.eventDetailSpanText}>
+                      {event.event_name.length > 10 ? `${event.event_name.slice(0, 10)}...` : event.event_name}
+                    </span>
+                  )}
+                </div>
+              })}
+            </div>
+          </div>
+        </div>
       </div>
+
       <div className={styles.dayViewNotesContainer}>
         {Array.isArray(activeCalendars) && activeCalendars.length !== 0 &&  (
           <NotesForCalendar 
