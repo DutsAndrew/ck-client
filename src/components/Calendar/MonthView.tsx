@@ -13,7 +13,7 @@ import {
 } from "../../types/calendarTypes";
 import { 
   compareEventTimes, 
-  getCalendarEventTimeForLocal, 
+  getCalendarObjectTimeForLocal, 
   getEventColorScheme, 
   getEventDate, 
   isUserAuthorized 
@@ -261,7 +261,7 @@ const MonthView:FC<monthViewProps> = (props): JSX.Element => {
               >
                 {monthEventActivelyHovered.includes(event._id) ? (
                  <span className={styles.eventDetailSpanText}>
-                  {event.event_time.length > 0 ? getCalendarEventTimeForLocal(event) : 'No time set'}
+                  {event.event_time.length > 0 ? getCalendarObjectTimeForLocal(event.combined_date_and_time) : 'No time set'}
                  </span>
                 ) : (
                   <span className={styles.eventDetailSpanText}>

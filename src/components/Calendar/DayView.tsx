@@ -14,7 +14,7 @@ import {
 } from "../../types/calendarTypes";
 import { 
   getDateForCurrentYear,
-  getCalendarEventTimeForLocal, 
+  getCalendarObjectTimeForLocal, 
   isUserAuthorized, 
   compareEventTimes, 
   getEventColorScheme 
@@ -170,7 +170,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
   };
 
   const buildEventTimeSlot = (event: calendarEventWithCalendarName) => {
-    const convertedTime = getCalendarEventTimeForLocal(event);
+    const convertedTime = getCalendarObjectTimeForLocal(event.combined_date_and_time);
     let eventHour = convertedTime.slice(0, 2);
     const timeOfDay = convertedTime.split(" ")[1]; // grab the AM / PM part of time
     if (eventHour.slice(0, 1) === '0') { // remove leading zero in hour format
@@ -310,7 +310,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                   >
                     {eventActivelyHovered.includes(event._id) ? (
                      <span>
-                      {getCalendarEventTimeForLocal(event)}
+                      {getCalendarObjectTimeForLocal(event.combined_date_and_time)}
                      </span>
                     ) : (
                       <span>
@@ -365,7 +365,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                   >
                     {eventActivelyHovered.includes(event._id) ? (
                      <span className={styles.eventDetailSpanText}>
-                      {getCalendarEventTimeForLocal(event)}
+                      {getCalendarObjectTimeForLocal(event.combined_date_and_time)}
                      </span>
                     ) : (
                       <span className={styles.eventDetailSpanText}>
@@ -402,7 +402,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                   >
                     {eventActivelyHovered.includes(event._id) ? (
                       <span className={styles.eventDetailSpanText}>
-                      {getCalendarEventTimeForLocal(event)}
+                      {getCalendarObjectTimeForLocal(event.combined_date_and_time)}
                       </span>
                     ) : (
                       <span className={styles.eventDetailSpanText}>

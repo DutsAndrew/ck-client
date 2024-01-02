@@ -464,6 +464,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
   };
 
   const handleCalendarNoteEditRequest = () => {
+    console.log('check 3')
+
     if (Object.keys(calendarNoteEditRequest).length > 0) {
       const calendarNote = calendarNoteEditRequest.note as calendarNoteWithCalendarInfo;
       const startDateOfNote = new Date(calendarNote.start_date);

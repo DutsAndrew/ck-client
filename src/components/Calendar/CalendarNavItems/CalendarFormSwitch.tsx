@@ -20,6 +20,8 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
     updateCalendarInUser,
   } = props;
 
+  console.log(calendarFormStatus, calendarNoteEditRequest)
+
   useEffect(() => {
     handleUserShortCutRender(); // user activated the form by interacting with calendar app and not clicking the "plus" sign
   }, [calendarFormStatus]);
@@ -30,7 +32,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
 
   useEffect(() => {
     handleCalendarEventEditRequest();
-  }, []);
+  }, [calendarEventEditRequest]);
 
   const [activeForm, setActiveForm] = useState('event');
 
@@ -45,6 +47,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
   };
 
   const handleCalendarNoteEditRequest = () => {
+    console.log('check 2')
     if (calendarNoteEditRequest.status === true) setActiveForm('note');
   };
 

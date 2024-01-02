@@ -32,8 +32,8 @@ const getDateForCurrentYear = (currentYear: string) => {
   return formattedDate;
 };
 
-const getCalendarEventTimeForLocal = (event: eventObject) => {
-  const [datePart, timePart] = event.combined_date_and_time.split(' ');
+const getCalendarObjectTimeForLocal = (dateTimeString: string) => {
+  const [datePart, timePart] = dateTimeString.split(' '); // format example: "2023-12-12 12:00:00"
   const [year, month, day] = datePart.split('-').map(Number);
   const [hour, minute, second] = timePart.split(':').map(Number);
 
@@ -188,7 +188,7 @@ const applyCalendarBackgroundColor = (
 export {
   getTodaysDate,
   getDateForCurrentYear,
-  getCalendarEventTimeForLocal,
+  getCalendarObjectTimeForLocal,
   getLocalDateAndTimeForEvent,
   getDayOfWeekLocalTime,
   getEventDate,

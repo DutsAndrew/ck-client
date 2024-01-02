@@ -26,6 +26,7 @@ import {
   eventObject,
   calendarEventWithCalendarName,
   calendarFormStatusState,
+  calendarNote,
 } from '../../types/calendarTypes';
 import { applyCalendarBackgroundColor } from '../../scripts/calendarHelpers';
 
@@ -283,6 +284,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     if (authAccess === false) {
       return toast.error('You do not have access to modify this calendar', {id: 'noteModificationError'});
     } else {
+      handleDeactivateCalendarEditor();
       return setCalendarNoteEditRequest({
         calendarId: calendarId,
         note: calendarNote,
@@ -356,24 +358,20 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
       if (calendar && calendar.calendar_notes) {
         Array.isArray(calendar.calendar_notes) && calendar.calendar_notes.forEach((note) => {
-          const calendarNoteWithCalendarInfo: calendarNoteWithCalendarInfo = {
-            ...note, 
-            calendar_name: calendar.name,
-            calendar_id: calendar._id,
-            is_user_authorized: typeof calendar.authorized_users.find((user) => user._id === userId) === 'undefined' ? false : true,
-          };
+          const builtCalendarNote = buildCalendarNoteForClient(calendar, note);
+          
           switch(note.type) {
             case 'day':
-              dayNotes.push(calendarNoteWithCalendarInfo);
+              dayNotes.push(builtCalendarNote);
               break;
             case 'week':
-              weekNotes.push(calendarNoteWithCalendarInfo);
+              weekNotes.push(builtCalendarNote);
               break;
             case 'month':
-              monthNotes.push(calendarNoteWithCalendarInfo);
+              monthNotes.push(builtCalendarNote);
               break;
             case 'year':
-              yearNotes.push(calendarNoteWithCalendarInfo);
+              yearNotes.push(builtCalendarNote);
               break;
           };
         });
@@ -388,6 +386,22 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
 
     return setCalendarNotesGrouped(notes);
+  };
+
+  const buildCalendarNoteForClient = (calendar: calendarObject, note: calendarNote) => {
+    const backgroundColor = applyCalendarBackgroundColor(calendar.calendar_color, calendar._id, usersPreferredCalendarColors);
+    const fontColor = getFontColorForHex(backgroundColor);
+
+    const calendarNoteWithCalendarInfo: calendarNoteWithCalendarInfo = {
+      ...note, 
+      calendar_name: calendar.name,
+      calendar_id: calendar._id,
+      is_user_authorized: typeof calendar.authorized_users.find((user) => user._id === userId) === 'undefined' ? false : true,
+      note_color: fontColor,
+      note_background_color: backgroundColor,
+    };
+
+    return calendarNoteWithCalendarInfo
   };
 
   const groupEvents = () => {
@@ -434,8 +448,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       monthEvents: monthEvents,
       yearEvents: yearEvents,
     };
-
-    console.log(events)
 
     return setCalendarEventsGrouped(events);
   };
@@ -645,6 +657,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           handleCalendarEditorChange={handleCalendarEditorChange}
           removeCalendarFromUser={removeCalendarFromUser}
           handleCalendarEventModificationRequest={handleCalendarEventModificationRequest}
+          handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
         />
       </main>
     );

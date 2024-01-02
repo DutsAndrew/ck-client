@@ -28,12 +28,9 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
   }, [calendarFormStatus]);
 
   useEffect(() => {
-    handleCalendarNoteEditRequest();
-  }, [calendarNoteEditRequest]);
-
-  useEffect(() => {
-    handleCalendarEventEditRequest();
-  }, [calendarEventEditRequest]);
+    if (calendarNoteEditRequest.status === true) handleCalendarNoteEditRequest();
+    if (calendarEventEditRequest.status === true) handleCalendarEventEditRequest();
+  }, [calendarNoteEditRequest, calendarEventEditRequest]);
 
   const [modal, setModal] = useState({
     open: false,

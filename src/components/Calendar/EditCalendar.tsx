@@ -8,10 +8,13 @@ import { getFontColorForHex } from "../../scripts/calculateFontColorForHex";
 import { 
   EditCalendarProps, 
   calendarEventWithCalendarName, 
+  calendarNote, 
+  calendarNoteWithCalendarInfo, 
   calendarObject, 
   eventObject, 
   userCalendarPendingUserInstance 
 } from "../../types/calendarTypes";
+import NoteViewer from "./NoteViewer";
 
 const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
 
@@ -24,12 +27,18 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     handleCalendarEditorChange,
     removeCalendarFromUser,
     handleCalendarEventModificationRequest,
+    handleCalendarNoteModificationRequest,
   } = props;
 
   const [eventViewStatus, setEventViewStatus] = useState({
     set: false,
     eventId: '',
   });
+  const [noteViewStatus, setNoteViewStatus] = useState({
+    set: false,
+    noteId: '',
+  });
+  const [eventAndNoteSwitch, setEventAndNoteSwitch] = useState('events');
 
   const handleCloseCalendarEditor = () => {
     return handleDeactivateCalendarEditor();
@@ -84,7 +93,6 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
           method: 'DELETE',
         });
         const jsonResponse = await request.json();
-        console.log(jsonResponse);
         if (!request.ok || request.status !== 200 || !jsonResponse.calendar_id) {
           toast.error('Failed to fully delete calendar', {id: 'calendarDeletion'});
         } else {
@@ -118,6 +126,13 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     });
   };
 
+  const handleCalendarEditorNoteClick = (noteId: string) => {
+    setNoteViewStatus({
+      set: true,
+      noteId: noteId,
+    });
+  };
+
   const handleCalendarEditorEventViewCloseRequest = () => {
     setEventViewStatus({
       set: false,
@@ -125,9 +140,21 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     });
   };
 
+  const handleCalendarEditorNoteViewCloseRequest = () => {
+    setNoteViewStatus({
+      set: false,
+      noteId: '',
+    });
+  };
+
   const handleEditEventRequest = (event: calendarEventWithCalendarName) => {
     handleCalendarEditorEventViewCloseRequest();
     handleCalendarEventModificationRequest(event.calendar_id, event);
+  };
+
+  const handleEditNoteRequest = (note: calendarNoteWithCalendarInfo) => {
+    handleCalendarEditorNoteViewCloseRequest();
+    handleCalendarNoteModificationRequest(note.calendar_id, note);
   };
 
   const verifyUserAuthorizationOfCalendar = (calendarId: string) => {
@@ -160,6 +187,34 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     };
 
     return eventWithCalendarInfo;
+  };
+
+  const getCalendarNoteForViewing = () => {
+    if (!Object.keys(selectedCalendar)) {
+      return undefined;
+    };
+
+    const note = (selectedCalendar as calendarObject).calendar_notes.find(note => note._id === noteViewStatus.noteId);
+    if (typeof note === 'undefined') return;
+
+    const noteWithCustomizations = addNoteCustomizations((selectedCalendar as calendarObject), note);
+
+    return noteWithCustomizations;
+  };
+
+  const addNoteCustomizations = (calendar: calendarObject, note: calendarNote) => {
+    const backgroundColor = applyCalendarBackgroundColor(calendar.calendar_color, calendar._id, usersPreferredCalendarColors);
+    const fontColor = getFontColorForHex(backgroundColor);
+
+    const noteWithCustomizations: calendarNoteWithCalendarInfo = {
+      ...note,
+      calendar_name: calendar.name,
+      is_user_authorized: typeof calendar.authorized_users.find((user) => user._id === userId) === 'undefined' ? false : true,
+      note_background_color: backgroundColor,
+      note_color: fontColor,
+    };
+
+    return noteWithCustomizations;
   };
 
   if (Object.keys(selectedCalendar).length !== 0) {
@@ -236,9 +291,21 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                 </div>
               </div>
               <div className={styles.calendarEditorEventsContainer}>
-                <h3 className={styles.calendarEditorEventListHeaderText}>
-                  Events
-                </h3>
+                <div className={styles.calendarEditorEventsAndNotesTextSwitchContainer}>
+                  <h3 
+                    onClick={() => setEventAndNoteSwitch('events')}
+                    className={eventAndNoteSwitch === 'events' ? styles.calendarEditorEventListHeaderTextActive : styles.calendarEditorEventListHeaderText}
+                  >
+                    Events
+                  </h3>
+                  <p className={styles.calendarEditorSwitchContainerPipe}>|</p>
+                  <h3 
+                    onClick={() => setEventAndNoteSwitch('notes')}
+                    className={eventAndNoteSwitch === 'notes' ? styles.calendarEditorNoteListHeaderTextActive : styles.calendarEditorNoteListHeaderText}
+                  >
+                    Notes
+                  </h3>
+                </div>
                 {eventViewStatus.set === true && Object.keys(selectedCalendar).length > 0 && 
                   <EventViewer 
                     event={getCalendarEventForViewing()} 
@@ -248,27 +315,59 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                     updateCalendarInUser={updateCalendarInUser}
                   />
                 }
-                <ul className={styles.calendarEditorEventsList}>
-                  {Array.isArray(selectedCalendarRef.events) && selectedCalendarRef.events.length > 0 ? (
-                    selectedCalendarRef.events.map((event) => (
-                      <li 
-                        key={event._id}
-                        onClick={() => handleCalendarEditorEventClick(event._id)}
-                        className={styles.calendarEditorEventItemContainer}
-                      >
-                        <p className={styles.calendarEditorEventName}>
-                          {event.event_name}
-                        </p>
-                        <p className={styles.calendarEditorEvenDateAndTime}>
-                          <strong>On:</strong> {event.combined_date_and_time.split(" ")[0]} &nbsp;
-                          <strong>At:</strong> {event.combined_date_and_time.split(" ")[1]} UTC
-                        </p>
-                      </li>
-                    ))
-                  ) : (
-                    <p className={styles.emptyEventText}>No events to display.</p>
-                  )}
-                </ul>
+                {noteViewStatus.set === true && Object.keys(selectedCalendar).length > 0 && 
+                  <NoteViewer 
+                    note={getCalendarNoteForViewing()} 
+                    handleCloseNoteViewerRequest={handleCalendarEditorNoteViewCloseRequest}
+                    handleEditNoteRequest={handleEditNoteRequest}
+                    verifyUserAuthorizationOfCalendar={verifyUserAuthorizationOfCalendar}
+                    updateCalendarInUser={updateCalendarInUser}
+                  />
+                }
+                {eventAndNoteSwitch === 'events' ? (
+                  <ul className={styles.calendarEditorEventsList}>
+                    {Array.isArray(selectedCalendarRef.events) && selectedCalendarRef.events.length > 0 ? (
+                      selectedCalendarRef.events.map((event) => (
+                        <li 
+                          key={event._id}
+                          onClick={() => handleCalendarEditorEventClick(event._id)}
+                          className={styles.calendarEditorEventItemContainer}
+                        >
+                          <p className={styles.calendarEditorEventName}>
+                            {event.event_name}
+                          </p>
+                          <p className={styles.calendarEditorEvenDateAndTime}>
+                            <strong>On:</strong> {event.combined_date_and_time.split(" ")[0]} &nbsp;
+                            <strong>At:</strong> {event.combined_date_and_time.split(" ")[1]} UTC
+                          </p>
+                        </li>
+                      ))
+                    ) : (
+                      <p className={styles.emptyEventText}>No events to display.</p>
+                    )}
+                  </ul>
+                ) : (
+                  <ul className={styles.calendarEditorNotesList}>
+                    {Array.isArray(selectedCalendarRef.calendar_notes) && selectedCalendarRef.calendar_notes.length > 0 ? (
+                      selectedCalendarRef.calendar_notes.map((note) => (
+                        <li 
+                          key={note._id}
+                          onClick={() => handleCalendarEditorNoteClick(note._id)}
+                          className={styles.calendarEditorNoteItemContainer}
+                        >
+                          <p className={styles.calendarEditorNoteText}>
+                            <strong>Note: </strong>{note.note}
+                          </p>
+                          <p className={styles.calendarEditorNoteAuxillaryText}>
+                            <strong>Created by:</strong> {note.created_by.first_name}, {note.created_by.last_name} &nbsp;
+                          </p>
+                        </li>
+                      ))
+                    ) : (
+                      <p className={styles.emptyEventText}>No events to display.</p>
+                    )}
+                  </ul>
+                )}
               </div>
             </div>
           </div>

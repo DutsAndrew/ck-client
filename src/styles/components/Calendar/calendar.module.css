@@ -272,7 +272,7 @@
   margin: 0;
 }
 
-.eventViewerSectionContainer {
+.eventViewerSectionContainer, .noteViewerSectionContainer {
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -285,7 +285,7 @@
   z-index: 1;
 }
 
-.eventViewContainer, .eventsViewerContainer {
+.eventViewContainer, .eventsViewerContainer, .noteViewContainer, .notesViewerContainer {
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
@@ -317,13 +317,13 @@
 }
 
 @media (max-width: 600px) {
-  .eventViewContainer {
+  .eventViewContainer, .eventsViewerContainer, .noteViewContainer, .notesViewerContainer {
     width: 75vw;
   }
 }
 
 @media (min-width: 601px) {
-  .eventViewContainer {
+  .eventViewContainer, .eventsViewerContainer, .noteViewContainer, .notesViewerContainer {
     width: 50vw;
   }
 }
@@ -338,26 +338,26 @@
   gap: 0.25vw;
 }
 
-.eventViewEditSvg, .eventViewDeleteSvg {
+.eventViewEditSvg, .eventViewDeleteSvg, .noteViewEditSvg, .noteViewDeleteSvg {
   height: 4vh;
   width: auto;
   padding-top: 0.5vh;
   cursor: pointer;
 }
 
-.eventViewEditSvg:hover, .eventViewDeleteSvg:hover {
+.eventViewEditSvg:hover, .eventViewDeleteSvg:hover, .noteViewEditSvg:hover, .noteViewDeleteSvg:hover {
   transform: scale(0.90);
 }
 
-.eventViewEditSvg {
+.eventViewEditSvg, .noteViewEditSvg {
   filter: invert(31%) sepia(66%) saturate(4968%) hue-rotate(189deg) brightness(95%) contrast(100%);
 }
 
-.eventViewDeleteSvg {
+.eventViewDeleteSvg, .noteViewDeleteSvg {
   filter: invert(10%) sepia(78%) saturate(6605%) hue-rotate(3deg) brightness(82%) contrast(113%);
 }
 
-.eventViewDetailContainer, .eventsViewContainer {
+.eventViewDetailContainer, .eventsViewContainer, .noteViewDetailContainer, .notesViewDetailContainer {
   display: flex;
   flex-flow: column nowrap;
   width: 95%;
@@ -365,11 +365,11 @@
   padding: 1vh;
 }
 
-.eventsViewContainerBackground {
+.eventsViewContainerBackground, .notesViewContainerBackground {
   background-color: #d3ebd7;
 }
 
-.eventViewNameText, .eventViewDescriptionText, .eventViewDateText, .eventViewTimeText, .eventViewRepeatText, .eventViewCreatedByText, .eventViewCalendarNameText {
+.eventViewNameText, .eventViewDescriptionText, .eventViewDateText, .eventViewTimeText, .eventViewRepeatText, .eventViewCreatedByText, .eventViewCalendarNameText, .noteViewNameText, .noteViewCalendarNameText, .noteViewCreatedByText, .noteViewStartDateText, .noteViewEndDateText, .noteViewCreatedOnText {
   font-size: 1.75em;
   margin: 0;
   padding: 0;
@@ -568,12 +568,12 @@
   }
 }
 
-.calendarFormModalCloseIcon, .closeEventViewerSvg {
+.calendarFormModalCloseIcon, .closeEventViewerSvg, .closeNoteViewerSvg {
   width: auto;
   height: 5vh;
 }
 
-.calendarFormModalCloseIcon:hover, .closeEventViewerSvg:hover {
+.calendarFormModalCloseIcon:hover, .closeEventViewerSvg:hover, .closeNoteViewerSvg:hover {
   cursor: pointer;
   transform: scale(0.99);
   filter: invert(11%) sepia(71%) saturate(6473%) hue-rotate(359deg) brightness(85%) contrast(112%);
@@ -1133,7 +1133,44 @@
   }
 }
 
-.calendarEditorUserListsHeaderText, .calendarEditorEventListHeaderText {
+.calendarEditorEventsAndNotesTextSwitchContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  margin: 1vh;
+}
+
+.calendarEditorEventListHeaderText, .calendarEditorNoteListHeaderText, .calendarEditorEventListHeaderTextActive, .calendarEditorNoteListHeaderTextActive {
+  margin: 0;
+  padding: 0;
+  font-size: 1.75em;
+  cursor: pointer;
+}
+
+.calendarEditorEventListHeaderTextActive, .calendarEditorNoteListHeaderTextActive {
+  color: #000000;
+  background-color: #e0e0e0;
+  opacity: 1;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.calendarEditorNoteListHeaderText, .calendarEditorEventListHeaderText {
+  color: #a0a0a0;
+  background-color: transparent;
+  opacity: 0.6;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.calendarEditorSwitchContainerPipe {
+  margin: 0;
+  padding: 0;
+}
+
+.calendarEditorUserListsHeaderText {
   font-size: 2em;
   margin: 0;
   padding: 2vh;
@@ -1318,7 +1355,7 @@
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: center;
-  height: 90vh;
+  height: 100%;
 }
 
 @media (max-width: 600px) {
@@ -1334,7 +1371,7 @@
   }
 }
 
-.calendarEditorEventsList {
+.calendarEditorEventsList, .calendarEditorNotesList {
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
@@ -1351,7 +1388,7 @@
   border-radius: 15px;
 }
 
-.calendarEditorEventItemContainer {
+.calendarEditorEventItemContainer, .calendarEditorNoteItemContainer {
   display: flex;
   flex-flow: column wrap;
   justify-content: flex-start;
@@ -1372,7 +1409,7 @@
   font-weight: bold;
 }
 
-.calendarEditorEvenDateAndTime {
+.calendarEditorEvenDateAndTime, .calendarEditorNoteAuxillaryText {
   font-style: italic;
 }
 

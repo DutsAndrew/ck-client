@@ -12,7 +12,7 @@ import {
 } from "../../types/calendarTypes";
 import { 
   compareEventTimes, 
-  getCalendarEventTimeForLocal, 
+  getCalendarObjectTimeForLocal, 
   getDayOfWeekLocalTime, 
   getEventColorScheme, 
   isUserAuthorized 
@@ -234,7 +234,7 @@ const WeekView: FC<weekViewProps> = (props): JSX.Element => {
               >
                 {weekEventActivelyHovered.includes(event._id) ? (
                  <span className={styles.eventDetailSpanText}>
-                  {event.event_time.length > 0 ? getCalendarEventTimeForLocal(event) : 'No time set'}
+                  {event.event_time.length > 0 ? getCalendarObjectTimeForLocal(event.combined_date_and_time) : 'No time set'}
                  </span>
                 ) : (
                   <span className={styles.eventDetailSpanText}>

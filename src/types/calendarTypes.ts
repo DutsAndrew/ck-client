@@ -115,6 +115,7 @@ interface EditCalendarProps {
   handleCalendarEditorChange: (updatedCalendar: calendarObject) => void,
   removeCalendarFromUser: (calendarId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
+  handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => string | void,
 };
 
 interface userListProps {
@@ -251,7 +252,7 @@ interface dayViewProps {
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   handleOpenAddEventFormClick: (viewType: string, dateInfo: string, dateInfoExtra?: number) => void
-  dayNotes: {} | calendarNoteWithCalendarInfo[],
+  dayNotes: [] | calendarNoteWithCalendarInfo[],
   dayEvents: [] | calendarEventWithCalendarName[],
 };
 
@@ -266,7 +267,7 @@ interface weekViewProps {
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   handleOpenAddEventFormClick: (viewType: string, dateInfo: string, dateInfoExtra?: number) => void
-  weekNotes: {} | calendarNoteWithCalendarInfo[],
+  weekNotes: [] | calendarNoteWithCalendarInfo[],
   weekEvents: [] | calendarEventWithCalendarName[],
 };
 
@@ -281,7 +282,7 @@ interface monthViewProps {
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   handleOpenAddEventFormClick: (viewType: string, dateInfo: string, dateInfoExtra?: number) => void
-  monthNotes: {} | calendarNoteWithCalendarInfo[],
+  monthNotes: [] | calendarNoteWithCalendarInfo[],
   monthEvents: [] | calendarEventWithCalendarName[],
 };
 
@@ -296,7 +297,7 @@ interface yearViewProps {
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
   handleOpenAddEventFormClick: (viewType: string, dateInfo: string, dateInfoExtra?: number) => void
-  yearNotes: {} | calendarNoteWithCalendarInfo[],
+  yearNotes: [] | calendarNoteWithCalendarInfo[],
   yearEvents: [] | calendarEventWithCalendarName[],
 };
 
@@ -305,6 +306,15 @@ interface eventViewerProps {
   events?: calendarEventWithCalendarName[],
   handleCloseEventViewerRequest: () => void,
   handleEditEventRequest: (event: calendarEventWithCalendarName) => void,
+  verifyUserAuthorizationOfCalendar: (calendarId: string) => boolean,
+  updateCalendarInUser: (updatedCalendar: calendarObject) => void,
+};
+
+interface noteViewerProps {
+  note?: calendarNoteWithCalendarInfo,
+  notes?: calendarNoteWithCalendarInfo[],
+  handleCloseNoteViewerRequest: () => void,
+  handleEditNoteRequest: (note: calendarNoteWithCalendarInfo) => void,
   verifyUserAuthorizationOfCalendar: (calendarId: string) => boolean,
   updateCalendarInUser: (updatedCalendar: calendarObject) => void,
 };
@@ -644,6 +654,8 @@ interface calendarNoteWithCalendarInfo {
   created_on: string,
   is_user_authorized: boolean,
   note: string,
+  note_background_color: string,
+  note_color: string,
   personal_calendar: boolean,
   start_date: string,
   end_date: string,
@@ -740,6 +752,7 @@ export type {
   monthViewProps,
   yearViewProps,
   eventViewerProps,
+  noteViewerProps,
   notesForCalendarProps,
   notesForCalendarState,
   yearViewSelectedDateState,

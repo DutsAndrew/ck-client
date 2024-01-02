@@ -4,7 +4,7 @@ import styles from '../../styles/components/Calendar/calendar.module.css';
 import pencilSvg from '../../assets/pencil-outline.svg';
 import trashSvg from '../../assets/delete.svg';
 import closeSvg from '../../assets/close.svg';
-import { getCalendarEventTimeForLocal } from "../../scripts/calendarHelpers";
+import { getCalendarObjectTimeForLocal } from "../../scripts/calendarHelpers";
 import toast from "react-hot-toast";
 
 const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
@@ -159,7 +159,7 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
             </p>
             <p className={styles.eventViewTimeText}>
               <strong>{event.event_time.length > 0 ? 'Time: ' : ''}</strong>
-              {event.event_time.length > 0 ? `${getCalendarEventTimeForLocal(event)}` : ''}
+              {event.event_time.length > 0 ? `${getCalendarObjectTimeForLocal(event.combined_date_and_time)}` : ''}
             </p>
             <p className={styles.eventViewRepeatText}>
               <strong>{event.repeats === true ? 'Repeats: ' : ''}</strong>
@@ -224,7 +224,7 @@ const EventViewer:FC<eventViewerProps> = (props): JSX.Element => {
                 </p>
                 <p className={styles.eventViewTimeText}>
                   <strong>{event.event_time.length > 0 ? 'Time: ' : ''}</strong>
-                  {event.event_time.length > 0 ? `${getCalendarEventTimeForLocal(event)}` : ''}
+                  {event.event_time.length > 0 ? `${getCalendarObjectTimeForLocal(event.combined_date_and_time)}` : ''}
                 </p>
                 <p className={styles.eventViewRepeatText}>
                   <strong>{event.repeats === true ? 'Repeats: ' : ''}</strong>
