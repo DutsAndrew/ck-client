@@ -47,7 +47,6 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
   };
 
   const handleCalendarNoteEditRequest = () => {
-    console.log('check 2')
     if (calendarNoteEditRequest.status === true) setActiveForm('note');
   };
 
@@ -83,6 +82,7 @@ const CalendarFormSwitch:FC<calendarFormSwitchProps> = (props): JSX.Element => {
           addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
           updateCalendarNote={updateCalendarNote}
           calendarNoteEditRequest={calendarNoteEditRequest}
+          handleCloseModalRequest={handleCloseModalRequest}
         />
       );
     } else {

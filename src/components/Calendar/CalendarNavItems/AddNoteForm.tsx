@@ -11,6 +11,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
     addNewCalendarNoteToCalendar,
     updateCalendarNote,
     calendarNoteEditRequest,
+    handleCloseModalRequest,
   } = props;
 
   const [formElements, setFormElements] = useState({
@@ -253,14 +254,19 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
       };
     };
 
-    setFormData((prevFormData) => ({
-      note: inputId === 'note-input' ? value : prevFormData.note,
+    if (inputId === 'note-input') {
+      return setFormData((prevFormData) => ({
+        ...prevFormData,
+        note: value,
+      }));
+    }
+
+    setFormData((prevFormData) => ({ // if user is changing the note time frame, it should remove any previous selections to prevent duplicate time entries
+      ...prevFormData,
       selectedDay: inputId === 'day-input' ? value : '',
       selectedWeek: inputId === 'week-input' ? value : '',
       selectedMonth: inputId === 'month-input' ? value : '',
       selectedYear: inputId === 'year-input' ? value : '',
-      selectedCalendar: prevFormData.selectedCalendar,
-      selectedCalendarId: prevFormData.selectedCalendarId,
     }));
   };
 
@@ -314,8 +320,9 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
             'calendars',
           );
         };
+        return handleCloseModalRequest();
       } else {
-        toast.error('Failed to add note', {id: 'addingNote'});
+        return toast.error('Failed to add note', {id: 'addingNote'});
       };
     };
   };
@@ -349,7 +356,8 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
         body: JSON.stringify(calendarNote, null, 2),
       });
       const jsonResponse = await request.json();
-      return handleUpdateNoteApiResponse(request, jsonResponse);
+      handleUpdateNoteApiResponse(request, jsonResponse);
+      return handleCloseModalRequest();
     };
   };
 
@@ -365,7 +373,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
             true,
           );
         } else {
-          return updateCalendarNote(
+          updateCalendarNote(
             (calendarNoteEditRequest.note as calendarNoteWithCalendarInfo).calendar_id,
             jsonResponse.updated_note,
             false
@@ -373,7 +381,7 @@ const AddNoteForm:FC<addNoteFormProps> = (props): JSX.Element => {
         };
       };
     } else {
-      toast.error('Failed to update note', {id: 'updatingNote'});
+      return toast.error('Failed to update note', {id: 'updatingNote'});
     };
   };
 
