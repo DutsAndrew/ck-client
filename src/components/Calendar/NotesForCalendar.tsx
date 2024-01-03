@@ -210,11 +210,6 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
         <button 
           onClick={() => handleCarouselStatusChange()}
           className={carousel ? styles.notesForCalendarCloseCarouselButton : styles.notesForCalendarOpenCarouselButton}>
-            <img 
-              src={chevronUpSvg}
-              alt={carousel ? 'up arrow' : 'down arrow'}
-              className={carousel ? styles.notesForCalendarCloseCarouselButtonSvg : styles.notesForCalendarOpenCarouselButtonSvg}>
-            </img>
             {carousel? 'Hide Notes' : 'Open Notes'}
         </button>
       </div>
