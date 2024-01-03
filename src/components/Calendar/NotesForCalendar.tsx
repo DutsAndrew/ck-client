@@ -3,7 +3,6 @@ import { calendarNoteWithCalendarInfo, notesForCalendarProps, notesForCalendarSt
 import styles from '../../styles/components/Calendar/calendar.module.css';
 import chevronLeftSvg from '../../assets/chevron-left.svg';
 import chevronRightSvg from '../../assets/chevron-right.svg';
-import chevronUpSvg from '../../assets/arrow-up.svg';
 import addItemSvg from '../../assets/plus.svg';
 import toast from "react-hot-toast";
 
@@ -132,6 +131,28 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
     };
   };
 
+  const getCalendarNoteCustomStyle = (note: calendarNoteWithCalendarInfo) => {
+    const backgroundColor = note.note_background_color;
+    const color = note.note_color;
+
+    if (backgroundColor.length > 0 && color.length > 0) {
+      return {
+        color: color,
+        backgroundColor: backgroundColor,
+      };
+    } else if (backgroundColor.length > 0) {
+      return {
+        backgroundColor: backgroundColor,
+      };
+    } else if (color.length > 0) {
+      return {
+        color: color,
+      };
+    } else {
+      return {};
+    };
+  };
+
   if (calendarNotes.length === 0) {
     return (
       <>
@@ -161,6 +182,7 @@ const NotesForCalendar:FC<notesForCalendarProps> = (props): JSX.Element => {
               return <div 
                 key={note._id}
                 onClick={() => handleNoteActivation(note._id)}
+                style={getCalendarNoteCustomStyle(note)}
                 className={noteActivated.noteId === note._id && noteActivated.activated ? styles.notesForCalendarNoteContainerActivated : styles.notesForCalendarNoteContainer}>
                   {noteActivated.noteId === note._id && noteActivated.activated ? (
                     <div className={styles.notesForCalendarNoteActivatedContainer}>
