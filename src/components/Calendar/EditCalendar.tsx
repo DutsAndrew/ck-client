@@ -217,6 +217,25 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     return noteWithCustomizations;
   };
 
+  const getCalendarColorCustomizations = () => {
+    const calendarBackgroundColor = (selectedCalendar as calendarObject).calendar_color;
+    const userPreferredColor = usersPreferredCalendarColors.calendars.find(colorScheme => colorScheme.object_id === (selectedCalendar as calendarObject)._id);
+
+    if (userPreferredColor) {
+      if (userPreferredColor.background_color.length > 0) {
+        return {
+          backgroundColor: userPreferredColor.background_color,
+        };
+      };
+    } else if (calendarBackgroundColor.length > 0) {
+      return {
+        backgroundColor: calendarBackgroundColor,
+      };
+    } else {
+      return {};
+    };
+  };
+
   if (Object.keys(selectedCalendar).length !== 0) {
 
     const selectedCalendarRef = selectedCalendar as calendarObject;
@@ -249,7 +268,9 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
               Calendar Editor
             </h2>
           </div>
-          <div className={styles.editCalendarDisplayContainers}>
+          <div 
+            style={getCalendarColorCustomizations()}
+            className={styles.editCalendarDisplayContainers}>
             <div className={styles.calendarEditorMainContainer}>
               <div className={styles.calendarEditorUserListsContainer}>
                 <h3 className={styles.calendarEditorUserListsHeaderText}>
@@ -364,7 +385,7 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                         </li>
                       ))
                     ) : (
-                      <p className={styles.emptyEventText}>No events to display.</p>
+                      <p className={styles.emptyEventText}>No notes to display.</p>
                     )}
                   </ul>
                 )}

@@ -571,8 +571,7 @@ interface userColorPreferences {
 };
 
 interface colorScheme {
-  apply_to_which_object_id: string,
-  font_color: string,
+  object_id: string,
   background_color: string,
 }
 
