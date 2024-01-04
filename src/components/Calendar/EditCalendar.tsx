@@ -242,10 +242,41 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     setCurrentHexColor(newColor);
   };
 
-  const handleApplyPreferredCalendarColorClick = () => {
-    
+  const handleApplyPreferredCalendarColorClick = async () => {
+    toast.loading('Updating preferred color for calendar...', {id: 'userCalendarColorUpdate'});
+    const calendar = selectedCalendar as calendarObject;
+
+    const authToken = localStorage.getItem('auth-token');
+      if (typeof authToken === 'undefined') {
+        toast.error('You must be signed in or not in incognito to make this request', {id: 'userCalendarColorUpdate'});
+      } else {
+        const apiUrl = `http://127.0.0.1:8000/calendar/${calendar._id}/setPreferredColor`;
+        const request = await fetch(apiUrl, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          body: JSON.stringify(buildPreferredColorPostBody()),
+        });
+        const jsonResponse = await request.json();
+        if (!request.ok || request.status !== 200) {
+          toast.error('Failed to set preferred color', {id: 'userCalendarColorUpdate'});
+        } else {
+          toast.success('Preferred color set!', {id: 'userCalendarColorUpdate'});
+          // update user preferences in App.tsx
+          handleDeactivateCalendarEditor();
+        };
+      };
   };
 
+  const buildPreferredColorPostBody = () => {
+    return {
+      userId: userId,
+      preferredColor: currentHexColor,
+    };
+  };
 
   if (Object.keys(selectedCalendar).length !== 0) {
 
