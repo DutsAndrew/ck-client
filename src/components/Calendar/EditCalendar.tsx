@@ -15,6 +15,7 @@ import {
   userCalendarPendingUserInstance 
 } from "../../types/calendarTypes";
 import NoteViewer from "./NoteViewer";
+import HexColorPickerCustom from "../HexColorPickerCustom";
 
 const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
 
@@ -39,6 +40,7 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     noteId: '',
   });
   const [eventAndNoteSwitch, setEventAndNoteSwitch] = useState('events');
+  const [currentHexColor, setCurrentHexColor] = useState('#ffffff');
 
   const handleCloseCalendarEditor = () => {
     return handleDeactivateCalendarEditor();
@@ -236,6 +238,15 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     };
   };
 
+  const setUserPreferredCalendarColor = (newColor: string): void => {
+    setCurrentHexColor(newColor);
+  };
+
+  const handleApplyPreferredCalendarColorClick = () => {
+    
+  };
+
+
   if (Object.keys(selectedCalendar).length !== 0) {
 
     const selectedCalendarRef = selectedCalendar as calendarObject;
@@ -296,20 +307,17 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                 <p className={styles.calendarEditorUserListsHelpText}>
                   <em>Click on a user to modify</em>
                 </p>
-                <div className={styles.calendarEditorAuxillaryItemsContainer}>
-                  <button 
-                    onClick={() => handleLeaveCalendarRequest()}
-                    className={styles.leaveCalendarButton}
-                  >
-                    Leave Calendar
-                  </button>
-                  <button 
-                    onClick={() => handleCalendarDeletionRequest()}
-                    className={styles.deleteCalendarButton}
-                  >
-                    Delete Calendar
-                  </button>
-                </div>
+                <HexColorPickerCustom 
+                  headerText="Set preferred color for this calendar"
+                  currentHexColor={currentHexColor}
+                  changeHexColorSelection={setUserPreferredCalendarColor}
+                />
+                <button
+                  onClick={() => handleApplyPreferredCalendarColorClick()}
+                  className={styles.calendarEditorApplyPreferredColorStylesButton}
+                >
+                  Apply
+                </button>
               </div>
               <div className={styles.calendarEditorEventsContainer}>
                 <div className={styles.calendarEditorEventsAndNotesTextSwitchContainer}>
@@ -389,6 +397,20 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                     )}
                   </ul>
                 )}
+                <div className={styles.calendarEditorAuxillaryItemsContainer}>
+                  <button 
+                    onClick={() => handleLeaveCalendarRequest()}
+                    className={styles.leaveCalendarButton}
+                  >
+                    Leave Calendar
+                  </button>
+                  <button 
+                    onClick={() => handleCalendarDeletionRequest()}
+                    className={styles.deleteCalendarButton}
+                  >
+                    Delete Calendar
+                  </button>
+                </div>
               </div>
             </div>
           </div>
