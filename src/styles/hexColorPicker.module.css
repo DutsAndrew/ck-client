@@ -50,5 +50,8 @@
 .hexColorDisplayBox {
   width: 150px;
   height: 150px;
+  padding: 10px;
   border-radius: 5px;
+  border: 2px solid #252525;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4), 0 0 5px rgba(255, 255, 255, 0.4);
 }
