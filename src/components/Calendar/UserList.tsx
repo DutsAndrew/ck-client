@@ -36,9 +36,6 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
     if (changingUserPermissions === false) setSelectedUserPermissions('');
   }, [changingUserPermissions]);
 
-  const idString = `${type.toLowerCase()}-user-list-container`;
-  const idRef = styles[idString];
-
   const identifyUserIdFromDifferentTypes = (user: userCalendarInstance) => {
     let selectedUserId;
     if (type === 'Pending') {
@@ -168,7 +165,6 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
   if (Array.isArray(users) && users.length > 0) {
     return (
       <ul
-        id={idRef} 
         className={styles.calendarEditorUsersList}
       >
         <h4 className={styles.calendarEditorUserListHeaderText}>
@@ -265,7 +261,6 @@ const UserList:FC<userListProps> = (props): JSX.Element => {
   } else {
     return (
       <div 
-        id={idRef} 
         className={styles.calendarEditorUsersListEmpty}>
         <h4 className={styles.calendarEditorUserListHeaderText}>
           {type} Users

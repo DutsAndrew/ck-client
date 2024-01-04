@@ -273,7 +273,6 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
 
   const buildPreferredColorPostBody = () => {
     return {
-      userId: userId,
       preferredColor: currentHexColor,
     };
   };
