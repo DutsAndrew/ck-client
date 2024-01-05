@@ -48,6 +48,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     removeCalendarNoteFromCalendar,
     calendarDatesData,
     usersPreferredCalendarColors,
+    addCalendarColorPreference,
   } = props;
 
   const [currentView, setCurrentView] = useState('All'),
@@ -658,6 +659,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           removeCalendarFromUser={removeCalendarFromUser}
           handleCalendarEventModificationRequest={handleCalendarEventModificationRequest}
           handleCalendarNoteModificationRequest={handleCalendarNoteModificationRequest}
+          addCalendarColorPreference={addCalendarColorPreference}
         />
       </main>
     );

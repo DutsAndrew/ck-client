@@ -29,6 +29,7 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     removeCalendarFromUser,
     handleCalendarEventModificationRequest,
     handleCalendarNoteModificationRequest,
+    addCalendarColorPreference,
   } = props;
 
   const [eventViewStatus, setEventViewStatus] = useState({
@@ -261,12 +262,14 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
           body: JSON.stringify(buildPreferredColorPostBody()),
         });
         const jsonResponse = await request.json();
+        console.log(jsonResponse)
         if (!request.ok || request.status !== 200) {
           toast.error('Failed to set preferred color', {id: 'userCalendarColorUpdate'});
         } else {
           toast.success('Preferred color set!', {id: 'userCalendarColorUpdate'});
-          // update user preferences in App.tsx
-          handleDeactivateCalendarEditor();
+          if (jsonResponse.preferredColor) {
+            addCalendarColorPreference(jsonResponse.preferredColor);
+          };
         };
       };
   };
