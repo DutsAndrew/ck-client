@@ -232,7 +232,15 @@ function App() {
   };
 
   const addCalendarColorPreference = (colorScheme: colorScheme): void => {
+    setUser((prevUser: userInstance) => {
+      const { user_color_preferences } = prevUser;
 
+      // const calendarPreferences = user_color_preferences.calendars.map(preference => ({
+      //   if (preference.object_id === '1') {
+
+      //   }
+      // }));
+    });
   };
 
   const handleSignOut = () => {

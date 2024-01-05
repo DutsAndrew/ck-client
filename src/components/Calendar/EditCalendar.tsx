@@ -239,6 +239,25 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     };
   };
 
+  const getFontColorToMatchPreferredColor = () => {
+    const calendarBackgroundColor = (selectedCalendar as calendarObject).calendar_color;
+    const userPreferredColor = usersPreferredCalendarColors.calendars.find(colorScheme => colorScheme.object_id === (selectedCalendar as calendarObject)._id);
+
+    if (userPreferredColor) {
+      if (userPreferredColor.background_color.length > 0) {
+        return {
+          color: getFontColorForHex(userPreferredColor.background_color),
+        };
+      };
+    } else if (calendarBackgroundColor.length > 0) {
+      return {
+        color: getFontColorForHex(calendarBackgroundColor),
+      };
+    } else {
+      return {};
+    };
+  };
+
   const setUserPreferredCalendarColor = (newColor: string): void => {
     setCurrentHexColor(newColor);
   };
@@ -317,7 +336,10 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
             className={styles.editCalendarDisplayContainers}>
             <div className={styles.calendarEditorMainContainer}>
               <div className={styles.calendarEditorUserListsContainer}>
-                <h3 className={styles.calendarEditorUserListsHeaderText}>
+                <h3 
+                  style={getFontColorToMatchPreferredColor()}
+                  className={styles.calendarEditorUserListsHeaderText}
+                >
                   Users
                 </h3>
                 <div className={styles.calendarEditorUserList}>
@@ -337,7 +359,10 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
                     {...userListProps}
                   />
                 </div>
-                <p className={styles.calendarEditorUserListsHelpText}>
+                <p 
+                  style={getFontColorToMatchPreferredColor()}
+                  className={styles.calendarEditorUserListsHelpText}
+                >
                   <em>Click on a user to modify</em>
                 </p>
                 <HexColorPickerCustom 
