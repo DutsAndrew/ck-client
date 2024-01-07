@@ -231,15 +231,23 @@ function App() {
     });
   };
 
-  const addCalendarColorPreference = (colorScheme: colorScheme): void => {
+  const addCalendarColorPreference = (newColorScheme: colorScheme): void => {
     setUser((prevUser: userInstance) => {
-      const { user_color_preferences } = prevUser;
+      const userColorPreferences = { ...prevUser.user_color_preferences};
+      const calendarIndex = userColorPreferences.calendars.findIndex(
+        setColorScheme => setColorScheme.object_id === newColorScheme.object_id
+      );
 
-      // const calendarPreferences = user_color_preferences.calendars.map(preference => ({
-      //   if (preference.object_id === '1') {
+      if (calendarIndex >= 0) {
+        userColorPreferences.calendars[calendarIndex] = newColorScheme;
+      } else {
+        userColorPreferences.calendars = [ ...userColorPreferences.calendars, newColorScheme];
+      };
 
-      //   }
-      // }));
+      return {
+        ...prevUser,
+        userColorPreferences: userColorPreferences,
+      };
     });
   };
 

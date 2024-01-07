@@ -99,7 +99,7 @@ interface calendarProps {
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
   calendarDatesData: object,
   usersPreferredCalendarColors: userColorPreferences,
-  addCalendarColorPreference: (colorScheme: colorScheme) => void,
+  addCalendarColorPreference: (newColorScheme: colorScheme) => void,
 };
 
 interface calendarEditorState {
@@ -117,7 +117,7 @@ interface EditCalendarProps {
   removeCalendarFromUser: (calendarId: string) => void,
   handleCalendarEventModificationRequest: (calendarId: string, calendarEvent: eventObject) => string | void,
   handleCalendarNoteModificationRequest: (calendarId: string, calendarNote: calendarNoteWithCalendarInfo) => string | void,
-  addCalendarColorPreference: (colorScheme: colorScheme) => void,
+  addCalendarColorPreference: (newColorScheme: colorScheme) => void,
 };
 
 interface userListProps {
