@@ -16,7 +16,7 @@ import {
   colorScheme 
 } from './types/calendarTypes';
 
-// lazy loaded items - ALL non essential functionality of the app
+// lazy load everything not needed on first render
 const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));
 const Calendar = lazy(() => import('./components/Calendar/Calendar'));
 const Classes = lazy(() => import('./components/Classes/Classes'));

@@ -173,7 +173,7 @@ const applyCalendarBackgroundColor = (
     // check if user has a preferred color set, if so store and return it, otherwise return calendar color, which is defaulted to none
     if (Array.isArray(usersPreferredCalendarColors.calendars) && usersPreferredCalendarColors.calendars.length > 0) {
       let preferredCalendarColor = '';
-      const colorPreference = usersPreferredCalendarColors.calendars.find(colorScheme => colorScheme.apply_to_which_object_id === calendarId);
+      const colorPreference = usersPreferredCalendarColors.calendars.find(colorScheme => colorScheme.object_id === calendarId);
       if (typeof colorPreference !== 'undefined' && colorPreference.background_color.length > 0) {
         preferredCalendarColor = colorPreference.background_color;
         return preferredCalendarColor
