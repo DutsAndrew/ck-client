@@ -1,8 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
 import plusSVG from '../../../assets/plus.svg';
-import leftArrowSvg from '../../../assets/chevron-left.svg';
-import rightArrowSvg from '../../../assets/chevron-right.svg';
 import { navLeftContainerProps } from "../../../types/calendarTypes";
 import CalendarFormModal from "./CalendarFormModal";
 
@@ -15,7 +13,6 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
     calendarFormStatus,
     calendarNoteEditRequest,
     calendarEventEditRequest,
-    handleCalendarTimeChangeRequest,
     appendNewCalendarToUser,
     addNewCalendarNoteToCalendar,
     handleCalendarFormDataCleanup,
@@ -135,20 +132,6 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           src={plusSVG}
           onClick={() => handleFormModalRequest()}>
         </img>
-        <div className={styles.navigationArrowsContainer}>
-          <img
-            className={styles.navigationArrowSvg}
-            alt="left arrow"
-            src={leftArrowSvg}
-            onClick={() => handleCalendarTimeChangeRequest('back')}>
-          </img>
-          <img
-            className={styles.navigationArrowSvg}
-            alt="right arrow"
-            src={rightArrowSvg}
-            onClick={() => handleCalendarTimeChangeRequest('forward')}>
-          </img>
-        </div>
         <CalendarFormModal
           userCalendars={userCalendars}
           userId={userId}
@@ -173,20 +156,6 @@ const NavLeftContainer:FC<navLeftContainerProps> = (props): JSX.Element => {
           src={plusSVG}
           onClick={() => handleFormModalRequest()}>
         </img>
-        <div className={styles.navigationArrowsContainer}>
-          <img
-            className={styles.navigationArrowSvg}
-            alt="left arrow"
-            src={leftArrowSvg}
-            onClick={() => handleCalendarTimeChangeRequest('back')}>
-          </img>
-          <img
-            className={styles.navigationArrowSvg}
-            alt="right arrow"
-            src={rightArrowSvg}
-            onClick={() => handleCalendarTimeChangeRequest('forward')}>
-          </img>
-        </div>
       </div>
     ); 
   };

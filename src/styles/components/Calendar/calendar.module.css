@@ -41,7 +41,7 @@
   height: 5vh;
 }
 
-.navigationArrowsContainer {
+/* .navigationArrowsContainer { CURRENTLY NOT USING THE ARROW STYLING, BUT LEAVING IN CASE IT'S NEEDED IN OTHER COMPONENTS
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -55,7 +55,7 @@
 
 .navigationArrowSvg:hover {
   filter: invert(95%) sepia(8%) saturate(2823%) hue-rotate(306deg) brightness(97%) contrast(126%);
-}
+} */
 
 .yearDropDownContainer, .calendarDropDownContainer, .viewDropDownContainer, .yearDropDownContainerActive, .calendarDropDownContainerActive, .viewDropDownContainerActive {
   max-height: 4vh;

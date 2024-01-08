@@ -1,8 +1,12 @@
 The calendar module uses <Calendar /> as it's entry.
 
-All other components in this folder will root in through <Calendar />
+All other components in this folder children of <Calendar />
 
-The <CalendarNav /> has a folder linked to it as the components there deal with a wide variety of UX roles that needed to be separated.
+The <CalendarNav /> component has a folder "CalendarNavItems". The CalendarNav has a lot of controller functions to it to modify <Calendar /> based on user interactions
 
-The Calendar component is meant to allow users to view all of their calendars (personal and teams) in one place.
-Users can switch which calendar they are viewing and get a snapshot of each calendar in the Day, Week, Month, and Year view or view all of them at once. Users can perform CRUD operations on all events if authorized.
+Core Functionality:
+
+  * Users can perform CRUD operations on calendars they have authorization folder
+  * All CRUD operations are handled in CK-API, good responses get saved on the user's instance
+  * react-hot-toast is used as a notification platform all API queries use it to notify user of failed, in progress, or successful api requests
+  * The main components are DayView, WeekView, MonthView, and YearView as that's where the core data is viewed

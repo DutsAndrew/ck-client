@@ -46,6 +46,17 @@ function App() {
     setAuth(true);
   };
 
+  const handleSignOut = () => {
+    setAuth(false);
+    setUser({});
+    setAppData({
+      ...appData,
+      calendarData: {},
+    });
+  };
+
+  // USER CALENDAR UPDATE FUNCTIONS -- START ~~~~~~~ USER CALENDAR UPDATE FUNCTIONS -- START
+
   const saveCalendarDatesAndHolidaysData = (data: CalendarDatesData): void => {
     setAppData({
       calendarData: data,
@@ -251,14 +262,7 @@ function App() {
     });
   };
 
-  const handleSignOut = () => {
-    setAuth(false);
-    setUser({});
-    setAppData({
-      ...appData,
-      calendarData: {},
-    });
-  };
+   // USER CALENDAR UPDATE FUNCTIONS -- END ~~~~~~~ USER CALENDAR UPDATE FUNCTIONS -- END
 
   return (
     <Router>
@@ -290,6 +294,8 @@ function App() {
                 usersTeamCalendars={(user as userInstance).calendars}
                 usersPendingCalendars={(user as userInstance).pending_calendars}
                 userId={(user as userInstance)._id}
+                calendarDatesData={appData.calendarData}
+                usersPreferredCalendarColors={(user as userInstance).user_color_preferences}
                 appendNewCalendarToUser={appendNewCalendarToUser}
                 saveCalendarDatesAndHolidaysData={saveCalendarDatesAndHolidaysData}
                 saveAllUserCalendarsToUser={saveAllUserCalendarsToUser}
@@ -298,8 +304,6 @@ function App() {
                 addNewCalendarNoteToCalendar={addNewCalendarNoteToCalendar}
                 updateCalendarNote={updateCalendarNote}
                 removeCalendarNoteFromCalendar={removeCalendarNoteFromCalendar}
-                calendarDatesData={appData.calendarData}
-                usersPreferredCalendarColors={(user as userInstance).user_color_preferences}
                 addCalendarColorPreference={addCalendarColorPreference}
               />
             </Suspense>

@@ -89,6 +89,8 @@ interface calendarProps {
   usersTeamCalendars: allUserCalendars,
   usersPendingCalendars: allUserCalendars,
   userId: string,
+  calendarDatesData: object,
+  usersPreferredCalendarColors: userColorPreferences,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   saveCalendarDatesAndHolidaysData: (data: CalendarDatesData) => void,
   saveAllUserCalendarsToUser: (populatedCalendars: calendarObject[], populatedPendingCalendars: calendarObject[], populatedPersonalCalendar: calendarObject) => void,
@@ -97,8 +99,6 @@ interface calendarProps {
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
   updateCalendarNote: (calendarId: string, updatedNote: calendarNote, calendarChange: boolean) => void,
   removeCalendarNoteFromCalendar: (calendarId: string, noteId: string) => void,
-  calendarDatesData: object,
-  usersPreferredCalendarColors: userColorPreferences,
   addCalendarColorPreference: (newColorScheme: colorScheme) => void,
 };
 
@@ -172,7 +172,6 @@ interface calendarNavProps {
   calendarNoteEditRequest: calendarNoteEditRequest,
   calendarEventEditRequest: calendarEventEditRequest,
   changeCurrentView: Function,
-  handleCalendarTimeChangeRequest: Function,
   handleActiveCalendarChange: Function,
   handleActivateCalendarEditor: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
@@ -190,7 +189,6 @@ interface navLeftContainerProps {
   calendarFormStatus: calendarFormStatus,
   calendarNoteEditRequest: calendarNoteEditRequest,
   calendarEventEditRequest: calendarEventEditRequest,
-  handleCalendarTimeChangeRequest: Function,
   appendNewCalendarToUser: (calendar: calendarObject) => void,
   addNewCalendarNoteToCalendar: (calendarId: string, updatedCalendar: calendarObject, calendarType: 'calendars' | 'personal_calendar') => void,
   handleCalendarFormDataCleanup: () => void,

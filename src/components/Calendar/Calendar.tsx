@@ -9,6 +9,7 @@ import DayView from './DayView';
 import EditCalendar from './EditCalendar';
 import toast from 'react-hot-toast'
 import { getFontColorForHex } from '../../scripts/calculateFontColorForHex';
+import { applyCalendarBackgroundColor } from '../../scripts/calendarHelpers';
 import { 
   calendarEditorState,
   calendarObject,
@@ -28,7 +29,6 @@ import {
   calendarFormStatusState,
   calendarNote,
 } from '../../types/calendarTypes';
-import { applyCalendarBackgroundColor } from '../../scripts/calendarHelpers';
 
 const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
@@ -38,6 +38,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     usersTeamCalendars,
     usersPendingCalendars,
     userId,
+    calendarDatesData,
+    usersPreferredCalendarColors,
     appendNewCalendarToUser,
     saveCalendarDatesAndHolidaysData,
     saveAllUserCalendarsToUser,
@@ -46,8 +48,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     addNewCalendarNoteToCalendar,
     updateCalendarNote,
     removeCalendarNoteFromCalendar,
-    calendarDatesData,
-    usersPreferredCalendarColors,
     addCalendarColorPreference,
   } = props;
 
@@ -66,12 +66,12 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     note: false,
     calendar: false,
   }),
-  [calendarNoteEditRequest, setCalendarNoteEditRequest] = useState({
+  [calendarNoteEditRequest, setCalendarNoteEditRequest] = useState({ // opens edit form with note populated
     calendarId: '',
     note: {},
     status: false,
   }),
-  [calendarEventEditRequest, setCalendarEventEditRequest] = useState({
+  [calendarEventEditRequest, setCalendarEventEditRequest] = useState({ // opens edit form with event populated
     calendarId: '',
     event: {},
     status: false,
@@ -97,12 +97,12 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     };
   }, []);
 
-  useEffect(() => {
+  useEffect(() => { // every time calendars are updated, update active calendars, check if calendar editor is open, if so update selected calendar with edits
     updateActivateCalendarsWithUpdates();
     updateCalendarEditor();
   }, [usersPersonalCalendar, usersTeamCalendars, usersPendingCalendars]);
 
-  useEffect(() => {
+  useEffect(() => { // when active calenders or year are selected group events/notes for those changes
     groupCalendarNotes();
     groupEvents();
   }, [activeCalendars, currentViewingYear]);
@@ -216,14 +216,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
 
   const changeCurrentView = (viewRequest: string): void => {
     return setCurrentView(viewRequest);
-  };
-  
-  const handleCalendarTimeChangeRequest = () => {
-    return;
-  };
-
-  const handleAddEventRequest = () => {
-    return;
   };
 
   const handleActiveCalendarChange = (calendarList: calendarObject[]): void => {
@@ -621,7 +613,6 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     calendarNoteEditRequest,
     calendarEventEditRequest,
     changeCurrentView,
-    handleCalendarTimeChangeRequest,
     handleActiveCalendarChange,
     handleActivateCalendarEditor,
     appendNewCalendarToUser,

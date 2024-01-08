@@ -54,7 +54,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
     '5 PM': [],
     '6 PM': [],
     '7 PM': [],
-    'none': [],
+    'none': [], // events with no time set will be stored here
   });
   const [eventActivelyHovered, setEventActivelyHovered] = useState<String>('');
   const [eventViewStatus, setEventViewStatus] = useState({
@@ -102,7 +102,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
       '5 PM': [],
       '6 PM': [],
       '7 PM': [],
-      'none': [],
+      'none': [], // events with no time set will be stored here
     };
 
     dayEvents.forEach((event) => {
