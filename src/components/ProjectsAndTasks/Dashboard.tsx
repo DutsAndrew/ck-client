@@ -12,6 +12,10 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
   const { user } = props;
 
   const [currentView, setCurrentView] = useState('dashboard'),
+        [formModalPreset, setFormModalPreset] = useState({
+          mode: '',
+          objectToEdit: {},
+        }),
         [selectedTeam, setSelectedTeam] = useState({
           id: '',
         }),
@@ -25,31 +29,47 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
     // users can navigate back to the dashboard with a home button
     // plus sign is always present in the project nav bar to add teams or projects
 
+  const changeCurrentView = (newView: 'dashboard' | 'team' | 'project') => {
+    setCurrentView(newView);
+  };
+
   const getProjectAndTaskRenderElements = () => {
     if (currentView === 'dashboard') {
       return (
         <>
-          <AllProjectsViewer />
-          <AllTeamsViewer />
+          <AllProjectsViewer 
+            changeCurrentView={changeCurrentView}
+          />
+          <AllTeamsViewer 
+            changeCurrentView={changeCurrentView}
+          />
         </>
       );
     } else if (currentView === 'team') {
       return (
         <>
-          <TeamViewer />
+          <TeamViewer 
+            changeCurrentView={changeCurrentView}
+          />
         </>
       );
     } else if (currentView === 'project') {
       return (
         <>
-          <ProjectViewer />
+          <ProjectViewer 
+            changeCurrentView={changeCurrentView}
+          />
         </>
       );
     } else {
       return (
         <>
-          <AllProjectsViewer />
-          <AllTeamsViewer />
+          <AllProjectsViewer 
+            changeCurrentView={changeCurrentView}
+          />
+          <AllTeamsViewer 
+            changeCurrentView={changeCurrentView}
+          />
         </>
       );
     };
@@ -57,7 +77,9 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
 
   return (
     <main className={styles.projectsAndTasksDashboardMain}>
-      <NavBarProjectsAndTasks />
+      <NavBarProjectsAndTasks 
+        formModalPreset={formModalPreset}
+      />
       {getProjectAndTaskRenderElements()}
     </main>
   );
