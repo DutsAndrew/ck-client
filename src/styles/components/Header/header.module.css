@@ -8,6 +8,7 @@
   overflow-x: hidden;
   padding: 0;
   margin: 0;
+  gap: 5vw;
   padding-left: 5vw;
   padding-right: 5vw;
   border-bottom: 1px solid  #DCDCDC;
@@ -19,8 +20,8 @@
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  gap: 2vw;
   width: auto;
+  height: 99%;
 }
 
 .logoIcon {
@@ -50,6 +51,7 @@
   display: flex;
   flex-flow: row nowrap;
   gap: 2vw;
+  padding: 0;
 }
 
 .navBarListItem {
