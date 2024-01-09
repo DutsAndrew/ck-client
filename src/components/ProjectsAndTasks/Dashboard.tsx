@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
-import ProjectsNav from './ProjectsNav';
-import ProjectViewer from './ProjectViewer';
 import { projectsAndTasksDashboardProps } from '../../types/calendarTypes';
+import NavBarProjectsAndTasks from './NavBarProjectsAndTasks';
 import AllProjectsViewer from './AllProjectsViewer';
 import AllTeamsViewer from './AllTeamsViewer';
 
@@ -17,7 +16,8 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
     // plus sign is always present in the project nav bar to add teams or projects
 
   return (
-    <main>
+    <main className={styles.projectsAndTasksDashboardMain}>
+      <NavBarProjectsAndTasks />
       <AllProjectsViewer />
       <AllTeamsViewer />
     </main>

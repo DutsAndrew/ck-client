@@ -1,1 +1,15 @@
 Projects and Tasks Component:
+
+Parent Component is <Dashboard />
+All other components are children/grandchildren to Dashboard and it's children
+
+Must haves:
+  1. Access to teams
+  2. Access to Projects
+  3. View of tasks when on Project
+  4. Can view team members of team
+  5. Team edit screen
+  6. Project edit screen
+  7. Project/Task view screen
+  8. Form to add teams, projects, tasks, and users
+  9. Quick edit popout for tasks

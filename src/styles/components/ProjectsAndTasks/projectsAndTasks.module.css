@@ -1,1 +1,92 @@
-/* */
+/* PROJECTS AND TASKS DASHBOARD STYLING */
+
+.projectsAndTasksDashboardMain {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100vh;
+  background-color: #121212;
+  color: #FFFFFF;
+}
+
+.projectsAndTasksNavContainer {
+  width: 100%;
+  height: 5vh;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #F0F0F0;
+  color: #333333;
+}
+
+.projectsAndTasksItemNavContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 2vw;
+  width: 50%;
+  height: 100%;
+}
+
+.projectsAndTasksAddItemSvg {
+  width: auto;
+  height: 5vh;
+  cursor: pointer;
+  filter: invert(33%) sepia(29%) saturate(6292%) hue-rotate(200deg) brightness(102%) contrast(108%);
+}
+
+.projectsAndTasksAddItemSvg:hover {
+  transform: scale(0.99);
+}
+
+.projectsAndTasksAddItemSvg:hover {
+  animation: rotateAnimation 1s forwards;
+  filter: invert(23%) sepia(64%) saturate(2777%) hue-rotate(199deg) brightness(107%) contrast(102%);
+}
+
+@keyframes rotateAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+/* TEAM NAV STYLING */
+
+.teamNavContainer, .projectNavContainer {
+  margin: 1vw;
+  width: 100%;
+  height: 75%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #333333;
+  cursor: pointer;
+  user-select: none;
+}
+
+.teamNavText, .projectNavText {
+  margin: 0;
+  font-size: 1em;
+}
+
+.teamNavSvgArrow, .projectNavSvgArrow {
+  height: 3vh;
+  width: auto;
+  filter: invert(17%) sepia(5%) saturate(0%) hue-rotate(215deg) brightness(93%) contrast(88%);
+}
+
+.teamNavContainer:hover, .projectNavContainer:hover {
+  border: 1px solid #007BFF;
+  color: #007BFF;
+}
+
+.teamNavContainer:hover > img, .projectNavContainer:hover > img {
+  filter: invert(33%) sepia(29%) saturate(6292%) hue-rotate(200deg) brightness(102%) contrast(108%);
+}

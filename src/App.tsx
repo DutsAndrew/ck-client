@@ -326,7 +326,7 @@ function App() {
           }
         />
         <Route
-          path='/projects&tasks-dashboard'
+          path='/projects-tasks-dashboard'
           element={
             <Suspense fallback={<LoadingBar />}>
               <ProjectsAndTasksDashboard user={user} />

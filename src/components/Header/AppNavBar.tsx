@@ -61,7 +61,7 @@ const AppNavBar: FC<appNavBarProps> = (props): JSX.Element => {
               <Link className={styles.appBarLink} to='/lessons'>Lessons</Link>
             </li>
             <li className={styles.appBarListItem}>
-              <Link className={styles.appBarLink} to='/projects&tasks-dashboard'>Projects / Tasks</Link>
+              <Link className={styles.appBarLink} to='/projects-tasks-dashboard'>Projects / Tasks</Link>
             </li>
             <li className={styles.appBarListItem}>
               <Link className={styles.appBarLink} to='/notes'>Notes</Link>
