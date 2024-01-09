@@ -3,9 +3,11 @@ import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.mo
 
 const AllProjectsViewer = () => {
   return (
-    <p>
-      All Projects Viewer
-    </p>
+    <section className={styles.allProjectsViewerContainer}>
+      <h2 className={styles.allProjectsHeaderText}>
+        Projects
+      </h2>
+    </section>
   );
 };
 

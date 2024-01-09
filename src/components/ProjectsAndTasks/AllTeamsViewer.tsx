@@ -3,9 +3,11 @@ import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.mo
 
 const AllTeamsViewer = () => {
   return (
-    <p>
-      All Teams Viewer
-    </p>
+    <section className={styles.allTeamsViewerContainer}>
+      <h2 className={styles.allTeamsHeaderText}>
+        Teams
+      </h2>
+    </section>
   );
 };
 
