@@ -1,13 +1,23 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
 import { projectsAndTasksDashboardProps } from '../../types/calendarTypes';
 import NavBarProjectsAndTasks from './NavBarProjectsAndTasks';
 import AllProjectsViewer from './AllProjectsViewer';
 import AllTeamsViewer from './AllTeamsViewer';
+import TeamViewer from './TeamViewer';
+import ProjectViewer from './ProjectViewer';
 
 const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
 
   const { user } = props;
+
+  const [currentView, setCurrentView] = useState('dashboard'),
+        [selectedTeam, setSelectedTeam] = useState({
+          id: '',
+        }),
+        [selectedProject, setSelectedProject] = useState({
+          id: '',
+        });
 
   // display all projects and teams in their own respective rows
     // if a user clicks on a Project or a Team pull up the viewer component for it
@@ -15,11 +25,40 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
     // users can navigate back to the dashboard with a home button
     // plus sign is always present in the project nav bar to add teams or projects
 
+  const getProjectAndTaskRenderElements = () => {
+    if (currentView === 'dashboard') {
+      return (
+        <>
+          <AllProjectsViewer />
+          <AllTeamsViewer />
+        </>
+      );
+    } else if (currentView === 'team') {
+      return (
+        <>
+          <TeamViewer />
+        </>
+      );
+    } else if (currentView === 'project') {
+      return (
+        <>
+          <ProjectViewer />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <AllProjectsViewer />
+          <AllTeamsViewer />
+        </>
+      );
+    };
+  };
+
   return (
     <main className={styles.projectsAndTasksDashboardMain}>
       <NavBarProjectsAndTasks />
-      <AllProjectsViewer />
-      <AllTeamsViewer />
+      {getProjectAndTaskRenderElements()}
     </main>
   );
 };
