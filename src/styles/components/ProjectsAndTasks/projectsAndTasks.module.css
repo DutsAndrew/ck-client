@@ -4,15 +4,18 @@
   display: flex;
   flex-flow: column wrap;
   justify-content: flex-start;
-  width: 100%;
-  height: 100vh;
+  overflow: hidden;
+  width: 100vw;
+  height: auto;
+  box-sizing: border-box;
   background-color: #121212;
   color: #FFFFFF;
 }
 
 .projectsAndTasksNavContainer {
   width: 100%;
-  height: 5vh;
+  height: auto;
+  max-height: 5vh;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -27,7 +30,7 @@
   justify-content: space-around;
   align-items: center;
   gap: 2vw;
-  width: 50%;
+  width: auto;
   height: 100%;
 }
 

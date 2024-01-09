@@ -1,5 +1,5 @@
 .headerContainer {
-  width: 90vw;
+  width: auto;
   height: 5vh;
   display: flex;
   flex-flow: row nowrap;
@@ -11,7 +11,7 @@
   padding-left: 5vw;
   padding-right: 5vw;
   border-bottom: 1px solid  #DCDCDC;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .appHeaderContainer {
