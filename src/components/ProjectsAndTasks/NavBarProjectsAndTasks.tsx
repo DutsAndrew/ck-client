@@ -16,28 +16,34 @@ const NavBarProjectsAndTasks: FC<navBarProjectsAndTasksProps> = (props): JSX.Ele
     setCurrentView(newView);
   };
 
-  if (currentView === 'form') {
-    return (
-      <FormModalProjectsAndTasks 
-        formModalPreset={formModalPreset}
-      />
-    );
-  } else {
-    return (
-      <nav className={styles.projectsAndTasksNavContainer}>
-        <div className={styles.projectsAndTasksItemNavContainer}>
-          <TeamNav />
-          <ProjectsNav />
-        </div>
-        <img 
-          onClick={() => changeView('form')}
-          alt='plus sign'
-          src={addSvg}
-          className={styles.projectsAndTasksAddItemSvg}
-        />
-      </nav>
-    );
+  const handleFormOffClick = () => {
+    setCurrentView('nav');
   };
+
+  return (
+    <nav className={styles.projectsAndTasksNavContainer}>
+      {currentView === 'form' && 
+        <div 
+          onClick={() => handleFormOffClick()}
+          className={styles.projectsAndTasksNavFormModalBackground}
+        >
+          <FormModalProjectsAndTasks 
+            formModalPreset={formModalPreset}
+          />
+        </div>
+      }
+      <div className={styles.projectsAndTasksItemNavContainer}>
+        <TeamNav />
+        <ProjectsNav />
+      </div>
+      <img 
+        onClick={() => changeView('form')}
+        alt='plus sign'
+        src={addSvg}
+        className={styles.projectsAndTasksAddItemSvg}
+      />
+    </nav>
+  );
 };
 
 export default NavBarProjectsAndTasks;
