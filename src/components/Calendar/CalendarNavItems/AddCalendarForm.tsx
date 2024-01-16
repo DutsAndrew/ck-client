@@ -61,7 +61,7 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
     if (typeof authToken === 'undefined') {
       return toast.error('You need to be signed in or not in incognito to perform this action', {id: 'fetchingUsers'});
     } else {
-      const apiUrl = `http://127.0.0.1:8000/calendar/userQuery?user=${userLookup}`;
+      const apiUrl = `http://127.0.0.1:8000/users/userQuery?user=${userLookup}`;
       const request = await fetch(apiUrl, {
         headers: {
           'Accept': 'application/json',

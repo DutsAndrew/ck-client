@@ -47,7 +47,7 @@ const AddUserToCalendarList:FC<AddUserToCalendarListProps> = (props): JSX.Elemen
     if (typeof authToken === 'undefined') {
       return toast.error('You must be signed in or not in incognito to make this request', {id: 'addUserToCalendarQuery'});
     } else {
-      const apiUrl = `http://127.0.0.1:8000/calendar/userQuery?user=${userLookup}`;
+      const apiUrl = `http://127.0.0.1:8000/users/userQuery?user=${userLookup}`;
       const request = await fetch(apiUrl, {
         headers: {
           'Accept': 'application/json',
