@@ -1,6 +1,8 @@
 import React, { FC, useState } from "react";
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
 import { formModalProjectsAndTasksProps } from "../../types/projectAndTaskTypes";
+import TeamForm from "./TeamForm";
+import ProjectForm from "./ProjectForm";
 
 const FormModalProjectsAndTasks: FC<formModalProjectsAndTasksProps> = (props): React.JSX.Element => {
 
@@ -8,9 +10,14 @@ const FormModalProjectsAndTasks: FC<formModalProjectsAndTasksProps> = (props): R
 
   const [currentForm, setCurrentForm] = useState<'team' | 'project'>('team');
 
+  const handleModalSwitchClick = (requestedForm: 'team' | 'project') => {
+    setCurrentForm(requestedForm);
+  };
+
   return (
     <div className={styles.projectsAndTasksFormModalSwitchContainer}>
       <p 
+        onClick={() => handleModalSwitchClick('team')}
         className={
           `${styles.projectsAndTasksFormModalSwitchText} 
           ${currentForm === 'team' ? styles.projectsAndTasksFormModalTextActive 
@@ -20,6 +27,7 @@ const FormModalProjectsAndTasks: FC<formModalProjectsAndTasksProps> = (props): R
         Team
       </p>
       <p 
+        onClick={() => handleModalSwitchClick('project')}
         className={
           `${styles.projectsAndTasksFormModalSwitchText} 
           ${currentForm === 'project' ? styles.projectsAndTasksFormModalTextActive 
@@ -28,6 +36,12 @@ const FormModalProjectsAndTasks: FC<formModalProjectsAndTasksProps> = (props): R
       >
         Project
       </p>
+      {currentForm === 'team' && 
+        <TeamForm />
+      }
+      {currentForm === 'team' && 
+        <ProjectForm />
+      }
     </div>
   );
 };

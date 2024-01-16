@@ -113,7 +113,14 @@
 
 /* NAV BAR PROJECTS AND TASKS STYLING */
 
+
+
+/* PROJECTS AND TASKS FORM MODAL STYLING */
+
 .projectsAndTasksNavFormModalBackground {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   position: fixed;
   top: 0;
   left: 0;
@@ -129,12 +136,31 @@
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+  width: 50%;
+  border: 2px solid #007bff;
+  border-radius: 50px;
+  margin: 2vh;
+  overflow: hidden;
+  background-color: #f0f0f0;
 }
 
 .projectsAndTasksFormModalSwitchText {
-  /* */
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  background: none;
+  color: #555;
+  font-size: 16px;
 }
 
-.projectsAndTasksFormModalTextActive {
-  /* */
+.projectsAndTasksFormModalSwitchText.projectsAndTasksFormModalTextActive {
+  background-color: #007bff;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }

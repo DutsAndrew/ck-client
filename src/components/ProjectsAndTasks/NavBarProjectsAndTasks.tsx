@@ -16,15 +16,22 @@ const NavBarProjectsAndTasks: FC<navBarProjectsAndTasksProps> = (props): JSX.Ele
     setCurrentView(newView);
   };
 
-  const handleFormOffClick = () => {
-    setCurrentView('nav');
+  const handleFormOffClick = (e: React.MouseEvent<HTMLElement>) => {
+    const elementId = (e.target as any).id;
+
+    if (elementId === "projects-and-tasks-form-background") {
+      setCurrentView('nav');
+    } else {
+      return;
+    };
   };
 
   return (
     <nav className={styles.projectsAndTasksNavContainer}>
       {currentView === 'form' && 
         <div 
-          onClick={() => handleFormOffClick()}
+          onClick={(e) => handleFormOffClick(e)}
+          id="projects-and-tasks-form-background"
           className={styles.projectsAndTasksNavFormModalBackground}
         >
           <FormModalProjectsAndTasks 
