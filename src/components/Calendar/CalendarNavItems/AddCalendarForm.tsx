@@ -257,10 +257,13 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
                   key={uniqid()}
                 >
                   <p className={styles.userLookUpResultsMainText}>
-                    {user.user.first_name} {user.user.last_name}, {user.user.job_title} - {user.user.company}
+                    {user.user.first_name ? user.user.first_name : ''}&nbsp;
+                    {user.user.last_name ? `${user.user.last_name}` : ''}
+                    {user.user.job_title ? `, ${user.user.job_title}` : ''}
+                    {user.user.company ? ` - ${user.user.company}` : ''}
                   </p>
                   <p className={styles.userLookUpResultsEmailText}>
-                    {user.user.email}
+                    {user.user.email ? user.user.email : ''}
                   </p>
                   <div className={styles.addCalendarUserButtonContainer}>
                     <button 

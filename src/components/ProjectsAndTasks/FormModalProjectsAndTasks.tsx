@@ -15,33 +15,38 @@ const FormModalProjectsAndTasks: FC<formModalProjectsAndTasksProps> = (props): R
   };
 
   return (
-    <div className={styles.projectsAndTasksFormModalSwitchContainer}>
-      <p 
-        onClick={() => handleModalSwitchClick('team')}
-        className={
-          `${styles.projectsAndTasksFormModalSwitchText} 
-          ${currentForm === 'team' ? styles.projectsAndTasksFormModalTextActive 
-          : ''}`
-        }
-      >
-        Team
-      </p>
-      <p 
-        onClick={() => handleModalSwitchClick('project')}
-        className={
-          `${styles.projectsAndTasksFormModalSwitchText} 
-          ${currentForm === 'project' ? styles.projectsAndTasksFormModalTextActive 
-          : ''}`
-        }
-      >
-        Project
-      </p>
+    <div className={styles.projectsAndTasksFormModalContainer}>
+
+      <div className={styles.projectsAndTasksFormModalSwitchContainer}>
+        <p 
+          onClick={() => handleModalSwitchClick('team')}
+          className={`
+            ${styles.projectsAndTasksFormModalSwitchText} 
+            ${currentForm === 'team' ? styles.projectsAndTasksFormModalTextActive : ''}
+            ${styles.projectsAndTasksFormModalSwitchTextLeft}
+          `}
+        >
+          Team
+        </p>
+        <p 
+          onClick={() => handleModalSwitchClick('project')}
+          className={`
+            ${styles.projectsAndTasksFormModalSwitchText} 
+            ${currentForm === 'project' ? styles.projectsAndTasksFormModalTextActive : ''}
+            ${styles.projectsAndTasksFormModalSwitchTextRight}
+          `}
+        >
+          Project
+        </p>
+      </div>
+
       {currentForm === 'team' && 
         <TeamForm />
       }
       {currentForm === 'team' && 
         <ProjectForm />
       }
+
     </div>
   );
 };

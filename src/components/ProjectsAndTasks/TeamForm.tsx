@@ -29,6 +29,14 @@ const TeamForm = () => {
     }));
   };
 
+  const handleFormEnterClick = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === 'Enter' || e.code === 'Enter') {
+      e.preventDefault();
+    } else {
+      return;
+    };
+  };
+
   const handleCustomColorOptionSelected = () => {
     setCustomColorOption(!customColorOption);
   };
@@ -92,12 +100,20 @@ const TeamForm = () => {
     if (teamFormData.teamMembers.includes(user)) { // exit if user is already in list
       return toast.error('User already added', {id: 'AddUserToTeam'});
     } else {
-      toast.success('User added!', {id: 'AddUserToTeam'});
       setTeamFormData({
         ...teamFormData,
         teamMembers: [...teamFormData.teamMembers, user],
       });
+      toast.success('User added!', {id: 'AddUserToTeam'});
     };
+  };
+
+  const handleRemoveUserFromAuthorizedUsersList = (user: userQuery) => {
+    setTeamFormData({
+      ...teamFormData,
+      teamMembers: teamFormData.teamMembers.filter((invitedUser) => invitedUser !== user)
+    });
+    toast.success('User removed', {id: 'removeUserFromTeam'});
   };
 
   const handleFormSubmitByButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -137,7 +153,10 @@ const TeamForm = () => {
       <h2 className={styles.projectsAndTasksFormHeader}>
         Team
       </h2>
-      <form className={styles.projectsAndTasksTeamForm}>
+      <form 
+        onKeyDown={(e) => handleFormEnterClick(e)}
+        className={styles.projectsAndTasksTeamForm}
+      >
 
         <div className={styles.formGroup}>
           <label 
@@ -187,10 +206,10 @@ const TeamForm = () => {
             value={userLookup}
             onChange={(e) => handleUserSearchBarEntry(e)}
             onKeyDown={(e) => handleUserKeyClickOnSearchBarEntry(e)}
-            className={styles.addCalendarFormInput}
+            className={styles.projectsAndTasksFormInput}
           />
           <button 
-            className={styles.addCalendarUserSearchButton}
+            className={styles.projectsAndTasksTeamFormUserSearchButton}
             type="button"
             onClick={() => handleUserSearchRequest()}>
             Search
@@ -206,16 +225,19 @@ const TeamForm = () => {
                   key={uniqid()}
                 >
                   <p className={styles.userLookUpResultsMainText}>
-                    {user.user.first_name} {user.user.last_name}, {user.user.job_title} - {user.user.company}
+                    {user.user.first_name ? user.user.first_name : ''}&nbsp;
+                    {user.user.last_name ? `${user.user.last_name}` : ''}
+                    {user.user.job_title ? `, ${user.user.job_title}` : ''}
+                    {user.user.company ? ` - ${user.user.company}` : ''}
                   </p>
                   <p className={styles.userLookUpResultsEmailText}>
-                    {user.user.email}
+                    {user.user.email ? user.user.email : ''}
                   </p>
                   <div className={styles.projectsAndTasksTeamFormUserButtonContainer}>
                     <button 
-                      className={styles.addCalendarUserAddButton}
+                      className={styles.projectsAndTasksTeamFormUserAddButton}
                       onClick={() => handleAddUserToTeamClick(user)}>
-                      Add User
+                      Invite User
                     </button>
                   </div>
                 </li>
@@ -224,18 +246,45 @@ const TeamForm = () => {
           {apiRequestSent === true && userLookupResults.length === 0 && <p>No results</p>}
         </div>
 
-        <label className={styles.addCalendarCustomColorCheckboxLabel}>
+        <div className={styles.projectsAndTasksTeamFormSelectedUsersContainer}>
+          <h3>Invited Users:</h3>
+          <ul className={styles.addCalendarUserQueryList}>
+            {teamFormData.teamMembers.map((user) => (
+              <li
+                className={styles.userLookUpResultsListItem} 
+                key={uniqid()}
+              >
+                <p className={styles.userLookUpResultsMainText}>
+                  {user.user.first_name ? user.user.first_name : ''}&nbsp;
+                  {user.user.last_name ? `${user.user.last_name}` : ''}
+                  {user.user.job_title ? `, ${user.user.job_title}` : ''}
+                  {user.user.company ? ` - ${user.user.company}` : ''}
+                </p>
+                <p className={styles.userLookUpResultsEmailText}>
+                  {user.user.email ? user.user.email : ''}
+                </p>
+                <button 
+                  className={styles.projectsAndTasksTeamFormRemoveUserFromListButton}
+                  onClick={() => handleRemoveUserFromAuthorizedUsersList(user)}>
+                    X
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <label className={styles.projectsAndTasksTeamFormCustomColorCheckboxLabel}>
           <input
             type="checkbox"
             checked={customColorOption}
             onChange={() => handleCustomColorOptionSelected()}
           />
-          Would you like to set a custom color for this calendar?
+          Would you like to set a custom color for this team?
         </label>
 
         {customColorOption ? (
           <HexColorPickerCustom 
-            headerText='Select a Calendar Color'
+            headerText='Select a team Color'
             currentHexColor={teamFormData.teamColor}
             changeHexColorSelection={handleChangeHexColorSelection}
           />
@@ -246,8 +295,8 @@ const TeamForm = () => {
         <button 
           onClick={(e) => handleFormSubmitByButtonClick(e)}
           type="submit"
-          className={styles.addCalendarFormButton}>
-            Create Calendar
+          className={styles.projectsAndTasksTeamFormSubmitButton}>
+            Create Team
         </button>
 
       </form>
