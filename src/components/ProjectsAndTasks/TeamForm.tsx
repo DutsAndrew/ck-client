@@ -19,18 +19,13 @@ const TeamForm = () => {
   const [userLookupResults, setUserLookupResults] = useState<userQuery[]>([]);
   const [customColorOption, setCustomColorOption] = useState(false);
 
+  const handleFormInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+    const elementId = e.target.id;
+    const value = e.target.value;
 
-  const handleCalendarNameChange = (newTeamName: string) => {
     setTeamFormData((prevTeamFormData) => ({
       ...prevTeamFormData,
-      newTeamName,
-    }));
-  };
-
-  const handleCalendarDescriptionChange = (newTeamDescription: string) => {
-    setTeamFormData((prevTeamFormData) => ({
-      ...prevTeamFormData,
-      newTeamDescription,
+      [elementId]: value,
     }));
   };
 
@@ -152,10 +147,10 @@ const TeamForm = () => {
             *Team Name:
           </label>
           <input
-            id='team-name-input'
+            id='teamName'
             name="teamName"
             value={teamFormData.teamName}
-            onChange={(e) => handleCalendarNameChange(e.target.value)}
+            onChange={(e) => handleFormInputChange(e)}
             className={styles.projectsAndTasksFormInput}
             minLength={1}
             maxLength={50}
@@ -171,10 +166,10 @@ const TeamForm = () => {
             Team Description (Optional):
           </label>
           <textarea
-            id='team-description-input'
+            id='teamDescription'
             name="teamDescription"
             value={teamFormData.teamDescription}
-            onChange={(e) => handleCalendarDescriptionChange(e.target.value)}
+            onChange={(e) => handleFormInputChange(e)}
             className={styles.projectsAndTasksFormInput}
             minLength={1}
             maxLength={50}
