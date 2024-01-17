@@ -10,6 +10,7 @@ import EditCalendar from './EditCalendar';
 import toast from 'react-hot-toast'
 import { getFontColorForHex } from '../../scripts/calculateFontColorForHex';
 import { applyCalendarBackgroundColor } from '../../scripts/calendarHelpers';
+import { removeToastNotificationsOnMount } from '../../scripts/closeAllToastNotifications';
 import { 
   calendarEditorState,
   calendarObject,
@@ -83,6 +84,8 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    removeToastNotificationsOnMount();
+
     if (typeof userId === 'undefined') { // prevent user from fetching calendar data and crashing app without being logged in
       navigate('/login');
       return;

@@ -1,9 +1,10 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from '../../../styles/components/Calendar/calendar.module.css';
-import { addCalendarFormProps, addCalendarFormState, calendarUserQueryResults, userQuery } from "../../../types/calendarTypes";
+import { addCalendarFormProps, addCalendarFormState, calendarUserQueryResults } from "../../../types/calendarTypes";
 import toast from 'react-hot-toast'
 import uniqid from "uniqid";
 import HexColorPickerCustom from "../../HexColorPickerCustom";
+import { userQuery } from "../../../types/globalTypes";
 
 const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
 
@@ -351,7 +352,8 @@ const AddCalendarForm:FC<addCalendarFormProps> = (props): JSX.Element => {
           type="submit"
           className={styles.addCalendarFormButton}>
             Create Calendar
-          </button>
+        </button>
+        
       </form>
     </div>
   );

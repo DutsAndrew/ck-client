@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
 import { projectsAndTasksDashboardProps } from '../../types/calendarTypes';
 import NavBarProjectsAndTasks from './NavBarProjectsAndTasks';
@@ -6,6 +6,7 @@ import AllProjectsViewer from './AllProjectsViewer';
 import AllTeamsViewer from './AllTeamsViewer';
 import TeamViewer from './TeamViewer';
 import ProjectViewer from './ProjectViewer';
+import { removeToastNotificationsOnMount } from '../../scripts/closeAllToastNotifications';
 
 const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
 
@@ -22,6 +23,10 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
         [selectedProject, setSelectedProject] = useState({
           id: '',
         });
+
+  useEffect(() => {
+    removeToastNotificationsOnMount();
+  }, []);
 
   // display all projects and teams in their own respective rows
     // if a user clicks on a Project or a Team pull up the viewer component for it

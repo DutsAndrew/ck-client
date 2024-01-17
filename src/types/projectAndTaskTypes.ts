@@ -1,3 +1,5 @@
+import { userQuery } from "./globalTypes";
+
 interface allProjectsViewerProps {
   changeCurrentView: (newView: 'dashboard' | 'team' | 'project') => void,
 };
@@ -27,6 +29,13 @@ interface formModalProjectsAndTasksProps {
   formModalPreset: formModalPreset,
 };
 
+interface teamFormDataState {
+  teamColor: string,
+  teamDescription: string,
+  teamMembers: userQuery[],
+  teamName: string,
+};
+
 export type {
   allProjectsViewerProps,
   allTeamsViewerProps,
@@ -34,4 +43,5 @@ export type {
   projectViewerProps,
   navBarProjectsAndTasksProps,
   formModalProjectsAndTasksProps,
+  teamFormDataState,
 };

@@ -1,3 +1,5 @@
+import { userQuery } from "./globalTypes";
+
 interface AuthStatus {
   status: boolean;
 };
@@ -218,17 +220,6 @@ interface addCalendarFormState {
 }
 
 type calendarUserQueryResults = userQuery[]
-
-interface userQuery {
-  user: {
-    company: string,
-    email: string,
-    first_name: string,
-    job_title: string,
-    last_name: string,
-    _id: string,
-  }
-}
 
 interface navRightContainerProps {
   userCalendars: userCalendars,
@@ -745,7 +736,6 @@ export type {
   addFormModalProps,
   addCalendarFormState,
   calendarUserQueryResults,
-  userQuery,
   navRightContainerProps,
   dayViewProps,
   weekViewProps,
