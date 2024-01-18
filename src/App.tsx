@@ -7,12 +7,12 @@ import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
 import Welcome from './pages/Welcome';
 import LoadingBar from './pages/LoadingBar';
 import ScrollToTopButton from './components/ScrollToTopButton';
+import { userInstance } from './types/globalTypes';
 import { 
   CalendarDatesData, 
   appDataState, 
   calendarNote, 
-  calendarObject, 
-  userInstance, 
+  calendarObject,  
   colorScheme 
 } from './types/calendarTypes';
 
@@ -262,7 +262,21 @@ function App() {
     });
   };
 
-   // USER CALENDAR UPDATE FUNCTIONS -- END ~~~~~~~ USER CALENDAR UPDATE FUNCTIONS -- END
+  // USER CALENDAR UPDATE FUNCTIONS -- END ~~~~~~~ USER CALENDAR UPDATE FUNCTIONS -- END //
+
+  // AUXILLARY FUNCTIONS -- START ~~~~~~~ AUXILLARY FUNCTIONS -- START //
+
+  const buildUserProfileRef = () => {
+    return {
+      'first_name': (user as userInstance).first_name ? (user as userInstance).first_name : '',
+      'last_name': (user as userInstance).last_name ? (user as userInstance).last_name : '',
+      'job_title': (user as userInstance).job_title ? (user as userInstance).job_title : '',
+      'company': (user as userInstance).company ? (user as userInstance).company : '',
+      'user_id': (user as userInstance)._id ? (user as userInstance)._id : '',
+    };
+  };
+
+  // AUXILLARY FUNCTIONS -- END ~~~~~~~ AUXILLARY FUNCTIONS -- END //
 
   return (
     <Router>
@@ -329,7 +343,10 @@ function App() {
           path='/projects-tasks-dashboard'
           element={
             <Suspense fallback={<LoadingBar />}>
-              <ProjectsAndTasksDashboard user={user} />
+              <ProjectsAndTasksDashboard 
+                userId={(user as userInstance)._id}
+                buildUserProfileRef={buildUserProfileRef}
+              />
             </Suspense>
           }
         />

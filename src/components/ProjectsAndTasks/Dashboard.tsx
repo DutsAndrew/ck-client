@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
-import { projectsAndTasksDashboardProps } from '../../types/calendarTypes';
+import { projectsAndTasksDashboardProps } from '../../types/projectAndTaskTypes';
+import { useNavigate } from 'react-router-dom';
 import NavBarProjectsAndTasks from './NavBarProjectsAndTasks';
 import AllProjectsViewer from './AllProjectsViewer';
 import AllTeamsViewer from './AllTeamsViewer';
@@ -10,7 +11,10 @@ import { removeToastNotificationsOnMount } from '../../scripts/closeAllToastNoti
 
 const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
 
-  const { user } = props;
+  const { 
+    userId,
+    buildUserProfileRef,
+  } = props;
 
   const [currentView, setCurrentView] = useState('dashboard'),
         [formModalPreset, setFormModalPreset] = useState({
@@ -24,8 +28,15 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
           id: '',
         });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     removeToastNotificationsOnMount();
+
+    if (typeof userId === 'undefined') { // prevent user access if not logged in
+      navigate('/login');
+      return;
+    };
   }, []);
 
   // display all projects and teams in their own respective rows
@@ -84,6 +95,7 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
     <main className={styles.projectsAndTasksDashboardMain}>
       <NavBarProjectsAndTasks 
         formModalPreset={formModalPreset}
+        buildUserProfileRef={buildUserProfileRef}
       />
       {getProjectAndTaskRenderElements()}
     </main>

@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
 import toast from "react-hot-toast";
-import { teamFormDataState } from "../../types/projectAndTaskTypes";
+import { teamFormDataState, teamFormProps } from "../../types/projectAndTaskTypes";
 import { userQuery } from "../../types/globalTypes";
 import uniqid from "uniqid";
 import HexColorPickerCustom from "../HexColorPickerCustom";
 
-const TeamForm = () => {
+const TeamForm:FC<teamFormProps> = (props): React.JSX.Element => {
+
+  const {
+    buildUserProfileRef,
+  } = props;
 
   const [teamFormData, setTeamFormData] = useState<teamFormDataState>({
+    teamCreator: buildUserProfileRef(),
     teamColor: '',
     teamDescription: '',
     teamMembers: [],
@@ -138,13 +143,7 @@ const TeamForm = () => {
         body: JSON.stringify(teamFormData),
       });
       const jsonResponse = await request.json();
-      if (!request.ok && request.status !== 200 && !jsonResponse.calendar) {
-        return toast.error(`${jsonResponse.detail}`, {id: 'uploadingTeam'});
-      } else {
-        // handle adding new team instance to user stored locally
-        toast.success('Team Created!', {id: 'uploadingTeam'});
-        // return handleCloseModalRequest();
-      };
+      console.log(jsonResponse)
     };
   };
 

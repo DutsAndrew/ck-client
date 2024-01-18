@@ -6,7 +6,10 @@ import ProjectForm from "./ProjectForm";
 
 const FormModalProjectsAndTasks: FC<formModalProjectsAndTasksProps> = (props): React.JSX.Element => {
 
-  const { formModalPreset } = props;
+  const { 
+    formModalPreset,
+    buildUserProfileRef,
+  } = props;
 
   const [currentForm, setCurrentForm] = useState<'team' | 'project'>('team');
 
@@ -59,7 +62,9 @@ const FormModalProjectsAndTasks: FC<formModalProjectsAndTasksProps> = (props): R
       </div>
 
       {currentForm === 'team' && 
-        <TeamForm />
+        <TeamForm 
+          buildUserProfileRef={buildUserProfileRef}
+        />
       }
       {currentForm === 'team' && 
         <ProjectForm />
