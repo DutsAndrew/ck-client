@@ -248,7 +248,7 @@ const TeamForm = () => {
 
         <div className={styles.projectsAndTasksTeamFormSelectedUsersContainer}>
           <h3>Invited Users:</h3>
-          <ul className={styles.addCalendarUserQueryList}>
+          <ul className={styles.projectsAndTasksTeamFormUserQueryList}>
             {teamFormData.teamMembers.map((user) => (
               <li
                 className={styles.userLookUpResultsListItem} 

@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
 import { formModalProjectsAndTasksProps } from "../../types/projectAndTaskTypes";
 import TeamForm from "./TeamForm";
@@ -9,6 +9,24 @@ const FormModalProjectsAndTasks: FC<formModalProjectsAndTasksProps> = (props): R
   const { formModalPreset } = props;
 
   const [currentForm, setCurrentForm] = useState<'team' | 'project'>('team');
+
+  useEffect(() => {
+    temporarilyDisableScrollBar();
+
+    return () => {
+      reEnableScrollBar();
+    };
+  }, []);
+
+  const temporarilyDisableScrollBar = () => {
+    const body = document.body;
+    body.classList.add('disableScrollbar');
+  };
+
+  const reEnableScrollBar = () => {
+    const body = document.body;
+    body.classList.remove('disableScrollbar');
+  };
 
   const handleModalSwitchClick = (requestedForm: 'team' | 'project') => {
     setCurrentForm(requestedForm);

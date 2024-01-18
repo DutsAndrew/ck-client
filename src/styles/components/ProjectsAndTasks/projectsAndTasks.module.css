@@ -122,6 +122,7 @@
   justify-content: center;
   align-items: flex-start;
   position: fixed;
+  overflow: scroll;
   top: 0;
   left: 0;
   width: 100%;
@@ -137,6 +138,7 @@
   justify-content: center;
   align-items: center;
   width: 75%;
+  height: auto;
   border: 2px solid #007bff;
   border-radius: 50px;
   margin: 2vh;
@@ -191,6 +193,7 @@
   justify-content: center;
   align-items: center;
   width: auto;
+  overflow-y: visible;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -205,6 +208,7 @@
 
 .projectsAndTasksTeamForm {
   width: 100%;
+  gap: 2vh;
   display: flex;
   flex-direction: column;
   justify-content: center; 
@@ -301,6 +305,11 @@
   transform: scale(0.95);
 }
 
+.projectsAndTasksTeamFormUserQueryList {
+  list-style: none;
+  padding: 0;
+}
+
 .projectsAndTasksTeamFormRemoveUserFromListButton {
   display: flex;
   justify-content: center;
@@ -326,7 +335,7 @@
   background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 3px;
+  border-radius: 25px;
   padding: 10px 20px;
   font-size: 1.25em;
   cursor: pointer;
