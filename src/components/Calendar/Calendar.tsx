@@ -344,7 +344,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   };
 
   const groupCalendarNotes = () => {
-    if (!Array.isArray(activeCalendars) || activeCalendars.length === 0) return; 
+    if (!Array.isArray(activeCalendars) || activeCalendars.length === 0) return setNoGroupedNotes(); 
 
     const dayNotes: calendarNotesWithInfo = [];
     const weekNotes: calendarNotesWithInfo = [];
@@ -384,6 +384,22 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
     return setCalendarNotesGrouped(notes);
   };
 
+  const setNoGroupedNotes = () => {
+    const dayNotes: calendarNotesWithInfo = [];
+    const weekNotes: calendarNotesWithInfo = [];
+    const monthNotes: calendarNotesWithInfo = [];
+    const yearNotes: calendarNotesWithInfo = [];
+
+    const notes = {
+      dayNotes: dayNotes,
+      weekNotes: weekNotes,
+      monthNotes: monthNotes,
+      yearNotes: yearNotes,
+    };
+
+    return setCalendarNotesGrouped(notes);
+  };
+
   const buildCalendarNoteForClient = (calendar: calendarObject, note: calendarNote) => {
     const backgroundColor = applyCalendarBackgroundColor(calendar.calendar_color, calendar._id, usersPreferredCalendarColors);
     const fontColor = getFontColorForHex(backgroundColor);
@@ -401,12 +417,14 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   };
 
   const groupEvents = () => {
-    if (!Array.isArray(activeCalendars) || activeCalendars.length === 0) return; 
+    if (!Array.isArray(activeCalendars) || activeCalendars.length === 0) return setNoGroupedEvents(); 
 
     const dayEvents: calendarEventWithCalendarName[] = [];
     const weekEvents: calendarEventWithCalendarName[] = [];
     const monthEvents: calendarEventWithCalendarName[] = [];
     const yearEvents: calendarEventWithCalendarName[] = [];
+
+    console.log(activeCalendars)
 
     Array.isArray(activeCalendars) && activeCalendars.forEach((calendar) => {
       if (calendar && calendar.events) {
@@ -437,6 +455,22 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
         });
       };
     });
+
+    const events = {
+      dayEvents: dayEvents,
+      weekEvents: weekEvents,
+      monthEvents: monthEvents,
+      yearEvents: yearEvents,
+    };
+
+    return setCalendarEventsGrouped(events);
+  };
+
+  const setNoGroupedEvents = () => {
+    const dayEvents: calendarEventWithCalendarName[] = [];
+    const weekEvents: calendarEventWithCalendarName[] = [];
+    const monthEvents: calendarEventWithCalendarName[] = [];
+    const yearEvents: calendarEventWithCalendarName[] = [];
 
     const events = {
       dayEvents: dayEvents,
