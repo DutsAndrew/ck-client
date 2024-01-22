@@ -9,6 +9,7 @@ import { navBarProjectsAndTasksProps } from "../../types/projectAndTaskTypes";
 const NavBarProjectsAndTasks: FC<navBarProjectsAndTasksProps> = (props): JSX.Element => {
 
   const { 
+    userId,
     formModalPreset,
     buildUserProfileRef,
   } = props;
@@ -38,6 +39,7 @@ const NavBarProjectsAndTasks: FC<navBarProjectsAndTasksProps> = (props): JSX.Ele
           className={styles.projectsAndTasksNavFormModalBackground}
         >
           <FormModalProjectsAndTasks 
+            userId={userId}
             formModalPreset={formModalPreset}
             buildUserProfileRef={buildUserProfileRef}
           />

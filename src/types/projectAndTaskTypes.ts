@@ -42,6 +42,7 @@ type formModalPreset = {
 };
 
 interface navBarProjectsAndTasksProps {
+  userId: string,
   formModalPreset: formModalPreset,
   buildUserProfileRef: () => {
     first_name: string;
@@ -53,6 +54,7 @@ interface navBarProjectsAndTasksProps {
 }
 
 interface formModalProjectsAndTasksProps {
+  userId: string,
   formModalPreset: formModalPreset,
   buildUserProfileRef: () => {
     first_name: string;
@@ -72,6 +74,7 @@ interface teamFormDataState {
 };
 
 interface teamFormProps {
+  userId: string,
   buildUserProfileRef: () => {
     first_name: string;
     last_name: string;

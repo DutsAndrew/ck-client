@@ -94,6 +94,7 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
   return (
     <main className={styles.projectsAndTasksDashboardMain}>
       <NavBarProjectsAndTasks 
+        userId={userId}
         formModalPreset={formModalPreset}
         buildUserProfileRef={buildUserProfileRef}
       />

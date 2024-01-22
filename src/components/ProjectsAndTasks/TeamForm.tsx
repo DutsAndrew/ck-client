@@ -9,6 +9,7 @@ import HexColorPickerCustom from "../HexColorPickerCustom";
 const TeamForm:FC<teamFormProps> = (props): React.JSX.Element => {
 
   const {
+    userId,
     buildUserProfileRef,
   } = props;
 
@@ -102,6 +103,11 @@ const TeamForm:FC<teamFormProps> = (props): React.JSX.Element => {
 
   const handleAddUserToTeamClick = (user: userQuery) => {
     toast.loading('Adding user...', {id: 'AddUserToTeam'});
+
+    if (user.user._id === userId) {
+      return toast.error('You cannot add yourself to a team that you will already be in', {id: 'AddUserToTeam'});
+    };
+
     if (teamFormData.teamMembers.includes(user)) { // exit if user is already in list
       return toast.error('User already added', {id: 'AddUserToTeam'});
     } else {
