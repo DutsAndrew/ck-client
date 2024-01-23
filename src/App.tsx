@@ -345,6 +345,8 @@ function App() {
             <Suspense fallback={<LoadingBar />}>
               <ProjectsAndTasksDashboard 
                 userId={(user as userInstance)._id}
+                teams={(user as userInstance).teams}
+                pendingTeams={(user as userInstance).pending_teams}
                 buildUserProfileRef={buildUserProfileRef}
               />
             </Suspense>

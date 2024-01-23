@@ -8,11 +8,14 @@ import AllTeamsViewer from './AllTeamsViewer';
 import TeamViewer from './TeamViewer';
 import ProjectViewer from './ProjectViewer';
 import { removeToastNotificationsOnMount } from '../../scripts/closeAllToastNotifications';
+import toast from 'react-hot-toast';
 
 const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
 
   const { 
     userId,
+    teams,
+    pendingTeams,
     buildUserProfileRef,
   } = props;
 
@@ -37,6 +40,14 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
       navigate('/login');
       return;
     };
+
+    // handle data fetching logic if team data isn't present or available
+    if (teams.length === 0 && pendingTeams.length === 0) return;
+    if (Object.keys(teams[0]).length === 0 || Object.keys(pendingTeams[0]).length === 0) {
+      fetchTeamData();
+    } else {
+      return;
+    };
   }, []);
 
   // display all projects and teams in their own respective rows
@@ -44,6 +55,26 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
     // once in the project or team viewer users can move through any teams or projects they have access to
     // users can navigate back to the dashboard with a home button
     // plus sign is always present in the project nav bar to add teams or projects
+
+  const fetchTeamData = async () => {
+    toast.loading('Fetching team data...', {id: 'fetchUserTeamData'});
+    const authToken = localStorage.getItem('auth-token');
+    if (typeof authToken === 'undefined') {
+      return toast.error('You must be signed in or not in incognito to perform this action', {id: 'fetchUserTeamData'});
+    } else {
+      const apiUrl = 'http://127.0.0.1:8000/team/getUserTeams';
+      const request = await fetch(apiUrl, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        method: 'GET',
+      });
+      const response = await request.json();
+      console.log(response);
+    };
+  };
 
   const changeCurrentView = (newView: 'dashboard' | 'team' | 'project') => {
     setCurrentView(newView);

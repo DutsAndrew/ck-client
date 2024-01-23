@@ -1,5 +1,5 @@
+import { calendarObject } from "./calendarTypes";
 import { userQuery } from "./globalTypes";
-import { userInstance } from "./globalTypes";
 
 interface teamUserRefInstance {
   first_name: string,
@@ -9,8 +9,24 @@ interface teamUserRefInstance {
   user_id: string,
 };
 
+interface teamInstance {
+  id: string,
+  calendar: calendarObject,
+  description: string,
+  name: string,
+  notes: object[], // add note type when created
+  notifications: object[], // add notification type when created
+  tasks: object[], // add task type when created,
+  team_color: string,
+  team_lead: string,
+  users: teamUserRefInstance[],
+  pending_users: teamUserRefInstance[],
+};
+
 interface projectsAndTasksDashboardProps {
   userId: string,
+  teams: string[] | teamInstance[],
+  pendingTeams: string[] | teamInstance[],
   buildUserProfileRef: () => {
     first_name: string;
     last_name: string;
@@ -85,6 +101,7 @@ interface teamFormProps {
 }
 
 export type {
+  teamInstance,
   projectsAndTasksDashboardProps,
   allProjectsViewerProps,
   allTeamsViewerProps,

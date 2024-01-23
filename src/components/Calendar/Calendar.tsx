@@ -160,7 +160,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
   };
 
   const fetchCalendarAppData = async () => {
-    toast.loading('App data', {id: 'calendarData'});
+    toast.loading('Fetching App data...', {id: 'calendarData'});
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
       return toast.error('You must be signed in or not in incognito to perform this action', {id: 'calendarData'});
@@ -176,18 +176,18 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       });
       const jsonResponse: calendarApiResponse = await request.json();
       if (!request.ok || request.status !== 200) {
-        return toast.error('App data', {id: 'calendarData'});
+        return toast.error('Failed to fetch App data', {id: 'calendarData'});
       } else {
         if (jsonResponse.data) {
           saveCalendarDatesAndHolidaysData(jsonResponse.data);
-          return toast.success('App data', {id: 'calendarData'});
+          return toast.success('Retrieved App data!', {id: 'calendarData'});
         };
       };
     };
   };
 
   const fetchAllUserCalendarData = async () => {
-    toast.loading('Your calendar data', {id: 'userCalendarData'});
+    toast.loading('Fetching your calendar data...', {id: 'userCalendarData'});
     const authToken = localStorage.getItem('auth-token');
     if (typeof authToken === 'undefined') {
       return toast.error('You must be signed in or not in incognito to perform this action', {id: 'userCalendarData'});
@@ -203,7 +203,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
       });
       const response: allUserCalendarsPopulatedApiResponse = await request.json();
       if (!request.ok && request.status !== 200) {
-        return toast.error('Your calendar data', {id: 'userCalendarData'});
+        return toast.error('Failed to retrieve your calendar data', {id: 'userCalendarData'});
       } else {
         if (response.updated_user) {
           const populatedCalendars = response.updated_user.calendars;
@@ -211,7 +211,7 @@ const Calendar:FC<calendarProps> = (props): JSX.Element => {
           const populatedPersonalCalendar = response.updated_user.personal_calendar;
 
           saveAllUserCalendarsToUser(populatedCalendars, populatedPendingCalendars, populatedPersonalCalendar);
-          return toast.success('Your calendar data', {id: 'userCalendarData'});
+          return toast.success('Retrieved your calendar data!', {id: 'userCalendarData'});
         };
       };
     };
