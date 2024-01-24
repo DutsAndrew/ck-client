@@ -43,7 +43,9 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
 
     // handle data fetching logic if team data isn't present or available
     if (teams.length === 0 && pendingTeams.length === 0) return;
-    if (Object.keys(teams[0]).length === 0 || Object.keys(pendingTeams[0]).length === 0) {
+
+    // if strings are present in array id refs are present and objects haven't been fetched
+    if (typeof teams[0] === 'string' || typeof pendingTeams[0] === 'string') {
       fetchTeamData();
     } else {
       return;
