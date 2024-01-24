@@ -9,7 +9,9 @@ const FormModalProjectsAndTasks: FC<formModalProjectsAndTasksProps> = (props): R
   const { 
     userId,
     formModalPreset,
+    closeForm,
     buildUserProfileRef,
+    addTeamToUser,
   } = props;
 
   const [currentForm, setCurrentForm] = useState<'team' | 'project'>('team');
@@ -65,7 +67,9 @@ const FormModalProjectsAndTasks: FC<formModalProjectsAndTasksProps> = (props): R
       {currentForm === 'team' && 
         <TeamForm 
           userId={userId}
+          closeForm={closeForm}
           buildUserProfileRef={buildUserProfileRef}
+          addTeamToUser={addTeamToUser}
         />
       }
       {currentForm === 'team' && 

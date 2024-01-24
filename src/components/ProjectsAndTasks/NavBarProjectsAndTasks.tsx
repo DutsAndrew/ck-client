@@ -12,6 +12,7 @@ const NavBarProjectsAndTasks: FC<navBarProjectsAndTasksProps> = (props): JSX.Ele
     userId,
     formModalPreset,
     buildUserProfileRef,
+    addTeamToUser,
   } = props;
 
   const [currentView, setCurrentView] = useState('basic');
@@ -30,6 +31,10 @@ const NavBarProjectsAndTasks: FC<navBarProjectsAndTasksProps> = (props): JSX.Ele
     };
   };
 
+  const closeForm = () => {
+    setCurrentView('nav');
+  };
+
   return (
     <nav className={styles.projectsAndTasksNavContainer}>
       {currentView === 'form' && 
@@ -41,7 +46,9 @@ const NavBarProjectsAndTasks: FC<navBarProjectsAndTasksProps> = (props): JSX.Ele
           <FormModalProjectsAndTasks 
             userId={userId}
             formModalPreset={formModalPreset}
+            closeForm={closeForm}
             buildUserProfileRef={buildUserProfileRef}
+            addTeamToUser={addTeamToUser}
           />
         </div>
       }

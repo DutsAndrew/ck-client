@@ -271,6 +271,13 @@ function App() {
       pending_teams: pending_teams,
     }));
   };
+
+  const addTeamToUser = (newTeam: teamInstance): void =>  {
+    setUser((prevUser: userInstance) => ({
+      ...prevUser,
+      teams: [...prevUser.teams, newTeam],
+    }));
+  };
   // PROJECTS AND TASKS FUNCTIONS -- END ~~~~~~~  PROJECTS AND TASKS FUNCTIONS -- END //
 
   // AUXILLARY FUNCTIONS -- START ~~~~~~~ AUXILLARY FUNCTIONS -- START //
@@ -356,6 +363,7 @@ function App() {
                 pendingTeams={(user as userInstance).pending_teams}
                 buildUserProfileRef={buildUserProfileRef}
                 saveTeamDataToUser={saveTeamDataToUser}
+                addTeamToUser={addTeamToUser}
               />
             </Suspense>
           }

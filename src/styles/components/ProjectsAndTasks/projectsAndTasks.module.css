@@ -354,6 +354,7 @@
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
+  gap: 2vh;
   width: 100%;
   padding: 0;
 }
@@ -363,7 +364,7 @@
   height: 15vh;
   background: rgb(17, 4, 134);
   border-radius: 15px;
-  box-shadow: rgb(0,0,0,0.7) 2.5px 3px 25px, rgb(0,0,0,0.7) -2.5px 0px 125px;
+  box-shadow: rgb(0,0,0,0.7) 2.5px 3px 25px, rgb(0,0,0,0.7) -2.5px 0px 50px;
   display: flex;
   color: white;
   justify-content: center;
@@ -378,6 +379,6 @@
 
 .allTeamsTeamCardContainer:hover {
   background: linear-gradient(to right, rgb(180, 180, 180), rgb(200, 200, 200));
-  box-shadow: rgba(255, 255, 255, 0.3) 2.5px 3px 25px, rgba(255, 255, 255, 0.3) -2.5px 0px 125px;
+  box-shadow: rgba(255, 255, 255, 0.3) 2.5px 3px 25px, rgba(255, 255, 255, 0.3) -2.5px 0px 50px;
   color: #333;
 }

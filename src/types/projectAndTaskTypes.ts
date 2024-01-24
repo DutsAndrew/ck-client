@@ -35,6 +35,7 @@ interface projectsAndTasksDashboardProps {
     user_id: string;
   },
   saveTeamDataToUser: (teams: teamInstance[], pending_teams: teamInstance[]) => void,
+  addTeamToUser: (newTeam: teamInstance) => void,
 };
 
 interface allProjectsViewerProps {
@@ -69,11 +70,13 @@ interface navBarProjectsAndTasksProps {
     company: string;
     user_id: string;
   },
+  addTeamToUser: (newTeam: teamInstance) => void,
 }
 
 interface formModalProjectsAndTasksProps {
   userId: string,
   formModalPreset: formModalPreset,
+  closeForm: () => void,
   buildUserProfileRef: () => {
     first_name: string;
     last_name: string;
@@ -81,6 +84,7 @@ interface formModalProjectsAndTasksProps {
     company: string;
     user_id: string;
   },
+  addTeamToUser: (newTeam: teamInstance) => void,
 };
 
 interface teamFormDataState {
@@ -93,6 +97,7 @@ interface teamFormDataState {
 
 interface teamFormProps {
   userId: string,
+  closeForm: () => void,
   buildUserProfileRef: () => {
     first_name: string;
     last_name: string;
@@ -100,6 +105,7 @@ interface teamFormProps {
     company: string;
     user_id: string;
   },
+  addTeamToUser: (newTeam: teamInstance) => void,
 }
 
 export type {

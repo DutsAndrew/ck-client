@@ -10,7 +10,9 @@ const TeamForm:FC<teamFormProps> = (props): React.JSX.Element => {
 
   const {
     userId,
+    closeForm,
     buildUserProfileRef,
+    addTeamToUser,
   } = props;
 
   const [teamFormData, setTeamFormData] = useState<teamFormDataState>({
@@ -148,8 +150,14 @@ const TeamForm:FC<teamFormProps> = (props): React.JSX.Element => {
         method: 'POST',
         body: JSON.stringify(teamFormData),
       });
-      const jsonResponse = await request.json();
-      console.log(jsonResponse)
+      const response = await request.json();
+      if (request.ok && request.status === 200 && response.team) {
+        toast.success('Created team successfully!', {id: 'uploadingTeam'});
+        addTeamToUser(response.team);
+        closeForm();
+      } else {
+        toast.error('Failed to retrieve uploaded team', {id: 'uploadingTeam'});
+      }
     };
   };
 

@@ -9,6 +9,8 @@ import TeamViewer from './TeamViewer';
 import ProjectViewer from './ProjectViewer';
 import { removeToastNotificationsOnMount } from '../../scripts/closeAllToastNotifications';
 import toast from 'react-hot-toast';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
 
@@ -18,6 +20,7 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
     pendingTeams,
     buildUserProfileRef,
     saveTeamDataToUser,
+    addTeamToUser,
   } = props;
 
   const [currentView, setCurrentView] = useState('dashboard'),
@@ -107,15 +110,15 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
       );
     } else {
       return (
-        <>
-          <AllProjectsViewer 
-            changeCurrentView={changeCurrentView}
-          />
-          <AllTeamsViewer 
-            teams={teams}
-            changeCurrentView={changeCurrentView}
-          />
-        </>
+          <>
+            <AllProjectsViewer 
+              changeCurrentView={changeCurrentView}
+            />
+            <AllTeamsViewer
+              teams={teams}
+              changeCurrentView={changeCurrentView}
+            />
+          </>
       );
     };
   };
@@ -126,6 +129,7 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
         userId={userId}
         formModalPreset={formModalPreset}
         buildUserProfileRef={buildUserProfileRef}
+        addTeamToUser={addTeamToUser}
       />
       {getProjectAndTaskRenderElements()}
     </main>
