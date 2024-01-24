@@ -15,6 +15,7 @@ import {
   calendarObject,  
   colorScheme 
 } from './types/calendarTypes';
+import { teamInstance } from './types/projectAndTaskTypes';
 
 // lazy load everything not needed on first render
 const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));
@@ -56,7 +57,6 @@ function App() {
   };
 
   // USER CALENDAR UPDATE FUNCTIONS -- START ~~~~~~~ USER CALENDAR UPDATE FUNCTIONS -- START
-
   const saveCalendarDatesAndHolidaysData = (data: CalendarDatesData): void => {
     setAppData({
       calendarData: data,
@@ -261,11 +261,15 @@ function App() {
       };
     });
   };
-
   // USER CALENDAR UPDATE FUNCTIONS -- END ~~~~~~~ USER CALENDAR UPDATE FUNCTIONS -- END //
+  
+  // PROJECTS AND TASKS FUNCTIONS -- START ~~~~~~~  PROJECTS AND TASKS FUNCTIONS -- START //
+  const saveTeamDataToUser = (teams: teamInstance[], pending_teams: teamInstance[]): void => {
+    return;
+  };
+  // PROJECTS AND TASKS FUNCTIONS -- END ~~~~~~~  PROJECTS AND TASKS FUNCTIONS -- END //
 
   // AUXILLARY FUNCTIONS -- START ~~~~~~~ AUXILLARY FUNCTIONS -- START //
-
   const buildUserProfileRef = () => {
     return {
       'first_name': (user as userInstance).first_name ? (user as userInstance).first_name : '',
@@ -275,7 +279,6 @@ function App() {
       'user_id': (user as userInstance)._id ? (user as userInstance)._id : '',
     };
   };
-
   // AUXILLARY FUNCTIONS -- END ~~~~~~~ AUXILLARY FUNCTIONS -- END //
 
   return (
@@ -348,6 +351,7 @@ function App() {
                 teams={(user as userInstance).teams}
                 pendingTeams={(user as userInstance).pending_teams}
                 buildUserProfileRef={buildUserProfileRef}
+                saveTeamDataToUser={saveTeamDataToUser}
               />
             </Suspense>
           }

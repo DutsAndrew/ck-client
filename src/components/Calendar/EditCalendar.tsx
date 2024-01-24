@@ -224,13 +224,11 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     const calendarBackgroundColor = (selectedCalendar as calendarObject).calendar_color;
     const userPreferredColor = usersPreferredCalendarColors.calendars.find(colorScheme => colorScheme.object_id === (selectedCalendar as calendarObject)._id);
 
-    if (userPreferredColor) {
-      if (userPreferredColor.background_color.length > 0) {
-        return {
-          backgroundColor: userPreferredColor.background_color,
-        };
+    if (userPreferredColor && userPreferredColor.background_color.length > 0) {
+      return {
+        backgroundColor: userPreferredColor.background_color,
       };
-    } else if (calendarBackgroundColor.length > 0) {
+    } else if (calendarBackgroundColor && calendarBackgroundColor.length > 0) {
       return {
         backgroundColor: calendarBackgroundColor,
       };
@@ -243,13 +241,11 @@ const EditCalendar:FC<EditCalendarProps> = (props): JSX.Element => {
     const calendarBackgroundColor = (selectedCalendar as calendarObject).calendar_color;
     const userPreferredColor = usersPreferredCalendarColors.calendars.find(colorScheme => colorScheme.object_id === (selectedCalendar as calendarObject)._id);
 
-    if (userPreferredColor) {
-      if (userPreferredColor.background_color.length > 0) {
-        return {
-          color: getFontColorForHex(userPreferredColor.background_color),
-        };
+    if (userPreferredColor && userPreferredColor.background_color.length > 0) {
+      return {
+        color: getFontColorForHex(userPreferredColor.background_color),
       };
-    } else if (calendarBackgroundColor.length > 0) {
+    } else if (calendarBackgroundColor && calendarBackgroundColor.length > 0) {
       return {
         color: getFontColorForHex(calendarBackgroundColor),
       };

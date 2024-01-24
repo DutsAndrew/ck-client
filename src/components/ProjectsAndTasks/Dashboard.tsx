@@ -17,6 +17,7 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
     teams,
     pendingTeams,
     buildUserProfileRef,
+    saveTeamDataToUser,
   } = props;
 
   const [currentView, setCurrentView] = useState('dashboard'),
@@ -74,7 +75,12 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
         method: 'GET',
       });
       const response = await request.json();
-      console.log(response);
+      if (request.ok && request.status === 200 && response.teams && response.pending_teams) {
+        toast.success('Retrieved team data!', {id: 'fetchUserTeamData'});
+        saveTeamDataToUser(response.teams, response.pending_teams);
+      } else {
+        toast.error('Failed to retrieve team data', {id: 'fetchUserTeamData'});
+      };
     };
   };
 

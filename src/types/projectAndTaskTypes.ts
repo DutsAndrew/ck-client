@@ -16,7 +16,7 @@ interface teamInstance {
   name: string,
   notes: object[], // add note type when created
   notifications: object[], // add notification type when created
-  tasks: object[], // add task type when created,
+  projects: object[], // add task type when created,
   team_color: string,
   team_lead: string,
   users: teamUserRefInstance[],
@@ -34,6 +34,7 @@ interface projectsAndTasksDashboardProps {
     company: string;
     user_id: string;
   },
+  saveTeamDataToUser: (teams: teamInstance[], pending_teams: teamInstance[]) => void,
 };
 
 interface allProjectsViewerProps {
