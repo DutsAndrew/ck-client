@@ -89,18 +89,7 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
   };
 
   const getProjectAndTaskRenderElements = () => {
-    if (currentView === 'dashboard') {
-      return (
-        <>
-          <AllProjectsViewer 
-            changeCurrentView={changeCurrentView}
-          />
-          <AllTeamsViewer 
-            changeCurrentView={changeCurrentView}
-          />
-        </>
-      );
-    } else if (currentView === 'team') {
+    if (currentView === 'team') {
       return (
         <>
           <TeamViewer 
@@ -123,6 +112,7 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
             changeCurrentView={changeCurrentView}
           />
           <AllTeamsViewer 
+            teams={teams}
             changeCurrentView={changeCurrentView}
           />
         </>

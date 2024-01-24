@@ -265,7 +265,11 @@ function App() {
   
   // PROJECTS AND TASKS FUNCTIONS -- START ~~~~~~~  PROJECTS AND TASKS FUNCTIONS -- START //
   const saveTeamDataToUser = (teams: teamInstance[], pending_teams: teamInstance[]): void => {
-    return;
+    setUser((prevUser: userInstance) => ({
+      ...prevUser,
+      teams: teams,
+      pending_teams: pending_teams,
+    }));
   };
   // PROJECTS AND TASKS FUNCTIONS -- END ~~~~~~~  PROJECTS AND TASKS FUNCTIONS -- END //
 

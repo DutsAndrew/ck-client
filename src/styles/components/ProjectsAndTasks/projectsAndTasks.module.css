@@ -99,15 +99,16 @@
 
 .allProjectsViewerContainer, .allTeamsViewerContainer {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
+  flex-flow: column wrap;
+  justify-content: flex-start;
   align-items: center;
   min-height: 45vh;
   overflow-x: hidden;
 }
 
 .allProjectsHeaderText, .allTeamsHeaderText {
-  margin: 0;
+  margin: 1.5vh;
+  font-size: 2em;
   padding: 0;
 }
 
@@ -343,4 +344,40 @@
 
 .projectsAndTasksTeamFormSubmitButton:hover {
   background-color: #0056b3;
+}
+
+/* ALL TEAM - DASHBOARD STYLING  */
+
+.allTeamsViewList {
+  list-style: none;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+}
+
+.allTeamsTeamCardContainer {
+  width: 280px;
+  height: 150px;
+  background: rgb(17, 4, 134);
+  border-radius: 15px;
+  box-shadow: rgb(0,0,0,0.7) 2.5px 3px 25px, rgb(0,0,0,0.7) -2.5px 0px 125px;
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+  background: linear-gradient(to right, rgb(20, 30, 48), rgb(36, 59, 85));
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.allTeamsTeamCardContainer:hover {
+  background: linear-gradient(to right, rgb(180, 180, 180), rgb(200, 200, 200));
+  box-shadow: rgba(255, 255, 255, 0.3) 2.5px 3px 25px, rgba(255, 255, 255, 0.3) -2.5px 0px 125px;
+  color: #333;
 }

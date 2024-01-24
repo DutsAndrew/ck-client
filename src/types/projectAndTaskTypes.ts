@@ -42,6 +42,7 @@ interface allProjectsViewerProps {
 };
 
 interface allTeamsViewerProps {
+  teams: string[] | teamInstance[],
   changeCurrentView: (newView: 'dashboard' | 'team' | 'project') => void,
 };
 
