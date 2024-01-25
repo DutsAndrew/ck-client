@@ -10,7 +10,7 @@ interface teamUserRefInstance {
 };
 
 interface teamInstance {
-  id: string,
+  _id: string,
   calendar: calendarObject,
   description: string,
   name: string,
@@ -108,6 +108,10 @@ interface teamFormProps {
   addTeamToUser: (newTeam: teamInstance) => void,
 }
 
+interface teamCardsContainerProps {
+  teams: teamInstance[],
+};
+
 export type {
   teamInstance,
   projectsAndTasksDashboardProps,
@@ -119,4 +123,5 @@ export type {
   formModalProjectsAndTasksProps,
   teamFormDataState,
   teamFormProps,
+  teamCardsContainerProps,
 };

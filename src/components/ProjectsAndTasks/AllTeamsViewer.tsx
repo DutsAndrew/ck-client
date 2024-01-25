@@ -1,6 +1,8 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
 import { allTeamsViewerProps, teamInstance } from "../../types/projectAndTaskTypes";
+import TeamCardsContainer from "./TeamCardsContainer";
+
 
 const AllTeamsViewer: FC<allTeamsViewerProps> = (props): React.JSX.Element => {
 
@@ -9,33 +11,25 @@ const AllTeamsViewer: FC<allTeamsViewerProps> = (props): React.JSX.Element => {
     changeCurrentView 
   } = props;
 
-  if (teams && (teams.length === 0 || typeof teams[0] === 'string')) {
+  if (teams && teams.length > 0 && Array.isArray(teams)) {
+    const teamsRef = teams as teamInstance[];
+    return (
+      <section className={styles.allTeamsViewerContainer}>
+        <h2 className={styles.allTeamsHeaderText}>
+          Teams
+        </h2>
+        <TeamCardsContainer 
+          teams={teamsRef}
+        />
+      </section>
+    );
+  } else {
     return (
       <section className={styles.allTeamsViewerContainer}>
       <h2 className={styles.allTeamsHeaderText}>
         No active teams
       </h2>
     </section>
-    );
-  } else {
-    return (
-      <section className={styles.allTeamsViewerContainer}>
-        <h2 className={styles.allTeamsHeaderText}>
-          Teams
-        </h2>
-        <ul 
-          className={styles.allTeamsViewList}
-        >
-          {Array.isArray(teams) && (teams as teamInstance[]).map((team) => {
-            return <li 
-              key={team.id}
-              className={styles.allTeamsTeamCardContainer}
-            >
-              {team.name}
-            </li>
-          })}
-        </ul>
-      </section>
     );
   };
 };

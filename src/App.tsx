@@ -8,6 +8,9 @@ import Welcome from './pages/Welcome';
 import LoadingBar from './pages/LoadingBar';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import { userInstance } from './types/globalTypes';
+import { teamInstance } from './types/projectAndTaskTypes';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { 
   CalendarDatesData, 
   appDataState, 
@@ -15,7 +18,6 @@ import {
   calendarObject,  
   colorScheme 
 } from './types/calendarTypes';
-import { teamInstance } from './types/projectAndTaskTypes';
 
 // lazy load everything not needed on first render
 const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));
@@ -357,14 +359,16 @@ function App() {
           path='/projects-tasks-dashboard'
           element={
             <Suspense fallback={<LoadingBar />}>
-              <ProjectsAndTasksDashboard 
-                userId={(user as userInstance)._id}
-                teams={(user as userInstance).teams}
-                pendingTeams={(user as userInstance).pending_teams}
-                buildUserProfileRef={buildUserProfileRef}
-                saveTeamDataToUser={saveTeamDataToUser}
-                addTeamToUser={addTeamToUser}
-              />
+              <DndProvider backend={HTML5Backend}>
+                <ProjectsAndTasksDashboard 
+                  userId={(user as userInstance)._id}
+                  teams={(user as userInstance).teams}
+                  pendingTeams={(user as userInstance).pending_teams}
+                  buildUserProfileRef={buildUserProfileRef}
+                  saveTeamDataToUser={saveTeamDataToUser}
+                  addTeamToUser={addTeamToUser}
+                />
+              </DndProvider>
             </Suspense>
           }
         />
