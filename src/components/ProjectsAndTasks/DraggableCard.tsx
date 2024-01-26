@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useDrag, useDrop } from "react-dnd";
-import type { Identifier, XYCoord } from 'dnd-core'
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
+import type { Identifier } from 'dnd-core'
 
 interface DragItem {
   index: number
@@ -9,16 +9,19 @@ interface DragItem {
   type: string
 }
 
-const DraggableCard = ({ id, index, name, moveCard }: {id: string; index: number; name: string; moveCard: (dragIndex: number, hoverIndex: number) => void}) => {
+const DraggableCard = (
+  { id, name, index, cardType, moveCard }: 
+  {id: string; name: string; index: number; cardType: string; moveCard: (dragIndex: number, hoverIndex: number) => void;}
+) => {
 
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = React.useRef(null);
 
   const [{ handlerId }, drop] = useDrop<
     DragItem,
     void,
     { handlerId: Identifier | null }
   >({
-    accept: 'team',
+    accept: cardType,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -36,34 +39,8 @@ const DraggableCard = ({ id, index, name, moveCard }: {id: string; index: number
         return
       }
 
-      // Determine rectangle on screen
-      const hoverBoundingRect = ref.current?.getBoundingClientRect()
+      if (!ref.current) return;
 
-      // Get vertical middle
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-
-      // Determine mouse position
-      const clientOffset = monitor.getClientOffset()
-
-      // Get pixels to the top
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top
-
-      // Only perform the move when the mouse has crossed half of the items height
-      // When dragging downwards, only move when the cursor is below 50%
-      // When dragging upwards, only move when the cursor is above 50%
-
-      // Dragging downwards
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return
-      }
-
-      // Dragging upwards
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return
-      }
-
-      // Time to actually perform the action
       moveCard(dragIndex, hoverIndex)
 
       // Note: we're mutating the monitor item here!
@@ -75,7 +52,7 @@ const DraggableCard = ({ id, index, name, moveCard }: {id: string; index: number
   })
 
   const [{ isDragging }, drag] = useDrag({
-    type: 'team',
+    type: cardType,
     item: () => {
       return { id, index }
     },
@@ -84,13 +61,11 @@ const DraggableCard = ({ id, index, name, moveCard }: {id: string; index: number
     }),
   })
 
+  const opacity = isDragging ? 0 : 1;
+  drag(drop(ref));
+
   return (
-    <li 
-      className={styles.allTeamsTeamCardContainer}
-      ref={(node) => drag(drop(node))} 
-      key={id}
-      data-handler-id={handlerId}
-    >
+    <li ref={ref} className={styles.allTeamsTeamCardContainer} style={{ opacity }} data-handler-id={handlerId}>
       {name}
     </li>
   );

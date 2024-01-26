@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
 import { allTeamsViewerProps, teamInstance } from "../../types/projectAndTaskTypes";
 import TeamCardsContainer from "./TeamCardsContainer";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 
 const AllTeamsViewer: FC<allTeamsViewerProps> = (props): React.JSX.Element => {
@@ -18,9 +20,11 @@ const AllTeamsViewer: FC<allTeamsViewerProps> = (props): React.JSX.Element => {
         <h2 className={styles.allTeamsHeaderText}>
           Teams
         </h2>
-        <TeamCardsContainer 
-          teams={teamsRef}
-        />
+        <DndProvider backend={HTML5Backend}>
+          <TeamCardsContainer 
+            teams={teamsRef}
+          />
+        </DndProvider>
       </section>
     );
   } else {

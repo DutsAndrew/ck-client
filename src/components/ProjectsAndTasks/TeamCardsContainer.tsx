@@ -1,8 +1,8 @@
-import React, { useState, useCallback, FC} from "react";
+import React, { useState, useCallback, FC, useEffect} from "react";
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
 import DraggableCard from "./DraggableCard";
-import update from 'immutability-helper'
 import { teamCardsContainerProps, teamInstance } from "../../types/projectAndTaskTypes";
+import update from 'immutability-helper'
 
 const TeamCardsContainer: FC<teamCardsContainerProps> = (props): React.JSX.Element => {
 
@@ -10,8 +10,11 @@ const TeamCardsContainer: FC<teamCardsContainerProps> = (props): React.JSX.Eleme
 
   const [cards, setCards] = useState(teams);
 
+  useEffect(() => {
+    setCards(teams);
+  }, [teams]);
+
   const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
-    console.log(dragIndex, hoverIndex);
     setCards((prevCards: teamInstance[]) =>
       update(prevCards, {
         $splice: [
@@ -20,18 +23,17 @@ const TeamCardsContainer: FC<teamCardsContainerProps> = (props): React.JSX.Eleme
         ],
       }),
     )
-  }, []);
+  }, [])
 
   return (
-    <ul
-      className={styles.allTeamsViewList}
-    >
-      {(cards).map((team: teamInstance) => (
-        <DraggableCard 
-          key={team._id} 
-          id={team._id} 
-          index={teams.indexOf(team as any)}
-          name={team.name}
+    <ul className={styles.allTeamsViewList}>
+      {cards.map((item, index) => (
+        <DraggableCard
+          key={item._id}
+          id={item._id}
+          name={item.name}
+          index={index}
+          cardType='team'
           moveCard={moveCard}
         />
       ))}
