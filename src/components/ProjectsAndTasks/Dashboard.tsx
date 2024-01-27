@@ -21,6 +21,7 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
     buildUserProfileRef,
     saveTeamDataToUser,
     addTeamToUser,
+    updateReorderedUserTeamList,
   } = props;
 
   const [currentView, setCurrentView] = useState('dashboard'),
@@ -117,6 +118,7 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
             <AllTeamsViewer
               teams={teams}
               changeCurrentView={changeCurrentView}
+              updateReorderedUserTeamList={updateReorderedUserTeamList}
             />
           </>
       );

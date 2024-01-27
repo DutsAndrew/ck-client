@@ -280,6 +280,13 @@ function App() {
       teams: [...prevUser.teams, newTeam],
     }));
   };
+
+  const updateReorderedUserTeamList = (reorderedTeamList: teamInstance[]) => {
+    setUser((prevUser: userInstance) => ({
+      ...prevUser,
+      teams: reorderedTeamList,
+    }));
+  };
   // PROJECTS AND TASKS FUNCTIONS -- END ~~~~~~~  PROJECTS AND TASKS FUNCTIONS -- END //
 
   // AUXILLARY FUNCTIONS -- START ~~~~~~~ AUXILLARY FUNCTIONS -- START //
@@ -367,6 +374,7 @@ function App() {
                   buildUserProfileRef={buildUserProfileRef}
                   saveTeamDataToUser={saveTeamDataToUser}
                   addTeamToUser={addTeamToUser}
+                  updateReorderedUserTeamList={updateReorderedUserTeamList}
                 />
               </DndProvider>
             </Suspense>

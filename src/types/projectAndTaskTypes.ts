@@ -36,6 +36,7 @@ interface projectsAndTasksDashboardProps {
   },
   saveTeamDataToUser: (teams: teamInstance[], pending_teams: teamInstance[]) => void,
   addTeamToUser: (newTeam: teamInstance) => void,
+  updateReorderedUserTeamList: (reorderedTeamList: teamInstance[]) => void,
 };
 
 interface allProjectsViewerProps {
@@ -45,6 +46,7 @@ interface allProjectsViewerProps {
 interface allTeamsViewerProps {
   teams: string[] | teamInstance[],
   changeCurrentView: (newView: 'dashboard' | 'team' | 'project') => void,
+  updateReorderedUserTeamList: (reorderedTeamList: teamInstance[]) => void,
 };
 
 interface teamViewerProps {
@@ -110,6 +112,7 @@ interface teamFormProps {
 
 interface teamCardsContainerProps {
   teams: teamInstance[],
+  updateReorderedUserTeamList: (reorderedTeamList: teamInstance[]) => void,
 };
 
 export type {

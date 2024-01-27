@@ -102,8 +102,9 @@
   flex-flow: column wrap;
   justify-content: flex-start;
   align-items: center;
-  min-height: 45vh;
+  height: 45vh;
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .allProjectsHeaderText, .allTeamsHeaderText {

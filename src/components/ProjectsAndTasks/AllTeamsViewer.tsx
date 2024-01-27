@@ -10,7 +10,8 @@ const AllTeamsViewer: FC<allTeamsViewerProps> = (props): React.JSX.Element => {
 
   const { 
     teams,
-    changeCurrentView 
+    changeCurrentView,
+    updateReorderedUserTeamList,
   } = props;
 
   if (teams && teams.length > 0 && Array.isArray(teams)) {
@@ -23,6 +24,7 @@ const AllTeamsViewer: FC<allTeamsViewerProps> = (props): React.JSX.Element => {
         <DndProvider backend={HTML5Backend}>
           <TeamCardsContainer 
             teams={teamsRef}
+            updateReorderedUserTeamList={updateReorderedUserTeamList}
           />
         </DndProvider>
       </section>
