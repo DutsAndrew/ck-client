@@ -1,7 +1,7 @@
 import { calendarObject } from "./calendarTypes";
 import { userQuery } from "./globalTypes";
 
-interface teamUserRefInstance {
+interface userRef {
   first_name: string,
   last_name: string,
   job_title: string,
@@ -19,8 +19,8 @@ interface teamInstance {
   projects: object[], // add task type when created,
   team_color: string,
   team_lead: string,
-  users: teamUserRefInstance[],
-  pending_users: teamUserRefInstance[],
+  users: userRef[],
+  pending_users: userRef[],
 };
 
 interface projectsAndTasksDashboardProps {
@@ -65,6 +65,7 @@ type formModalPreset = {
 interface navBarProjectsAndTasksProps {
   userId: string,
   formModalPreset: formModalPreset,
+  teams: string[] | teamInstance[],
   buildUserProfileRef: () => {
     first_name: string;
     last_name: string;
@@ -78,6 +79,7 @@ interface navBarProjectsAndTasksProps {
 interface formModalProjectsAndTasksProps {
   userId: string,
   formModalPreset: formModalPreset,
+  teams: string[] | teamInstance[],
   closeForm: () => void,
   buildUserProfileRef: () => {
     first_name: string;
@@ -90,11 +92,20 @@ interface formModalProjectsAndTasksProps {
 };
 
 interface teamFormDataState {
-  teamCreator: teamUserRefInstance,
+  teamCreator: userRef,
   teamColor: string,
   teamDescription: string,
   teamMembers: userQuery[],
   teamName: string,
+};
+
+interface projectFormDataState {
+  projectDueDate: string,
+  projectCreator: userRef,
+  projectDescription: string,
+  projectMembers: userQuery[],
+  projectName: string,
+  projectTeamId: string,
 };
 
 interface teamFormProps {
@@ -108,6 +119,19 @@ interface teamFormProps {
     user_id: string;
   },
   addTeamToUser: (newTeam: teamInstance) => void,
+}
+
+interface projectFormProps {
+  userId: string,
+  teams: string[] | teamInstance[],
+  closeForm: () => void,
+  buildUserProfileRef: () => {
+    first_name: string;
+    last_name: string;
+    job_title: string;
+    company: string;
+    user_id: string;
+  },
 }
 
 interface teamCardsContainerProps {
@@ -125,6 +149,8 @@ export type {
   navBarProjectsAndTasksProps,
   formModalProjectsAndTasksProps,
   teamFormDataState,
+  projectFormDataState,
   teamFormProps,
+  projectFormProps,
   teamCardsContainerProps,
 };

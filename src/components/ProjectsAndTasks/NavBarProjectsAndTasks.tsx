@@ -11,6 +11,7 @@ const NavBarProjectsAndTasks: FC<navBarProjectsAndTasksProps> = (props): JSX.Ele
   const { 
     userId,
     formModalPreset,
+    teams,
     buildUserProfileRef,
     addTeamToUser,
   } = props;
@@ -46,6 +47,7 @@ const NavBarProjectsAndTasks: FC<navBarProjectsAndTasksProps> = (props): JSX.Ele
           <FormModalProjectsAndTasks 
             userId={userId}
             formModalPreset={formModalPreset}
+            teams={teams}
             closeForm={closeForm}
             buildUserProfileRef={buildUserProfileRef}
             addTeamToUser={addTeamToUser}

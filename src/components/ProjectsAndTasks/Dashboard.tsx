@@ -130,6 +130,7 @@ const Dashboard:FC<projectsAndTasksDashboardProps> = (props): JSX.Element => {
       <NavBarProjectsAndTasks 
         userId={userId}
         formModalPreset={formModalPreset}
+        teams={teams}
         buildUserProfileRef={buildUserProfileRef}
         addTeamToUser={addTeamToUser}
       />
