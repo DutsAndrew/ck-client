@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import styles from '../../styles/components/ProjectsAndTasks/projectsAndTasks.module.css';
 import toast from "react-hot-toast";
 import { projectFormDataState, projectFormProps, teamInstance } from "../../types/projectAndTaskTypes";
+import { userRef } from "../../types/globalTypes";
 
 const ProjectForm:FC<projectFormProps> = (props): React.JSX.Element => {
 
@@ -33,6 +34,10 @@ const ProjectForm:FC<projectFormProps> = (props): React.JSX.Element => {
       ...prevProjectFormData,
       [elementId]: value,
     }));
+  };
+
+  const handleAddUserToProjectFormData = (user: userRef) => {
+    console.log(user)
   };
 
   const handleFormEnterClick = (e: React.KeyboardEvent<HTMLFormElement>) => {
@@ -78,7 +83,7 @@ const ProjectForm:FC<projectFormProps> = (props): React.JSX.Element => {
   return (
     <div className={styles.projectsAndTasksTeamFormContainer}>
       <h2 className={styles.projectsAndTasksFormHeader}>
-        Team
+        Project
       </h2>
       <form 
         onKeyDown={(e) => handleFormEnterClick(e)}
@@ -166,7 +171,7 @@ const ProjectForm:FC<projectFormProps> = (props): React.JSX.Element => {
                       id="projectMembers"
                       type="checkbox" 
                       value={user.user_id}
-                      onChange={(e) => handleFormInputChange(e)}
+                      onChange={() => handleAddUserToProjectFormData(user._id)}
                     />
                     <p className={styles.userLookUpResultsMainText}>
                       {user.first_name ? user.first_name : ''}&nbsp;
@@ -192,7 +197,7 @@ const ProjectForm:FC<projectFormProps> = (props): React.JSX.Element => {
           onClick={(e) => handleFormSubmitByButtonClick(e)}
           type="submit"
           className={styles.projectsAndTasksTeamFormSubmitButton}>
-            Create Team
+            Add Project
         </button>
 
       </form>

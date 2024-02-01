@@ -45,6 +45,14 @@ interface userQuery {
   }
 }
 
+interface userRef {
+  first_name: string,
+  last_name: string,
+  job_title: string,
+  company: string,
+  user_id: string,
+};
+
 interface hexColorPickerProps {
   headerText: string,
   currentHexColor: string,
@@ -52,6 +60,7 @@ interface hexColorPickerProps {
 };
 
 export type {
+  userRef,
   userInstance,
   userQuery,
   hexColorPickerProps,

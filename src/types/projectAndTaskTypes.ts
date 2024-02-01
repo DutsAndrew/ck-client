@@ -1,13 +1,6 @@
 import { calendarObject } from "./calendarTypes";
 import { userQuery } from "./globalTypes";
-
-interface userRef {
-  first_name: string,
-  last_name: string,
-  job_title: string,
-  company: string,
-  user_id: string,
-};
+import { userRef } from "./globalTypes";
 
 interface teamInstance {
   _id: string,
