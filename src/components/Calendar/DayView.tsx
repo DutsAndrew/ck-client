@@ -339,7 +339,7 @@ const DayView:FC<dayViewProps> = (props): JSX.Element => {
                     (event.target as any).id === 'day-view-block-text'
                     || (event.target as any).id === 'day-view-block-container'
                   ) {
-                    handleOpenAddEventFormClick('day-view-item-block-am', block);
+                    handleOpenAddEventFormClick('day-view-item-block-pm', block);
                   };
                 }}
               >
